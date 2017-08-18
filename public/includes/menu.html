@@ -1,0 +1,30 @@
+<!--- general menu ------->
+<ul class="nav nav-pills flex-column first-menu">
+    <li ng-repeat="mi in snd_menu_items.general" class="nav-item">
+        <a class="nav-link {{mi.status}}" href="{{mi.link}}" ng-click="set_menu_state(mi)"><i class="{{mi.icon}}" aria-hidden="true"></i> {{mi.name}}</a>
+    </li>
+</ul>
+<hr>
+<!--- objects menu ------->
+<ul class="nav nav-pills flex-column">
+    <li ng-repeat="mi in snd_menu_items.objects" class="nav-item">
+        <a class="nav-link {{mi.status}}" href="{{mi.link}}" ng-click="set_menu_state(mi)"><i class="{{mi.icon}}" aria-hidden="true"></i> {{mi.name}}</a>
+    </li>
+</ul>
+<hr>
+<!--- sales menu ------->
+<ul class="nav nav-pills flex-column">
+    <li ng-repeat="mi in snd_menu_items.sales" class="nav-item">
+        <a class="nav-link {{mi.status}}" href="{{mi.link}}" ng-click="set_menu_state(mi)"><i class="{{mi.icon}}" aria-hidden="true"></i> {{mi.name}}</a>
+    </li>
+</ul>
+<hr>
+<!--- settings menu ------->
+<ul class="nav nav-pills flex-column">
+    <li ng-repeat="mi in snd_menu_items.settings" class="nav-item">
+        <a class="nav-link {{mi.status}}" href="{{mi.link}}" ng-click="set_menu_state(mi)"><i class="{{mi.icon}}" aria-hidden="true"></i> {{mi.name}}</a>
+    </li>
+</ul>
+<hr>
+
+<div class="row" ng-include="'../includes/footer.html'"></div>

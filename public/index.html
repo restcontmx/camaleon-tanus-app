@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html ng-app="CAMALEON-REPORTS">
+
+    <head>
+        <title>CAMALEON REPORTS</title>
+        <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.5/css/bootstrap.min.css'
+                                integrity='sha384-AysaV+vQoT3kOAXZkl02PThvDr8HYKPZhNT5h/CXfBThSRXQ6jW5DO2ekP5ViFdi'
+                                crossorigin='anonymous' />
+        <!-- Angular Material style sheet -->
+        <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.css">
+        <link rel="stylesheet" href="../stylesheets/jquery.datetimepicker.min.css">
+        <link rel='stylesheet' href='../stylesheets/dashboard.css'/>
+    </head>
+    <body>
+
+        <div ng-show="isLoggedIn.show_app">
+            <nav ng-include="'../includes/navbar.html'" class="navbar navbar-dark navbar-fixed-top custom-nav" ng-controller="navbar-controller" ></nav>
+
+            <div class="container-fluid">
+                <div class="row">
+                    <nav ng-include="'../includes/menu.html'" class="col-sm-3 col-md-2 hidden-xs-down bg-faded sidebar" ng-controller="menu-cotroller"></nav>
+
+                    <main class="col-sm-9 offset-sm-3 col-md-10 offset-md-2 pt-3" style="margin-top:-50px;" ng-view ></main>
+                </div>
+            </div>
+        </div>
+
+        <div ng-include="'../includes/auth.html'" ng-show="isLoggedIn.show_auth"></div>
+
+        <!-- jQuery -->
+        <script src='https://ajax.googleapis.com/ajax/libs/jquery/3.0.0/jquery.min.js'
+                integrity='sha384-THPy051/pYDQGanwU6poAc/hOdQxjnOEXzbT+OuUAFqNqFjL+4IGLBgCJC3ZOShY'
+                crossorigin='anonymous'></script>
+        <!-- Angular shit -->
+        <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.2/angular.min.js"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.2/angular-resource.min.js"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.2/angular-route.min.js"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.2/angular-cookies.js"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.2/angular-animate.min.js"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.2/angular-aria.min.js"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.2/angular-messages.min.js"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.4.2/angular-ui-router.js"></script>
+        <script src='//cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/2.5.0/ui-bootstrap.js'></script>
+
+        <script src="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.js"></script>
+        <script src="../javascripts/libs/filters.js"></script>
+        <script src="../javascripts/libs/crud_service.js"></script>
+
+        <script src='https://cdnjs.cloudflare.com/ajax/libs/tether/1.2.0/js/tether.min.js'
+                integrity="sha384-Plbmg8JY28KFelvJVai01l8WyZzrYWG825m+cZ0eDDS1f7d/js6ikvy1+X+guPIB"
+                crossorigin="anonymous"></script>
+
+        <script src='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.5/js/bootstrap.min.js'
+                integrity='sha384-BLiI7JTZm+JWlgKa0M0kGRpJbF2J8q+qreVrKBC47e3K6BW78kGLrCkeRX6I9RoK'
+                crossorigin='anonymous'></script>
+
+        <script src="https://use.fontawesome.com/385368c8c3.js"></script>
+
+        <script src="../javascripts/datetimepicker/jquery.datetimepicker.full.min.js"></script>
+
+        <script src='../javascripts/controllers/main_controller.js'></script>
+        <script src='../javascripts/controllers/security_system.js'></script>
+
+    </body>
+</html>
