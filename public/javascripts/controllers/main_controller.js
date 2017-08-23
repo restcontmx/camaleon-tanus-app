@@ -42,6 +42,9 @@ var app = angular.module( 'CAMALEON-REPORTS', [     'ngRoute',
             .when( '/business/:id', {
                 templateUrl : '../views/bussines/detail.html'
             })
+            .when( '/business/edit/:id', {
+                templateUrl : '../views/bussines/edit.html'
+            })
             .when( '/location', {
                 templateUrl : '../views/location/list.html'
             })
