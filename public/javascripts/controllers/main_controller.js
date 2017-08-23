@@ -22,10 +22,28 @@ var app = angular.module( 'CAMALEON-REPORTS', [     'ngRoute',
     .config([ '$routeProvider', '$locationProvider', function( $routeProvider, $locationProvider ) {
         $routeProvider
             .when( '/', {
-                templateUrl : '../views/main.html'
+                templateUrl : '../views/user/dashboard.html'
             })
             .when( '/main', {
                 templateUrl : '../views/main.html'
+            })
+            .when( '/dashboard', {
+                templateUrl : '../views/user/dashboard.html'
+            })
+            .when( '/business', {
+                templateUrl : '../views/bussines/list.html'
+            })
+            .when( '/business/new', {
+                templateUrl : '../views/bussines/new.html'
+            })
+            .when( '/business/location', {
+                templateUrl : '../views/bussines/location.html'
+            })
+            .when( '/business/:id', {
+                templateUrl : '../views/bussines/detail.html'
+            })
+            .when( '/location', {
+                templateUrl : '../views/location/list.html'
             })
             // reports
             .when( '/404', {

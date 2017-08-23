@@ -99,3 +99,127 @@ main.ng-scope {
 .breadcrumb {
     margin-top:60px;
 }
+
+ul.home-menu {
+    list-style-type: none;
+    list-style: none;
+    padding: 0;
+    -webkit-font-smoothing: antialiased;
+    width: 100%;
+    display: inline-block;
+    margin:0 auto;
+}
+
+ul.home-menu li{
+    float: left;
+    margin:5px;
+}
+
+ul.home-menu li a {
+    display: block;
+    padding: 50px 0px;
+    background: rgb(128, 128, 128);
+    color: white;
+    font-weight: normal;
+    width: 150px;
+    height: 150px;
+    text-align: center;
+    -webkit-transition: all 0.1s ease-in;
+    -ms-transition: all 0.1s ease-in;
+    -moz-transition: all 0.1s ease-in;
+    -o-transition: all 0.1s ease-in;
+    transition: all 0.1s ease-in;
+    background: #000;
+}
+
+ul.home-menu li a.reports {
+    background: #459DCA;
+}
+
+ul.home-menu li a.business {
+    background: #45CA99;
+}
+
+ul.home-menu li a.locations {
+    background: #34495E;
+}
+
+ul.home-menu li a.sales {
+    background: #CA5D45;
+}
+
+ul.home-menu li a.items {
+    background: #CA455D;
+}
+
+ul.home-menu li a.categories {
+    background: #55484A;
+}
+
+ul.home-menu li a i.fa {
+    font-size: 50px;
+    margin-top: -10px;
+}
+
+ul.home-menu li a:hover {
+    background: rgb(48, 48, 48);
+    -moz-transform: scale(1.2);
+    -webkit-transform: scale(1.2);
+    -o-transform: scale(1.2);
+    transform: scale(1.2);
+    -moz-box-shadow: 0px 0px 0px 5px rgba(0, 0, 0, 0.12);
+    -webkit-box-shadow: 0px 0px 0px 5px rgba(0, 0, 0, 0.12);
+    box-shadow: 0px 0px 0px 5px rgba(0, 0, 0, 0.12);
+}
+
+ul.locations-menu {
+    list-style-type: none;
+    list-style: none;
+    padding: 0;
+    -webkit-font-smoothing: antialiased;
+    width: 100%;
+    display: inline-block;
+    margin:0 auto;
+}
+
+ul.locations-menu li{
+    float: left;
+    margin:5px;
+}
+
+ul.locations-menu li a {
+    display: block;
+    padding: 50px 0px;
+    background: rgb(128, 128, 128);
+    color: white;
+    font-weight: normal;
+    width: 150px;
+    height: 150px;
+    text-align: center;
+    -webkit-transition: all 0.1s ease-in;
+    -ms-transition: all 0.1s ease-in;
+    -moz-transition: all 0.1s ease-in;
+    -o-transition: all 0.1s ease-in;
+    transition: all 0.1s ease-in;
+    background: #000;
+}
+
+ul.locations-menu li a.business {
+    background: #45CA99;
+}
+
+ul.locations-menu li a i.fa {
+    font-size: 50px;
+    margin-top: -10px;
+}
+
+ul.locations-menu li a:hover {
+    background: rgb(48, 48, 48);
+    -moz-transform: scale(1.2);
+    -webkit-transform: scale(1.2);
+    -o-transform: scale(1.2);
+    transform: scale(1.2);
+    -moz-box-shadow: 0px 0px 0px 5px rgba(0, 0, 0, 0.12);
+    -webkit-box-shadow: 0px 0px 0px 5px rgba(0, 0, 0, 0.12);
+    box-shadow: 0px 0px 0px 5px rgba(0, 0, 0, 0.12);
+}

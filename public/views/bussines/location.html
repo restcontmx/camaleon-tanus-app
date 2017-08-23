@@ -1,0 +1,73 @@
+<div  ng-controller="location-controller">
+
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item active"><a href="#/"><i class="fa fa-building" aria-hidden="true"></i> Dashboard</a></li>
+        <li class="breadcrumb-item active"><a href="#/business"></i><i class="fa fa-building" aria-hidden="true"></i> Businesses</a></li>
+        <li class="breadcrumb-item"><i class="fa fa-plus-o" aria-hidden="true"></i> Location</li>
+    </ol>
+
+    <h2 class="display-4">{{title}}</h2>
+
+    <br/>
+
+    <div class="row">
+        <div class="col-md-1"></div>
+        <div class="col-md-7">
+            <h5 class="lead"> <i class="fa fa-building" aria-hidden="true"></i> New Location</h5>
+        </div>
+        <div class="col-md-4"></div>
+    </div>
+
+    <hr>
+
+    <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-8">
+            <div class="card card-outline-primary mb-3 text-left">
+                <div class="card-header text-sm-center lead">
+                    New
+                </div>
+                <div class="card-block">
+                    <div class="alert alert-danger" role="alert" ng-if="errors">
+                        <strong>Error adding object</strong>
+                        <p>{{errors}}</p>
+                    </div>
+                    <form ng-submit="add_from_business()">
+
+                        <div class="form-group">
+                            <label for="name">Name</label>
+                            <input
+                                type="text"
+                                class="form-control"
+                                id="name"
+                                ng-model="location.location_name"
+                                maxlength="50"
+                                placeholder="Name"
+                                required>
+                        </div>
+
+                        <br>
+                        <hr>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group text-sm-left">
+                                    <a href="#/bussines/detail/{{global_business.id}}">
+                                        <button type="button" class="btn btn-danger"><i class="fa fa-arrow-circle-o-left" aria-hidden="true"></i> Cancel</button>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group text-sm-right">
+                                    <button type="submit" class="btn btn-success"><i class="fa fa-plus-square" aria-hidden="true"></i> Add</button>
+                                </div>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2"></div>
+    </div>
+
+</div>

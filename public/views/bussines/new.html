@@ -1,0 +1,68 @@
+<div  ng-controller="business-controller">
+
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item active"><a href="#/"><i class="fa fa-building" aria-hidden="true"></i> Dashboard</a></li>
+        <li class="breadcrumb-item active"><a href="#/business"></i><i class="fa fa-building" aria-hidden="true"></i> Businesses</a></li>
+        <li class="breadcrumb-item"><i class="fa fa-plus-o" aria-hidden="true"></i> New</li>
+    </ol>
+
+    <h2 class="display-4">{{title}}</h2>
+
+    <br/>
+
+    <div class="row">
+        <div class="col-md-1"></div>
+        <div class="col-md-7">
+            <h5 class="lead"> <i class="fa fa-building" aria-hidden="true"></i> Businesses List</h5>
+        </div>
+        <div class="col-md-2">
+            <a href="#/business/new"><button type="button" class="btn btn-secondary pull-right"><i class="fa fa-plus-circle" aria-hidden="true"></i> New</button></a>
+        </div>
+        <div class="col-md-2">
+            <input ng-model="search_text" ng-change="searchChange()" type="text" class="form-control" id="search" placeholder="Buscar...">
+        </div>
+    </div>
+
+    <hr>
+
+    <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-8">
+            <div class="card card-outline-primary mb-3 text-left">
+                <div class="card-header text-sm-center lead">
+                    Nuevo
+                </div>
+                <div class="card-block">
+                    <div class="alert alert-danger" role="alert" ng-if="errors">
+                        <strong>Error adding object</strong>
+                        <p>{{errors}}</p>
+                    </div>
+                    <form ng-submit="add()">
+
+                        <div ng-include="'/views/bussines/business.html'"></div>
+
+                        <br>
+                        <hr>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group text-sm-left">
+                                    <a href="#/business">
+                                        <button type="button" class="btn btn-danger"><i class="fa fa-arrow-circle-o-left" aria-hidden="true"></i> Cancel</button>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group text-sm-right">
+                                    <button type="submit" class="btn btn-success"><i class="fa fa-plus-square" aria-hidden="true"></i> Add</button>
+                                </div>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2"></div>
+    </div>
+
+</div>

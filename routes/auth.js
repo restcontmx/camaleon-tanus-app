@@ -54,7 +54,7 @@ router.post( '/login', jsonParser, function( req, res ) {
                         user_data = JSON.stringify({
                             email : req.body.email,
                             user : data_from_server.data['user'],
-                            auth_data : encryption_system.encryptCookie( http_helper.get_user_basic_auth( req.body.username, req.body.password ) )
+                            auth_data : encryption_system.encryptCookie( http_helper.get_user_basic_auth( req.body.email, req.body.password ) )
                         });
                     res.cookie( 'userdata', user_data );
                     res.send( jsonData );
