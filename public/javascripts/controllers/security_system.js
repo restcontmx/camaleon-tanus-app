@@ -37,6 +37,12 @@ app
                             icon : 'fa fa-home',
                             status : 'active',
                             link : '#/'
+                        },
+                        {
+                            name : 'Dashboard',
+                            icon : 'fa fa-tachometer',
+                            status : '',
+                            link : '#/dashboard'
                         }
                     ],
                     objects : [

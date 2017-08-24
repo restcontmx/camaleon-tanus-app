@@ -8,6 +8,7 @@ app
             update : ( data ) => CRUDService.update( model, data ),
             remove : ( id ) => CRUDService.remove( model, data ),
             getAllByBusiness : ( business_id ) => $http.get( '/' + model + '/bybusiness/' + business_id ),
+            getLocationTodayReports : () => $http.get( '/' + model + '/reports/today/' ),
             validateData : function( data, scope ) {
                 var ban = false;
                 scope.errors = "";

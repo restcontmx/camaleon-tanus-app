@@ -4,7 +4,8 @@ var app = angular.module( 'CAMALEON-REPORTS', [     'ngRoute',
                                                     'warrior-filters',
                                                     'ui.router',
                                                     'ui.bootstrap',
-                                                    'crud-service'] )
+                                                    'crud-service',
+                                                    'chart.js'  ] )
     .run( [ '$rootScope', '$location', 'AuthRepository', function( $rootScope, $location, AuthRepository ) {
         $rootScope.isLoggedIn = {
             show_app : true,
@@ -22,7 +23,7 @@ var app = angular.module( 'CAMALEON-REPORTS', [     'ngRoute',
     .config([ '$routeProvider', '$locationProvider', function( $routeProvider, $locationProvider ) {
         $routeProvider
             .when( '/', {
-                templateUrl : '../views/user/dashboard.html'
+                templateUrl : '../views/main.html'
             })
             .when( '/main', {
                 templateUrl : '../views/main.html'
@@ -55,6 +56,9 @@ var app = angular.module( 'CAMALEON-REPORTS', [     'ngRoute',
             .otherwise({
                 redirectTo : '/404'
             });
+        (function (ChartJsProvider) {
+            ChartJsProvider.setOptions({ colors : [ '#803690', '#00ADF9', '#DCDCDC', '#46BFBD', '#FDB45C', '#949FB1', '#4D5360'] });
+        });
     }])
     .controller( 'navbar-controller', [ '$scope', '$rootScope', 'AuthRepository', function( $scope, $rootScope, AuthRepository ) {
         $scope.project_name = "CAMALEON-REPORTS";
@@ -74,9 +78,29 @@ var app = angular.module( 'CAMALEON-REPORTS', [     'ngRoute',
             AuthRepository.setActiveMenu( element );
         };
     }])
-    .controller( 'main-controller', [ '$scope', 'AuthRepository', function( $scope, AuthRepository ) {
+    .controller( 'main-controller', [   '$scope',
+                                        'LocationRepository',
+                                        'AuthRepository',
+                                        function(   $scope,
+                                                    LocationRepository,
+                                                    AuthRepository  ) {
         if( AuthRepository.viewVerification() ) {
+
             $scope.title = "Main View";
             $scope.message = "This is a message!";
+
+            var promise = LocationRepository.getLocationTodayReports();
+
+            $scope.labels = [];
+            $scope.data = [];
+
+            promise.then( function( response ) {
+                $scope.reports = response.data.data;
+                $scope.reports.forEach( r => {
+                    $scope.labels.push( r.location.location_name );
+                    $scope.data.push( r.monto );
+                });
+            });
+
         }
     }]);

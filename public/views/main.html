@@ -20,8 +20,47 @@
     <hr>
 
     <div class="row">
-        <div class="col-md-12">
-            <h2 class="text-muted">{{message}}</h2>
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-block">
+                    <div class="card-header text-sm-center lead">
+                        <i class="fa fa-balance-scale" aria-hidden="true"></i> Daily Reports
+                    </div>
+                    <div class="card-block">
+                        <canvas id="pie"
+                                class="chart chart-pie"
+                                chart-data="data"
+                                chart-labels="labels"
+                                chart-options="options"
+                                height="100">
+                        </canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-block">
+                    <table class="table table-bordered table-hover">
+                        <thead class="thead-custom-red">
+                            <tr>
+                                <th><i class="fa fa-map-marker" aria-hidden="true"></i>  Locación</th>
+                                <th><i class="fa fa-money" aria-hidden="true"></i>  Montos</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="lm in reports">
+                                <td>{{lm.location.location_name}}</td>
+                                <td>{{lm.monto}}</td>
+                            </tr>
+                            <tr>
+                                <td>Total</td>
+                                <td>$ {{total}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
 
