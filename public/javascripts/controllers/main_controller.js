@@ -20,7 +20,7 @@ var app = angular.module( 'CAMALEON-REPORTS', [     'ngRoute',
             $rootScope.isLoggedIn.show_auth = false;
         }
     }])
-    .config([ '$routeProvider', '$locationProvider', function( $routeProvider, $locationProvider ) {
+    .config([ '$routeProvider', '$locationProvider', '$mdThemingProvider', function( $routeProvider, $locationProvider, $mdThemingProvider ) {
         $routeProvider
             .when( '/', {
                 templateUrl : '../views/main.html'
@@ -46,8 +46,54 @@ var app = angular.module( 'CAMALEON-REPORTS', [     'ngRoute',
             .when( '/business/edit/:id', {
                 templateUrl : '../views/bussines/edit.html'
             })
+            // reports
+            .when( '/reports/classes', {
+                templateUrl : '../views/reports/classes.html'
+            })
+            .when( '/reports/categories', {
+                templateUrl : '../views/reports/categories.html'
+            })
+            .when( '/reports/departments', {
+                templateUrl : '../views/reports/departments.html'
+            })
+            .when( '/reports/employee', {
+                templateUrl : '../views/reports/employee.html'
+            })
+            .when( '/reports/items', {
+                templateUrl : '../views/reports/items.html'
+            })
+            .when( '/reports/turn', {
+                templateUrl : '../views/reports/turn.html'
+            })
+            // Locations
             .when( '/location', {
                 templateUrl : '../views/location/list.html'
+            })
+            // Support
+            .when( '/support/items/', {
+                templateUrl : '../views/support/item.html'
+            })
+            .when( '/support/classes/', {
+                templateUrl : '../views/support/itemclass.html'
+            })
+            .when( '/support/families/', {
+                templateUrl : '../views/support/family.html'
+            })
+            .when( '/support/subfamilies/', {
+                templateUrl : '../views/support/subfamily.html'
+            })
+            .when( '/support/departments/', {
+                templateUrl : '../views/support/department.html'
+            })
+            .when( '/support/categories/', {
+                templateUrl : '../views/support/category.html'
+            })
+            // Settings
+            .when( '/settings/levels/', {
+                templateUrl : '../views/settings/security_levels.html'
+            })
+            .when( '/settings/users/', {
+                templateUrl : '../views/settings/users.html'
             })
             // reports
             .when( '/404', {
@@ -59,6 +105,9 @@ var app = angular.module( 'CAMALEON-REPORTS', [     'ngRoute',
         (function (ChartJsProvider) {
             ChartJsProvider.setOptions({ colors : [ '#803690', '#00ADF9', '#DCDCDC', '#46BFBD', '#FDB45C', '#949FB1', '#4D5360'] });
         });
+
+        $mdThemingProvider.theme('default').primaryPalette('teal')
+
     }])
     .controller( 'navbar-controller', [ '$scope', '$rootScope', 'AuthRepository', function( $scope, $rootScope, AuthRepository ) {
         $scope.project_name = "CAMALEON-REPORTS";
@@ -72,7 +121,7 @@ var app = angular.module( 'CAMALEON-REPORTS', [     'ngRoute',
             });
         };
     }])
-    .controller( 'menu-cotroller', [ '$scope', '$rootScope', 'AuthRepository', function( $scope, $rootScope, AuthRepository ) {
+    .controller( 'menu-cotroller', [ '$scope', '$rootScope', 'AuthRepository', '$mdSidenav', function( $scope, $rootScope, AuthRepository, $mdSidenav ) {
         AuthRepository.setMenu();
         $scope.set_menu_state = function( element ) {
             AuthRepository.setActiveMenu( element );
@@ -86,8 +135,7 @@ var app = angular.module( 'CAMALEON-REPORTS', [     'ngRoute',
                                                     AuthRepository  ) {
         if( AuthRepository.viewVerification() ) {
 
-            $scope.title = "Main View";
-            $scope.message = "This is a message!";
+            $scope.title = "Home";
 
             var promise = LocationRepository.getLocationTodayReports();
 

@@ -1,0 +1,182 @@
+<md-content flex layout-padding ng-controller="category-reports-controller">
+    <md-toolbar class="md-primary">
+        <div class="md-toolbar-tools">
+            <section layout="row" layout-sm="column" layout-align="center left" layout-wrap>
+                <md-button md-no-ink><i class="fa fa-tachometer" aria-hidden="true"></i> Dashboard</md-button>
+                <md-button md-no-ink ng-disabled="true" style="color:white"> <i class="fa fa-sitemap" aria-hidden="true"></i> Reports by Category</md-button>
+            </section>
+        </div>
+     </md-toolbar>
+
+    <md-divider></md-divider>
+
+    <div class="row">
+        <div class="col-md-6">
+            <div layout="row" layout-align="start center">
+                <md-content class="md-padding" layout="column">
+                    <h2 class="md-display-2"><i class="fa fa-sitemap" aria-hidden="true"></i>  Category Reports</h2>
+                </md-content>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div layout="row" layout-align="end center">
+                <md-content class="md-padding" layout="column">
+                    <md-toolbar class="md-warn" layout-align="center center">
+                        <h3 >
+                            <md-button hide-sm href="#/"><i class="fa fa-list" aria-hidden="true"></i> Categories</md-button>
+                            <md-button hide-sm href="#/category/new/"><i class="fa fa-plus-circle" aria-hidden="true"></i> New Category</md-button>
+                            <md-button hide-sm href="#/support/category/"><i class="fa fa-wrench" aria-hidden="true"></i> Support</md-button>
+                        </h3>
+                    </md-toolbar>
+                </md-content>
+            </div>
+        </div>
+    </div>
+
+    <hr>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="md-whiteframe-3dp" ng-cloak>
+                <md-toolbar class="md-theme-light">
+                    <h2 class="md-toolbar-tools">
+                      <span> <i class="fa fa-line-chart" aria-hidden="true"></i> Sales</span>
+                    </h2>
+                </md-toolbar>
+                <md-content flex layout-padding>
+                    <div class="alert alert-danger" role="alert" ng-if="errors">
+                        <strong>There were some errors</strong>
+                        <p>{{errors}}</p>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <canvas id="pie"
+                                            class="chart chart-pie"
+                                            chart-data="data"
+                                            chart-labels="labels"
+                                            chart-options="options"
+                                            height="150">
+                                    </canvas>
+                                </div>
+                                <div class="col-md-6">
+
+                                    <md-input-container>
+                                        <label>First date</label>
+                                        <md-datepicker ng-model="date_start"></md-datepicker>
+                                    </md-input-container>
+                                    <md-input-container>
+                                        <label>Last Date</label>
+                                        <md-datepicker ng-model="date_end"></md-datepicker>
+                                    </md-input-container>
+                                    <div class="card">
+                                        <div class="card-block">
+                                            <table class="table table-bordered table-hover">
+                                                <thead class="thead-custom-green">
+                                                    <tr>
+                                                        <th></th>
+                                                        <th>Cantidad</th>
+                                                        <th>Vta Neta</th>
+                                                        <th>Tax 1</th>
+                                                        <th>Tax 2</th>
+                                                        <th>Total</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr ng-repeat="cl in classes">
+                                                        <td>{{cl.name}}</td>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td>Total</td>
+                                                        <td>$ {{total}}</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </md-content>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="md-whiteframe-3dp" ng-cloak>
+                <md-toolbar class="md-theme-light">
+                    <h2 class="md-toolbar-tools">
+                      <span> <i class="fa fa-list-ol" aria-hidden="true"></i> All</span>
+                    </h2>
+                </md-toolbar>
+                <md-content flex layout-padding>
+                    <div class="alert alert-danger" role="alert" ng-if="errors">
+                        <strong>There were some errors</strong>
+                        <p>{{errors}}</p>
+                    </div>
+                    <div class="row" >
+                        <div class="col-md-2">
+                            <h2>Category 1</h2>
+                        </div>
+                        <div class="col-md-10">
+                            <table class="table table-bordered table-hover">
+                                <thead class="thead-custom-green">
+                                    <tr>
+                                        <th>Code</th>
+                                        <th>Item name</th>
+                                        <th>Quantity</th>
+                                        <th>Price</th>
+                                        <th>Desc</th>
+                                        <th>Precio Venta</th>
+                                        <th>Venta neta</th>
+                                        <th>Tax 1</th>
+                                        <th>Tax 2</th>
+                                        <th>Total Sale</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td>Total</td>
+                                        <td>$ 0.0000</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </md-content>
+            </div>
+        </div>
+    </div>
+</md-content>

@@ -1,67 +1,139 @@
-<div ng-controller="main-controller">
+<md-content flex layout-padding ng-controller="main-controller">
+    <md-toolbar class="md-primary">
+        <div class="md-toolbar-tools">
+            <section layout="row" layout-sm="column" layout-align="center left" layout-wrap>
+                <md-button md-no-ink ng-disabled="true" style="color:white"> <i class="fa fa-home" aria-hidden="true"></i> Home</md-button>
+            </section>
+        </div>
+     </md-toolbar>
 
-    <ol class="breadcrumb">
-        <li class="breadcrumb-item active"><a href="#/"><i class="fa fa-home" aria-hidden="true"></i> {{title}}</a></li>
-    </ol>
-
-    <h2 class="display-3">{{title}}</h2>
-
-    <br/>
+    <md-divider></md-divider>
 
     <div class="row">
-        <div class="col-md-1"></div>
-        <div class="col-md-7">
-            <h5 class="lead"> <i class="fa fa-home" aria-hidden="true"></i> {{title}}</h5>
+        <div class="col-md-6">
+            <div layout="row" layout-align="start center">
+                <md-content class="md-padding" layout="column">
+                    <h2 class="md-display-2"><i class="fa fa-home" aria-hidden="true"></i>  Home</h2>
+                </md-content>
+            </div>
         </div>
-        <div class="co-md-4">
+        <div class="col-md-6">
+            <div layout="row" layout-align="end center">
+                <md-content class="md-padding" layout="column">
+                    <md-toolbar class="md-warn" layout-align="center center">
+                        <h3 >
+                            <md-button hide-sm  href="#/"><i class="fa fa-list" aria-hidden="true"></i> Reports</md-button>
+                            <md-button hide-sm href="#/"><i class="fa fa-gears" aria-hidden="true"></i> Settings</md-button>
+                        </h3>
+                    </md-toolbar>
+                </md-content>
+            </div>
         </div>
     </div>
 
     <hr>
 
     <div class="row">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-block">
-                    <div class="card-header text-sm-center lead">
-                        <i class="fa fa-balance-scale" aria-hidden="true"></i> Daily Reports
+        <div class="col-md-12">
+            <div class="md-whiteframe-3dp" ng-cloak>
+                <md-toolbar class="md-theme-light">
+                    <h2 class="md-toolbar-tools">
+                      <span><i class="fa fa-bar-chart" aria-hidden="true"></i> Todays Sales</span>
+                    </h2>
+                </md-toolbar>
+                <md-content flex layout-padding>
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="card-block">
+                                <canvas id="pie"
+                                        class="chart chart-bar"
+                                        chart-data="data"
+                                        chart-labels="labels"
+                                        chart-options="options"
+                                        height="100">
+                                </canvas>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card">
+                                <div class="card-block">
+                                    <table class="table table-bordered table-hover">
+                                        <thead class="thead-custom-red">
+                                            <tr>
+                                                <th><i class="fa fa-map-marker" aria-hidden="true"></i>  Locación</th>
+                                                <th><i class="fa fa-money" aria-hidden="true"></i>  Montos</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="lm in reports">
+                                                <td>{{lm.location.location_name}}</td>
+                                                <td>{{lm.monto}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Total</td>
+                                                <td><md-chip>$ 45,889.121</md-chip></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="card-block">
-                        <canvas id="pie"
-                                class="chart chart-pie"
-                                chart-data="data"
-                                chart-labels="labels"
-                                chart-options="options"
-                                height="100">
-                        </canvas>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="card">
-                <div class="card-block">
-                    <table class="table table-bordered table-hover">
-                        <thead class="thead-custom-red">
-                            <tr>
-                                <th><i class="fa fa-map-marker" aria-hidden="true"></i>  Locación</th>
-                                <th><i class="fa fa-money" aria-hidden="true"></i>  Montos</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr ng-repeat="lm in reports">
-                                <td>{{lm.location.location_name}}</td>
-                                <td>{{lm.monto}}</td>
-                            </tr>
-                            <tr>
-                                <td>Total</td>
-                                <td>$ {{total}}</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+
+                </md-content>
             </div>
         </div>
     </div>
 
+    <div class="row">
+        <div class="col-md-12">
+            <div class="md-whiteframe-3dp" ng-cloak>
+                <md-toolbar class="md-theme-light">
+                    <h2 class="md-toolbar-tools">
+                      <span><i class="fa fa-pie-chart" aria-hidden="true"></i> Monthly Sales</span>
+                    </h2>
+                </md-toolbar>
+                <md-content flex layout-padding>
+                    <div class="row">
+                        <div class="col-md-8 pull-right">
+                            <div class="card-block">
+                                <canvas id="pie"
+                                        class="chart chart-pie"
+                                        chart-data="data"
+                                        chart-labels="labels"
+                                        chart-options="options"
+                                        height="100">
+                                </canvas>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card">
+                                <div class="card-block">
+                                    <table class="table table-bordered table-hover">
+                                        <thead class="thead-custom-red">
+                                            <tr>
+                                                <th><i class="fa fa-map-marker" aria-hidden="true"></i>  Locación</th>
+                                                <th><i class="fa fa-money" aria-hidden="true"></i>  Montos</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="lm in reports">
+                                                <td>{{lm.location.location_name}}</td>
+                                                <td>{{lm.monto}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Total</td>
+                                                <td><md-chip>$ 45,889.121</md-chip></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </md-content>
+            </div>
+        </div>
+    </div>
 </div>

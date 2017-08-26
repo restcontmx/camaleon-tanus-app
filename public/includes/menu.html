@@ -1,30 +1,35 @@
-<!--- general menu ------->
-<ul class="nav nav-pills flex-column first-menu">
-    <li ng-repeat="mi in snd_menu_items.general" class="nav-item">
-        <a class="nav-link {{mi.status}}" href="{{mi.link}}" ng-click="set_menu_state(mi)"><i class="{{mi.icon}}" aria-hidden="true"></i> {{mi.name}}</a>
-    </li>
-</ul>
-<hr>
-<!--- objects menu ------->
-<ul class="nav nav-pills flex-column">
-    <li ng-repeat="mi in snd_menu_items.objects" class="nav-item">
-        <a class="nav-link {{mi.status}}" href="{{mi.link}}" ng-click="set_menu_state(mi)"><i class="{{mi.icon}}" aria-hidden="true"></i> {{mi.name}}</a>
-    </li>
-</ul>
-<hr>
-<!--- sales menu ------->
-<ul class="nav nav-pills flex-column">
-    <li ng-repeat="mi in snd_menu_items.sales" class="nav-item">
-        <a class="nav-link {{mi.status}}" href="{{mi.link}}" ng-click="set_menu_state(mi)"><i class="{{mi.icon}}" aria-hidden="true"></i> {{mi.name}}</a>
-    </li>
-</ul>
-<hr>
-<!--- settings menu ------->
-<ul class="nav nav-pills flex-column">
-    <li ng-repeat="mi in snd_menu_items.settings" class="nav-item">
-        <a class="nav-link {{mi.status}}" href="{{mi.link}}" ng-click="set_menu_state(mi)"><i class="{{mi.icon}}" aria-hidden="true"></i> {{mi.name}}</a>
-    </li>
-</ul>
-<hr>
+<md-subheader class="md-no-sticky"><i class="fa fa-tasks" aria-hidden="true"></i> General</md-subheader>
 
-<div class="row" ng-include="'../includes/footer.html'"></div>
+<md-list-item ng-click="set_menu_state(mi)" ng-repeat="mi in snd_menu_items.general" ng-href="{{mi.link}}">
+    <md-icon class="{{mi.icon}}"></md-icon>
+    <p> {{ mi.name }} </p>
+</md-list-item>
+
+<md-divider></md-divider>
+
+<md-subheader class="md-no-sticky"><i class="fa fa-wrench" aria-hidden="true"></i> Support</md-subheader>
+
+<md-list-item ng-click="set_menu_state(mi)" ng-repeat="mi in snd_menu_items.support" ng-href="{{mi.link}}">
+    <md-icon class="{{mi.icon}}"></md-icon>
+    <p> {{ mi.name }} </p>
+</md-list-item>
+
+<md-divider></md-divider>
+
+<md-subheader class="md-no-sticky"><i class="fa fa-line-chart" aria-hidden="true"></i> Reports</md-subheader>
+
+<md-list-item ng-click="set_menu_state(mi)" ng-repeat="mi in snd_menu_items.reports" ng-href="{{mi.link}}">
+    <md-icon class="{{mi.icon}}"></md-icon>
+    <p> {{ mi.name }} </p>
+</md-list-item>
+
+<md-divider></md-divider>
+
+<md-subheader class="md-no-sticky"><i class="fa fa-cogs" aria-hidden="true"></i> Settings</md-subheader>
+
+<md-list-item ng-click="set_menu_state(mi)" ng-repeat="mi in snd_menu_items.settings" ng-href="{{mi.link}}">
+    <md-icon class="{{mi.icon}}"></md-icon>
+    <p> {{ mi.name }} </p>
+</md-list-item>
+
+<md-divider></md-divider>

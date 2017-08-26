@@ -1,0 +1,99 @@
+<md-content flex layout-padding ng-controller="subfamily-controller">
+    <md-toolbar class="md-primary">
+        <div class="md-toolbar-tools">
+            <section layout="row" layout-sm="column" layout-align="center left" layout-wrap>
+                <md-button md-no-ink><i class="fa fa-tachometer" aria-hidden="true"></i> Dashboard</md-button>
+                <md-button md-no-ink ng-disabled="true" style="color:white"> <i class="fa fa-object-group" aria-hidden="true"></i> Sub Families Support</md-button>
+            </section>
+        </div>
+     </md-toolbar>
+
+    <md-divider></md-divider>
+
+    <div class="row">
+        <div class="col-md-6">
+            <div layout="row" layout-align="start center">
+                <md-content class="md-padding" layout="column">
+                    <h2 class="md-display-2"><i class="fa fa-object-group" aria-hidden="true"></i> Sub Families Support</h2>
+                </md-content>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div layout="row" layout-align="end center">
+                <md-content class="md-padding" layout="column">
+                    <md-toolbar class="md-warn" layout-align="center center">
+                        <h3 >
+                            <md-button hide-sm href="#/family/"><i class="fa fa-list" aria-hidden="true"></i> Sub Family</md-button>
+                            <md-button hide-sm href="#/family/new/"><i class="fa fa-plus-circle" aria-hidden="true"></i> New Sub Family</md-button>
+                        </h3>
+                    </md-toolbar>
+                </md-content>
+            </div>
+        </div>
+    </div>
+
+    <hr>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="md-whiteframe-3dp" ng-cloak>
+                <md-toolbar class="md-theme-light">
+                    <h2 class="md-toolbar-tools">
+                      <span>Change Sub Family</span>
+                    </h2>
+                </md-toolbar>
+                <md-content flex layout-padding>
+                    <div class="alert alert-danger" role="alert" ng-if="errors">
+                        <strong>There were some errors</strong>
+                        <p>{{errors}}</p>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <md-subheader class="md-no-sticky">Your Locations</md-subheader>
+                                <md-list-item ng-repeat="loc in locations">
+                                <p> {{ loc.location_name }} </p>
+                                <md-checkbox class="md-secondary" ng-model="loc.selected"></md-checkbox>
+                            </md-list-item>
+                        </div>
+                        <div class="col-md-8">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <md-autocomplete
+                                        ng-disabled="isDisabled"
+                                        md-no-cache="noCache"
+                                        md-selected-item="selectedItem"
+                                        md-search-text-change="searchTextChange(searchText)"
+                                        md-search-text="searchText"
+                                        md-selected-item-change="selectedItemChange(item)"
+                                        md-items="item in querySearch(searchText)"
+                                        md-item-text="item.ITEM_Description"
+                                        md-min-length="0"
+                                        placeholder="Search Sub Family">
+                                        <md-item-template>
+                                            <span md-highlight-text="searchText" md-highlight-flags="^i">{{item.ITEM_Description}}</span>
+                                        </md-item-template>
+                                    </md-autocomplete>
+                                </div>
+                            </div>
+                            <br>
+                            <div layout-gt-sm="row">
+                                <md-input-container class="md-block" flex-gt-sm>
+                                    <label>New Name</label>
+                                    <input ng-model="selectedItem.ITEM_Sale_Price">
+                                </md-input-container>
+                            </div>
+
+                            <div  class="md-padding" ng-cloak>
+                                <div class="bottom-sheet-demo inset" layout="row" layout-sm="column" layout-align="center" >
+                                    <md-button flex="50" class="md-warn md-raised">Cancel</md-button>
+                                    <md-button flex="50" class="md-primary md-raised" ng-click="saveItem()">Save</md-button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </md-content>
+            </div>
+        </div>
+    </div>
+
+</md-content>

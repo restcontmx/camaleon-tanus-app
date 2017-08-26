@@ -1,24 +1,23 @@
-<button type="button"
-        class="navbar-toggler hidden-sm-up"
-        data-toggle="collapse"
-        data-target="#navbar"
-        aria-expanded="true"
-        aria-controls="navbar"
-        aria-label="Toggle navigation"></button>
 
-<a class="navbar-brand" href="#/"> <img src="" width="50" height="50" class="d-inline-block" alt=""> {{project_name}}</a>
 
-<div id="navbar" >
-    <nav class="nav navbar-nav float-xs-left" style="margin-top:10px;">
-        <a class="nav-item nav-link">
-            Welcome {{ user_info.user }}
-        </a>
-    </nav>
-    <nav class="nav navbar-nav float-xs-right">
-        <a class="nav-item nav-link" href="#/"><button class="btn btn-sm align-middle btn-outline-success" type="button"><i class="fa fa-home" aria-hidden="true"></i> Home</button></a>
-        <a class="nav-item nav-link" href="#/"><button class="btn btn-sm align-middle btn-outline-success" type="button"><i class="fa fa-globe" aria-hidden="true"></i> WebSite</button></a>
-        <a class="nav-item nav-link" href="#/settings"><button class="btn btn-sm align-middle btn-outline-success" type="button"><i class="fa fa-cogs" aria-hidden="true"></i> Settings</button></a>
-        <a class="nav-item nav-link" href="#/help"><button class="btn btn-sm align-middle btn-outline-success" type="button"><i class="fa fa-question-circle" aria-hidden="true"></i> Help</button></a>
-        <a class="nav-item nav-link" href="#/" ng-click="logout()"><button class="btn btn-sm align-middle btn-outline-danger" type="button"><i class="fa fa-sign-out" aria-hidden="true"></i> Loggout</button></a>
-    </nav>
+<div class="md-toolbar-tools">
+    <md-button class="md-icon-button" aria-label="Settings" ng-disabled="true">
+        <img ng-src="" alt="" class="md-avatar">
+    </md-button>
+
+    <h2 flex md-truncate> {{project_name}} </h2>
+
+
+    <md-button class="md-icon-button" aria-label="Home" href="#/">
+        <md-icon class="fa fa-home" style="font-size:24px;"></md-icon>
+    </md-button>
+    <md-button class="md-icon-button" aria-label="Settings" href="#/settings">
+        <md-icon class="fa fa-cogs" style="font-size:24px;"></md-icon>
+    </md-button>
+    <md-button class="md-icon-button" aria-label="Help" href="#/help">
+        <md-icon class="fa fa-question-circle" style="font-size:24px;"></md-icon>
+    </md-button>
+    <md-button class="md-icon-button" aria-label="Log Out" ng-click="logout()">
+        <md-icon class="fa fa-sign-out" style="font-size:24px;"></md-icon>
+    </md-button>
 </div>

@@ -45,28 +45,94 @@ app
                             link : '#/dashboard'
                         }
                     ],
-                    objects : [
+                    support : [
                         {
-                            name : 'Object',
-                            icon : 'fa fa-cube',
+                            name : 'Items',
+                            icon : 'fa fa-product-hunt',
                             status : '',
-                            link : '#/objectlink'
+                            link : '#/support/items/'
+                        },
+                        {
+                            name : 'Classes',
+                            icon : 'fa fa-tags',
+                            status : '',
+                            link : '#/support/classes/'
+                        },
+                        {
+                            name : 'Categories',
+                            icon : 'fa fa-sitemap',
+                            status : '',
+                            link : '#/support/categories/'
+                        },
+                        {
+                            name : 'Departments',
+                            icon : 'fa fa-th',
+                            status : '',
+                            link : '#/support/departments/'
+                        },
+                        {
+                            name : 'Families',
+                            icon : 'fa fa-object-ungroup',
+                            status : '',
+                            link : '#/support/families/'
+                        },
+                        {
+                            name : 'Sub Families',
+                            icon : 'fa fa-object-group',
+                            status : '',
+                            link : '#/support/subfamilies/'
                         }
                     ],
-                    sales : [
+                    reports : [
                         {
-                            name : 'Point of Sale',
-                            icon : 'fa fa-credit-card',
+                            name : 'Categories',
+                            icon : 'fa fa-sitemap',
                             status : '',
-                            link : '#/reservations/cabin/'
+                            link : '#/reports/categories/'
+                        },
+                        {
+                            name : 'Classes',
+                            icon : 'fa fa-tags',
+                            status : '',
+                            link : '#/reports/classes/'
+                        },
+                        {
+                            name : 'Departments',
+                            icon : 'fa fa-th',
+                            status : '',
+                            link : '#/reports/departments/'
+                        },
+                        {
+                            name : 'Items',
+                            icon : 'fa fa-product-hunt',
+                            status : '',
+                            link : '#/reports/items/'
+                        },
+                        {
+                            name : 'By Employee',
+                            icon : 'fa fa-briefcase',
+                            status : '',
+                            link : '#/reports/employee/'
+                        },
+                        {
+                            name : 'By Turn',
+                            icon : 'fa fa-clock-o',
+                            status : '',
+                            link : '#/reports/turn/'
                         }
                     ],
                     settings : [
                         {
-                            name : 'Settings obj',
-                            icon : 'fa fa-gears',
+                            name : 'Security Levels',
+                            icon : 'fa fa-lock',
                             status : '',
-                            link : '#/settingslink'
+                            link : '#/settings/levels/'
+                        },
+                        {
+                            name : 'Users',
+                            icon : 'fa fa-users',
+                            status : '',
+                            link : '#/settings/users/'
                         }
                     ]
                 };
@@ -74,13 +140,13 @@ app
             // Sets the item on the menu active
             setActiveMenu : function( element ) {
                 $rootScope.snd_menu_items.general.forEach( e => e.status = '' );
-                $rootScope.snd_menu_items.sales.forEach( e => e.status = '' );
+                $rootScope.snd_menu_items.reports.forEach( e => e.status = '' );
 
                 if( $rootScope.snd_menu_items.settings ) {
                     $rootScope.snd_menu_items.settings.forEach( e => e.status = '' );
                 }
-                if( $rootScope.snd_menu_items.objects ) {
-                    $rootScope.snd_menu_items.objects.forEach( e => e.status = '' );
+                if( $rootScope.snd_menu_items.support ) {
+                    $rootScope.snd_menu_items.support.forEach( e => e.status = '' );
                 }
 
                 element.status = 'active';

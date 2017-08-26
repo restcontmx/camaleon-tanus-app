@@ -4,7 +4,7 @@ var express = require( 'express' );
 var bodyParser = require( 'body-parser' );
 var urlLib = require( 'url' );
 var request = require( 'request' );
-var http_helper = require( '../helpers/http_helper' );
+var http_helper = require( '../helpers/http_helper_ne' );
 var encryption_system = require( '../helpers/encryption_helper' );
 var router = express.Router();
 var jsonParser = bodyParser.json();
@@ -53,7 +53,7 @@ router.get( '/:id', jsonParser, function( req, res ) {
     var userdata = JSON.parse( req.cookies['userdata'] );
     request(
         {
-            url : http_helper.get_api_uri( 'it_titem/', req.params.idea ),
+            url : http_helper.get_api_uri( 'it_titem/', req.params.id ),
             method : 'GET',
             json : true,
             headers : {

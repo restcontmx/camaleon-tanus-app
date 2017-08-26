@@ -13,15 +13,27 @@
     </head>
     <body>
 
-        <div ng-show="isLoggedIn.show_app">
-            <nav ng-include="'../includes/navbar.html'" class="navbar navbar-dark navbar-fixed-top custom-nav" ng-controller="navbar-controller" ></nav>
+        <div ng-show="isLoggedIn.show_app" ng-cloak>
+            <md-toolbar ng-include="'../includes/navbar.html'" class="md-hue-2" ng-controller="navbar-controller">
 
-            <div class="container-fluid">
-                <div class="row">
-                    <nav ng-include="'../includes/menu.html'" class="col-sm-3 col-md-2 hidden-xs-down bg-faded sidebar" ng-controller="menu-cotroller"></nav>
+            </md-toolbar>
 
-                    <main class="col-sm-9 offset-sm-3 col-md-10 offset-md-2 pt-3" style="margin-top:-50px;" ng-view ></main>
-                </div>
+            <div ng-controller="menu-cotroller" layout="column" style="height:auto;" ng-cloak>
+
+                <section layout="row" flex>
+                    <md-sidenav
+                        class="md-sidenav-left"
+                        md-component-id="left"
+                        md-is-locked-open="$mdMedia('gt-md')"
+                        md-whiteframe="4">
+                      <md-content layout-padding>
+                        <div hide show-gt-md ng-include="'../includes/menu.html'"></div>
+                      </md-content>
+                    </md-sidenav>
+
+                    <md-content flex layout-padding ng-view></md-content>
+                </section>
+
             </div>
         </div>
 
@@ -67,6 +79,13 @@
         <script src='../javascripts/controllers/user_controller.js'></script>
         <script src='../javascripts/controllers/business_controller.js'></script>
         <script src='../javascripts/controllers/location_controller.js'></script>
+        <script src='../javascripts/controllers/item_controller.js'></script>
+        <script src='../javascripts/controllers/itemclass_controller.js'></script>
+        <script src='../javascripts/controllers/category_controller.js'></script>
+        <script src='../javascripts/controllers/department_controller.js'></script>
+        <script src='../javascripts/controllers/family_controller.js'></script>
+        <script src='../javascripts/controllers/subfamily_controller.js'></script>
+        <script src='../javascripts/controllers/employee_controller.js'></script>
 
     </body>
 </html>
