@@ -1,4 +1,10 @@
 app
+    .factory( 'CategoryRepository', [ '$http', function( $http ) {
+        var model = 'it_tcategory';
+        return({
+            reportsByDate : ( d1, d2 ) => $http.get( '/reports/' + model + '/?d1=' + d1 + '&d2=' + d2 )
+        });
+    }])
     .controller( 'category-controller', [   '$scope',
                                             'LocationRepository',
                                             'AuthRepository',
@@ -18,24 +24,31 @@ app
         }
     }])
     .controller('category-reports-controller', [    '$scope',
+                                                    'CategoryRepository',
                                                     'LocationRepository',
                                                     'AuthRepository',
                                                     function(   $scope,
+                                                                CategoryRepository,
                                                                 LocationRepository,
                                                                 AuthRepository  ) {
         if( AuthRepository.viewVerification() ) {
 
-            var promise = LocationRepository.getLocationTodayReports();
-
             $scope.labels = [];
             $scope.data = [];
 
-            promise.then( function( response ) {
-                $scope.reports = response.data.data;
-                $scope.reports.forEach( r => {
-                    $scope.labels.push( r.location.location_name );
-                    $scope.data.push( r.monto );
-                });
+            CategoryRepository.reportsByDate( "asd", "awfwe" ).success( function( data ) {
+                if( !data.error ) {
+                    $scope.reports = data.data;
+                    $scope.reports.forEach( r => {
+                        $scope.labels.push( r.category.Cate_Name );
+                        $scope.data.push( r.total );
+                    });
+                    $scope.global_total = $scope.reports.map( r => r.total ).reduce( ( a, b ) => ( a + b ), 0 );
+                } else {
+                    $scope.errors = data.error;
+                }
+            }).error( function( error ) {
+                $scope.errors = error;
             });
         }
     }]);

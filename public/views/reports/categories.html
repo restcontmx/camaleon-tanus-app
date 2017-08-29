@@ -53,7 +53,7 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <canvas id="pie"
-                                            class="chart chart-pie"
+                                            class="chart chart-bar"
                                             chart-data="data"
                                             chart-labels="labels"
                                             chart-options="options"
@@ -80,25 +80,28 @@
                                                         <th>Vta Neta</th>
                                                         <th>Tax 1</th>
                                                         <th>Tax 2</th>
+                                                        <th>Tax 3</th>
                                                         <th>Total</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    <tr ng-repeat="cl in classes">
-                                                        <td>{{cl.name}}</td>
+                                                    <tr ng-repeat="r in reports">
+                                                        <td>{{r.category.Cate_Name}}</td>
                                                         <td></td>
                                                         <td></td>
-                                                        <td></td>
-                                                        <td></td>
-                                                        <td></td>
+                                                        <td>{{r.category.TAXPERC}}</td>
+                                                        <td>{{r.category.TAXPERC2}}</td>
+                                                        <td>{{r.category.TAXPERC3}}</td>
+                                                        <td>$ {{r.total}}</td>
                                                     </tr>
                                                     <tr>
                                                         <td></td>
                                                         <td></td>
                                                         <td></td>
                                                         <td></td>
+                                                        <td></td>
                                                         <td>Total</td>
-                                                        <td>$ {{total}}</td>
+                                                        <td>$ {{global_total}}</td>
                                                     </tr>
                                                 </tbody>
                                             </table>

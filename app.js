@@ -22,6 +22,7 @@ var it_tuser = require( './routes/ittuser' );
 var location = require( './routes/location' );
 var bussines = require( './routes/bussines' );
 var userlocations = require( './routes/userlocations' );
+var reports = require( './routes/reports' );
 
 var app = express();
 
@@ -50,6 +51,7 @@ app.use('/it_tuser', it_tuser);
 app.use('/bussines', bussines);
 app.use('/location', location);
 app.use('/userlocations', userlocations);
+app.use('/reports', reports);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

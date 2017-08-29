@@ -15,6 +15,7 @@ app
             }).error( function( error ) {
                 $scope.errors = error;
             });
+
         }
     }])
     .controller('itemclass-reports-controller', [   '$scope',
