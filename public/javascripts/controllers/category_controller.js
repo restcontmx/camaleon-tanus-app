@@ -33,22 +33,38 @@ app
                                                                 AuthRepository  ) {
         if( AuthRepository.viewVerification() ) {
 
-            $scope.labels = [];
-            $scope.data = [];
+            $scope.progress_ban = false;
 
-            CategoryRepository.reportsByDate( "asd", "awfwe" ).success( function( data ) {
-                if( !data.error ) {
-                    $scope.reports = data.data;
-                    $scope.reports.forEach( r => {
-                        $scope.labels.push( r.category.Cate_Name );
-                        $scope.data.push( r.total );
+            $scope.get_reports = function() {
+
+                $scope.labels = [];
+                $scope.data = [];
+                $scope.progress_ban = true;
+                $scope.tabs = [];
+                let date_1 = ( $scope.date_start.getMonth() + 1) + '/' + $scope.date_start.getDate() + '/' + $scope.date_start.getFullYear(),
+                    date_2 = ( $scope.date_start.getMonth() + 1) + '/' + $scope.date_start.getDate() + '/' + $scope.date_start.getFullYear();
+                if( date_1 != undefined && date_2 != undefined ) {
+                    CategoryRepository.reportsByDate( date_1, date_2 ).success( function( data ) {
+                        if( !data.error ) {
+                            $scope.reports = data.data;
+                            $scope.global_total = $scope.reports.map( r => ( r.vta_neta + r.tax1 + r.tax2 + r.tax3 ) ).reduce( ( a, b ) => ( a + b ), 0 );
+                            $scope.reports.forEach( r => {
+                                $scope.labels.push( r.category.Cate_Name )
+                                $scope.data.push( r.vta_neta + r.tax1 + r.tax2 + r.tax3 )
+                                r.total = r.vta_neta + r.tax1 + r.tax2 + r.tax3
+                                r.item_reports.forEach( i => i.total = ( i.sale_price * i.qty ) + i.tax1 + i.tax2 + i.tax3)
+                                $scope.tabs.push( { 'report' : r } )
+                            });
+                        } else {
+                            $scope.errors = data.error;
+                        } $scope.progress_ban = false;
+                    }).error( function( error ) {
+                        $scope.errors = error;
+                        $scope.progress_ban = false;
                     });
-                    $scope.global_total = $scope.reports.map( r => r.total ).reduce( ( a, b ) => ( a + b ), 0 );
                 } else {
-                    $scope.errors = data.error;
+                    alert( "Please select two dates!" );
                 }
-            }).error( function( error ) {
-                $scope.errors = error;
-            });
+            }
         }
     }]);

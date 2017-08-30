@@ -57,54 +57,61 @@
                                             chart-data="data"
                                             chart-labels="labels"
                                             chart-options="options"
-                                            height="150">
+                                            height="150"
+                                            ng-show="!progress_ban">
                                     </canvas>
+                                    <div layout="row" layout-sm="column" layout-align="space-around" ng-show="progress_ban" style="margin-top:15%;">
+                                        <md-progress-circular md-mode="indeterminate"></md-progress-circular>
+                                    </div>
                                 </div>
                                 <div class="col-md-6">
 
-                                    <md-input-container>
-                                        <label>First date</label>
-                                        <md-datepicker ng-model="date_start"></md-datepicker>
-                                    </md-input-container>
-                                    <md-input-container>
-                                        <label>Last Date</label>
-                                        <md-datepicker ng-model="date_end"></md-datepicker>
-                                    </md-input-container>
-                                    <div class="card">
-                                        <div class="card-block">
-                                            <table class="table table-bordered table-hover">
-                                                <thead class="thead-custom-green">
-                                                    <tr>
-                                                        <th></th>
-                                                        <th>Cantidad</th>
-                                                        <th>Vta Neta</th>
-                                                        <th>Tax 1</th>
-                                                        <th>Tax 2</th>
-                                                        <th>Tax 3</th>
-                                                        <th>Total</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <tr ng-repeat="r in reports">
-                                                        <td>{{r.category.Cate_Name}}</td>
-                                                        <td></td>
-                                                        <td></td>
-                                                        <td>{{r.category.TAXPERC}}</td>
-                                                        <td>{{r.category.TAXPERC2}}</td>
-                                                        <td>{{r.category.TAXPERC3}}</td>
-                                                        <td>$ {{r.total}}</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td></td>
-                                                        <td></td>
-                                                        <td></td>
-                                                        <td></td>
-                                                        <td></td>
-                                                        <td>Total</td>
-                                                        <td>$ {{global_total}}</td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
+                                    <div layout-gt-sm="row">
+                                        <md-input-container>
+                                            <label>First date</label>
+                                            <md-datepicker ng-model="date_start"></md-datepicker>
+                                        </md-input-container>
+
+
+                                        <md-input-container>
+                                            <label>Last Date</label>
+                                            <md-datepicker ng-model="date_end"></md-datepicker>
+                                        </md-input-container>
+                                    </div>
+                                    <div layout-gt-sm="row">
+                                        <table class="table table-bordered table-hover">
+                                            <thead class="thead-custom-green">
+                                                <tr>
+                                                    <th></th>
+                                                    <th>Cantidad</th>
+                                                    <th>Vta Neta</th>
+                                                    <th>Tax 1</th>
+                                                    <th>Tax 2</th>
+                                                    <th>Tax 3</th>
+                                                    <th>Total</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr ng-repeat="r in reports">
+                                                    <td>{{r.category.Cate_Name}}</td>
+                                                    <td>{{r.qty | number : 2}}</td>
+                                                    <td>{{r.vta_neta | number : 2}}</td>
+                                                    <td>{{r.tax1 | number : 2}}</td>
+                                                    <td>{{r.tax2 | number : 2}}</td>
+                                                    <td>{{r.tax3 | number : 2}}</td>
+                                                    <td>$ {{r.total | number : 2}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="6" class="text-align-right"><b>Total</b></td>
+                                                    <td>$ {{global_total | number : 2}}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                    <div  class="md-padding" ng-cloak>
+                                        <div class="bottom-sheet-demo inset" layout="row" layout-sm="column" layout-align="center" >
+                                            <md-button flex="50" class="md-primary md-raised" ng-click="get_reports()">Get Reports</md-button>
                                         </div>
                                     </div>
                                 </div>
@@ -129,55 +136,58 @@
                         <strong>There were some errors</strong>
                         <p>{{errors}}</p>
                     </div>
-                    <div class="row" >
-                        <div class="col-md-2">
-                            <h2>Category 1</h2>
-                        </div>
-                        <div class="col-md-10">
-                            <table class="table table-bordered table-hover">
-                                <thead class="thead-custom-green">
-                                    <tr>
-                                        <th>Code</th>
-                                        <th>Item name</th>
-                                        <th>Quantity</th>
-                                        <th>Price</th>
-                                        <th>Desc</th>
-                                        <th>Precio Venta</th>
-                                        <th>Venta neta</th>
-                                        <th>Tax 1</th>
-                                        <th>Tax 2</th>
-                                        <th>Total Sale</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td>Total</td>
-                                        <td>$ 0.0000</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
+                    <md-content class="md-padding">
+                        <md-tabs md-selected="selectedIndex" md-border-bottom md-autoselect>
+                            <md-tab ng-repeat="tab in tabs"
+                                ng-disabled="tab.disabled"
+                                label="{{tab.report.category.Cate_Name}}"
+                                ng-show="!progress_ban">
+                                <div class="demo-tab tab{{$index%4}}" style="padding: 25px; text-align: center;">
+                                    <table class="table table-bordered table-hover">
+                                        <thead class="thead-custom-green">
+                                            <tr>
+                                                <th>Code</th>
+                                                <th>Item name</th>
+                                                <th>Quantity</th>
+                                                <th>Price</th>
+                                                <th>Desc</th>
+                                                <th>Precio Venta</th>
+                                                <th>Venta neta</th>
+                                                <th>Tax 1</th>
+                                                <th>Tax 2</th>
+                                                <th>Tax 3</th>
+                                                <th>Total Sale</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="i in tab.report.item_reports">
+                                                <td>{{i.item_id}}</td>
+                                                <td>{{i.description}}</td>
+                                                <td>{{i.qty}}</td>
+                                                <td>{{i.cost | number : 2}}</td>
+                                                <td></td>
+                                                <td>{{i.sale_price | number : 2}}</td>
+                                                <td></td>
+                                                <td>{{i.tax1 | number : 2}}</td>
+                                                <td>{{i.tax2 | number : 2}}</td>
+                                                <td>{{i.tax3 | number : 2}}</td>
+                                                <td>{{i.total | number : 2}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="10" class="text-align-right">Total</td>
+                                                <td>$ {{tab.report.total | number : 2}}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </md-tab>
+                        </md-tabs>
+                    </md-content>
+
+                    <div layout="row" layout-sm="column" layout-align="space-around" ng-show="progress_ban">
+                        <md-progress-circular md-mode="indeterminate"></md-progress-circular>
                     </div>
+
                 </md-content>
             </div>
         </div>
