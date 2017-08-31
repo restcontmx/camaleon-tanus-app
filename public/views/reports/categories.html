@@ -1,4 +1,14 @@
 <md-content flex layout-padding ng-controller="category-reports-controller">
+    <div class="overlay_loanding" ng-show="progress_ban"></div>
+    <div class="modal_loanding" ng-show="progress_ban">
+        <md-content layout-padding class="loanding_content">
+            <div layout="row" layout-sm="column" layout-align="space-around">
+                <md-progress-circular ng-disabled="!progress_ban" md-diameter="96" ></md-progress-circular>
+            </div>
+            <center><h1>Loanding...</h1></center>
+        </md-content>
+    </div>
+    
     <md-toolbar class="md-primary">
         <div class="md-toolbar-tools">
             <section layout="row" layout-sm="column" layout-align="center left" layout-wrap>
@@ -48,21 +58,18 @@
                         <strong>There were some errors</strong>
                         <p>{{errors}}</p>
                     </div>
+
                     <div class="row">
                         <div class="col-md-12">
                             <div class="row">
                                 <div class="col-md-6">
                                     <canvas id="pie"
-                                            class="chart chart-bar"
+                                            class="chart chart-pie"
                                             chart-data="data"
                                             chart-labels="labels"
                                             chart-options="options"
-                                            height="150"
-                                            ng-show="!progress_ban">
+                                            height="150">
                                     </canvas>
-                                    <div layout="row" layout-sm="column" layout-align="space-around" ng-show="progress_ban" style="margin-top:15%;">
-                                        <md-progress-circular md-mode="indeterminate"></md-progress-circular>
-                                    </div>
                                 </div>
                                 <div class="col-md-6">
 
@@ -78,40 +85,101 @@
                                             <md-datepicker ng-model="date_end"></md-datepicker>
                                         </md-input-container>
                                     </div>
-                                    <div layout-gt-sm="row">
-                                        <table class="table table-bordered table-hover">
-                                            <thead class="thead-custom-green">
-                                                <tr>
-                                                    <th></th>
-                                                    <th>Cantidad</th>
-                                                    <th>Vta Neta</th>
-                                                    <th>Tax 1</th>
-                                                    <th>Tax 2</th>
-                                                    <th>Tax 3</th>
-                                                    <th>Total</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr ng-repeat="r in reports">
-                                                    <td>{{r.category.Cate_Name}}</td>
-                                                    <td>{{r.qty | number : 2}}</td>
-                                                    <td>{{r.vta_neta | number : 2}}</td>
-                                                    <td>{{r.tax1 | number : 2}}</td>
-                                                    <td>{{r.tax2 | number : 2}}</td>
-                                                    <td>{{r.tax3 | number : 2}}</td>
-                                                    <td>$ {{r.total | number : 2}}</td>
-                                                </tr>
-                                                <tr>
-                                                    <td colspan="6" class="text-align-right"><b>Total</b></td>
-                                                    <td>$ {{global_total | number : 2}}</td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
 
+                                    <div grid-data grid-options="gridOptions" grid-actions="gridActions">
+                                        <div layout-gt-sm="row" layout-sm="column" layout-align="center">
+                                            <div flex-gt-sm="25" flex-sm="100" layout="row" layout-align="start center">
+                                                <span>{{filtered.length}} items total</span>
+                                            </div>
+                                            <div flex-gt-sm="75" flex-xs="100">
+                                                <div layout-xs="column" layout="row" layout-align-xs="end end" layout-align="end center">
+                                                    <grid-pagination max-size="5"
+                                                                     boundary-links="true"
+                                                                     class="pagination mdl-shadow--2dp"
+                                                                     ng-if="paginationOptions.totalItems  > paginationOptions.itemsPerPage"
+                                                                     total-items="paginationOptions.totalItems"
+                                                                     ng-model="paginationOptions.currentPage"
+                                                                     ng-change="reloadGrid()"
+                                                                     items-per-page="paginationOptions.itemsPerPage"></grid-pagination>
+                                                    <md-input-container flex-offset-gt-xs="5" class="items-per-page">
+                                                        <md-select ng-init="paginationOptions.itemsPerPage = '10'" ng-model="paginationOptions.itemsPerPage" ng-change="reloadGrid()">
+                                                            <md-option ng-value="10">10</md-option>
+                                                            <md-option ng-value="25">25</md-option>
+                                                            <md-option ng-value="50">50</md-option>
+                                                            <md-option ng-value="75">75</md-option>
+                                                        </md-select>
+                                                    </md-input-container>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <!-- sample table layout goes below, but remember that you can you any mark-up here. -->
+                                            <table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp">
+                                                <thead>
+                                                    <tr>
+                                                        <th sortable="category.Cate_Name" class="sortable">
+                                                            Name
+                                                        </th>
+                                                        <th sortable="qty" class="sortable">
+                                                            Quantity
+                                                        </th>
+                                                        <th sortable="vta_neta" class="sortable">
+                                                            Venta neta
+                                                        </th>
+                                                        <th sortable="tax1" class="sortable">
+                                                            Tax 1
+                                                        </th>
+                                                        <th sortable="tax2" class="sortable">
+                                                            Tax 2
+                                                        </th>
+                                                        <th sortable="tax3" class="sortable">
+                                                            Tax 3
+                                                        </th>
+                                                        <th sortable='total' class="sortable">
+                                                            Total
+                                                        </th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr grid-item>
+                                                        <td ng-bind="item.category.Cate_Name"></td>
+                                                        <td ng-bind="item.qty | number:2"></td>
+                                                        <td ng-bind="item.vta_neta | number:2"></td>
+                                                        <td ng-bind="item.tax1 | number:2"></td>
+                                                        <td ng-bind="item.tax2 | number:2"></td>
+                                                        <td ng-bind="item.tax3 | number:2"></td>
+                                                        <td ng-bind="item.total | number:2"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td colspan="6" class="text-align-right"><b>Total</b></td>
+                                                        <td>$ {{global_total | number : 2}}</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div layout-xs="column" layout="row" layout-align-xs="end end" layout-align="end center">
+                                            <grid-pagination max-size="5"
+                                                             boundary-links="true"
+                                                             class="pagination"
+                                                             ng-if="paginationOptions.totalItems  > paginationOptions.itemsPerPage"
+                                                             total-items="paginationOptions.totalItems"
+                                                             ng-model="paginationOptions.currentPage"
+                                                             ng-change="reloadGrid()"
+                                                             items-per-page="paginationOptions.itemsPerPage"></grid-pagination>
+                                            <md-input-container flex-offset-gt-xs="5" class="items-per-page">
+                                                <md-select ng-init="paginationOptions.itemsPerPage = '10'" ng-model="paginationOptions.itemsPerPage" ng-change="reloadGrid()">
+                                                    <md-option ng-value="10">10</md-option>
+                                                    <md-option ng-value="25">25</md-option>
+                                                    <md-option ng-value="50">50</md-option>
+                                                    <md-option ng-value="75">75</md-option>
+                                                </md-select>
+                                            </md-input-container>
+                                        </div>
+                                    </div>
                                     <div  class="md-padding" ng-cloak>
                                         <div class="bottom-sheet-demo inset" layout="row" layout-sm="column" layout-align="center" >
-                                            <md-button flex="50" class="md-primary md-raised" ng-click="get_reports()">Get Reports</md-button>
+                                            <md-button flex="50" class="md-default md-raised" ng-click="export()"><i class="fa fa-download" aria-hidden="true"></i> Export Reports</md-button>
+                                            <md-button flex="50" class="md-primary md-raised" ng-click="get_reports()"><i class="fa fa-cloud-download" aria-hidden="true"></i> Get Reports</md-button>
                                         </div>
                                     </div>
                                 </div>
@@ -131,65 +199,118 @@
                       <span> <i class="fa fa-list-ol" aria-hidden="true"></i> All</span>
                     </h2>
                 </md-toolbar>
-                <md-content flex layout-padding>
-                    <div class="alert alert-danger" role="alert" ng-if="errors">
-                        <strong>There were some errors</strong>
-                        <p>{{errors}}</p>
-                    </div>
-                    <md-content class="md-padding">
-                        <md-tabs md-selected="selectedIndex" md-border-bottom md-autoselect>
-                            <md-tab ng-repeat="tab in tabs"
-                                ng-disabled="tab.disabled"
-                                label="{{tab.report.category.Cate_Name}}"
-                                ng-show="!progress_ban">
-                                <div class="demo-tab tab{{$index%4}}" style="padding: 25px; text-align: center;">
-                                    <table class="table table-bordered table-hover">
-                                        <thead class="thead-custom-green">
-                                            <tr>
-                                                <th>Code</th>
-                                                <th>Item name</th>
-                                                <th>Quantity</th>
-                                                <th>Price</th>
-                                                <th>Desc</th>
-                                                <th>Precio Venta</th>
-                                                <th>Venta neta</th>
-                                                <th>Tax 1</th>
-                                                <th>Tax 2</th>
-                                                <th>Tax 3</th>
-                                                <th>Total Sale</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr ng-repeat="i in tab.report.item_reports">
-                                                <td>{{i.item_id}}</td>
-                                                <td>{{i.description}}</td>
-                                                <td>{{i.qty}}</td>
-                                                <td>{{i.cost | number : 2}}</td>
-                                                <td></td>
-                                                <td>{{i.sale_price | number : 2}}</td>
-                                                <td></td>
-                                                <td>{{i.tax1 | number : 2}}</td>
-                                                <td>{{i.tax2 | number : 2}}</td>
-                                                <td>{{i.tax3 | number : 2}}</td>
-                                                <td>{{i.total | number : 2}}</td>
-                                            </tr>
-                                            <tr>
-                                                <td colspan="10" class="text-align-right">Total</td>
-                                                <td>$ {{tab.report.total | number : 2}}</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </md-tab>
-                        </md-tabs>
-                    </md-content>
+                <md-content flex layout-padding style="height:auto;">
+                    <md-content layout="column" class="md-padding" style="height:100%">
+                       <div class="wrapper">
+                         <md-input-container style="width:50%">
+                           <md-select ng-model="selectedCategory" aria-label="Select a Category" style="width:100%">
+                             <md-option ng-value="$index" ng-repeat="r in reports">{{ r.category.Cate_Name }}</md-option>
+                           </md-select>
+                         </md-input-container>
 
-                    <div layout="row" layout-sm="column" layout-align="space-around" ng-show="progress_ban">
-                        <md-progress-circular md-mode="indeterminate"></md-progress-circular>
-                    </div>
-
+                         <div grid-data grid-options="tabs_grid_options" grid-actions="gridActions" ng-show="!progress_ban">
+                             <div layout-gt-sm="row" layout-sm="column" layout-align="center">
+                                 <div flex-gt-sm="25" flex-sm="100" layout="row" layout-align="start center">
+                                     <span>{{filtered.length}} items total</span>
+                                 </div>
+                                 <div flex-gt-sm="75" flex-xs="100">
+                                     <div layout-xs="column" layout="row" layout-align-xs="end end" layout-align="end center">
+                                         <grid-pagination max-size="5"
+                                                          boundary-links="true"
+                                                          class="pagination mdl-shadow--2dp"
+                                                          ng-if="paginationOptions.totalItems  > paginationOptions.itemsPerPage"
+                                                          total-items="paginationOptions.totalItems"
+                                                          ng-model="paginationOptions.currentPage"
+                                                          ng-change="reloadGrid()"
+                                                          items-per-page="paginationOptions.itemsPerPage"></grid-pagination>
+                                         <md-input-container flex-offset-gt-xs="5" class="items-per-page">
+                                             <md-select ng-init="paginationOptions.itemsPerPage = '10'" ng-model="paginationOptions.itemsPerPage" ng-change="reloadGrid()">
+                                                 <md-option ng-value="10">10</md-option>
+                                                 <md-option ng-value="25">25</md-option>
+                                                 <md-option ng-value="50">50</md-option>
+                                                 <md-option ng-value="75">75</md-option>
+                                             </md-select>
+                                         </md-input-container>
+                                     </div>
+                                 </div>
+                             </div>
+                             <div>
+                                 <!-- sample table layout goes below, but remember that you can you any mark-up here. -->
+                                 <table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp">
+                                     <thead>
+                                         <tr>
+                                             <th sortable="item_id" class="sortable">
+                                                 ID
+                                             </th>
+                                             <th sortable="description" class="sortable">
+                                                 Name
+                                             </th>
+                                             <th sortable="qty" class="sortable">
+                                                 Quantity
+                                             </th>
+                                             <th sortable="cost" class="sortable">
+                                                 Cost
+                                             </th>
+                                             <th sortable="tax1" class="sortable">
+                                                 Sale Price
+                                             </th>
+                                             <th sortable="tax1" class="sortable">
+                                                 Tax 1
+                                             </th>
+                                             <th sortable="tax2" class="sortable">
+                                                 Tax 2
+                                             </th>
+                                             <th sortable="tax3" class="sortable">
+                                                 Tax 3
+                                             </th>
+                                             <th sortable='total' class="sortable">
+                                                 Total
+                                             </th>
+                                         </tr>
+                                     </thead>
+                                     <tbody>
+                                         <tr grid-item>
+                                             <td ng-bind="item.item_id"></td>
+                                             <td ng-bind="item.description"></td>
+                                             <td ng-bind="item.qty | number:2"></td>
+                                             <td ng-bind="item.cost | number:2"></td>
+                                             <td ng-bind="item.sale_price | number:2"></td>
+                                             <td ng-bind="item.tax1 | number:2"></td>
+                                             <td ng-bind="item.tax2 | number:2"></td>
+                                             <td ng-bind="item.tax3 | number:2"></td>
+                                             <td ng-bind="item.total | number:2"></td>
+                                         </tr>
+                                         <tr>
+                                             <td colspan="8" class="text-align-right">Total</td>
+                                             <td>$ {{selected_report.total | number : 2}}</td>
+                                         </tr>
+                                     </tbody>
+                                 </table>
+                             </div>
+                             <div layout-xs="column" layout="row" layout-align-xs="end end" layout-align="end center">
+                                 <grid-pagination max-size="5"
+                                                  boundary-links="true"
+                                                  class="pagination"
+                                                  ng-if="paginationOptions.totalItems  > paginationOptions.itemsPerPage"
+                                                  total-items="paginationOptions.totalItems"
+                                                  ng-model="paginationOptions.currentPage"
+                                                  ng-change="reloadGrid()"
+                                                  items-per-page="paginationOptions.itemsPerPage"></grid-pagination>
+                                 <md-input-container flex-offset-gt-xs="5" class="items-per-page">
+                                     <md-select ng-init="paginationOptions.itemsPerPage = '10'" ng-model="paginationOptions.itemsPerPage" ng-change="reloadGrid()">
+                                         <md-option ng-value="10">10</md-option>
+                                         <md-option ng-value="25">25</md-option>
+                                         <md-option ng-value="50">50</md-option>
+                                         <md-option ng-value="75">75</md-option>
+                                     </md-select>
+                                 </md-input-container>
+                             </div>
+                         </div>
+                       </div>
+                     </md-content>
                 </md-content>
             </div>
         </div>
     </div>
+
 </md-content>

@@ -1,6 +1,8 @@
 var app = angular.module( 'CAMALEON-REPORTS', [     'ngRoute',
                                                     'ngCookies',
                                                     'ngMaterial',
+                                                    'dataGrid',
+                                                    'pagination',
                                                     'warrior-filters',
                                                     'ui.router',
                                                     'ui.bootstrap',
