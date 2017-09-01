@@ -60,18 +60,18 @@
                                     <table class="table table-bordered table-hover">
                                         <thead class="thead-custom-red">
                                             <tr>
-                                                <th><i class="fa fa-map-marker" aria-hidden="true"></i>  Locación</th>
-                                                <th><i class="fa fa-money" aria-hidden="true"></i>  Montos</th>
+                                                <th><i class="fa fa-map-marker" aria-hidden="true"></i>  Location</th>
+                                                <th><i class="fa fa-money" aria-hidden="true"></i>  Total</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <tr ng-repeat="lm in reports">
                                                 <td>{{lm.location.location_name}}</td>
-                                                <td>{{lm.monto}}</td>
+                                                <td>{{lm.total | number:2}}</td>
                                             </tr>
                                             <tr>
                                                 <td>Total</td>
-                                                <td><md-chip>$ 45,889.121</md-chip></td>
+                                                <td><md-chip>$ {{todays_total|number:2}}</md-chip></td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -112,18 +112,18 @@
                                     <table class="table table-bordered table-hover">
                                         <thead class="thead-custom-red">
                                             <tr>
-                                                <th><i class="fa fa-map-marker" aria-hidden="true"></i>  Locación</th>
-                                                <th><i class="fa fa-money" aria-hidden="true"></i>  Montos</th>
+                                                <th><i class="fa fa-map-marker" aria-hidden="true"></i>  Location</th>
+                                                <th><i class="fa fa-money" aria-hidden="true"></i>  Total</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr ng-repeat="lm in reports">
+                                            <tr ng-repeat="lm in reports_month">
                                                 <td>{{lm.location.location_name}}</td>
-                                                <td>{{lm.monto}}</td>
+                                                <td>{{lm.total|number:2}}</td>
                                             </tr>
                                             <tr>
                                                 <td>Total</td>
-                                                <td><md-chip>$ 45,889.121</md-chip></td>
+                                                <td><md-chip>$ {{months_total|number:2}}</md-chip></td>
                                             </tr>
                                         </tbody>
                                     </table>

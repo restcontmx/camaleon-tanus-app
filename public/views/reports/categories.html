@@ -8,7 +8,7 @@
             <center><h1>Loanding...</h1></center>
         </md-content>
     </div>
-    
+
     <md-toolbar class="md-primary">
         <div class="md-toolbar-tools">
             <section layout="row" layout-sm="column" layout-align="center left" layout-wrap>
@@ -72,18 +72,22 @@
                                     </canvas>
                                 </div>
                                 <div class="col-md-6">
-
-                                    <div layout-gt-sm="row">
-                                        <md-input-container>
-                                            <label>First date</label>
-                                            <md-datepicker ng-model="date_start"></md-datepicker>
-                                        </md-input-container>
-
-
-                                        <md-input-container>
-                                            <label>Last Date</label>
-                                            <md-datepicker ng-model="date_end"></md-datepicker>
-                                        </md-input-container>
+                                    <div class="md-padding" ng-cloak>
+                                        <div class="bottom-sheet-demo inset" layout="row" layout-sm="column" layout-align="center" >
+                                            <md-input-container flex="30" ng-show="show_options">
+                                              <md-select ng-model="selectedLocation" aria-label="Select a Location" style="width:100%">
+                                                <md-option ng-value="$index" ng-repeat="l in locations">{{ l.location_name }}</md-option>
+                                              </md-select>
+                                            </md-input-container>
+                                            <md-input-container flex="35">
+                                                <label>First date</label>
+                                                <md-datepicker ng-model="date_start"></md-datepicker>
+                                            </md-input-container>
+                                            <md-input-container flex="35">
+                                                <label>Last Date</label>
+                                                <md-datepicker ng-model="date_end"></md-datepicker>
+                                            </md-input-container>
+                                        </div>
                                     </div>
 
                                     <div grid-data grid-options="gridOptions" grid-actions="gridActions">
@@ -202,11 +206,20 @@
                 <md-content flex layout-padding style="height:auto;">
                     <md-content layout="column" class="md-padding" style="height:100%">
                        <div class="wrapper">
-                         <md-input-container style="width:50%">
-                           <md-select ng-model="selectedCategory" aria-label="Select a Category" style="width:100%">
-                             <md-option ng-value="$index" ng-repeat="r in reports">{{ r.category.Cate_Name }}</md-option>
-                           </md-select>
-                         </md-input-container>
+                           <div class="md-padding" ng-cloak>
+                               <div class="bottom-sheet-demo inset" layout="row" layout-sm="column" layout-align="center" >
+                                   <md-input-container flex="50">
+                                     <md-select ng-model="selectedCategory" aria-label="Select a Category" style="width:100%">
+                                       <md-option ng-value="$index" ng-repeat="r in reports">{{ r.category.Cate_Name }}</md-option>
+                                     </md-select>
+                                   </md-input-container>
+                                    <md-input-container class="md-block" flex="50" ng-show="show_options">
+                                        <label>Search for items</label>
+                                        <input ng-model="searchText" ng-change="search_item()">
+                                    </md-input-container>
+                               </div>
+                           </div>
+
 
                          <div grid-data grid-options="tabs_grid_options" grid-actions="gridActions" ng-show="!progress_ban">
                              <div layout-gt-sm="row" layout-sm="column" layout-align="center">

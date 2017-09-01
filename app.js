@@ -23,6 +23,7 @@ var location = require( './routes/location' );
 var bussines = require( './routes/bussines' );
 var userlocations = require( './routes/userlocations' );
 var reports = require( './routes/reports' );
+var itemchange = require( './routes/itemchange' );
 
 var app = express();
 
@@ -52,6 +53,7 @@ app.use('/bussines', bussines);
 app.use('/location', location);
 app.use('/userlocations', userlocations);
 app.use('/reports', reports);
+app.use('/itemchange', itemchange);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

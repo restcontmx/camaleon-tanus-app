@@ -139,16 +139,31 @@ var app = angular.module( 'CAMALEON-REPORTS', [     'ngRoute',
 
             $scope.title = "Home";
 
-            var promise = LocationRepository.getLocationTodayReports();
+            var todays_date = new Date(),
+                str_date = (todays_date.getMonth()+1) + '/' + todays_date.getDate() + '/' + todays_date.getFullYear(),
+                promise = LocationRepository.getLocationTodayReports( str_date, str_date ),
+                month_start = (todays_date.getMonth()+1) + '/1/' + todays_date.getFullYear(),
+                month_end = (todays_date.getMonth()+1) + '/' + todays_date.getDate() + '/' + todays_date.getFullYear(),
+                promise_2 = LocationRepository.getLocationTodayReports( month_start, month_end );
 
             $scope.labels = [];
             $scope.data = [];
+            $scope.labels2 = [];
+            $scope.data2 = [];
 
             promise.then( function( response ) {
                 $scope.reports = response.data.data;
                 $scope.reports.forEach( r => {
                     $scope.labels.push( r.location.location_name );
-                    $scope.data.push( r.monto );
+                    $scope.data.push( r.total );
+                });
+            });
+
+            promise_2.then( function( response ) {
+                $scope.reports_month = response.data.data;
+                $scope.reports_month.forEach( r => {
+                    $scope.labels2.push( r.location.location_name );
+                    $scope.data2.push( r.total );
                 });
             });
 

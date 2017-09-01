@@ -10,13 +10,13 @@ var router = express.Router();
 var jsonParser = bodyParser.json();
 
 /**
-* location list petttion
+* itemchange list petttion
 **/
 router.get( '/', jsonParser, function( req, res ) {
     var userdata = JSON.parse( req.cookies[ 'userdata' ] );
     request(
         {
-            url : http_helper.get_api_uri( 'location/byuser/', '' ),
+            url : http_helper.get_api_uri( 'itemchange/', '' ),
             method : 'GET',
             json : true,
             headers : {
@@ -28,16 +28,16 @@ router.get( '/', jsonParser, function( req, res ) {
 });
 
 /**
-* location create pettition
+* itemchange create pettition
 **/
 router.post( '/', jsonParser, function( req, res ) {
     var userdata = JSON.parse( req.cookies[ 'userdata' ] );
     request(
         {
-            url : http_helper.get_api_uri( 'location/', '' ),
+            url : http_helper.get_api_uri( 'itemchange/', '' ),
             method : 'POST',
             json : true,
-            body : req.body,
+            body : encryption_system.encryptLongJSON( req.body ),
             headers : {
                 'Authorization' : http_helper.get_basic_auth_w_token( encryption_system.decryptCookie( userdata.auth_data ) )
             }
@@ -47,13 +47,13 @@ router.post( '/', jsonParser, function( req, res ) {
 });
 
 /**
-* location retrieve pettition
+* itemchange retrieve pettition
 **/
 router.get( '/:id', jsonParser, function( req, res ) {
     var userdata = JSON.parse( req.cookies['userdata'] );
     request(
         {
-            url : http_helper.get_api_uri( 'location/', req.params.id ),
+            url : http_helper.get_api_uri( 'itemchange/', req.params.idea ),
             method : 'GET',
             json : true,
             headers : {
@@ -65,16 +65,16 @@ router.get( '/:id', jsonParser, function( req, res ) {
 });
 
 /**
-* location update pettition
+* itemchange update pettition
 **/
 router.put( '/:id', jsonParser, function( req, res ) {
     var userdata = JSON.parse( req.cookies['userdata'] );
     request(
         {
-            url : http_helper.get_api_uri( 'location/', req.params.id ),
+            url : http_helper.get_api_uri( 'itemchange/', req.params.id ),
             method : 'PUT',
             json : true,
-            body : req.body,
+            body : encryption_system.encryptLongJSON( req.body ),
             headers : {
                 'Authorization' : http_helper.get_basic_auth_w_token( encryption_system.decryptCookie( userdata.auth_data ) )
             }
@@ -84,13 +84,13 @@ router.put( '/:id', jsonParser, function( req, res ) {
 });
 
 /**
-* location delete pettition
+* itemchange delete pettition
 **/
 router.delete( '/:id', jsonParser, function( req, res ) {
     var userdata = JSON.parse( req.cookies['userdata'] );
     request(
         {
-            url : http_helper.get_api_uri( 'location/', req.params.id ),
+            url : http_helper.get_api_uri( 'itemchange/', req.params.id ),
             method : 'DELETE',
             json : true,
             headers : {
@@ -100,42 +100,6 @@ router.delete( '/:id', jsonParser, function( req, res ) {
         ( error, response, body ) => { res.send( http_helper.data_format_deleted( error, response, body ) ) }
     );
 
-});
-
-/**
-* location retrieve pettition by business
-**/
-router.get( '/bybusiness/:id', jsonParser, function( req, res ) {
-    var userdata = JSON.parse( req.cookies['userdata'] );
-    request(
-        {
-            url : http_helper.get_api_uri( 'location/bybusiness/?business_id=' + req.params.id, '' ),
-            method : 'GET',
-            json : true,
-            headers : {
-                'Authorization' : http_helper.get_basic_auth_w_token( encryption_system.decryptCookie( userdata.auth_data ) )
-            }
-        },
-        ( error, response, body ) => { res.send( http_helper.data_format_ok( error, response, body ) ) }
-    );
-});
-
-/**
-* todays reports for each location
-**/
-router.get( '/reports/today/', jsonParser, function( req, res ) {
-    var userdata = JSON.parse( req.cookies['userdata'] );
-    request(
-        {
-            url : http_helper.get_api_uri( 'location/reports/today/', '' ),
-            method : 'GET',
-            json : true,
-            headers : {
-                'Authorization' : http_helper.get_basic_auth_w_token( encryption_system.decryptCookie( userdata.auth_data ) )
-            }
-        },
-        ( error, response, body ) => { res.send( http_helper.data_format_ok( error, response, body ) ) }
-    );
 });
 
 module.exports = router;
