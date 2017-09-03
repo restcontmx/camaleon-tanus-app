@@ -132,7 +132,7 @@ app
 
             $scope.search_item = function() {
                 $scope.tabs_grid_options.data = $scope.tabs_real_data.filter( i => i.item_description.toLowerCase().includes( $scope.searchText.toLowerCase() ) )
-            
+
             };
 
             var set_compare_table = function() {
