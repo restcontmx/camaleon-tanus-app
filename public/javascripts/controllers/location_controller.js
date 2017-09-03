@@ -2,7 +2,7 @@ app
     .factory( 'LocationRepository', [ '$http', 'CRUDService', function( $http, CRUDService ) {
         var model = 'location';
         return({
-            getAll : () => CRUDService.getAll( model ),
+            getAll : () => CRUDService.getAll( model + '/byuser' ),
             add : ( data ) => CRUDService.add( model, data ),
             getById : ( id ) => CRUDService.getById( model, id ),
             update : ( data ) => CRUDService.update( model, data ),
