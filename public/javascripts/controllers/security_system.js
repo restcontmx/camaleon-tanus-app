@@ -103,6 +103,12 @@ app
                             link : '#/reports/departments/'
                         },
                         {
+                            name : 'Tickets',
+                            icon : 'fa fa-ticket',
+                            status : '',
+                            link : '#/reports/tickets/'
+                        },
+                        {
                             name : 'Items',
                             icon : 'fa fa-product-hunt',
                             status : '',
