@@ -111,7 +111,7 @@ var app = angular.module( 'CAMALEON-REPORTS', [     'ngRoute',
             ChartJsProvider.setOptions({ colors : [ '#803690', '#00ADF9', '#DCDCDC', '#46BFBD', '#FDB45C', '#949FB1', '#4D5360'] });
         });
 
-        $mdThemingProvider.theme('default').primaryPalette('teal')
+        $mdThemingProvider.theme('default').primaryPalette('indigo')
 
     }])
     .controller( 'navbar-controller', [ '$scope', '$rootScope', 'AuthRepository', function( $scope, $rootScope, AuthRepository ) {
