@@ -39,7 +39,7 @@ app
 
             $scope.progress_ban = false;
             $scope.selectedIndex = 0;
-
+            
             $scope.gridOptions = {
                 data: [] //required parameter - array with data
                 //optional parameter - start sort options
@@ -149,6 +149,5 @@ app
                     $scope.labels_compare.push( i );
                 }
             };
-
         }
     }]);

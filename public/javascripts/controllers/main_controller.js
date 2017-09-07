@@ -59,7 +59,7 @@ var app = angular.module( 'CAMALEON-REPORTS', [     'ngRoute',
                 templateUrl : '../views/reports/departments.html'
             })
             .when( '/reports/employee', {
-                templateUrl : '../views/reports/employee.html'
+                templateUrl : '../views/reports/employee.html' 
             })
             .when( '/reports/items', {
                 templateUrl : '../views/reports/items.html'
@@ -111,7 +111,7 @@ var app = angular.module( 'CAMALEON-REPORTS', [     'ngRoute',
             ChartJsProvider.setOptions({ colors : [ '#803690', '#00ADF9', '#DCDCDC', '#46BFBD', '#FDB45C', '#949FB1', '#4D5360'] });
         });
 
-        $mdThemingProvider.theme('default').primaryPalette('indigo')
+        $mdThemingProvider.theme('default').primaryPalette('green')
 
     }])
     .controller( 'navbar-controller', [ '$scope', '$rootScope', 'AuthRepository', function( $scope, $rootScope, AuthRepository ) {
