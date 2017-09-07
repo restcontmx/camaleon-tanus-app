@@ -1,7 +1,8 @@
 app
     .factory( 'TicketRepository', [ '$http', function( $http ) {
         return({
-            getReports : ( d1, d2, p, loc ) => $http.get( '/reports/ticket/?d1=' + d1 + '&d2=' + d2 + '&p=' + p + '&loc=' + loc )
+            getReports : ( d1, d2, p, loc ) => $http.get( '/reports/ticket/?d1=' + d1 + '&d2=' + d2 + '&p=' + p + '&loc=' + loc ),
+            getDetails : ( ticket, loc ) => $http.get( '/reports/ticket/details/?ticket=' + ticket + '&loc=' + loc )
         })
     }])
     .controller( 'ticket-reports-controller', [ '$scope',
@@ -16,6 +17,7 @@ app
                                                             $rootScope  ) {
         if( AuthRepository.viewVerification() ) {
             $scope.progress_ban = false;
+            $scope.loading_details = false;
             $scope.gridOptions = {
                 data: []
             };
@@ -23,6 +25,7 @@ app
             $rootScope.loc = 0;
             $scope.locations_options = [];
             $scope.locations_options.push( { 'name' : 'ALL', 'location' : { 'id' : 0 } } );
+
             LocationRepository.getAll().success( function( data ) {
                 if( !data.error ) {
                     $scope.locations = data.data;
@@ -52,16 +55,11 @@ app
                     });
                 }
             };
+
             $scope.customActions = { };
             $scope.customActions.refresh = $scope.reload_table;
 
-            $scope.reload_table = function() {
-                console.log( "Da da da quiero pepsi mamá" );
-                console.log( $scope.paginationOptions.currentPage );
-            }
-
             $scope.back = function() {
-                console.log("back");
                 if( $rootScope.p > 0 ) {
                     $rootScope.p--;
                     $scope.get_reports();
@@ -69,7 +67,6 @@ app
             };
 
             $rootScope.next = function() {
-                console.log("next");
                 if( $rootScope.p < ( $rootScope.count / 20 ) ) {
                     $rootScope.p++;
                     $scope.get_reports();
@@ -77,7 +74,18 @@ app
             };
 
             $rootScope.grid_action = function( item ) {
-                $rootScope.selected_item = item;
+                $scope.loading_details = true;
+                TicketRepository.getDetails( item.move_id, item.location ).success( function( data ) {
+                    if( !data.error ) {
+                        $rootScope.selected_item = item;
+                        $rootScope.selected_item.detamoves = data.data;
+                    } else {
+                        $scope.errors = data.message;
+                    }$scope.loading_details = false;
+                }).error( function( error ) {
+                    $scope.errors = error;
+                    $scope.loading_details = false;
+                });
             };
 
             $scope.$watch( 'selectedLocation', angular.bind( this, function(locationIndex) {

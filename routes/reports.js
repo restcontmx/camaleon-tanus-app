@@ -85,6 +85,25 @@ router.get( '/ticket/', jsonParser, function( req, res ) {
     );
 });
 
+/**
+* ticket reports pettition
+**/
+router.get( '/ticket/details', jsonParser, function( req, res ) {
+    var userdata = JSON.parse( req.cookies['userdata'] ),
+        url_parts = urlLib.parse( req.url, true );
+    request(
+        {
+            url : http_helper.get_api_uri( 'ticket/details/', '?ticket=' + url_parts.query.ticket + '&loc=' + url_parts.query.loc ),
+            method : 'GET',
+            json : true,
+            headers : {
+                'Authorization' : http_helper.get_basic_auth_w_token( encryption_system.decryptCookie( userdata.auth_data ) )
+            }
+        },
+        ( error, response, body ) => { res.send( http_helper.data_format_ok( error, response, body ) ) }
+    );
+});
+
 
 
 module.exports = router;
