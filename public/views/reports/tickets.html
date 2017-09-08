@@ -78,7 +78,7 @@
                                         <md-datepicker ng-model="date_end"></md-datepicker>
                                     </md-input-container>
                                     <md-input-container flex="40">
-                                        <md-button class="md-primary md-raised" ng-click="get_reports()"><i class="fa fa-cloud-download" aria-hidden="true"></i> Get Reports</md-button>
+                                        <md-button class="md-primary md-raised" ng-click="get_reports(0)"><i class="fa fa-cloud-download" aria-hidden="true"></i> Get Reports</md-button>
                                     </md-input-container>
                                 </md-content>
 
@@ -122,8 +122,8 @@
                                                        <tr grid-item ng-click="grid_action(item)">
                                                            <td ng-bind="item.move_id"></td>
                                                            <td ng-bind="item.move_date"></td>
+                                                           <td ng-bind="'$' + ( item.total | number:2 )"></td>                                                           
                                                            <td ng-bind="'$' + ( item.sub_total | number:2 )"></td>
-                                                           <td ng-bind="'$' + ( item.total | number:2 )"></td>
                                                        </tr>
                                                    </tbody>
                                                </table>
@@ -133,11 +133,15 @@
 
                                     <div flex-xs flex-gt-xs="40" layout="column">
                                         <md-card md-theme="{{ showDarkTheme ? 'dark-grey' : 'default' }}" md-theme-watch>
-                                            <md-list ng-cloak>
+                                            <md-list ng-cloak ng-if="selected_item">
                                                 <section>
                                                     <md-subheader class="md-no-sticky">Ticket Detail</md-subheader>
-
-                                                    <md-content>
+                                                    <md-content ng-show="loading_details">
+                                                        <div layout="row" layout-sm="column" layout-align="space-around">
+                                                            <md-progress-circular ng-disabled="false" md-diameter="96" ></md-progress-circular>
+                                                        </div>
+                                                    </md-content>
+                                                    <md-content ng-show="!loading_details">
                                                         <md-list>
                                                           <md-list-item class="md-2-line" ng-repeat="dm in selected_item.detamoves">
                                                             <div class="md-list-item-text" style="width:40%;">
@@ -147,7 +151,7 @@
                                                             </div>
                                                             <div class="md-secondary">
                                                                 <md-chips>
-                                                                    <md-chip>${{ dm.total | number : 2 }}</md-chip>
+                                                                    <md-chip>${{ dm.sub_total | number : 2 }}</md-chip>
                                                                 </md-chips>
                                                             </div>
                                                           </md-list-item>
@@ -155,10 +159,10 @@
                                                     </md-content>
                                                 </section>
                                                 <section>
-                                                    <md-subheader class="md-no-sticky"><h3>Sub Total $ {{ selected_item.sub_total | number : 2}}</h3></md-subheader>
+                                                    <md-subheader class="md-no-sticky"><h5>Sub Total $ {{ selected_item.total | number : 2}}</h5></md-subheader>                                                        
                                                 </section>
                                                 <section>
-                                                    <md-subheader class="md-no-sticky"><h2>Total $ {{ selected_item.total | number : 2}}</h2></md-subheader>
+                                                    <md-subheader class="md-no-sticky"><h5>Total $ {{ selected_item.sub_total | number : 2}}</h5></md-subheader>                                                        
                                                 </section>
                                             </md-list>
                                         </md-card>

@@ -108,10 +108,10 @@ var app = angular.module( 'CAMALEON-REPORTS', [     'ngRoute',
                 redirectTo : '/404'
             });
         (function (ChartJsProvider) {
-            ChartJsProvider.setOptions({ colors : [ '#803690', '#00ADF9', '#DCDCDC', '#46BFBD', '#FDB45C', '#949FB1', '#4D5360'] });
+            ChartJsProvider.setOptions({ colors : [ '#46BFBD', '#FDB45C', '#949FB1', '#4D5360', '#803690', '#00ADF9', '#DCDCDC' ] });
         });
 
-        $mdThemingProvider.theme('default').primaryPalette('green')
+        $mdThemingProvider.theme('default').primaryPalette('blue-grey')
 
     }])
     .controller( 'navbar-controller', [ '$scope', '$rootScope', 'AuthRepository', function( $scope, $rootScope, AuthRepository ) {
