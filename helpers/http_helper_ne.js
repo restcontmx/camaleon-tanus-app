@@ -2,12 +2,21 @@ var http = require( 'http' );
 /**
 * application global info for api connection
 **/
-var g_opts = {
-    hostname : 'camaleon-reports-api.herokuapp.com',
-    api_uri : 'https://camaleon-reports-api.herokuapp.com/api/',
-    port : '36594',
-    token : 'UkVQT1JUU19XRUJBUFA6NztXZWEhVEBVPkFmUlJ1Yw=='
-};
+const   test_config = {
+            hostname : 'api-example-ramonbadillo.c9users.io',
+            api_uri : 'https://api-example-ramonbadillo.c9users.io/api/',
+            port : '36594',
+            token : 'UkVQT1JUU19XRUJBUFA6NztXZWEhVEBVPkFmUlJ1Yw=='
+        },
+        production_config = {
+            hostname : 'camaleon-reports-api.herokuapp.com',
+            api_uri : 'https://camaleon-reports-api.herokuapp.com/api/',
+            port : '36594',
+            token : 'UkVQT1JUU19XRUJBUFA6NztXZWEhVEBVPkFmUlJ1Yw=='
+        };
+
+
+const g_opts = production_config;
 
 /**
 * Get the full api uri compose with the model and the url data

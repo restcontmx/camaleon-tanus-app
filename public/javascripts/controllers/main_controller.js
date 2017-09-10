@@ -7,7 +7,8 @@ var app = angular.module( 'CAMALEON-REPORTS', [     'ngRoute',
                                                     'ui.router',
                                                     'ui.bootstrap',
                                                     'crud-service',
-                                                    'chart.js'  ] )
+                                                    'chart.js',
+                                                    'log-service'  ] )
     .run( [ '$rootScope', '$location', 'AuthRepository', function( $rootScope, $location, AuthRepository ) {
         $rootScope.isLoggedIn = {
             show_app : true,
