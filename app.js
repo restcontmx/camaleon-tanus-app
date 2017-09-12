@@ -24,6 +24,7 @@ var bussines = require( './routes/bussines' );
 var userlocations = require( './routes/userlocations' );
 var reports = require( './routes/reports' );
 var logs = require( './routes/logs' );
+var turn = require( './routes/turn' );
 
 var app = express();
 
@@ -54,6 +55,7 @@ app.use('/location', location);
 app.use('/userlocations', userlocations);
 app.use('/reports', reports);
 app.use('/logs', logs);
+app.use('/turn', turn);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

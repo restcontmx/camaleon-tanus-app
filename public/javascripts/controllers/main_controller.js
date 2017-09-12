@@ -8,7 +8,8 @@ var app = angular.module( 'CAMALEON-REPORTS', [     'ngRoute',
                                                     'ui.bootstrap',
                                                     'crud-service',
                                                     'chart.js',
-                                                    'log-service'  ] )
+                                                    'log-service',
+                                                    'moment-picker' ] )
     .run( [ '$rootScope', '$location', 'AuthRepository', function( $rootScope, $location, AuthRepository ) {
         $rootScope.isLoggedIn = {
             show_app : true,
@@ -23,7 +24,7 @@ var app = angular.module( 'CAMALEON-REPORTS', [     'ngRoute',
             $rootScope.isLoggedIn.show_auth = false;
         }
     }])
-    .config([ '$routeProvider', '$locationProvider', '$mdThemingProvider', function( $routeProvider, $locationProvider, $mdThemingProvider ) {
+    .config([ '$routeProvider', '$locationProvider', '$mdThemingProvider', '$mdAriaProvider', function( $routeProvider, $locationProvider, $mdThemingProvider, $mdAriaProvider ) {
         $routeProvider
             .when( '/', {
                 templateUrl : '../views/main.html'
@@ -48,6 +49,22 @@ var app = angular.module( 'CAMALEON-REPORTS', [     'ngRoute',
             })
             .when( '/business/edit/:id', {
                 templateUrl : '../views/bussines/edit.html'
+            })
+            // Turns 
+            .when( '/turns', {
+                templateUrl : '../views/turns/list.html'
+            })
+            .when( '/turns/new', {
+                templateUrl : '../views/turns/new.html'
+            })
+            .when( '/turns/location', {
+                templateUrl : '../views/turns/location.html'
+            })
+            .when( '/turns/:id', {
+                templateUrl : '../views/turns/detail.html'
+            })
+            .when( '/turns/edit/:id', {
+                templateUrl : '../views/turns/edit.html'
             })
             // reports
             .when( '/reports/classes', {
@@ -113,7 +130,8 @@ var app = angular.module( 'CAMALEON-REPORTS', [     'ngRoute',
         });
 
         $mdThemingProvider.theme('default').primaryPalette('blue-grey')
-
+        // Globally disables all ARIA warnings.
+        $mdAriaProvider.disableWarnings();
     }])
     .controller( 'navbar-controller', [ '$scope', '$rootScope', 'AuthRepository', function( $scope, $rootScope, AuthRepository ) {
         $scope.project_name = "CAMALEON-REPORTS";

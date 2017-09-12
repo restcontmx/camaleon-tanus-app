@@ -2,7 +2,7 @@ app
     .factory( 'CategoryRepository', [ '$http', function( $http ) {
         var model = 'it_tcategory';
         return({
-            reportsByDate : ( d1, d2 ) => $http.get( '/reports/' + model + '/?d1=' + d1 + '&d2=' + d2 )
+            reportsByDate : ( d1, d2, turn_id ) => $http.get( '/reports/' + model + '/?d1=' + d1 + '&d2=' + d2 + '&turn=' + turn_id )
         });
     }])
     .controller( 'category-controller', [   '$scope',
@@ -28,6 +28,7 @@ app
                                                     'LocationRepository',
                                                     '$q',
                                                     '$log',
+                                                    'TurnRepository',
                                                     'AuthRepository',
                                                     '$mdDialog',
                                                     function(   $scope,
@@ -35,6 +36,7 @@ app
                                                                 LocationRepository,
                                                                 $q,
                                                                 $log,
+                                                                TurnRepository,
                                                                 AuthRepository,
                                                                 $mdDialog   ) {
         if( AuthRepository.viewVerification() ) {
@@ -51,15 +53,26 @@ app
                 data : []
             };
 
-            
             let todays = new Date();
             $scope.date_end = new Date();
             todays.setDate( 1 );
             $scope.date_start = todays;
+            $scope.turn_options = Array.of( { 'name' : 'All', 'turn' : { 'id' : 0 } } );
+            $scope.selectedTurn = 0;
+
+            TurnRepository.getAll().success( function( response ) {
+                if( !response.error ) {
+                    $scope.turns = response.data;
+                    $scope.turns.forEach( t => $scope.turn_options.push( { 'name' : t.name, 'turn' : t } ));
+                } else {
+                    $scope.errors = response.message;
+                }
+            }).error( function( error ) {
+                $scope.errors = error;
+            });
 
             $scope.get_reports = function() {
-                $scope.locations_options = [];
-                $scope.locations_options.push( { 'name' : 'ALL', 'location' : {} } );
+                $scope.locations_options = Array.of( { 'name' : 'ALL', 'location' : {} } );
                 $scope.labels = [];
                 $scope.data = [];
                 $scope.labels_compare = [];
@@ -73,11 +86,13 @@ app
                 $scope.show_options = false;
                 $scope.categories_options = [];
                 $scope.categories_options.push( { 'name' : 'ALL', 'category' : {} } );
-                
+
                 let date_1 = ( $scope.date_start.getMonth() + 1) + '/' + $scope.date_start.getDate() + '/' + $scope.date_start.getFullYear(),
-                    date_2 = ( $scope.date_end.getMonth() + 1) + '/' + $scope.date_end.getDate() + '/' + $scope.date_end.getFullYear();
+                    date_2 = ( $scope.date_end.getMonth() + 1) + '/' + $scope.date_end.getDate() + '/' + $scope.date_end.getFullYear(),
+                    turn_id = $scope.turn_options[$scope.selectedTurn].turn.id;
+
                 if( date_1 != undefined && date_2 != undefined ) {
-                    CategoryRepository.reportsByDate( date_1, date_2 ).success( function( data ) {
+                    CategoryRepository.reportsByDate( date_1, date_2, turn_id ).success( function( data ) {
                         if( !data.error ) {
                             $scope.category_reports = data.data.category_reports;
                             $scope.item_reports = data.data.item_reports;
@@ -133,7 +148,6 @@ app
 
             $scope.$watch( 'selectedLocation', angular.bind( this, function(locationIndex) {
                 if( locationIndex != undefined ) {
-                    // Another location
                     $scope.data = [];
                     $scope.labels = [];
                     $scope.gridOptions.data = locationIndex > 0 ? $scope.category_reports.filter( r => r.location == $scope.locations_options[locationIndex].location.id ) : $scope.category_reports_all;
