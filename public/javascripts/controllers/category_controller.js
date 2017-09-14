@@ -95,8 +95,8 @@ app
                     CategoryRepository.reportsByDate( date_1, date_2, turn_id ).success( function( data ) {
                         if( !data.error ) {
                             $scope.category_reports = data.data.category_reports;
-                            $scope.item_reports = data.data.item_reports;
-                            $scope.category_reports_all = data.data.categories_all_reports;
+                            $scope.item_reports = [];
+                            $scope.category_reports_all = data.data.category_reports_all;
                             $scope.gridOptions.data = $scope.category_reports_all;
                             $scope.global_total = $scope.gridOptions.data.map( r => parseFloat( r.total ) ).reduce( ( a, b ) => ( a + b ), 0 );
                             $scope.gridOptions.data.slice(0, 10).forEach( r => {
