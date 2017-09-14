@@ -1,7 +1,7 @@
 app
     .factory( 'TicketRepository', [ '$http', function( $http ) {
         return({
-            getReports : ( d1, d2, p, loc ) => $http.get( '/reports/ticket/?d1=' + d1 + '&d2=' + d2 + '&p=' + p + '&loc=' + loc ),
+            getReports : ( d1, d2, p, loc ) => $http.get( '/reports/ticket/?d1=' + d1 + '&d2=' + d2 + '&p=' + p + '&loc=' + loc + '&turn=0' ),
             getDetails : ( ticket, loc ) => $http.get( '/reports/ticket/details/?ticket=' + ticket + '&loc=' + loc )
         })
     }])

@@ -74,7 +74,7 @@ router.get( '/ticket/', jsonParser, function( req, res ) {
         url_parts = urlLib.parse( req.url, true );
     request(
         {
-            url : http_helper.get_api_uri( 'ticket/reports/', '?d1=' + url_parts.query.d1 + '&d2=' + url_parts.query.d2 + '&p=' + url_parts.query.p + '&loc=' + url_parts.query.loc ),
+            url : http_helper.get_api_uri( 'ticket/reports/', '?d1=' + url_parts.query.d1 + '&d2=' + url_parts.query.d2 + '&p=' + url_parts.query.p + '&loc=' + url_parts.query.loc + '&turn=' + url_parts.query.turn ),
             method : 'GET',
             json : true,
             headers : {
