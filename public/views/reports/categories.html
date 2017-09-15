@@ -235,6 +235,9 @@
                                                 <th sortable="tax3" class="sortable">
                                                     Tax 3
                                                 </th>
+                                                <th sortable="sub_total" class="sortable">
+                                                    Sub Total
+                                                </th>
                                                 <th sortable='total.value' class="sortable">
                                                     Total
                                                 </th>
@@ -249,6 +252,7 @@
                                                 <td ng-bind="item.tax1 | number:2"></td>
                                                 <td ng-bind="item.tax2 | number:2"></td>
                                                 <td ng-bind="item.tax3 | number:2"></td>
+                                                <td ng-bind="item.sub_total | number:2"></td>
                                                 <td ng-bind="item.total | number:2"></td>
                                             </tr>
                                             <tr>

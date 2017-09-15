@@ -45,8 +45,7 @@ app
             $scope.selectedIndex = 0;
             
             $scope.gridOptions = {
-                data: [] //required parameter - array with data
-                //optional parameter - start sort options
+                data: []
             };
             $scope.reports = [];
             $scope.tabs_grid_options = {
@@ -72,6 +71,7 @@ app
             });
 
             $scope.get_reports = function() {
+
                 $scope.locations_options = Array.of( { 'name' : 'ALL', 'location' : {} } );
                 $scope.labels = [];
                 $scope.data = [];
@@ -87,8 +87,8 @@ app
                 $scope.categories_options = [];
                 $scope.categories_options.push( { 'name' : 'ALL', 'category' : {} } );
 
-                let date_1 = ( $scope.date_start.getMonth() + 1) + '/' + $scope.date_start.getDate() + '/' + $scope.date_start.getFullYear(),
-                    date_2 = ( $scope.date_end.getMonth() + 1) + '/' + $scope.date_end.getDate() + '/' + $scope.date_end.getFullYear(),
+                let date_1  = ( $scope.date_start.getMonth() + 1) + '/' + $scope.date_start.getDate() + '/' + $scope.date_start.getFullYear(),
+                    date_2  = ( $scope.date_end.getMonth() + 1) + '/' + $scope.date_end.getDate() + '/' + $scope.date_end.getFullYear(),
                     turn_id = $scope.turn_options[$scope.selectedTurn].turn.id;
 
                 if( date_1 != undefined && date_2 != undefined ) {
@@ -158,10 +158,6 @@ app
                     });
                 }
             }));
-
-            $scope.search_item = function() {
-                $scope.tabs_grid_options.data = $scope.tabs_real_data.filter( i => i.item_description.toLowerCase().includes( $scope.searchText.toLowerCase() ) )
-            };
 
             $scope.export = function (ev) {
                 $mdDialog.show({
