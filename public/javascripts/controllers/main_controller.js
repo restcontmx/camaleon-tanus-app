@@ -111,6 +111,10 @@ var app = angular.module( 'CAMALEON-REPORTS', [     'ngRoute',
             .when( '/support/categories/', {
                 templateUrl : '../views/support/category.html'
             })
+            // Logs
+            .when( '/logs/items/', {
+                templateUrl : '../views/logs/item.html'
+            })
             // Settings
             .when( '/settings/levels/', {
                 templateUrl : '../views/settings/security_levels.html'

@@ -28,4 +28,22 @@ router.put( '/it_titem/', jsonParser,  function( req, res ) {
     );
 });
 
+/**
+* it_titem get all the active logs
+*/
+router.get( '/it_titem/active/', jsonParser,  function( req, res ) {
+   var userdata = JSON.parse( req.cookies[ 'userdata' ] );
+   request(
+       {
+           url : http_helper.get_api_uri( 'it_titem/logs/active/', '' ),
+           method : 'GET',
+           json : true,
+           headers : {
+               'Authorization' : http_helper.get_basic_auth_w_token( encryption_system.decryptCookie( userdata.auth_data ) )
+           }
+       },
+       ( error, response, body ) => { res.send( http_helper.data_format_ok( error, response, body ) ) }
+   );
+});
+
 module.exports = router;

@@ -32,8 +32,8 @@
             <div layout="row" layout-align="end center">
                 <md-content class="md-padding" layout="column">
                     <md-toolbar class="md-warn" layout-align="center center">
-                        <h3 >
-                            <md-button hide-sm  href="#/"><i class="fa fa-list" aria-hidden="true"></i> ITEMS</md-button>
+                        <h3>
+                            <md-button hide-sm  href="#/logs/items/"><i class="fa fa-list" aria-hidden="true"></i> Logs</md-button>
                             <md-button hide-sm href="#/item/new/"><i class="fa fa-plus-circle" aria-hidden="true"></i> New ITEM</md-button>
                         </h3>
                     </md-toolbar>
@@ -59,33 +59,6 @@
                     </div>
                     <div class="row">
                         <div class="col-md-4">
-                            <md-subheader class="md-no-sticky">Your Locations</md-subheader>
-                                <md-list-item ng-repeat="loc in locations_display">
-                                <p> {{ loc.location_name }} </p>
-                                <md-checkbox class="md-secondary" ng-model="loc.selected"></md-checkbox>
-                            </md-list-item>
-                        </div>
-                        <div class="col-md-8">
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <md-autocomplete
-                                        ng-disabled="isDisabled"
-                                        md-no-cache="noCache"
-                                        md-selected-item="selectedItem"
-                                        md-search-text-change="searchTextChange(searchText)"
-                                        md-search-text="searchText"
-                                        md-selected-item-change="selectedItemChange(item)"
-                                        md-items="item in querySearch(searchText)"
-                                        md-item-text="item.item.ITEM_Description"
-                                        md-min-length="0"
-                                        placeholder="Search ITEM">
-                                        <md-item-template>
-                                            <span md-highlight-text="searchText" md-highlight-flags="^i">{{item.item.ITEM_Description}}</span>
-                                        </md-item-template>
-                                    </md-autocomplete>
-                                </div>
-                            </div>
-                            <br>
                             <div layout-gt-sm="row">
                                 <md-input-container class="md-block" flex-gt-sm>
                                     <label>New Price</label>
@@ -97,10 +70,51 @@
                                     <input ng-model="newPrice2" ng-pattern="/^[1-9]\d*(\d+.\d+)?$/">
                                 </md-input-container>
                             </div>
-                            <div  class="md-padding" ng-cloak>
+                            
+                            <md-subheader class="md-no-sticky">Your Locations</md-subheader>
+                                <md-list-item ng-repeat="loc in locations_display">
+                                <p> {{ loc.location_name }} </p>
+                                <md-checkbox class="md-secondary" ng-model="loc.selected"></md-checkbox>
+                            </md-list-item>
+
+                            <div class="md-padding" ng-cloak>
                                 <div class="bottom-sheet-demo inset" layout="row" layout-sm="column" layout-align="center" >
                                     <md-button flex="50" class="md-warn md-raised">Cancel</md-button>
                                     <md-button flex="50" class="md-primary md-raised" ng-click="saveItem($event)">Save</md-button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-8">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="md-padding" ng-cloak>
+                                        <div layout="row" layout-sm="column" layout-align="center">
+                                            <md-input-container class="md-block" flex="70">
+                                                <label>Search ITEM by Code or Name</label>
+                                                <input ng-model="searchText">
+                                            </md-input-container>
+                                            <md-button flex="30" class="md-primary md-raised" ng-click="searchItem()">Search</md-button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <table class="table hover">
+                                        <thead>
+                                            <tr>
+                                                <th>CODE</th>                                                
+                                                <th>Name</th> 
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="i in array_o_items" ng-click="select_item(i)">
+                                                <td>{{i.item.item_id}}</td>
+                                                <td>{{i.item.item_description}}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
                         </div>
