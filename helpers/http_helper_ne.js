@@ -16,7 +16,7 @@ const   test_config = {
         };
 
 
-const g_opts = test_config;
+const g_opts = production_config;
 
 /**
 * Get the full api uri compose with the model and the url data
