@@ -1,0 +1,24 @@
+{
+  "name": "yukon_html-php",
+  "version": "1.5.0",
+  "description": "Yukon Admin Html/PHP version",
+  "main": "dashboard.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "tzd",
+  "license": "http://themeforest.net/licenses",
+  "devDependencies": {
+    "browser-sync": "^2.6.4",
+    "gulp": "^3.8.11",
+    "gulp-autoprefixer": "^2.1.0",
+    "gulp-concat": "^2.5.2",
+    "gulp-less": "^3.0.3",
+    "gulp-load-plugins": "^0.10.0",
+    "gulp-minify-css": "^1.1.0",
+    "gulp-plumber": "^1.0.0",
+    "gulp-rename": "^1.2.2",
+    "gulp-size": "^1.2.1",
+    "gulp-uglify": "^1.2.0"
+  }
+}
