@@ -1,5 +1,5 @@
 yukonApp
-    .factory( 'AuthRepository', [ '$http', '$cookies', '$cookieStore', '$location', '$rootScope', function( $http, $cookies, $cookieStore, $location, $rootScope ) {
+    .factory( 'AuthRepository', [ '$http', '$state', '$cookies', '$cookieStore', '$location', '$rootScope', function( $http, $state, $cookies, $cookieStore, $location, $rootScope ) {
         return {
             login : ( email, password ) => $http.post( 'auth/login/', JSON.stringify( { email : email, password : password } ) ), // Login function that verifies user on the api
             logout : () => $http.post( 'auth/logout' ), // Logs out the user erreasing the cookie
@@ -17,11 +17,13 @@ yukonApp
             },
             // View if the app is verified on the auth module
             viewVerification : function() {
-                console.log( $cookies[ 'userdata' ] )
-                if( !this.isSessionSet() ) {
-                    $location.path( '/login' );
+                if( !this.getSession() ) {
+                    console.log( this.getSession() )
+                    console.log( "not verified" )                    
+                    $state.go( 'login' );
                     return false;
                 } else {
+                    console.log( this.getSession() )                    
                     return true;
                 }
             },
@@ -30,10 +32,14 @@ yukonApp
             }
         }
     }])
-    .controller( 'auth-controller', [ '$scope', '$location', '$rootScope', 'AuthRepository', function( $scope, $location, $rootScope, AuthRepository ) {
+    .controller( 'auth-controller', [ '$scope', '$state', '$location', '$rootScope', '$timeout', 'AuthRepository', function( $scope, $state, $location, $rootScope, $timeout, AuthRepository ) {
         // Auth controller
         // This manages the authentication on the login view
         // Sets a login function that sends email and password
+        $scope.test = function() {
+            console.log( "Test" );
+            console.log( AuthRepository.getSession() );
+        }
         $scope.login = function() {   
             AuthRepository.login( $scope.email, $scope.password ).success( function( data ) {
                 if( data.error ) {
@@ -41,24 +47,18 @@ yukonApp
                 } else {
                     $scope.message = data.message;
                     $rootScope.user_info = AuthRepository.getSession();
-                    $location.path( '/' );
-                }
+                }               
+                $state.go( 'auth.home' );
             }).error( function( error ) {
                 $scope.errors = error;
-                console.log( error );
             });
-        };
-        
+        };        
     }])
-    .controller( 'header-controller', [ '$scope', 'AuthRepository', function( $scope, AuthRepository ) {
+    .controller( 'header-controller', [ '$scope', '$state', 'AuthRepository', function( $scope, $state, AuthRepository ) {
         $scope.logout = function() {
             AuthRepository.logout().success( function( response ) {
-                if( !response.error ) {
-                    AuthRepository.setCookie( response.auth_data );
-                    AuthRepository.viewVerification();
-                } else {
-                    $scope.errors = response.message;
-                }
+                AuthRepository.removeSession()               
+                $state.go( 'login' );
             }).error( function( error ) {
                 $scope.errors = error;
             });

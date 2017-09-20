@@ -12,10 +12,10 @@ yukonApp
             $stateProvider
                 // Login Page
                 .state("login", {
-                    page_title: 'Yukon Admin - Login Page',
+                    page_title: 'Camaleon Reports - Login',
                     url: "/login",
                     templateUrl: 'views/login.html',
-                    controller: 'loginCtrl'
+                    controller: 'auth-controller'
                 })
                 // Login Page
                 .state("login2", {
@@ -49,7 +49,7 @@ yukonApp
                 // Dashboard
                 .state("auth.home", {
                     // this state page title
-                    page_title: 'Yukon Admin - Dashboard',
+                    page_title: 'Camaleon Reports - Dashboard',
                     // this state url
                     url: "/",
                     templateUrl: 'views/dashboard.html',

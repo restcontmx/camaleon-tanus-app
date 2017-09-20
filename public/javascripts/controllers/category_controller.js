@@ -72,6 +72,8 @@ yukonApp
             if ($("#drp_predefined").length) {
 				$('#drp_predefined').daterangepicker(
                     {
+                        timePicker: true,
+                        timePicker24Hour: true,
                         ranges: {
                             'Today': [moment(), moment()],
                             'Yesterday': [moment().subtract('days', 1), moment().subtract('days', 1)],
