@@ -5,7 +5,20 @@
  * */
 
 "use strict";
-var yukonApp = angular.module('yukonApp', [ 'ui.router', 'ngAnimate', 'ui.load', 'ngSanitize', 'ngCookies', 'ui.bootstrap', 'ncy-angular-breadcrumb', 'ngRetina', 'angular-growl', 'NgSwitchery', 'textAngular']);
+var yukonApp = angular.module('yukonApp', [ 'ui.router', 
+                                            'ngRoute', 
+                                            'ngAnimate', 
+                                            'ui.load', 
+                                            'ngSanitize', 
+                                            'ngCookies', 
+                                            'ui.bootstrap', 
+                                            'ncy-angular-breadcrumb', 
+                                            'ngRetina', 
+                                            'angular-growl', 
+                                            'NgSwitchery', 
+                                            'textAngular', 
+                                            'crud-service', 
+                                            'log-service'   ]);
 
 /* Run Block */
 yukonApp.run(

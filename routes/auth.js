@@ -49,14 +49,17 @@ router.post( '/login', jsonParser, function( req, res ) {
                     var data_from_server = body,
                         jsonData = JSON.stringify({
                             error : false,
-                            message : data_from_server.message
+                            message : data_from_server.message,
+                            user_data : null
                         }),
                         user_data = JSON.stringify({
                             email : req.body.email,
                             user : data_from_server.data['user'],
                             auth_data : encryption_system.encryptCookie( http_helper.get_user_basic_auth( req.body.email, req.body.password ) )
                         });
-                    res.cookie( 'userdata', user_data );
+                    jsonData.user_data = user_data;
+                    res.cookie( 'userdata', user_data, { expires : new Date( Date.now() + 900000 ), httpOnly:false, sameSite:'strict' } );
+                    
                     res.send( jsonData );
                     break;
                 default :

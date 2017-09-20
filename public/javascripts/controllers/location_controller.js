@@ -1,4 +1,4 @@
-app
+yukonApp
     .factory( 'LocationRepository', [ '$http', 'CRUDService', function( $http, CRUDService ) {
         var model = 'location';
         return({

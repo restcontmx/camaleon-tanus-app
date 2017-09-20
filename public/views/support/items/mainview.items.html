@@ -1,0 +1,11 @@
+<div class="row">
+    <div class="col-md-2">
+        <div class="list-group">
+            <a ui-sref="auth.support.items.edit" ng-class="{ active: $state.includes('auth.support.items.edit') }" class="list-group-item">Edit ITEMS</a>
+            <a ui-sref="auth.support.items.activelogs" ng-class="{ active: $state.includes('auth.support.items.activelogs') }" class="list-group-item">Active Logs</a>
+        </div>
+    </div>
+    <div class="col-md-10">
+        <div ui-view autoscroll="false" class="mainView-animate"></div>
+    </div>
+</div>

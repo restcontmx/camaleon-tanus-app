@@ -838,10 +838,223 @@ yukonApp
                 .state('auth.plugins.tables', {
                     abstract: true,
                     url: '/tables',
-                    templateUrl: 'views/plugins.tables.html',
+                    templateUrl: 'views/plugins.tables.html',  
                     ncyBreadcrumb: {
                         label: 'Tables'
                     }
+                })
+                .state( 'auth.support', {
+                    abstract : true,
+                    url : 'Support',
+                    template : '<div ui-view autoscroll="false" class="mainView-animate"></div>',
+                    ncyBreadcrumb : {
+                        label : 'Support'
+                    }
+                })
+                // Items
+                .state('auth.support.items', {
+                    abstract: true,
+                    url: '/items',
+                    templateUrl: 'views/support/items/mainview.items.html',
+                    ncyBreadcrumb: {
+                        label: 'Items'
+                    }
+                })
+                .state('auth.support.items.activelogs', {
+                    page_title: 'Items Active Logs',
+                    ncyBreadcrumb: {
+                        label: 'Items Acive Logs'
+                    },
+                    url: '/logs/active',
+                    templateUrl: 'views/support/items/logs.active.html',
+                    resolve: {
+                        files: [
+                            'uiLoad',
+                            function (uiLoad) {
+                                return uiLoad.load([
+                                    //  datatables
+                                    'assets/lib/DataTables/media/js/jquery.dataTables.min.js',
+                                    'assets/lib/DataTables/extensions/FixedHeader/js/dataTables.fixedHeader.min.js',
+                                    'assets/lib/DataTables/media/js/dataTables.bootstrap.js'
+                                ]);
+                            }
+                        ]
+                    },
+                    controller: 'item-logs-controller'
+                })
+                .state('auth.support.items.edit', {
+                    page_title: 'Edit ITEMS',
+                    ncyBreadcrumb: {
+                        label: 'Edit ITEMS'
+                    },
+                    url: '/edit',
+                    templateUrl: 'views/support/items/edit.html',
+                    resolve: {
+                        files: [
+                            'uiLoad',
+                            function (uiLoad) {
+                                return uiLoad.load([
+                                    //  datatables
+                                    'assets/lib/gridforms/gf-forms.min.css',
+                                    'assets/lib/gridforms/gf-forms.min.js'
+                                ]);
+                            }
+                        ]
+                    },
+                    controller: 'item-controller'
+                })
+                .state( 'auth.reports', {
+                    abstract : true,
+                    url : 'reports',
+                    template : '<div ui-view autoscroll="false" class="mainView-animate"></div>',
+                    ncyBreadcrumb : {
+                        label : 'Reports'
+                    }
+                })
+                .state('auth.reports.categories', {
+                    page_title: 'Reports - Categories',
+                    ncyBreadcrumb: {
+                        label: 'Categories'
+                    },
+                    url: '/categories',
+                    templateUrl: 'views/reports/reports.categories.html',
+                    resolve: {
+                        files: [
+                            'uiLoad',
+                            function (uiLoad) {
+                                return uiLoad.load([
+                                    // c3 charts
+                                    'assets/lib/d3/d3.min.js',
+                                    'assets/lib/c3/c3.min.js',
+                                    // select2
+                                    'assets/lib/select2/select2.css',
+                                    'assets/lib/select2/select2.min.js',
+                                    // datepicker
+                                    'assets/lib/bootstrap-datepicker/css/datepicker3.css',
+                                    'assets/lib/bootstrap-datepicker/js/bootstrap-datepicker.js',
+                                    // date range picker
+                                    'assets/lib/bootstrap-daterangepicker/daterangepicker-bs3.css',
+                                    'assets/lib/bootstrap-daterangepicker/daterangepicker.js',
+                                    // rangeSlider
+                                    'assets/lib/ion.rangeSlider/css/ion.rangeSlider.css',
+                                    'assets/lib/ion.rangeSlider/css/ion.rangeSlider.skinFlat.css',
+                                    'assets/lib/ion.rangeSlider/js/ion-rangeSlider/ion.rangeSlider.min.js',
+                                    // autosize
+                                    'assets/lib/autosize/jquery.autosize.min.js',
+                                    // inputmask
+                                    'assets/lib/jquery.inputmask/jquery.inputmask.bundle.min.js',
+                                    // maxlength for textareas
+                                    'assets/lib/stopVerbosity/stopVerbosity.min.js',
+                                    // uplaoder
+                                    'assets/lib/plupload/js/jquery.plupload.queue/css/jquery.plupload.queue.css',
+                                    'assets/lib/plupload/js/plupload.full.min.js',
+                                    'assets/lib/plupload/js/jquery.plupload.queue/jquery.plupload.queue.min.js',
+                                    // wysiwg editor
+                                    'assets/lib/ckeditor/ckeditor.js',
+                                    'assets/lib/ckeditor/adapters/jquery.js',
+                                    // 2col multiselect
+                                    'assets/lib/lou-multi-select/js/jquery.multi-select.js',
+                                    // quicksearch
+                                    'assets/lib/quicksearch/jquery.quicksearch.min.js',
+                                    // clock picker
+                                    'assets/lib/clock-picker/bootstrap-clockpicker.min.js',
+                                    // chained selects
+                                    'assets/lib/jquery_chained/jquery.chained.min.js',
+                                    // show/hide passwords
+                                    'assets/lib/hideShowPassword/hideShowPassword.min.js',
+                                    // password strength meter
+                                    'assets/lib/jquery.pwstrength.bootstrap/pwstrength-bootstrap-1.2.2.min.js',
+                                    // icheck
+                                    'assets/lib/iCheck/skins/minimal/blue.css',
+                                    'assets/lib/iCheck/icheck.min.js',
+                                    // selectize.js
+                                    'assets/lib/selectize-js/css/selectize.css',
+                                    'assets/lib/selectize-js/js/standalone/selectize.min.js'
+                                ])
+                            }
+                        ]
+                    },
+                    controller: 'category-reports-controller'
+                })
+                .state('auth.reports.classes', {
+                    page_title: 'Reports - Classes',
+                    ncyBreadcrumb: {
+                        label: 'Classes'
+                    },
+                    url: '/classes',
+                    templateUrl: 'views/reports/reports.classes.html',
+                    resolve: {
+                        files: [
+                            'uiLoad',
+                            function (uiLoad) {
+                                return uiLoad.load([
+                                    // c3 charts
+                                    'assets/lib/d3/d3.min.js',
+                                    'assets/lib/c3/c3.min.js'
+                                ])
+                            }
+                        ]
+                    },
+                    controller: 'chartsCtrl'
+                })
+                .state('auth.reports.tickets', {
+                    page_title: 'Reports - Tickets',
+                    ncyBreadcrumb: {
+                        label: 'Tickets'
+                    },
+                    url: '/tickets',
+                    templateUrl: 'views/pages.invoices.html',
+                    resolve: {
+                        files: [
+                            'uiLoad',
+                            function (uiLoad) {
+                                return uiLoad.load([
+                                    //  qrCode
+                                    'assets/lib/jquery-qrcode-0.10.1/jquery.qrcode-0.10.1.min.js'
+                                ])
+                            }
+                        ]
+                    },
+                    controller: 'invoicesCtrl'
+                })
+                .state('auth.settings', {
+                    abstract: true,
+                    url: '/settings',
+                    template: '<div ui-view autoscroll="false" class="mainView-animate"></div>',
+                    ncyBreadcrumb: {
+                        label: 'Settings'
+                    }
+                })
+                // Turns
+                .state('auth.settings.turns', {
+                    abstract: true,
+                    url: '/turns',
+                    templateUrl: 'views/turns/turns.html',
+                    ncyBreadcrumb: {
+                        label: 'Turns'
+                    }
+                })
+                .state('auth.settings.turns.list', {
+                    page_title: 'Turns List',
+                    ncyBreadcrumb: {
+                        label: 'Turns List'
+                    },
+                    url: '/list',
+                    templateUrl: 'views/turns/turns.list.html',
+                    resolve: {
+                        files: [
+                            'uiLoad',
+                            function (uiLoad) {
+                                return uiLoad.load([
+                                    //  datatables
+                                    'assets/lib/DataTables/media/js/jquery.dataTables.min.js',
+                                    'assets/lib/DataTables/extensions/FixedHeader/js/dataTables.fixedHeader.min.js',
+                                    'assets/lib/DataTables/media/js/dataTables.bootstrap.js'
+                                ]);
+                            }
+                        ]
+                    },
+                    controller: 'TurnController'
                 })
                 // Plugins > tables > footables
                 .state('auth.plugins.tables.footable', {

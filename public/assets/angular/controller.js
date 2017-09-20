@@ -17,13 +17,13 @@ yukonApp
                 $scope.styleSwitcherToggle = !$scope.styleSwitcherToggle;
             };
 
-            $rootScope.tbStyleActive = 'style_0';
+            $rootScope.tbStyleActive = 'style_9';
             $scope.topBarColor = function (style) {
-                $rootScope.topBarColor = 'topBar_' + style;
-                $rootScope.tbStyleActive = style;
+                $rootScope.topBarColor = 'topBar_style_9';
+                $rootScope.tbStyleActive = 'style_9';
             };
 
-            $rootScope.bgActive = 'bg_0';
+            $rootScope.bgActive = 'bg_9';
             $scope.siteBg = function (bg) {
                 $rootScope.siteBg = bg;
                 $rootScope.bgActive = bg;
@@ -116,7 +116,7 @@ yukonApp
                 },
                 {
                     id: 1,
-                    title: 'Pages',
+                    title: 'asdf',
                     icon: 'icon_folder-alt first_level_icon',
                     badge: true,
                     submenu_title: 'Pages',
@@ -183,7 +183,7 @@ yukonApp
                     submenu: [
                         {
                             title: 'Items',
-                            link: 'auth.support.items'
+                            link: 'auth.support.items.edit'
                         },
                         {
                             title: 'Classes',
@@ -249,12 +249,16 @@ yukonApp
                     id: 4,
                     title: 'Settings',
                     icon: 'icon_cogs first_level_icon',
-                    badge: false,
-                    submenu_title: 'Settings',
+                    badge: true,
+                    submenu_title: 'settings',
                     submenu: [
                         {
                             title: 'Security Levels',
                             link: 'auth.settings.secrity_lvls'
+                        },
+                        {
+                            title: 'Turns',
+                            link: 'auth.settings.turns.list'
                         },
                         {
                             title: 'Users',
@@ -331,15 +335,18 @@ yukonApp
     .controller('dashboardCtrl', [
         '$scope',
         'files',
-        function ($scope, files) {
-            // run scripts after state load
-            $scope.$on('$stateChangeSuccess', function () {
-                // init dashboard functions
-                $scope.$watch('countries_data', function () {
-                    countries_data = $scope.countries_data;
-                    yukon_dashboard.init();
-                });
-            })
+        'AuthRepository',
+        function ($scope, files, AuthRepository ) {
+            if( AuthRepository.viewVerification() ) {
+                // run scripts after state load
+                $scope.$on('$stateChangeSuccess', function () {
+                    // init dashboard functions
+                    $scope.$watch('countries_data', function () {
+                        countries_data = $scope.countries_data;
+                        yukon_dashboard.init();
+                    });
+                }) 
+            }
 
         }
     ])

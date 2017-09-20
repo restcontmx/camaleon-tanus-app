@@ -1,4 +1,4 @@
-app
+yukonApp
     .factory( 'BusinessRepository', [ 'CRUDService', function( CRUDService ) {
         var model = 'bussines';
         return({

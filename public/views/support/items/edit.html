@@ -1,0 +1,72 @@
+<fieldset>
+    <legend><span>Search and Edit ITEMS by Code or Description</span></legend>
+</fieldset>
+<div class="row">
+    <div class="col-md-6 mHeight">
+        <form class="gf">
+            <fieldset>
+                <legend>Sale prices empty will count as 0.</legend>
+                <div class="gf-row-6">
+                    <div class="gf-col-3">
+                        <label>Sale Price 1</label>
+                        <input type="text" ng-model="newPrice" autofocus>
+                    </div>
+                    <div class="gf-col-3">
+                        <label>Sale Price 2</label>
+                        <input type="text" ng-model="newPrice2" autofocus>
+                    </div>
+                </div>
+            </fieldset>
+        </form>
+        <div class="easy_chart_wrapper mHeight-item">
+            <div class="easy_chart_a easy_chart" data-percent="86">
+                <span class="easy_chart_percent"></span>
+            </div>
+            <div class="easy_chart_info">
+                <h4 class="easy_chart_heading">Orders Locations</h4>
+                <div class="checkbox" ng-repeat="loc in locations_display">
+                    <label>
+                        <input type="checkbox" value="loc.selected" ng-model="loc.selected">
+                        {{loc.location_name}}
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <div class="progress progress-striped active" ng-show="progress_ban">
+            <div class="progress-bar" role="progressbar" style="width: 85%">
+                <span class="sr-only">85% Complete</span>
+            </div>
+        </div>
+        <br>
+        <button class="btn btn-block btn-primary" type="button" ng-click="saveItem()">Save</button>        
+    </div>
+    <div class="col-md-6">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="input-group sepH_b">
+                    <input class="form-control" id="appendedInputButton" type="text" ng-model="searchText" placeholder="Search Item By Name or Code">
+                    <span class="input-group-btn">
+                        <button class="btn btn-primary" type="button" ng-click="searchItem()">Search</button>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <table id="table_items" class="table table-hover" cellspacing="0" width="100%">
+                <thead>
+                    <tr>
+                        <th>CODE</th>                                                
+                        <th>Name</th> 
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="i in array_o_items" ng-click="select_item(i)">
+                        <td>{{i.item.item_id}}</td>
+                        <td>{{i.item.item_description}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

@@ -1,4 +1,4 @@
-app
+yukonApp
     .factory( 'ItemRepository', [ 'CRUDService', 'LogService', '$http', function( CRUDService, LogService, $http ) {
         var model = 'it_titem';
         return({
@@ -19,14 +19,12 @@ app
                                         '$q',
                                         '$log',
                                         'ItemRepository',
-                                        '$mdDialog',
                                         function(   $scope,
                                                     LocationRepository,
                                                     AuthRepository,
                                                     $q,
                                                     $log,
-                                                    ItemRepository,
-                                                    $mdDialog  ) {
+                                                    ItemRepository  ) {
         if( AuthRepository.viewVerification() ) {
 
             $scope.simulateQuery = false;
@@ -73,36 +71,24 @@ app
             };
 
             $scope.saveItem = function( ev ) {
-                var confirm = $mdDialog.confirm()
-                    .title('Are you sure you want to edit this ITEM?')
-                    .textContent('Once you change this ITEM will be reflected in minutes on all selected locations.')
-                    .ariaLabel('Lucky day')
-                    .targetEvent(ev)
-                    .ok('Change ITEM')
-                    .cancel('Cancel Transaction');
-
-                $mdDialog.show(confirm).then(function () {
-                    $scope.progress_ban = true;
-                    var sended_data = {
-                        'locations' : $scope.locations_display,
-                        'selectedItem' : $scope.selectedItem,
-                        'newPrice' : $scope.newPrice == undefined ? 0 : $scope.newPrice,
-                        'newPrice2' : $scope.newPrice2 == undefined ? 0 : $scope.newPrice2
-                    };
-                    console.log( sended_data );
-                    ItemRepository.updateWithLog( sended_data ).success( function( data ) {
-                        if( !data.error ) {
-                            $scope.updated_item = data.data;
-                        } else {
-                            $scope.errors = data.message;
-                        }console.log( data );
-                        $scope.progress_ban = false;
-                    }).error( function( error ) {
-                        $scope.errors = error;
-                        $scope.progress_ban = false;
-                    });
-                }, function () {
-                    
+                $scope.progress_ban = true;
+                var sended_data = {
+                    'locations' : $scope.locations_display,
+                    'selectedItem' : $scope.selectedItem,
+                    'newPrice' : $scope.newPrice == undefined ? 0 : $scope.newPrice,
+                    'newPrice2' : $scope.newPrice2 == undefined ? 0 : $scope.newPrice2
+                };
+                console.log( sended_data );
+                ItemRepository.updateWithLog( sended_data ).success( function( data ) {
+                    if( !data.error ) {
+                        $scope.updated_item = data.data;
+                    } else {
+                        $scope.errors = data.message;
+                    }console.log( data );
+                    $scope.progress_ban = false;
+                }).error( function( error ) {
+                    $scope.errors = error;
+                    $scope.progress_ban = false;
                 });
             }
         }
