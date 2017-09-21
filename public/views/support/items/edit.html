@@ -2,9 +2,10 @@
     <legend><span>Search and Edit ITEMS by Code or Description</span></legend>
 </fieldset>
 <div class="row">
-    <div class="col-md-6 mHeight">
+    <div class="col-md-6 mHeight pull-right">
         <form class="gf">
             <fieldset>
+                <legend>{{selectedItem.item.item_description}}</legend>
                 <legend>Sale prices empty will count as 0.</legend>
                 <div class="gf-row-6">
                     <div class="gf-col-3">
@@ -53,20 +54,14 @@
             </div>
         </div>
         <div class="row">
-            <table id="table_items" class="table table-hover" cellspacing="0" width="100%">
-                <thead>
-                    <tr>
-                        <th>CODE</th>                                                
-                        <th>Name</th> 
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr ng-repeat="i in array_o_items" ng-click="select_item(i)">
-                        <td>{{i.item.item_id}}</td>
-                        <td>{{i.item.item_description}}</td>
-                    </tr>
-                </tbody>
-            </table>
+            <div class="col-md-12 col-sep-md hidden-print">
+                <div class="list-group inv_list">
+                    <a ng-repeat="i in array_o_items" href="javascript:void(0)" ng-click="select_item(i)" class="list-group-item">
+                        <span class="inv_list_company">{{i.item.item_description}}</span>
+                        <span class="inv_list_nb">{{i.item.item_id}}</span>
+                    </a>
+                </div>
+            </div>
         </div>
     </div>
 </div>

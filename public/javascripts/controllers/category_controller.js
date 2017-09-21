@@ -63,6 +63,13 @@ yukonApp
             $scope.date_end = new Date();
             todays.setDate( 1 );
             $scope.date_start = todays;
+            $scope.date_start.setHours( "00" );
+            $scope.date_start.setMinutes( "00" );
+            $scope.date_start.setSeconds( "00" );
+            $scope.date_end.setHours( "23" );
+            $scope.date_end.setMinutes( "59" );
+            $scope.date_end.setSeconds( "59" );
+
             $scope.date_range = {
                 today: moment().format('MMMM D, YYYY'),
                 last_month: moment().subtract('M', 1).format('MMMM D, YYYY'),
@@ -86,14 +93,14 @@ yukonApp
                         endDate: moment()
                     },
                     function(start, end) {
-                        $('#drp_predefined span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
-                        $scope.date_range.date_start = start.toDate();
-                        $scope.date_range.date_end = end.toDate();
+                        $('#drp_predefined span').html(start.format("MM/DD/YYYY HH:mm:ss") + ' - ' + end.format("MM/DD/YYYY HH:mm:ss"));
+                        $scope.date_range.date_start = new Date( start.format("MM/DD/YYYY HH:mm:ss") );
+                        $scope.date_range.date_end = new Date( end.format("MM/DD/YYYY HH:mm:ss") );
                     }
 				);
             }
             $scope.selectedIndex = 0;
-            
+            $scope.progress_ban = true;
             $scope.gridOptions = {
                 data: []
             };
@@ -137,7 +144,7 @@ yukonApp
             });
             
             $scope.get_reports = function() {
-
+                $scope.progress_ban = true;
                 $scope.top10items = {
                     data : [],
                     labels : []
@@ -148,8 +155,8 @@ yukonApp
                 $scope.tabs = [];
                 $scope.tabs.length = 0;
                 
-                let date_1  = ( $scope.date_range.date_start.getMonth() + 1) + '/' + $scope.date_range.date_start.getDate() + '/' + $scope.date_range.date_start.getFullYear(),
-                    date_2  = ( $scope.date_range.date_end.getMonth() + 1) + '/' + $scope.date_range.date_end.getDate() + '/' + $scope.date_range.date_end.getFullYear(),
+                let date_1  = ( $scope.date_range.date_start.getMonth() + 1) + '/' + $scope.date_range.date_start.getDate() + '/' + $scope.date_range.date_start.getFullYear() + ' ' + $scope.date_range.date_start.getHours() + ':' + $scope.date_range.date_start.getMinutes() + ':' + $scope.date_range.date_start.getSeconds(),
+                    date_2  = ( $scope.date_range.date_end.getMonth() + 1) + '/' + $scope.date_range.date_end.getDate() + '/' + $scope.date_range.date_end.getFullYear() + ' ' + $scope.date_range.date_end.getHours() + ':' + $scope.date_range.date_end.getMinutes() + ':' + $scope.date_range.date_end.getSeconds(),
                     turn_id = $( '#turns_select' ).val() ? $( '#turns_select' ).val() : 0;
 
                 if( date_1 != undefined && date_2 != undefined  ) {
@@ -200,8 +207,10 @@ yukonApp
                                 } else {
                                     $scope.errors = d1.message;
                                 }
+                                $scope.progress_ban = false;
                             }).error( function( error ) {
                                 $scope.errors = error;
+                                $scope.progress_ban = false;
                             });
                         } else {
                             $scope.errors = data.error;
