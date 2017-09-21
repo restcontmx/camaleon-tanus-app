@@ -116,67 +116,6 @@ yukonApp
                 },
                 {
                     id: 1,
-                    title: 'asdf',
-                    icon: 'icon_folder-alt first_level_icon',
-                    badge: true,
-                    submenu_title: 'Pages',
-                    submenu: [
-                        {
-                            title: 'Chat',
-                            link: 'auth.pages.chat'
-                        },
-                        {
-                            title: 'Contact List',
-                            link: 'auth.pages.contactList'
-                        },
-                        {
-                            title: 'Error 404',
-                            link: 'error.404'
-                        },
-                        {
-                            title: 'Help/Faq',
-                            link: 'auth.pages.helpFaq.all'
-                        },
-                        {
-                            title: 'Invoices',
-                            link: 'auth.pages.invoices'
-                        },
-                        {
-                            title: 'Login Page',
-                            link: 'login'
-                        },
-                        {
-                            title: 'Login Page 2',
-                            link: 'login2'
-                        },
-                        {
-                            title: 'Mailbox',
-                            link: 'auth.pages.mail.inbox'
-                        },
-                        {
-                            title: 'Mailbox (compose)',
-                            link: 'auth.pages.mail.compose'
-                        },
-                        {
-                            title: 'Search Page',
-                            link: 'auth.pages.search'
-                        },
-                        {
-                            title: 'User List',
-                            link: 'auth.pages.userList'
-                        },
-                        {
-                            title: 'User Profile',
-                            link: 'auth.pages.userProfile'
-                        },
-                        {
-                            title: 'User Profile 2',
-                            link: 'auth.pages.userProfile2'
-                        }
-                    ]
-                },
-                {
-                    id: 2,
                     title: 'Support',
                     icon: 'icon_tools first_level_icon',
                     submenu_title: 'Support',
@@ -209,7 +148,7 @@ yukonApp
                     ]
                 },
                 {
-                    id: 3,
+                    id: 2,
                     title: 'Reports',
                     icon: 'icon_piechart first_level_icon',
                     badge: false,
@@ -246,7 +185,7 @@ yukonApp
                     ]
                 },
                 {
-                    id: 4,
+                    id: 3,
                     title: 'Settings',
                     icon: 'icon_cogs first_level_icon',
                     badge: true,
