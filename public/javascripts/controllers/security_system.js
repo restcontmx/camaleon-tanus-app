@@ -17,13 +17,10 @@ yukonApp
             },
             // View if the app is verified on the auth module
             viewVerification : function() {
-                if( !this.getSession() ) {
-                    console.log( this.getSession() )
-                    console.log( "not verified" )                    
+                if( !this.getSession() ) {                
                     $state.go( 'login' );
                     return false;
-                } else {
-                    console.log( this.getSession() )                    
+                } else {                  
                     return true;
                 }
             },
@@ -54,13 +51,25 @@ yukonApp
             });
         };        
     }])
-    .controller( 'header-controller', [ '$scope', '$state', 'AuthRepository', function( $scope, $state, AuthRepository ) {
-        $scope.logout = function() {
-            AuthRepository.logout().success( function( response ) {
-                AuthRepository.removeSession()               
-                $state.go( 'login' );
+    .controller( 'header-controller', [ '$scope', '$state', 'ItemRepository', 'AuthRepository', function( $scope, $state, ItemRepository, AuthRepository ) {
+        if( AuthRepository.viewVerification() ) {
+            $scope.logout = function() {
+                AuthRepository.logout().success( function( response ) {
+                    AuthRepository.removeSession()               
+                    $state.go( 'login' );
+                }).error( function( error ) {
+                    $scope.errors = error;
+                });
+            };
+            ItemRepository.getActiveLogs().success( function( response ) {
+                if( !response.error ) {
+                    $scope.logs = response.data;
+                    $scope.preview_logs = $scope.logs.slice( 0, 5 );
+                } else {
+                    $scope.errors = response.message;
+                }
             }).error( function( error ) {
                 $scope.errors = error;
             });
-        };
+        }
     }]);
