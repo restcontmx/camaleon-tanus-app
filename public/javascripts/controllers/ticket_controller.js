@@ -18,14 +18,53 @@ yukonApp
         if( AuthRepository.viewVerification() ) {
             $scope.progress_ban = false;
             $scope.loading_details = false;
-            $scope.gridOptions = {
-                data: []
-            };
             $rootScope.p = 0;
             $rootScope.loc = 0;
             $scope.locations_options = [];
             $scope.locations_options.push( { 'name' : 'ALL', 'location' : { 'id' : 0 } } );
             $rootScope.selected_item = { 'detamoves' : [] };
+            
+            let todays = new Date();
+            $scope.date_end = new Date();
+            todays.setDate( 1 );
+            $scope.date_start = todays;
+            $scope.date_start.setHours( "00" );
+            $scope.date_start.setMinutes( "00" );
+            $scope.date_start.setSeconds( "00" );
+            $scope.date_end.setHours( "23" );
+            $scope.date_end.setMinutes( "59" );
+            $scope.date_end.setSeconds( "59" );
+
+            $scope.date_range = {
+                today: moment().format('MMMM D, YYYY'),
+                last_month: moment().subtract('M', 1).format('MMMM D, YYYY'),
+                date_start : $scope.date_start,
+                date_end : $scope.date_end
+            };
+
+            if ($("#drp_predefined").length) {
+				$('#drp_predefined').daterangepicker(
+                    {
+                        timePicker: true,
+                        timePicker24Hour: true,
+                        ranges: {
+                            'Today': [moment(), moment()],
+                            'Yesterday': [moment().subtract('days', 1), moment().subtract('days', 1)],
+                            'Last 7 Days': [moment().subtract('days', 6), moment()],
+                            'Last 30 Days': [moment().subtract('days', 29), moment()],
+                            'This Month': [moment().startOf('month'), moment().endOf('month')],
+                            'Last Month': [moment().subtract('month', 1).startOf('month'), moment().subtract('month', 1).endOf('month')]
+                        },
+                        startDate: moment().subtract('days', 6),
+                        endDate: moment()
+                    },
+                    function(start, end) {
+                        $('#drp_predefined span').html(start.format("MM/DD/YYYY HH:mm:ss") + ' - ' + end.format("MM/DD/YYYY HH:mm:ss"));
+                        $scope.date_range.date_start = new Date( start.format("MM/DD/YYYY HH:mm:ss") );
+                        $scope.date_range.date_end = new Date( end.format("MM/DD/YYYY HH:mm:ss") );
+                    }
+				);
+            }
 
             LocationRepository.getAll().success( function( data ) {
                 if( !data.error ) {
@@ -42,14 +81,13 @@ yukonApp
                 $scope.progress_ban = true;
                 $rootScope.p = p;
                 $rootScope.selected_item = { 'detamoves' : [] };
-                let date_1 = ( $scope.date_start.getMonth() + 1) + '/' + $scope.date_start.getDate() + '/' + $scope.date_start.getFullYear(),
-                    date_2 = ( $scope.date_end.getMonth() + 1) + '/' + $scope.date_end.getDate() + '/' + $scope.date_end.getFullYear();
+                let date_1 = ( $scope.date_range.date_start.getMonth() + 1) + '/' + $scope.date_range.date_start.getDate() + '/' + $scope.date_range.date_start.getFullYear() + ' ' + $scope.date_range.date_start.getHours() + ':' + $scope.date_range.date_start.getMinutes() + ':' + $scope.date_range.date_start.getSeconds(),
+                    date_2 = ( $scope.date_range.date_end.getMonth() + 1) + '/' + $scope.date_range.date_end.getDate() + '/' + $scope.date_range.date_end.getFullYear() + ' ' + $scope.date_range.date_end.getHours() + ':' + $scope.date_range.date_end.getMinutes() + ':' + $scope.date_range.date_end.getSeconds();
                 if( date_1 != undefined && date_2 != undefined ) {
                     TicketRepository.getReports( date_1,  date_2, p, $rootScope.loc ).success( function( data ) {
                         if( !data.error ) {
                             $rootScope.count = data.data.count;
                             $scope.tickets = data.data.tickets;
-                            $scope.gridOptions.data = $scope.tickets;
                         } else {
                             $scope.errors = data.message;
                         } $scope.progress_ban = false;
@@ -76,6 +114,11 @@ yukonApp
                     if( !data.error ) {
                         $rootScope.selected_item = item;
                         $rootScope.selected_item.detamoves = data.data;
+                        $rootScope.selected_item.sub_total = parseFloat($rootScope.selected_item.sub_total);
+                        $rootScope.selected_item.total = parseFloat($rootScope.selected_item.total);
+                        $rootScope.selected_item.tax1 = parseFloat($rootScope.selected_item.tax1);
+                        $rootScope.selected_item.tax2 = parseFloat($rootScope.selected_item.tax2);
+                        $rootScope.selected_item.tax3 = parseFloat($rootScope.selected_item.tax3);
                     } else {
                         $scope.errors = data.message;
                     }$scope.loading_details = false;

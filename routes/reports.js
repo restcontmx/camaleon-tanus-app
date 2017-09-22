@@ -69,7 +69,7 @@ router.get( '/location/', jsonParser, function( req, res ) {
 /**
 * ticket reports pettition
 **/
-router.get( '/ticket/', jsonParser, function( req, res ) {
+router.get( '/ticket', jsonParser, function( req, res ) {
     var userdata = JSON.parse( req.cookies['userdata'] ),
         url_parts = urlLib.parse( req.url, true );
     request(

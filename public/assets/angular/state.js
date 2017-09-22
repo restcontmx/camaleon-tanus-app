@@ -1047,19 +1047,23 @@ yukonApp
                         label: 'Tickets'
                     },
                     url: '/tickets',
-                    templateUrl: 'views/pages.invoices.html',
+                    templateUrl: 'views/reports/reports.tickets.html',
                     resolve: {
                         files: [
                             'uiLoad',
                             function (uiLoad) {
                                 return uiLoad.load([
-                                    //  qrCode
-                                    'assets/lib/jquery-qrcode-0.10.1/jquery.qrcode-0.10.1.min.js'
+                                    // datepicker
+                                    'assets/lib/bootstrap-datepicker/css/datepicker3.css',
+                                    'assets/lib/bootstrap-datepicker/js/bootstrap-datepicker.js',
+                                    // date range picker
+                                    'assets/lib/bootstrap-daterangepicker/daterangepicker-bs3.css',
+                                    'assets/lib/bootstrap-daterangepicker/daterangepicker.js',
                                 ])
                             }
                         ]
                     },
-                    controller: 'invoicesCtrl'
+                    controller: 'ticket-reports-controller'
                 })
                 .state('auth.settings', {
                     abstract: true,
