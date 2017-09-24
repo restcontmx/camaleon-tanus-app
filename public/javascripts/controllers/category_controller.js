@@ -35,30 +35,6 @@ yukonApp
                                                                 AuthRepository  ) {
         if( AuthRepository.viewVerification() ) {
 
-            // grid lines
-            var chart_grid_lines = c3.generate({
-                bindto: '#c3_grid_lines',
-                data: {
-                    columns: [
-                        ['sample', 30, 200, 100, 400, 150, 250],
-                        ['sample2', 1300, 1200, 1100, 1400, 1500, 1250],
-                    ],
-                    axes: {
-                        sample2: 'y2'
-                    }
-                },
-                axis: {
-                    y2: {
-                        show: true
-                    }
-                },
-                grid: {
-                    y: {
-                        lines: [{ value: 50, text: 'Label 50' }, { value: 1300, text: 'Label 1300', axis: 'y2' }]
-                    }
-                }
-            });
-
             let todays = new Date();
             $scope.date_end = new Date();
             todays.setDate( 1 );
@@ -69,13 +45,17 @@ yukonApp
             $scope.date_end.setHours( "23" );
             $scope.date_end.setMinutes( "59" );
             $scope.date_end.setSeconds( "59" );
-
+            $scope.progress_ban = true; // This is for the loanding simbols or whatever you want to activate
+            $scope.turn_options = Array.of( { text : 'All',  id : 0 } );
+            // Date range variable
+            // the important ones area start and end which are already conffigured on the scope
             $scope.date_range = {
                 today: moment().format('MMMM D, YYYY'),
                 last_month: moment().subtract('M', 1).format('MMMM D, YYYY'),
                 date_start : $scope.date_start,
                 date_end : $scope.date_end
             };
+            // Date range picker settings
             if ($("#drp_predefined").length) {
 				$('#drp_predefined').daterangepicker(
                     {
@@ -94,24 +74,15 @@ yukonApp
                     },
                     function(start, end) {
                         $('#drp_predefined span').html(start.format("MM/DD/YYYY HH:mm:ss") + ' - ' + end.format("MM/DD/YYYY HH:mm:ss"));
+                        // When selected the datepicker returns a moment object; this just formats everything to what we need
                         $scope.date_range.date_start = new Date( start.format("MM/DD/YYYY HH:mm:ss") );
                         $scope.date_range.date_end = new Date( end.format("MM/DD/YYYY HH:mm:ss") );
                     }
 				);
             }
-            $scope.selectedIndex = 0;
-            $scope.progress_ban = true;
-            $scope.gridOptions = {
-                data: []
-            };
-            $scope.reports = [];
-            $scope.tabs_grid_options = {
-                data : []
-            };
-
-            $scope.turn_options = Array.of( { text : 'All',  id : 0 } );
-            $scope.selectedTurn = 0;
-
+            // Get all the turns
+            // Then addthem to the turns select
+            // Its on jquery, so be careful
             TurnRepository.getAll().success( function( response ) {
                 if( !response.error ) {
                     $scope.turns = response.data;
@@ -127,9 +98,8 @@ yukonApp
             }).error( function( error ) {
                 $scope.errors = error;
             });
-
-            var top10_donut_donut = c3.generate({
-                
+            // Top ten objects grafic
+            var top10_donut_graphic = c3.generate({
                 bindto: '#top10_donut',
                 data: {
                     columns: [ ],
@@ -142,89 +112,81 @@ yukonApp
                     title: "Category Sales"
                 }
             });
-            
+            // Get reports
+            // Function that sets all the reports by date range and turn
             $scope.get_reports = function() {
                 $scope.progress_ban = true;
-                $scope.top10items = {
-                    data : [],
-                    labels : []
-                };
-                $scope.labels_compare = [];
-                $scope.data_compare = [];
-                $scope.series_compare = [];
-                $scope.tabs = [];
-                $scope.tabs.length = 0;
-                
+
                 let date_1  = ( $scope.date_range.date_start.getMonth() + 1) + '/' + $scope.date_range.date_start.getDate() + '/' + $scope.date_range.date_start.getFullYear() + ' ' + $scope.date_range.date_start.getHours() + ':' + $scope.date_range.date_start.getMinutes() + ':' + $scope.date_range.date_start.getSeconds(),
                     date_2  = ( $scope.date_range.date_end.getMonth() + 1) + '/' + $scope.date_range.date_end.getDate() + '/' + $scope.date_range.date_end.getFullYear() + ' ' + $scope.date_range.date_end.getHours() + ':' + $scope.date_range.date_end.getMinutes() + ':' + $scope.date_range.date_end.getSeconds(),
                     turn_id = $( '#turns_select' ).val() ? $( '#turns_select' ).val() : 0;
 
-                if( date_1 != undefined && date_2 != undefined  ) {
-                    CategoryRepository.reportsByDate( date_1, date_2, turn_id ).success( function( data ) {
-                        if( !data.error ) {
-                            $scope.category_reports = data.data.category_reports;
-                            $scope.item_reports = [];
-                            $scope.category_reports_all = data.data.category_reports_all;
-                            $scope.category_reports_all_table = data.data.category_reports_all;
-                            $scope.top10_donut_data = [];
-                            $scope.global_total = $scope.category_reports_all_table.map( r => parseFloat( r.total ) ).reduce( ( a, b ) => ( a + b ), 0 );
-                            $scope.category_reports_all_table.slice(0, 10).forEach( r => $scope.top10_donut_data.push( [ r.cate_name, r.total ] ) );
-                            top10_donut_donut.destroy();
-                            top10_donut_donut = c3.generate({
-                                bindto: '#top10_donut',
-                                data: {
-                                    columns: [ ],
-                                    type: 'donut',
-                                    onclick: function (d, i) { /*console.log("onclick", d, i);*/ },
-                                    onmouseover: function (d, i) { /*console.log("onmouseover", d, i);*/ },
-                                    onmouseout: function (d, i) { /*console.log("onmouseout", d, i);*/ }
-                                },
-                                donut: {
-                                    title: "Category Sales"
-                                }
+                CategoryRepository.reportsByDate( date_1, date_2, turn_id ).success( function( data ) {
+                    if( !data.error ) {
+                        $scope.category_reports = data.data.category_reports;
+                        $scope.category_reports_all = data.data.category_reports_all;
+                        $scope.category_reports_all_table = data.data.category_reports_all;
+                        $scope.top10_donut_data = [];
+                        $scope.global_total = $scope.category_reports_all_table.map( r => parseFloat( r.total ) ).reduce( ( a, b ) => ( a + b ), 0 );
+                        $scope.category_reports_all_table.slice(0, 10).forEach( r => $scope.top10_donut_data.push( [ r.cate_name, r.total ] ) );
+                        top10_donut_graphic.destroy();
+                        top10_donut_graphic = c3.generate({
+                            bindto: '#top10_donut',
+                            data: {
+                                columns: [ ],
+                                type: 'donut',
+                                onclick: function (d, i) { /*console.log("onclick", d, i);*/ },
+                                onmouseover: function (d, i) { /*console.log("onmouseover", d, i);*/ },
+                                onmouseout: function (d, i) { /*console.log("onmouseout", d, i);*/ }
+                            },
+                            donut: {
+                                title: "Category Sales"
+                            }
+                        });
+                        setTimeout(function () {
+                            top10_donut_graphic.load({
+                                columns: $scope.top10_donut_data
                             });
-                            setTimeout(function () {
-                                top10_donut_donut.load({
-                                    columns: $scope.top10_donut_data
-                                });
-                            }, 2500);
-                            // Get locations
-                            LocationRepository.getAll().success( function( d1 ) {
-                                if( !d1.error ) {
-                                    let location_names = "";
-                                    $scope.locations = d1.data;
-                                    $scope.locations.forEach( l => location_names += (l.location_name + ",") );
-                                    location_names = location_names.substring( 0, location_names.length-1 );
-                                    $( '#locations_tokenization' ).val( location_names );
-                                    if($('#locations_tokenization').length) {
-                                        $('#locations_tokenization').select2({
-                                            placeholder: "Select Locations (all by default)...",
-                                            tags: $scope.locations.map( l => l.location_name ),
-                                            tokenSeparators: [","]
-                                        });
-                                    }
-                                    set_compare_table();
-                                } else {
-                                    $scope.errors = d1.message;
+                        }, 2500);
+                        // Get locations
+                        LocationRepository.getAll().success( function( d1 ) {
+                            if( !d1.error ) {
+                                let location_names = "";
+                                $scope.locations = d1.data;
+                                $scope.locations.forEach( l => location_names += (l.location_name + ",") );
+                                location_names = location_names.substring( 0, location_names.length-1 );
+                                // locations on tokenization field
+                                // is just an array with the names
+                                // And sets by default all with a string separated by commas
+                                $( '#locations_tokenization' ).val( location_names );
+                                if($('#locations_tokenization').length) {
+                                    $('#locations_tokenization').select2({
+                                        placeholder: "Select Locations (all by default)...",
+                                        tags: $scope.locations.map( l => l.location_name ),
+                                        tokenSeparators: [","]
+                                    });
                                 }
-                                $scope.progress_ban = false;
-                            }).error( function( error ) {
-                                $scope.errors = error;
-                                $scope.progress_ban = false;
-                            });
-                        } else {
-                            $scope.errors = data.error;
-                        }
-                    }).error( function( error ) {
-                        $scope.errors = error;
-                    });
-                } else {
-                    alert( "Please select two dates!" );
-                }
+                                // Sets the locations bar table
+                                set_compare_table();
+                            } else {
+                                $scope.errors = d1.message;
+                            }
+                            $scope.progress_ban = false;
+                        }).error( function( error ) {
+                            $scope.errors = error;
+                            $scope.progress_ban = false;
+                        });
+                    } else {
+                        $scope.errors = data.error;
+                    }
+                }).error( function( error ) {
+                    $scope.errors = error;
+                });
             };
-
+            // Gets by default all the reports between todays date and the start of the month
             $scope.get_reports();
-
+            // Locations select change
+            // When the locations field changes of locations
             $scope.locations_select_change = function() {
                 
                 let locations_selected = $scope.locations_select.split(','), 
@@ -238,8 +200,8 @@ yukonApp
                     }
                 });
                 
-                top10_donut_donut.destroy();
-                top10_donut_donut = c3.generate({
+                top10_donut_graphic.destroy();
+                top10_donut_graphic = c3.generate({
                     bindto: '#top10_donut',
                     data: {
                         columns: [ ],
@@ -264,12 +226,13 @@ yukonApp
                 $scope.category_reports_all_table.slice(0, 10).forEach( r => $scope.top10_donut_data.push( [ r.cate_name, r.total ] ) );
 
                 setTimeout(function () {
-                    top10_donut_donut.load({
+                    top10_donut_graphic.load({
                         columns: $scope.top10_donut_data
                     });
                 }, 2000);
-            }
-            
+            };
+            // Set compare table
+            // This function is for setting the bar graphics comparing all the locaitons
             var set_compare_table = function() {
                 let table_data = Array.of( "Total Sales" ),
                     cate_table_names = [];
