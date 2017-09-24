@@ -58,7 +58,7 @@ router.post( '/login', jsonParser, function( req, res ) {
                             auth_data : encryption_system.encryptCookie( http_helper.get_user_basic_auth( req.body.email, req.body.password ) )
                         });
                     jsonData.user_data = user_data;
-                    res.cookie( 'userdata', user_data, { expires : new Date( Date.now() + 900000 ), httpOnly:false, sameSite:'strict' } );
+                    res.cookie( 'userdata', user_data, { maxAge : 2592000000, httpOnly:false, sameSite:'strict' } );
                     
                     res.send( jsonData );
                     break;
