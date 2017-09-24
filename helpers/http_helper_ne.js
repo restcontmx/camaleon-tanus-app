@@ -69,6 +69,31 @@ var data_format_ok = function( error, response, body ) {
 * retrieve data format to client with response and body and error
 * response 200 OK
 **/
+var data_format_ok_streaming = function( error, response, body ) {
+    if( response ) {
+        switch (response.statusCode) {
+            case 200 :
+                return JSON.stringify({
+                    error : false,
+                    data : body
+                });
+            case 400 :
+                return JSON.stringify({
+                    error : true,
+                    message : body
+                });
+            default:
+                return error;
+        }
+    } else {
+        return error;
+    }
+};
+
+/**
+* retrieve data format to client with response and body and error
+* response 200 OK
+**/
 var data_format_updated = function( error, response, body ) {
     if( response ) {
         switch (response.statusCode) {
@@ -160,3 +185,4 @@ module.exports.data_format_ok = data_format_ok;
 module.exports.data_format_created = data_format_created;
 module.exports.data_format_updated = data_format_updated;
 module.exports.data_format_deleted = data_format_deleted;
+module.exports.data_format_ok_streaming = data_format_ok_streaming;

@@ -6,64 +6,7 @@
             </div>
         </div>
     </div>
-    <div class="col-md-8 pull-right">
-        <div class="row">
-            <div class="col-sm-6">
-                <h1 class="page_heading">
-                    {{selected_item.move_id}}
-                    <span>{{selected_item.move_date}}</span>
-                </h1>
-            </div>
-            <div class="col-sm-6 text-right hidden-print">
-                <a class="btn btn-sm btn-default btn-outline" href="#">PRINT</a>
-            </div>
-        </div>
-        <hr/>
-        <div class="row">
-            <div class"col-md-12">
-                <div class="progress progress-striped active" ng-show="loading_details">
-                    <div class="progress-bar" role="progressbar" style="width: 85%">
-                        <span class="sr-only">85% Complete</span>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-12">
-                <table class="table table-yuk2 table-invoices">
-                    <thead>
-                        <tr>
-                            <th>Description</th>
-                            <th class="cw text-center">Quantity</th>
-                            <th class="cw text-center">Sub Total</th>
-                            <th class="cw text-center">Total (USD)</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr ng-repeat="deta in selected_item.detamoves">
-                            <td>{{deta.item_description}}</td>
-                            <td class="text-center">{{deta.qty}}</td>
-                            <td class="text-center">{{deta.sub_total|number:2}}</td>
-                            <td class="text-center"><strong>{{deta.total|number:2}}</strong></td>
-                        </tr>
-                    </tbody>
-                    <tfoot>
-                        <tr>
-                            <td colspan="3" class="text-right text-muted">Subtotal</td>
-                            <td class="text-center"><strong>{{selected_item.sub_total|number:2}}</strong></td>
-                        </tr>
-                        <tr>
-                            <td colspan="3" class="text-right text-muted">Tax Total</td>
-                            <td class="text-center"><strong>{{(selected_item.tax1 + selected_item.tax2 + selected_item.tax3)|number:2}}</strong></td>
-                        </tr>
-                        <tr class="grand_total">
-                            <td colspan="3" class="text-right text-muted">Grand Total</td>
-                            <td class="text-center text-success"><strong>{{selected_item.total|number:2}}</strong></td>
-                        </tr>
-                    </tfoot>
-                </table>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-4 col-sep-md hidden-print">
+    <div class="col-md-8 col-sep-md hidden-print">
         <div class="row">
             <div class="col-md-12">
                 <label>Select Report Range</label>
@@ -75,16 +18,69 @@
             <div class="col-md-12">
                 <button class="btn btn-block btn-default" ng-click="get_reports(p)"><i class="icon_cloud-download" aria-hidden="true"></i> Get Reports</button>
             </div>
-            <div class="col-md-12" style="overflow-y: scroll;height:400px;">
-                <div class="list-group inv_list">
-                    <a href="javascript:void(0)" class="list-group-item" ng-repeat="ticket in tickets" ng-click="grid_action(ticket)">
-                        <span class="inv_list_company">{{ticket.move_id}}</span>
-                        <span class="inv_list_nb">Sub Total : {{ticket.sub_total | number:2}}</span>
-                        <span class="inv_list_nb">Total : {{ticket.total | number:2}}</span>
-                        <span class="inv_list_date">{{ticket.move_date}}</span>
-                    </a>
-                </div>
+            <div class="col-md-12">
+                <br>
+                <br>
+                <div ui-grid="gridOptions" ui-grid-pagination ui-grid-selection></div>
             </div>
         </div>
     </div>
+    
+    <div class="col-md-4">
+            <div class="row">
+                <div class="col-sm-6">
+                    <h1 class="page_heading">
+                        {{selected_item.move_id}}
+                        <span>{{selected_item.move_date}}</span>
+                    </h1>
+                </div>
+                <div class="col-sm-6 text-right hidden-print">
+                    <a class="btn btn-sm btn-default btn-outline" href="#">PRINT</a>
+                </div>
+            </div>
+            <hr/>
+            <div class="row">
+                <div class"col-md-12">
+                    <div class="progress progress-striped active" ng-show="loading_details">
+                        <div class="progress-bar" role="progressbar" style="width: 85%">
+                            <span class="sr-only">85% Complete</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <table class="table table-yuk2 table-invoices">
+                        <thead>
+                            <tr>
+                                <th>Description</th>
+                                <th class="cw text-center">Quantity</th>
+                                <th class="cw text-center">Sub Total</th>
+                                <th class="cw text-center">Total (USD)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="deta in selected_item.detamoves">
+                                <td>{{deta.item_description}}</td>
+                                <td class="text-center">{{deta.qty}}</td>
+                                <td class="text-center">{{deta.sub_total|number:2}}</td>
+                                <td class="text-center"><strong>{{deta.total|number:2}}</strong></td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="3" class="text-right text-muted">Subtotal</td>
+                                <td class="text-center"><strong>{{selected_item.sub_total|number:2}}</strong></td>
+                            </tr>
+                            <tr>
+                                <td colspan="3" class="text-right text-muted">Tax Total</td>
+                                <td class="text-center"><strong>{{(selected_item.tax1 + selected_item.tax2 + selected_item.tax3)|number:2}}</strong></td>
+                            </tr>
+                            <tr class="grand_total">
+                                <td colspan="3" class="text-right text-muted">Grand Total</td>
+                                <td class="text-center text-success"><strong>{{selected_item.total|number:2}}</strong></td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
 </div>

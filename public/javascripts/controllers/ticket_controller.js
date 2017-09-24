@@ -1,8 +1,9 @@
 yukonApp
     .factory( 'TicketRepository', [ '$http', function( $http ) {
         return({
-            getReports : ( d1, d2, p, loc ) => $http.get( '/reports/ticket/?d1=' + d1 + '&d2=' + d2 + '&p=' + p + '&loc=' + loc + '&turn=0' ),
-            getDetails : ( ticket, loc ) => $http.get( '/reports/ticket/details/?ticket=' + ticket + '&loc=' + loc )
+            getReports : ( d1, d2, loc ) => $http.get( '/reports/ticket/?d1=' + d1 + '&d2=' + d2 + '&loc=' + loc + '&turn=0' ),
+            getDetails : ( ticket, loc ) => $http.get( '/reports/ticket/details/?ticket=' + ticket + '&loc=' + loc ),
+            getDummyReports : ( d1, d2, p, loc ) => $http.get( '/reports/dummy/?d1=' + d1 + '&d2=' + d2 + '&loc=' + loc + '&turn=0' )            
         })
     }])
     .controller( 'ticket-reports-controller', [ '$scope',
@@ -10,12 +11,15 @@ yukonApp
                                                 'LocationRepository',
                                                 'AuthRepository',
                                                 '$rootScope',
+                                                'uiGridConstants',
                                                 function(   $scope,
                                                             TicketRepository,
                                                             LocationRepository,
                                                             AuthRepository,
-                                                            $rootScope  ) {
+                                                            $rootScope,
+                                                            uiGridConstants  ) {
         if( AuthRepository.viewVerification() ) {
+
             $scope.progress_ban = false;
             $scope.loading_details = false;
             $rootScope.p = 0;
@@ -23,7 +27,32 @@ yukonApp
             $scope.locations_options = [];
             $scope.locations_options.push( { 'name' : 'ALL', 'location' : { 'id' : 0 } } );
             $rootScope.selected_item = { 'detamoves' : [] };
-            
+
+            $scope.gridOptions = {
+                enableRowSelection: true, enableRowHeaderSelection: false,
+                enableSorting: true,
+                showGridFooter: true,
+                enableGridMenu: true,
+                enableFiltering: true,
+                paginationPageSizes: [25, 50, 75],
+                paginationPageSize: 25,
+                columnDefs: [
+                    { field: 'move_id' },
+                    { field: 'move_date' },
+                    { field: 'total', enableSorting: true }
+                ]
+            };
+
+            $scope.gridOptions.multiSelect = false;
+            $scope.gridOptions.modifierKeysToMultiSelect = false;
+            $scope.gridOptions.noUnselect = true;
+            $scope.gridOptions.onRegisterApi = function( gridApi ) {
+                $scope.gridApi = gridApi;
+                gridApi.selection.on.rowSelectionChanged($scope,function(row){
+                    $rootScope.grid_action( row.entity );
+                });
+            };
+
             let todays = new Date();
             $scope.date_end = new Date();
             todays.setDate( 1 );
@@ -77,17 +106,18 @@ yukonApp
                 $scope.errors = error;
             });
 
+            
+            
             $scope.get_reports = function( p ) {
                 $scope.progress_ban = true;
-                $rootScope.p = p;
                 $rootScope.selected_item = { 'detamoves' : [] };
                 let date_1 = ( $scope.date_range.date_start.getMonth() + 1) + '/' + $scope.date_range.date_start.getDate() + '/' + $scope.date_range.date_start.getFullYear() + ' ' + $scope.date_range.date_start.getHours() + ':' + $scope.date_range.date_start.getMinutes() + ':' + $scope.date_range.date_start.getSeconds(),
                     date_2 = ( $scope.date_range.date_end.getMonth() + 1) + '/' + $scope.date_range.date_end.getDate() + '/' + $scope.date_range.date_end.getFullYear() + ' ' + $scope.date_range.date_end.getHours() + ':' + $scope.date_range.date_end.getMinutes() + ':' + $scope.date_range.date_end.getSeconds();
                 if( date_1 != undefined && date_2 != undefined ) {
-                    TicketRepository.getReports( date_1,  date_2, p, $rootScope.loc ).success( function( data ) {
+                    TicketRepository.getReports( date_1,  date_2, $rootScope.loc ).success( function( data ) {
                         if( !data.error ) {
-                            $rootScope.count = data.data.count;
-                            $scope.tickets = data.data.tickets;
+                            $scope.tickets = data.data;
+                            $scope.gridOptions.data = $scope.tickets;
                         } else {
                             $scope.errors = data.message;
                         } $scope.progress_ban = false;
@@ -96,7 +126,7 @@ yukonApp
                     });
                 }
             };
-
+            
             $scope.customActions = { };
             $scope.customActions.refresh = $scope.reload_table;
 

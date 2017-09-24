@@ -9,6 +9,7 @@ var yukonApp = angular.module('yukonApp', [ 'ui.router',
                                             'ngRoute', 
                                             'ngAnimate', 
                                             'ui.load', 
+                                            'ngAria',
                                             'ngSanitize', 
                                             'ngCookies', 
                                             'ui.bootstrap', 
@@ -18,7 +19,10 @@ var yukonApp = angular.module('yukonApp', [ 'ui.router',
                                             'NgSwitchery', 
                                             'textAngular', 
                                             'crud-service', 
-                                            'log-service'   ]);
+                                            'log-service',
+                                            'ui.grid',
+                                            'ui.grid.pagination',
+                                            'ui.grid.selection' ]);
 
 /* Run Block */
 yukonApp.run(

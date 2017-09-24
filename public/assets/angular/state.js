@@ -1053,6 +1053,10 @@ yukonApp
                             'uiLoad',
                             function (uiLoad) {
                                 return uiLoad.load([
+                                    //  datatables
+                                    'assets/lib/DataTables/media/js/jquery.dataTables.min.js',
+                                    'assets/lib/DataTables/extensions/FixedHeader/js/dataTables.fixedHeader.min.js',
+                                    'assets/lib/DataTables/media/js/dataTables.bootstrap.js',
                                     // datepicker
                                     'assets/lib/bootstrap-datepicker/css/datepicker3.css',
                                     'assets/lib/bootstrap-datepicker/js/bootstrap-datepicker.js',
