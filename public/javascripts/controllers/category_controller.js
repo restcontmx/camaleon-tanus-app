@@ -35,7 +35,17 @@ yukonApp
                                                                 AuthRepository  ) {
         if( AuthRepository.viewVerification() ) {
 
-            let todays = new Date();
+            let todays = new Date(),
+                locations_combined = c3.generate({
+                    bindto: '#locations_combined',
+                    data: {
+                        columns: [],
+                        type: 'bar',
+                        types: {
+                            data5: 'area'
+                        }
+                    }
+                });
             $scope.date_end = new Date();
             todays.setDate( 1 );
             $scope.date_start = todays;
@@ -133,7 +143,7 @@ yukonApp
                         top10_donut_graphic = c3.generate({
                             bindto: '#top10_donut',
                             data: {
-                                columns: [ ],
+                                columns: $scope.top10_donut_data,
                                 type: 'donut',
                                 onclick: function (d, i) { /*console.log("onclick", d, i);*/ },
                                 onmouseover: function (d, i) { /*console.log("onmouseover", d, i);*/ },
@@ -143,11 +153,6 @@ yukonApp
                                 title: "Category Sales"
                             }
                         });
-                        setTimeout(function () {
-                            top10_donut_graphic.load({
-                                columns: $scope.top10_donut_data
-                            });
-                        }, 2500);
                         // Get locations
                         LocationRepository.getAll().success( function( d1 ) {
                             if( !d1.error ) {
@@ -167,7 +172,7 @@ yukonApp
                                     });
                                 }
                                 // Sets the locations bar table
-                                set_compare_table();
+                                set_compare_table( $scope.locations );
                             } else {
                                 $scope.errors = d1.message;
                             }
@@ -201,10 +206,23 @@ yukonApp
                 });
                 
                 top10_donut_graphic.destroy();
+                
+                if ( locations.length == 0 || locations.length == $scope.locations.length ) {
+                    $scope.category_reports_all_table = $scope.category_reports_all;
+                    $scope.global_total = $scope.category_reports_all_table.map(r => parseFloat(r.total)).reduce((a, b) => (a + b), 0);
+                    set_compare_table( $scope.locations );
+                } else {
+                    $scope.category_reports_all_table = $scope.category_reports.filter( c => ( locations.find( l => ( c.location == l.id ) ) ) );
+                    $scope.global_total = $scope.category_reports_all_table.map(r => parseFloat(r.total)).reduce((a, b) => (a + b), 0);
+                    set_compare_table( locations );
+                }
+                $scope.top10_donut_data = [];
+                $scope.category_reports_all_table.slice(0, 10).forEach( r => $scope.top10_donut_data.push( [ r.cate_name, r.total ] ) );
+
                 top10_donut_graphic = c3.generate({
                     bindto: '#top10_donut',
                     data: {
-                        columns: [ ],
+                        columns: $scope.top10_donut_data,
                         type: 'donut',
                         onclick: function (d, i) { /*console.log("onclick", d, i);*/ },
                         onmouseover: function (d, i) { /*console.log("onmouseover", d, i);*/ },
@@ -214,34 +232,19 @@ yukonApp
                         title: "Category Sales"
                     }
                 });
-                
-                if ( locations.length == 0 || locations.length == $scope.locations.length ) {
-                    $scope.category_reports_all_table = $scope.category_reports_all;
-                    $scope.global_total = $scope.category_reports_all_table.map(r => parseFloat(r.total)).reduce((a, b) => (a + b), 0);
-                } else {
-                    $scope.category_reports_all_table = $scope.category_reports.filter( c => ( locations.find( l => ( c.location == l.id ) ) ) );
-                    $scope.global_total = $scope.category_reports_all_table.map(r => parseFloat(r.total)).reduce((a, b) => (a + b), 0);
-                }
-                $scope.top10_donut_data = [];
-                $scope.category_reports_all_table.slice(0, 10).forEach( r => $scope.top10_donut_data.push( [ r.cate_name, r.total ] ) );
-
-                setTimeout(function () {
-                    top10_donut_graphic.load({
-                        columns: $scope.top10_donut_data
-                    });
-                }, 2000);
             };
             // Set compare table
             // This function is for setting the bar graphics comparing all the locaitons
-            var set_compare_table = function() {
+            var set_compare_table = function( locations ) {
                 let table_data = Array.of( "Total Sales" ),
                     cate_table_names = [];
-                $scope.locations.forEach( l => {
+                locations.forEach( l => {
                     let reports = $scope.category_reports.filter( r => r.location == l.id );
                     table_data.push( reports.map( r => ( parseFloat( r.total ) ) ).reduce( ( a, b ) => ( a + b ), 0 ) );
                     cate_table_names.push( l.location_name );
                 });
-                var locations_combined = c3.generate({
+                locations_combined.destroy();
+                locations_combined = c3.generate({
                     bindto: '#locations_combined',
                     data: {
                         columns: Array.of( table_data ),
