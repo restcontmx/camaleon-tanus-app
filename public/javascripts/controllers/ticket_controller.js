@@ -116,7 +116,7 @@ yukonApp
                 if( date_1 != undefined && date_2 != undefined ) {
                     TicketRepository.getReports( date_1,  date_2, $rootScope.loc ).success( function( data ) {
                         if( !data.error ) {
-                            $scope.tickets = data.data;
+                            $scope.tickets = data.data.data;
                             $scope.gridOptions.data = $scope.tickets;
                         } else {
                             $scope.errors = data.message;
