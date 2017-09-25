@@ -35,11 +35,13 @@ yukonApp
                                         '$location', 
                                         '$rootScope', 
                                         '$timeout', 
+                                        'growl',
                                         'AuthRepository', function( $scope, 
                                                                     $state, 
                                                                     $location, 
                                                                     $rootScope, 
                                                                     $timeout, 
+                                                                    growl,
                                                                     AuthRepository ) {
         // Auth controller
         // This manages the authentication on the login view
@@ -48,16 +50,17 @@ yukonApp
             $scope.login = function() {   
                 AuthRepository.login( $scope.email, $scope.password ).success( function( data ) {
                     if( data.error ) {
-                        $scope.errors = data.message;
+                        growl.error( data.message, {} );
                     } else {
                         $scope.message = data.message;
                         $rootScope.user_info = AuthRepository.getSession();
-                    }               
-                    setTimeout(function() {
-                        $state.go( 'auth.home' );
-                    }, 2000);
+                        growl.success("Login success.", {});
+                        setTimeout(function() {
+                            $state.go( 'auth.home' );
+                        }, 2000);
+                    }
                 }).error( function( error ) {
-                    $scope.errors = error;
+                    growl.error( error, {} );
                 });
             };        
         });
