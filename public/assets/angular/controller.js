@@ -276,17 +276,16 @@ yukonApp
         'files',
         'AuthRepository',
         function ($scope, files, AuthRepository ) {
-            if( AuthRepository.viewVerification() ) {
-                // run scripts after state load
-                $scope.$on('$stateChangeSuccess', function () {
+            $scope.$on('$stateChangeSuccess', function () {
+                if( AuthRepository.viewVerification( ) ) {
+                    // run scripts after state load
                     // init dashboard functions
                     $scope.$watch('countries_data', function () {
                         countries_data = $scope.countries_data;
                         yukon_dashboard.init();
                     });
-                }) 
-            }
-
+                }
+            });
         }
     ])
     .controller('formExtendedCtrl', [

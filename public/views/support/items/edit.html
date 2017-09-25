@@ -2,6 +2,7 @@
     <legend><span>Search and Edit ITEMS by Code or Description</span></legend>
 </fieldset>
 <div class="row">
+    <div growl></div>
     <div class="col-md-6 mHeight pull-right">
         <form class="gf">
             <fieldset>
@@ -40,7 +41,7 @@
             </div>
         </div>
         <br>
-        <button class="btn btn-block btn-primary" type="button" ng-click="saveItem()">Save</button>        
+        <button class="btn btn-block btn-primary" type="button" data-confirm="Are you sure you want to save this item?">Save</button>        
     </div>
     <div class="col-md-6">
         <div class="row">

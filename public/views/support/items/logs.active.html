@@ -1,5 +1,11 @@
-<div class="row">
+<div class="row" ng-init="getAllActiveLogs()">
+    <div growl></div>
     <div class="col-md-12" update-fixed-headers>
+        <div class="progress progress-striped active" ng-show="progress_ban">
+            <div class="progress-bar" role="progressbar" style="width: 85%">
+                <span class="sr-only">85% Complete</span>
+            </div>
+        </div>
         <table id="datatable_demo" class="table table-striped table-bordered" cellspacing="0" width="100%">
             <thead>
                 <tr>
@@ -13,7 +19,7 @@
                     <th>Location</th> 
                     <th>User</th>
                     <th>Created</th>
-                    <th>STATUS</th>
+                    <th>DELETE</th>
                 </tr>
             </thead>
             <tbody>
@@ -28,8 +34,7 @@
                     <td>{{l.location_name}}</td>
                     <td>{{l.user_email}}</td>
                     <td>{{l.timestamp | date:'MM/dd/yyyy'}}</td>
-                    <td ng-if="l.status = 1"><span class="badge badge-danger">ACTIVE</span></td>
-                    <td ng-if="l.status = 0"><span class="badge badge-warning">INNACTIVE</span></td>
+                    <td><button class="btn btn-block btn-danger" ng-click="deleteLog(l)" type="button" data-confirm="Are you sure you want to remove this log?"><span class="el-icon-trash" aria-hidden="true"></span></button></td>
                 </tr>
             </tbody>
         </table>

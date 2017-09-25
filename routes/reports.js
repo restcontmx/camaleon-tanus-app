@@ -143,28 +143,4 @@ router.get( '/dummy', jsonParser, function( req, res ) {
     );
 });
 
-
-        /**( error, response, body ) => { 
-            res.send( http_helper.data_format_ok_streaming( error, response, body ) ) 
-            if( response ) {
-                switch (response.statusCode) {
-                    case 200 :
-                        console.log()
-                        res.send( JSON.stringify({
-                            error : false,
-                            data : body
-                        }));
-
-                    case 400 :
-                        return JSON.stringify({
-                            error : true,
-                            message : body
-                        });
-                    default:
-                        return error;
-                }
-            } else {
-                return error;
-            }
-        }**/
 module.exports = router;

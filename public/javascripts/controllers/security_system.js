@@ -16,8 +16,9 @@ yukonApp
                 return currentUser;
             },
             // View if the app is verified on the auth module
-            viewVerification : function() {
-                if( !this.getSession() ) {                
+            viewVerification : function( ) {
+                var currentUser = $cookies["userdata"] || null;
+                if( !currentUser ) {                
                     $state.go( 'login' );
                     return false;
                 } else {                  
@@ -29,30 +30,47 @@ yukonApp
             }
         }
     }])
-    .controller( 'auth-controller', [ '$scope', '$state', '$location', '$rootScope', '$timeout', 'AuthRepository', function( $scope, $state, $location, $rootScope, $timeout, AuthRepository ) {
+    .controller( 'auth-controller', [   '$scope', 
+                                        '$state', 
+                                        '$location', 
+                                        '$rootScope', 
+                                        '$timeout', 
+                                        'AuthRepository', function( $scope, 
+                                                                    $state, 
+                                                                    $location, 
+                                                                    $rootScope, 
+                                                                    $timeout, 
+                                                                    AuthRepository ) {
         // Auth controller
         // This manages the authentication on the login view
         // Sets a login function that sends email and password
-        $scope.test = function() {
-            console.log( "Test" );
-            console.log( AuthRepository.getSession() );
-        }
-        $scope.login = function() {   
-            AuthRepository.login( $scope.email, $scope.password ).success( function( data ) {
-                if( data.error ) {
-                    $scope.errors = data.message;
-                } else {
-                    $scope.message = data.message;
-                    $rootScope.user_info = AuthRepository.getSession();
-                }               
-                $state.go( 'auth.home' );
-            }).error( function( error ) {
-                $scope.errors = error;
-            });
-        };        
+        $scope.$on('$stateChangeSuccess', function () { 
+            $scope.login = function() {   
+                AuthRepository.login( $scope.email, $scope.password ).success( function( data ) {
+                    if( data.error ) {
+                        $scope.errors = data.message;
+                    } else {
+                        $scope.message = data.message;
+                        $rootScope.user_info = AuthRepository.getSession();
+                    }               
+                    setTimeout(function() {
+                        $state.go( 'auth.home' );
+                    }, 2000);
+                }).error( function( error ) {
+                    $scope.errors = error;
+                });
+            };        
+        });
     }])
-    .controller( 'header-controller', [ '$scope', '$state', 'ItemRepository', 'AuthRepository', function( $scope, $state, ItemRepository, AuthRepository ) {
-        if( AuthRepository.viewVerification() ) {
+    .controller( 'header-controller', [ '$scope', 
+                                        '$state', 
+                                        'ItemRepository', 
+                                        'AuthRepository', 
+                                        function(   $scope, 
+                                                    $state, 
+                                                    ItemRepository, 
+                                                    AuthRepository  ) {
+        //if( AuthRepository.viewVerification( $scope, AuthRepository ) ) {
             $scope.logout = function() {
                 AuthRepository.logout().success( function( response ) {
                     AuthRepository.removeSession()               
@@ -71,5 +89,5 @@ yukonApp
             }).error( function( error ) {
                 $scope.errors = error;
             });
-        }
+        //}
     }]);

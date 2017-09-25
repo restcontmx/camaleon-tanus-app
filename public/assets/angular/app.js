@@ -27,13 +27,12 @@ var yukonApp = angular.module('yukonApp', [ 'ui.router',
 /* Run Block */
 yukonApp.run(
     [ '$rootScope', '$state', '$stateParams',
-        function ($rootScope, $state, $stateParams) {
+        function ($rootScope, $state, $stateParams ) {
 
             $rootScope.$state = $state;
             $rootScope.$stateParams = $stateParams;
 
             $rootScope.$on('$stateChangeSuccess', function () {
-                // scroll view to top
                 $("html, body").animate({ scrollTop: 0 }, 200);
                 // fastclick (eliminate the 300ms delay between a physical tap and the firing of a click event on mobile browsers)
                 FastClick.attach(document.body);

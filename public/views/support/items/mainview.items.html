@@ -1,8 +1,9 @@
 <div class="row">
     <div class="col-md-2">
         <div class="list-group">
-            <a ui-sref="auth.support.items.edit" ng-class="{ active: $state.includes('auth.support.items.edit') }" class="list-group-item">Edit ITEMS</a>
-            <a ui-sref="auth.support.items.activelogs" ng-class="{ active: $state.includes('auth.support.items.activelogs') }" class="list-group-item">Active Logs</a>
+            <a ui-sref="auth.support.items.edit" ng-class="{ active: $state.includes('auth.support.items.edit') }" class="list-group-item"><span class="el-icon-edit" aria-hidden="true"></span> Edit ITEMS</a>
+            <a ui-sref="auth.support.items.activelogs" ng-class="{ active: $state.includes('auth.support.items.activelogs') }" class="list-group-item"><span class="el-icon-time" aria-hidden="true"></span> Active Logs</a>
+            <a ui-sref="auth.support.items.inactivelogs" ng-class="{ active: $state.includes('auth.support.items.inactivelogs') }" class="list-group-item"><span class="el-icon-ok-sign" aria-hidden="true"></span> Inactive Logs</a>
         </div>
     </div>
     <div class="col-md-10">

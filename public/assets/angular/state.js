@@ -872,10 +872,32 @@ yukonApp
                             'uiLoad',
                             function (uiLoad) {
                                 return uiLoad.load([
-                                    //  datatables
-                                    'assets/lib/DataTables/media/js/jquery.dataTables.min.js',
-                                    'assets/lib/DataTables/extensions/FixedHeader/js/dataTables.fixedHeader.min.js',
-                                    'assets/lib/DataTables/media/js/dataTables.bootstrap.js'
+                                    // jBox
+                                    'assets/lib/jBox-0.3.0/Source/jBox.css',
+                                    'assets/lib/jBox-0.3.0/Source/themes/NoticeBorder.css',
+                                    'assets/lib/jBox-0.3.0/Source/jBox.min.js'
+                                ]);
+                            }
+                        ]
+                    },
+                    controller: 'item-logs-controller'
+                })
+                .state('auth.support.items.inactivelogs', {
+                    page_title: 'Items Inactive Logs',
+                    ncyBreadcrumb: {
+                        label: 'Items Inacive Logs'
+                    },
+                    url: '/logs/inactive',
+                    templateUrl: 'views/support/items/logs.inactive.html',
+                    resolve: {
+                        files: [
+                            'uiLoad',
+                            function (uiLoad) {
+                                return uiLoad.load([
+                                    // jBox
+                                    'assets/lib/jBox-0.3.0/Source/jBox.css',
+                                    'assets/lib/jBox-0.3.0/Source/themes/NoticeBorder.css',
+                                    'assets/lib/jBox-0.3.0/Source/jBox.min.js'
                                 ]);
                             }
                         ]
@@ -896,7 +918,10 @@ yukonApp
                                 return uiLoad.load([
                                     //  datatables
                                     'assets/lib/gridforms/gf-forms.min.css',
-                                    'assets/lib/gridforms/gf-forms.min.js'
+                                    'assets/lib/gridforms/gf-forms.min.js',
+                                    'assets/lib/jBox-0.3.0/Source/jBox.css',
+                                    'assets/lib/jBox-0.3.0/Source/themes/NoticeBorder.css',
+                                    'assets/lib/jBox-0.3.0/Source/jBox.min.js'
                                 ]);
                             }
                         ]
