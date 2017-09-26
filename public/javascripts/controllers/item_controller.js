@@ -271,7 +271,7 @@ yukonApp
                         $scope.gridOptions.data = $scope.item_reports_all_table;
                         $scope.top10_donut_data = [];
                         $scope.global_total = $scope.item_reports_all_table.map( r => parseFloat( r.total ) ).reduce( ( a, b ) => ( a + b ), 0 );
-                        $scope.item_reports_all_table.slice(0, 10).forEach( r => $scope.top10_donut_data.push( [ r.cate_name, r.total ] ) );
+                        $scope.item_reports_all_table.slice(0, 10).forEach( r => $scope.top10_donut_data.push( [ r.item_description, r.total ] ) );
                         top10_donut_graphic.destroy();
                         top10_donut_graphic = c3.generate({
                             bindto: '#top10_donut',
