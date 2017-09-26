@@ -14,7 +14,8 @@ yukonApp
             getActiveLogs : () => LogService.getActive( model ),
             getInactiveLogs : () => LogService.getInactive( model ),
             delete_log : ( id ) => LogService.delete_itemchange( id ),
-            reportsByDate : ( d1, d2, turn_id ) => $http.get( '/reports/' + model + '/?d1=' + d1 + '&d2=' + d2 + '&turn=' + turn_id )            
+            reportsByDate : ( d1, d2, turn_id ) => $http.get( '/reports/' + model + '/?d1=' + d1 + '&d2=' + d2 + '&turn=' + turn_id ),
+            getItemReportsByCategory : ( c_id, c_name, d1, d2, turn_id ) => $http.get( '/reports/' + model + '/bycategory/?d1=' + d1 + '&d2=' + d2 + '&turn=' + turn_id + '&cate_name=' + c_name + '&cate_id=' + c_id )
         });
     }])
     .controller( 'item-controller', [   '$scope',

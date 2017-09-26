@@ -24,15 +24,21 @@ yukonApp
         }
     }])
     .controller('category-reports-controller', [    '$scope',
+                                                    '$rootScope',
                                                     'CategoryRepository',
                                                     'LocationRepository',
                                                     'TurnRepository',
                                                     'AuthRepository',
+                                                    'ItemRepository',
+                                                    'uiGridConstants',
                                                     function(   $scope,
+                                                                $rootScope,
                                                                 CategoryRepository,
                                                                 LocationRepository,
                                                                 TurnRepository,
-                                                                AuthRepository  ) {
+                                                                AuthRepository,
+                                                                ItemRepository,
+                                                                uiGridConstants  ) {
         if( AuthRepository.viewVerification() ) {
 
             let todays = new Date(),
@@ -46,6 +52,7 @@ yukonApp
                         }
                     }
                 });
+            $scope.hideGrid = false;
             $scope.date_end = new Date();
             todays.setDate( 1 );
             $scope.date_start = todays;
@@ -55,8 +62,41 @@ yukonApp
             $scope.date_end.setHours( "23" );
             $scope.date_end.setMinutes( "59" );
             $scope.date_end.setSeconds( "59" );
+            $scope.full_table_display = true;
             $scope.progress_ban = true; // This is for the loanding simbols or whatever you want to activate
             $scope.turn_options = Array.of( { text : 'All',  id : 0 } );
+            // Table grid options
+            $scope.gridOptions = {
+                enableRowSelection: true, enableRowHeaderSelection: false,
+                enableSorting: true,
+                showGridFooter: true,
+                enableGridMenu: true,
+                enableFiltering: true,
+                paginationPageSizes: [25, 50, 75],
+                paginationPageSize: 25,
+                columnDefs: [
+                    { field: 'item_id' },
+                    { field: 'item_description' },
+                    { field: 'vta_neta' },
+                    { field: 'tax1' },
+                    { field: 'tax2' },
+                    { field: 'tax3' },
+                    { field: 'total', enableSorting: true }
+                ]
+            };
+            $scope.gridOptions.multiSelect = false;
+            $scope.gridOptions.modifierKeysToMultiSelect = false;
+            $scope.gridOptions.noUnselect = true;
+            $scope.gridOptions.onRegisterApi = function( gridApi ) {
+                $scope.gridApi = gridApi;
+                gridApi.selection.on.rowSelectionChanged($scope,function(row){
+                    $rootScope.grid_action( row.entity );
+                });
+            };
+            // Grid action for selected rows
+            $rootScope.grid_action = function( row ) {
+                // Selected row option
+            };
             // Date range variable
             // the important ones area start and end which are already conffigured on the scope
             $scope.date_range = {
@@ -145,7 +185,7 @@ yukonApp
                             data: {
                                 columns: $scope.top10_donut_data,
                                 type: 'donut',
-                                onclick: function (d, i) { /*console.log("onclick", d, i);*/ },
+                                onclick: function (d, i) { $scope.get_item_detail_table_on_chart( d, i ) },
                                 onmouseover: function (d, i) { /*console.log("onmouseover", d, i);*/ },
                                 onmouseout: function (d, i) { /*console.log("onmouseout", d, i);*/ }
                             },
@@ -153,6 +193,7 @@ yukonApp
                                 title: "Category Sales"
                             }
                         });
+                        $scope.hideGrid = true;
                         // Get locations
                         LocationRepository.getAll().success( function( d1 ) {
                             if( !d1.error ) {
@@ -224,7 +265,7 @@ yukonApp
                     data: {
                         columns: $scope.top10_donut_data,
                         type: 'donut',
-                        onclick: function (d, i) { /*console.log("onclick", d, i);*/ },
+                        onclick: function (d, i) { $scope.get_item_detail_table_on_chart( d, i ) },
                         onmouseover: function (d, i) { /*console.log("onmouseover", d, i);*/ },
                         onmouseout: function (d, i) { /*console.log("onmouseout", d, i);*/ }
                     },
@@ -232,6 +273,38 @@ yukonApp
                         title: "Category Sales"
                     }
                 });
+            };
+            // Get item reports by category and dates
+            // This will go to the factory and return all the category items with number reports
+            $scope.get_item_reports_by_category = function( category, date1, date2, turn_id ) {
+                $scope.progress_ban = true;
+                ItemRepository.getItemReportsByCategory( category.cate_id, category.cate_name, date1, date2, turn_id ).success( function( response ) {
+                    if( !response.error ) {
+                        $scope.item_reports_all_table = response.data.item_reports_all;
+                        $scope.gridOptions.data = $scope.item_reports_all_table;
+                        $scope.hideGrid = false;
+                        $scope.full_table_display = false;
+                    } else {
+                        $scope.errors = response.message;
+                    }$scope.progress_ban = false;
+                }).error( function( error ) {
+                    $scope.errors = error;
+                    $scope.progress_ban = false;
+                });
+            }
+            // Get item detail table
+            // This will get the items detailing the selected item on the chart
+            $scope.get_item_detail_table_on_chart = function( d, i ) {
+                let category = $scope.category_reports_all_table.slice(0, 10).find( r => r.cate_name === d.name ),
+                    date_1  = ( $scope.date_range.date_start.getMonth() + 1) + '/' + $scope.date_range.date_start.getDate() + '/' + $scope.date_range.date_start.getFullYear() + ' ' + $scope.date_range.date_start.getHours() + ':' + $scope.date_range.date_start.getMinutes() + ':' + $scope.date_range.date_start.getSeconds(),
+                    date_2  = ( $scope.date_range.date_end.getMonth() + 1) + '/' + $scope.date_range.date_end.getDate() + '/' + $scope.date_range.date_end.getFullYear() + ' ' + $scope.date_range.date_end.getHours() + ':' + $scope.date_range.date_end.getMinutes() + ':' + $scope.date_range.date_end.getSeconds(),
+                    turn_id = $( '#turns_select' ).val() ? $( '#turns_select' ).val() : 0;
+                $scope.get_item_reports_by_category( category, date_1, date_2, turn_id );
+            };
+            // Just display again the category reports information
+            $scope.go_back = function() {
+                $scope.full_table_display = true;
+                $scope.hideGrid = true;
             };
             // Set compare table
             // This function is for setting the bar graphics comparing all the locaitons

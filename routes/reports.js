@@ -69,7 +69,7 @@ router.get( '/it_tdepartment/', jsonParser, function( req, res ) {
 /**
 * it_titem reports pettition
 **/
-router.get( '/it_titem/', jsonParser, function( req, res ) {
+router.get( '/it_titem', jsonParser, function( req, res ) {
     var userdata = JSON.parse( req.cookies['userdata'] ),
         url_parts = urlLib.parse( req.url, true );
     request(
@@ -84,6 +84,26 @@ router.get( '/it_titem/', jsonParser, function( req, res ) {
         ( error, response, body ) => { res.send( http_helper.data_format_ok( error, response, body ) ) }
     );
 });
+
+/**
+* it_titem reports pettition
+**/
+router.get( '/it_titem/bycategory', jsonParser, function( req, res ) {
+    var userdata = JSON.parse( req.cookies['userdata'] ),
+        url_parts = urlLib.parse( req.url, true );
+    request(
+        {
+            url : http_helper.get_api_uri( 'it_titem/bycategory/reports/', '?d1=' + url_parts.query.d1 + '&d2=' + url_parts.query.d2 + '&turn=' + url_parts.query.turn + '&cate_name=' + url_parts.query.cate_name + '&cate_id=' + url_parts.query.cate_id ),
+            method : 'GET',
+            json : true,
+            headers : {
+                'Authorization' : http_helper.get_basic_auth_w_token( encryption_system.decryptCookie( userdata.auth_data ) )
+            }
+        },
+        ( error, response, body ) => { res.send( http_helper.data_format_ok( error, response, body ) ) }
+    );
+});
+
 
 /**
 * local reports pettition
