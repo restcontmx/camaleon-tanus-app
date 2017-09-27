@@ -27,6 +27,7 @@ var logs = require( './routes/logs' );
 var turn = require( './routes/turn' );
 var support = require( './routes/support' );
 var itemchange = require( './routes/itemchange' );
+var dashboard = require( './routes/dashboard' );
 
 var app = express();
 
@@ -60,6 +61,7 @@ app.use('/logs', logs);
 app.use('/turn', turn);
 app.use('/support', support);
 app.use('/itemchange', itemchange);
+app.use('/dashboard', dashboard);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

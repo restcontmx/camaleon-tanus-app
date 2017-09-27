@@ -70,7 +70,13 @@ yukonApp
                                     // easePie chart
                                     'assets/lib/easy-pie-chart/dist/jquery.easypiechart.min.js',
                                     // dashboard functions
-                                    'assets/angular/states_jquery/yukon_dashboard.min.js'
+                                    'assets/angular/states_jquery/yukon_dashboard.min.js',
+                                    // datepicker
+                                    'assets/lib/bootstrap-datepicker/css/datepicker3.css',
+                                    'assets/lib/bootstrap-datepicker/js/bootstrap-datepicker.js',
+                                    // date range picker
+                                    'assets/lib/bootstrap-daterangepicker/daterangepicker-bs3.css',
+                                    'assets/lib/bootstrap-daterangepicker/daterangepicker.js'
                                 ]);
                             }
                         ]

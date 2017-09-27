@@ -118,7 +118,7 @@
                     chart_c3_sales.transform('area', '2013');
                     chart_c3_sales.transform('line', '2014');
 				} else if($(this).data('chart') == 'bar') {	
-					chart_c3_sales.transform('bar');
+					chart_c3_sales.transform('bar', '');
 				}
 				
 				$('.chart_switch').toggleClass('btn-default btn-link');

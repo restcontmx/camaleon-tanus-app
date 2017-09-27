@@ -271,18 +271,309 @@ yukonApp
             }
         }
     ])
+    .factory( 'DashboardRepository', [ '$http', function( $http ) {
+        return({
+            get_sales_by_dates : ( d1, d2 ) => $http.get( '/dashboard/sales/?d1=' + d1 + '&d2=' + d2 )
+        });
+    }])
     .controller('dashboardCtrl', [
         '$scope',
         'files',
         'AuthRepository',
-        function ($scope, files, AuthRepository ) {
+        'DashboardRepository',
+        function ($scope, files, AuthRepository, DashboardRepository ) {
             $scope.$on('$stateChangeSuccess', function () {
                 if( AuthRepository.viewVerification( ) ) {
                     // run scripts after state load
                     // init dashboard functions
                     $scope.$watch('countries_data', function () {
+
                         countries_data = $scope.countries_data;
-                        yukon_dashboard.init();
+
+                        var chart_c3_sales = c3.generate({
+                            bindto: '#c3_sales',
+                            data: {
+                                x: 'x',
+                                columns: [
+                                    ['x', '2013-01-01', '2013-02-01', '2013-03-01', '2013-04-01', '2013-05-01', '2013-06-01', '2013-07-01', '2013-08-01', '2013-09-01', '2013-10-01', '2013-11-01', '2013-12-01'],
+                                    ['total sales', 14512, 10736, 18342, 14582, 16304, 22799, 18833, 21973, 23643, 22488, 24752, 28722]
+                                ],
+                                types: {
+                                    'total sales': 'area'
+                                }
+                            },
+                            axis: {
+                                x: {
+                                    type: 'timeseries',
+                                    tick: {
+                                        culling: false,
+                                        fit: true,
+                                        format: "%b"
+                                    }
+                                },
+                                y : {
+                                    tick: {
+                                        format: d3.format("$,")
+                                    }
+                                }
+                            },
+                            point: {
+                                r: '4',
+                                focus: {
+                                    expand: {
+                                        r: '5'
+                                    }
+                                }
+                            },
+                            bar: {
+                                width: {
+                                    ratio: 0.4 // this makes bar width 50% of length between ticks
+                                }
+                            },
+                            grid: {
+                                x: {
+                                    show: true
+                                },
+                                y: {
+                                    show: true
+                                }
+                            },
+                            color: {
+                                pattern: ['#1f77b4', '#ff7f0e', '#2ca02c', '#d62728', '#9467bd', '#8c564b', '#e377c2', '#7f7f7f', '#bcbd22', '#17becf']
+                            }
+                        });
+            
+                        $('.chart_switch').on('click', function() {
+                            
+                            if($(this).data('chart') == 'line') {
+                                chart_c3_sales.transform('area', '2013');
+                                chart_c3_sales.transform('line', '2014');
+                            } else if($(this).data('chart') == 'bar') {	
+                                chart_c3_sales.transform('bar', '2013');
+                                chart_c3_sales.transform('line', '2014');
+                            }
+                            
+                            $('.chart_switch').toggleClass('btn-default btn-link');
+                            
+                        });
+            
+                        $(window).on("debouncedresize", function() {
+                            chart_c3_sales.resize();
+                        });
+
+                        var chart_c3_users_age = c3.generate({
+                            bindto: '#c3_users_age',
+                            data: {
+                                columns: [
+                                    ['18-24', 18],
+                                    ['25-32', 42],
+                                    ['33-40', 31],
+                                    ['41-57', 9]
+                                    
+                                ],
+                                type : 'donut'
+                            },
+                            donut: {
+                                onclick: function (d, i) { console.log(d, i); },
+                                onmouseover: function (d, i) { console.log(d, i); },
+                                onmouseout: function (d, i) { console.log(d, i); }
+                            }
+                        });
+                        $(window).on("debouncedresize", function() {
+                            chart_c3_users_age.resize();
+                        });
+
+                        var chart_c3_orders = c3.generate({
+                            bindto: '#c3_orders',
+                            data: {
+                                columns: [
+                                    ['New', 64],
+                                    ['In Progrees', 36]
+                                    
+                                ],
+                                type : 'pie'
+                            },
+                            pie: {
+                                onclick: function (d, i) { console.log(d, i); },
+                                onmouseover: function (d, i) { console.log(d, i); },
+                                onmouseout: function (d, i) { console.log(d, i); }
+                            }
+                        });
+                        
+                        $(window).on("debouncedresize", function() {
+                            chart_c3_orders.resize();
+                        });
+
+                        let todays = new Date();
+                        $scope.date_end = new Date();
+                        todays.setDate( 1 );
+                        $scope.date_start = todays;
+                        $scope.date_start.setHours( "00" );
+                        $scope.date_start.setMinutes( "00" );
+                        $scope.date_start.setSeconds( "00" );
+                        $scope.date_end.setHours( "23" );
+                        $scope.date_end.setMinutes( "59" );
+                        $scope.date_end.setSeconds( "59" );
+                        $scope.progress_ban = false; // This is for the loanding simbols or whatever you want to activate
+                        $scope.total_sales = 0;
+                        $scope.promedy_sales = 0;
+                        $scope.orders_completed = 0;
+                        // Date range variable
+                        // the important ones area start and end which are already conffigured on the scope
+                        $scope.date_range = {
+                            today: moment().format('MMMM D, YYYY'),
+                            last_month: moment().subtract('M', 1).format('MMMM D, YYYY'),
+                            date_start : $scope.date_start,
+                            date_end : $scope.date_end
+                        };
+                        // Date range picker settings
+                        if ($("#drp_predefined").length) {
+                            $('#drp_predefined').daterangepicker(
+                                {
+                                    timePicker: true,
+                                    timePicker24Hour: true,
+                                    ranges: {
+                                        'Today': [moment(), moment()],
+                                        'Yesterday': [moment().subtract('days', 1), moment().subtract('days', 1)],
+                                        'Last 7 Days': [moment().subtract('days', 6), moment()],
+                                        'Last 30 Days': [moment().subtract('days', 29), moment()],
+                                        'This Month': [moment().startOf('month'), moment().endOf('month')],
+                                        'Last Month': [moment().subtract('month', 1).startOf('month'), moment().subtract('month', 1).endOf('month')]
+                                    },
+                                    startDate: moment().subtract('days', 6),
+                                    endDate: moment()
+                                },
+                                function(start, end) {
+                                    $('#drp_predefined span').html(start.format("MM/DD/YYYY HH:mm:ss") + ' - ' + end.format("MM/DD/YYYY HH:mm:ss"));
+                                    // When selected the datepicker returns a moment object; this just formats everything to what we need
+                                    $scope.date_range.date_start = new Date( start.format("MM/DD/YYYY HH:mm:ss") );
+                                    $scope.date_range.date_end = new Date( end.format("MM/DD/YYYY HH:mm:ss") );
+                                }
+                            );
+                        }
+                        $scope.get_reports = function() {
+                            $scope.progress_ban = true;
+                            let date_1  = ( $scope.date_range.date_start.getMonth() + 1) + '/' + $scope.date_range.date_start.getDate() + '/' + $scope.date_range.date_start.getFullYear() + ' ' + $scope.date_range.date_start.getHours() + ':' + $scope.date_range.date_start.getMinutes() + ':' + $scope.date_range.date_start.getSeconds(),
+                                date_2  = ( $scope.date_range.date_end.getMonth() + 1) + '/' + $scope.date_range.date_end.getDate() + '/' + $scope.date_range.date_end.getFullYear() + ' ' + $scope.date_range.date_end.getHours() + ':' + $scope.date_range.date_end.getMinutes() + ':' + $scope.date_range.date_end.getSeconds();       
+                            DashboardRepository.get_sales_by_dates( date_1, date_2 ).success( function( response ) {
+                                if( !response.error ) {
+                                    $scope.sales = response.data.sale_reports;
+                                    $scope.orders_completed = response.data.total_orders[0].completed_orders;
+                                    $scope.location_reports = response.data.location_reports;
+                                    $scope.top10_reports = response.data.top10_reports;
+
+                                    $scope.total_sales = $scope.sales.map( s => s.total ).reduce( ( a, b ) => ( a + b ), 0 );
+                                    $scope.promedy_sales = $scope.total_sales / $scope.sales.length;
+                                    $scope.locations_data = [];
+                                    $scope.location_reports.forEach( lr => $scope.locations_data.push( [ lr.location_name, lr.total ] ) );
+                                    $scope.top10_data = $scope.top10_reports.map( tr => [ tr.move_date, tr.total ] );
+                                    
+                                    let total_sales = Array.of( 'Total sales' ),
+                                        move_dates = Array.of( 'x' );
+                                    
+                                    $scope.sales.forEach( s => {
+                                        move_dates.push( s.move_date );
+                                        total_sales.push( s.total );
+                                    })
+                                    
+                                    chart_c3_sales.destroy();
+                                    chart_c3_sales = c3.generate({
+                                        bindto: '#c3_sales',
+                                        data: {
+                                            x: 'x',
+                                            columns: [
+                                                move_dates,
+                                                total_sales    
+                                            ],
+                                            types: {
+                                                'Total sales': 'area'
+                                            }
+                                        },
+                                        zoom: {
+                                            enabled: true
+                                        },
+                                        axis: {
+                                            x: {
+                                                type: 'timeseries',
+                                                tick: {
+                                                    format: function (x) { return ( x.getMonth() + 1 ) + '-' + x.getDate() } // format string is also available for timeseries data
+                                                }
+                                            },
+                                            y : {
+                                                tick: {
+                                                    format: d3.format("$,")
+                                                }
+                                            }
+                                        },
+                                        point: {
+                                            r: '4',
+                                            focus: {
+                                                expand: {
+                                                    r: '5'
+                                                }
+                                            }
+                                        },
+                                        bar: {
+                                            width: {
+                                                ratio: 0.4 // this makes bar width 50% of length between ticks
+                                            }
+                                        },
+                                        grid: {
+                                            x: {
+                                                show: true
+                                            },
+                                            y: {
+                                                show: true
+                                            }
+                                        },
+                                        color: {
+                                            pattern: ['#1f77b4', '#ff7f0e', '#2ca02c', '#d62728', '#9467bd', '#8c564b', '#e377c2', '#7f7f7f', '#bcbd22', '#17becf']
+                                        }
+                                    });
+                                    
+                                    chart_c3_orders.destroy();
+                                    chart_c3_orders = c3.generate({
+                                        bindto: '#c3_orders',
+                                        data: {
+                                            columns: $scope.locations_data,
+                                            type : 'pie'
+                                        },
+                                        pie: {
+                                            onclick: function (d, i) { console.log(d, i); },
+                                            onmouseover: function (d, i) { console.log(d, i); },
+                                            onmouseout: function (d, i) { console.log(d, i); }
+                                        }
+                                    });
+                                    
+                                    $(window).on("debouncedresize", function() {
+                                        chart_c3_orders.resize();
+                                    });  
+                                    chart_c3_users_age.destroy();
+                                    chart_c3_users_age = c3.generate({
+                                        bindto: '#c3_users_age',
+                                        data: {
+                                            columns: $scope.top10_data,
+                                            type : 'donut'
+                                        },
+                                        donut: {
+                                            onclick: function (d, i) { console.log(d, i); },
+                                            onmouseover: function (d, i) { console.log(d, i); },
+                                            onmouseout: function (d, i) { console.log(d, i); }
+                                        }
+                                    });
+                                    $(window).on("debouncedresize", function() {
+                                        chart_c3_users_age.resize();
+                                    });
+                                } else {
+                                    $scope.errors = response.message;
+                                }$scope.progress_ban = false;
+                            }).error( function( error ) {
+                                $scope.errors = error;
+                                $scope.progress_ban = false;
+                            });
+                        };
+                        // Get month reports so far by default
+                        $scope.get_reports();
                     });
                 }
             });
