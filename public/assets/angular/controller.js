@@ -467,11 +467,32 @@ yukonApp
                                     $scope.locations_data = [];
                                     $scope.location_reports.forEach( lr => $scope.locations_data.push( [ lr.location_name, lr.total ] ) );
                                     $scope.top10_data = $scope.top10_reports.map( tr => [ tr.move_date, tr.total ] );
+                                    $scope.sales_complete_dates = [];
+                                    
+                                    let date_start = angular.copy($scope.date_range.date_start),
+                                        date_end = angular.copy( $scope.date_range.date_end );
+                                    
+                                    while( date_start <= date_end ) {
+                                        let temp_date_str = date_start.getFullYear() + '-' + ( date_start.getMonth() + 1) + '-' + date_start.getDate(),
+                                            temp_obj = $scope.sales.find( s => {
+                                                let inter_d = new Date( s.move_date )
+                                                inter_d.setDate( inter_d.getDate() + 1 )
+                                                if ( DateToString( inter_d ) == DateToString( new Date( temp_date_str ) ) ) {
+                                                    return s;
+                                                }
+                                            });
+                                        if( temp_obj ) {
+                                            $scope.sales_complete_dates.push( temp_obj );
+                                        } else {
+                                            $scope.sales_complete_dates.push( { "total" : 0, "move_date" : temp_date_str } );
+                                        }
+                                        date_start.setDate( date_start.getDate() + 1 );
+                                    }
                                     
                                     let total_sales = Array.of( 'Total sales' ),
                                         move_dates = Array.of( 'x' );
                                     
-                                    $scope.sales.forEach( s => {
+                                    $scope.sales_complete_dates.forEach( s => {
                                         move_dates.push( s.move_date );
                                         total_sales.push( s.total );
                                     })
@@ -496,6 +517,8 @@ yukonApp
                                             x: {
                                                 type: 'timeseries',
                                                 tick: {
+                                                    culling: false,
+                                                    fit: true,
                                                     format: function (x) { return ( x.getMonth() + 1 ) + '-' + x.getDate() } // format string is also available for timeseries data
                                                 }
                                             },
@@ -574,6 +597,10 @@ yukonApp
                         };
                         // Get month reports so far by default
                         $scope.get_reports();
+                        // Convert date to a string separated by - - - 
+                        function DateToString( d ) {
+                            return d.getFullYear() + '-' + ( d.getMonth() + 1) + '-' + d.getDate()
+                        }
                     });
                 }
             });
