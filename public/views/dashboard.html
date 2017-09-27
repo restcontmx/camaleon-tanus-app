@@ -13,7 +13,7 @@
             <div class="info_box_var_1 box_bg_b">
                 <div class="info_box_body">
                     <span class="info_box_icon icon_cart_alt"></span>
-                    <span class="countUpMe" data-endVal="{{orders_completed}}">{{orders_completed}}</span>
+                    <span class="countUpMe" data-endVal="{{orders_completed}}">{{orders_completed | number}}</span>
                 </div>
                 <div class="info_box_footer">
                     Orders Completed
@@ -34,7 +34,7 @@
         <div class="col-lg-4 col-sm-6">
             <div class="info_box_var_1 box_bg_d">
                 <div class="info_box_body">
-                    <span class="info_box_icon icon_mail_alt"></span>
+                    <span class="info_box_icon glyphicon glyphicon-stats"></span>
                     $<span class="countUpMe" data-endVal="{{promedy_sales}}">{{promedy_sales | number:2}}</span>
                 </div>
                 <div class="info_box_footer">
