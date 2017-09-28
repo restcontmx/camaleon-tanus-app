@@ -3,7 +3,8 @@
 </fieldset>
 <div class="row">
     <div growl></div>
-    <div class="col-md-6 mHeight pull-right">
+
+    <div class="col-md-6 mHeight">
         <form class="gf">
             <fieldset>
                 <legend>{{selectedItem.item.item_description}}</legend>
@@ -21,9 +22,6 @@
             </fieldset>
         </form>
         <div class="easy_chart_wrapper mHeight-item">
-            <div class="easy_chart_a easy_chart" data-percent="86">
-                <span class="easy_chart_percent"></span>
-            </div>
             <div class="easy_chart_info">
                 <h4 class="easy_chart_heading">Orders Locations</h4>
                 <div class="checkbox" ng-if="locations_display.length > 0">
@@ -49,6 +47,7 @@
         <br>
         <button class="btn btn-block btn-primary" type="button" data-confirm="Are you sure you want to save this item?">Save</button>        
     </div>
+    
     <div class="col-md-6">
         <div class="row">
             <div class="col-md-12">
@@ -71,4 +70,5 @@
             </div>
         </div>
     </div>
+    
 </div>
