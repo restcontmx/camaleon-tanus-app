@@ -294,12 +294,8 @@ yukonApp
                             bindto: '#c3_sales',
                             data: {
                                 x: 'x',
-                                columns: [
-                                    ['x', '2013-01-01', '2013-02-01', '2013-03-01', '2013-04-01', '2013-05-01', '2013-06-01', '2013-07-01', '2013-08-01', '2013-09-01', '2013-10-01', '2013-11-01', '2013-12-01'],
-                                    ['total sales', 14512, 10736, 18342, 14582, 16304, 22799, 18833, 21973, 23643, 22488, 24752, 28722]
-                                ],
+                                columns: [ ],
                                 types: {
-                                    'total sales': 'area'
                                 }
                             },
                             axis: {
@@ -418,6 +414,7 @@ yukonApp
                         $scope.total_sales = 0;
                         $scope.promedy_sales = 0;
                         $scope.orders_completed = 0;
+                        $scope.ticket_average = 0;
                         // Date range variable
                         // the important ones area start and end which are already conffigured on the scope
                         $scope.date_range = {
@@ -464,6 +461,7 @@ yukonApp
 
                                     $scope.total_sales = $scope.sales.map( s => s.total ).reduce( ( a, b ) => ( a + b ), 0 );
                                     $scope.promedy_sales = $scope.total_sales / $scope.sales.length;
+                                    $scope.ticket_average = $scope.total_sales / $scope.orders_completed;
                                     $scope.locations_data = [];
                                     $scope.location_reports.forEach( lr => $scope.locations_data.push( [ lr.location_name, lr.total ] ) );
                                     $scope.top10_data = $scope.top10_reports.map( tr => [ tr.move_date, tr.total ] );
@@ -576,7 +574,7 @@ yukonApp
                                         bindto: '#c3_users_age',
                                         data: {
                                             columns: $scope.top10_data,
-                                            type : 'donut'
+                                            type : 'bar'
                                         },
                                         donut: {
                                             onclick: function (d, i) { console.log(d, i); },

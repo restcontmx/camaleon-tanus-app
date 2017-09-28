@@ -9,7 +9,7 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-lg-4 col-sm-6">
+        <div class="col-lg-3 col-sm-6">
             <div class="info_box_var_1 box_bg_b">
                 <div class="info_box_body">
                     <span class="info_box_icon icon_cart_alt"></span>
@@ -20,18 +20,18 @@
                 </div>
             </div>
         </div>
-        <div class="col-lg-4 col-sm-6">
+        <div class="col-lg-3 col-sm-6">
             <div class="info_box_var_1 box_bg_c">
                 <div class="info_box_body">
                     <span class="info_box_icon icon_wallet"></span>
                     $<span class="countUpMe" data-endVal="{{total_sales}}">{{total_sales | number:2}}</span>
                 </div>
                 <div class="info_box_footer">
-                    Sales
+                    Sales [{{date_range.date_start | date : 'MM/dd/y'}} - {{date_range.date_end | date : 'MM/dd/y'}} ]
                 </div>
             </div>
         </div>
-        <div class="col-lg-4 col-sm-6">
+        <div class="col-lg-3 col-sm-6">
             <div class="info_box_var_1 box_bg_d">
                 <div class="info_box_body">
                     <span class="info_box_icon glyphicon glyphicon-stats"></span>
@@ -39,6 +39,17 @@
                 </div>
                 <div class="info_box_footer">
                     Sales average
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-sm-6">
+            <div class="info_box_var_1 box_bg_a">
+                <div class="info_box_body">
+                    <span class="info_box_icon icon_document"></span>
+                    $<span class="countUpMe" data-endVal="{{ticket_average}}">{{ticket_average | number:2}}</span>
+                </div>
+                <div class="info_box_footer">
+                    Ticket average
                 </div>
             </div>
         </div>

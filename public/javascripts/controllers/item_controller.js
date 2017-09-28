@@ -38,7 +38,9 @@ yukonApp
             $scope.isDisabled    = false;
             $scope.locations_display = [];
             $scope.progress_ban = true;
-
+            $scope.all_locations = {
+                value : false
+            }
             LocationRepository.getAll().success( function( data ) {
                 if( !data.error ) {
                     $scope.locations = data.data;
@@ -76,7 +78,14 @@ yukonApp
                 item.locations.forEach( l => $scope.locations_display.push( $scope.locations.find( loc => ( loc.id === l ) ) ) );
                 $scope.locations_display.forEach( l => l.selected = false );
             };
-
+            $scope.all_locations_selected = function() {
+                console.log( $scope.all_locations );
+                if( $scope.all_locations.value ) {
+                    $scope.locations_display.forEach( l => l.selected = true );            
+                } else {
+                    $scope.locations_display.forEach( l => l.selected = false );            
+                }
+            };
             $scope.saveItem = function( ev ) {
                 if( $scope.selectedItem ) {
                     $scope.progress_ban = true;

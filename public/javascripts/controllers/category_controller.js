@@ -64,6 +64,7 @@ yukonApp
             $scope.date_end.setSeconds( "59" );
             $scope.full_table_display = true;
             $scope.progress_ban = true; // This is for the loanding simbols or whatever you want to activate
+            $scope.detail_progress = false;
             $scope.turn_options = Array.of( { text : 'All',  id : 0 } );
             // Table grid options
             $scope.gridOptions = {
@@ -166,6 +167,7 @@ yukonApp
             // Function that sets all the reports by date range and turn
             $scope.get_reports = function() {
                 $scope.progress_ban = true;
+                $scope.full_table_display = true;
 
                 let date_1  = ( $scope.date_range.date_start.getMonth() + 1) + '/' + $scope.date_range.date_start.getDate() + '/' + $scope.date_range.date_start.getFullYear() + ' ' + $scope.date_range.date_start.getHours() + ':' + $scope.date_range.date_start.getMinutes() + ':' + $scope.date_range.date_start.getSeconds(),
                     date_2  = ( $scope.date_range.date_end.getMonth() + 1) + '/' + $scope.date_range.date_end.getDate() + '/' + $scope.date_range.date_end.getFullYear() + ' ' + $scope.date_range.date_end.getHours() + ':' + $scope.date_range.date_end.getMinutes() + ':' + $scope.date_range.date_end.getSeconds(),
@@ -193,7 +195,6 @@ yukonApp
                                 title: "Category Sales"
                             }
                         });
-                        $scope.hideGrid = true;
                         // Get locations
                         LocationRepository.getAll().success( function( d1 ) {
                             if( !d1.error ) {
@@ -218,6 +219,7 @@ yukonApp
                                 $scope.errors = d1.message;
                             }
                             $scope.progress_ban = false;
+                            $scope.hideGrid = true;
                         }).error( function( error ) {
                             $scope.errors = error;
                             $scope.progress_ban = false;
@@ -278,10 +280,12 @@ yukonApp
             // This will go to the factory and return all the category items with number reports
             $scope.get_item_reports_by_category = function( category, date1, date2, turn_id ) {
                 $scope.progress_ban = true;
+                $scope.selected_category = category.cate_name;
                 ItemRepository.getItemReportsByCategory( category.cate_id, category.cate_name, date1, date2, turn_id ).success( function( response ) {
                     if( !response.error ) {
                         $scope.item_reports_all_table = response.data.item_reports_all;
                         $scope.gridOptions.data = $scope.item_reports_all_table;
+                        $scope.total_detail = $scope.item_reports_all_table.map( ir => ir.total ).reduce( ( a, b ) => ( a + b ), 0 );
                         $scope.hideGrid = false;
                         $scope.full_table_display = false;
                     } else {
@@ -297,6 +301,14 @@ yukonApp
             $scope.get_item_detail_table_on_chart = function( d, i ) {
                 let category = $scope.category_reports_all_table.slice(0, 10).find( r => r.cate_name === d.name ),
                     date_1  = ( $scope.date_range.date_start.getMonth() + 1) + '/' + $scope.date_range.date_start.getDate() + '/' + $scope.date_range.date_start.getFullYear() + ' ' + $scope.date_range.date_start.getHours() + ':' + $scope.date_range.date_start.getMinutes() + ':' + $scope.date_range.date_start.getSeconds(),
+                    date_2  = ( $scope.date_range.date_end.getMonth() + 1) + '/' + $scope.date_range.date_end.getDate() + '/' + $scope.date_range.date_end.getFullYear() + ' ' + $scope.date_range.date_end.getHours() + ':' + $scope.date_range.date_end.getMinutes() + ':' + $scope.date_range.date_end.getSeconds(),
+                    turn_id = $( '#turns_select' ).val() ? $( '#turns_select' ).val() : 0;
+                $scope.get_item_reports_by_category( category, date_1, date_2, turn_id );
+            };
+            // Get item detail table
+            // This will get the items detailing the selected item on the chart
+            $scope.get_item_detail_table_on_table = function( category ) {
+                let date_1  = ( $scope.date_range.date_start.getMonth() + 1) + '/' + $scope.date_range.date_start.getDate() + '/' + $scope.date_range.date_start.getFullYear() + ' ' + $scope.date_range.date_start.getHours() + ':' + $scope.date_range.date_start.getMinutes() + ':' + $scope.date_range.date_start.getSeconds(),
                     date_2  = ( $scope.date_range.date_end.getMonth() + 1) + '/' + $scope.date_range.date_end.getDate() + '/' + $scope.date_range.date_end.getFullYear() + ' ' + $scope.date_range.date_end.getHours() + ':' + $scope.date_range.date_end.getMinutes() + ':' + $scope.date_range.date_end.getSeconds(),
                     turn_id = $( '#turns_select' ).val() ? $( '#turns_select' ).val() : 0;
                 $scope.get_item_reports_by_category( category, date_1, date_2, turn_id );

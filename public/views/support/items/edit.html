@@ -26,6 +26,12 @@
             </div>
             <div class="easy_chart_info">
                 <h4 class="easy_chart_heading">Orders Locations</h4>
+                <div class="checkbox" ng-if="locations_display.length > 0">
+                    <label>
+                        <input type="checkbox" ng-model="all_locations.value" ng-change="all_locations_selected()">
+                        All Locations
+                    </label>
+                </div>
                 <div class="checkbox" ng-repeat="loc in locations_display">
                     <label>
                         <input type="checkbox" value="loc.selected" ng-model="loc.selected">
