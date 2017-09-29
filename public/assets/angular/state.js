@@ -888,6 +888,24 @@ yukonApp
                     },
                     controller: 'item-logs-controller'
                 })
+                .state('auth.support.items.stocks', {
+                    page_title: 'Items Stock',
+                    ncyBreadcrumb: {
+                        label: 'Items Stock'
+                    },
+                    url: '/stock',
+                    templateUrl: 'views/support/items/stock.html',
+                    resolve: {
+                        files: [
+                            'uiLoad',
+                            function (uiLoad) {
+                                return uiLoad.load([
+                                ]);
+                            }
+                        ]
+                    },
+                    controller: 'item-stocks-controller'
+                })
                 .state('auth.support.items.inactivelogs', {
                     page_title: 'Items Inactive Logs',
                     ncyBreadcrumb: {

@@ -15,8 +15,66 @@ yukonApp
             getInactiveLogs : () => LogService.getInactive( model ),
             delete_log : ( id ) => LogService.delete_itemchange( id ),
             reportsByDate : ( d1, d2, turn_id ) => $http.get( '/reports/' + model + '/?d1=' + d1 + '&d2=' + d2 + '&turn=' + turn_id ),
-            getItemReportsByCategory : ( c_id, c_name, d1, d2, turn_id ) => $http.get( '/reports/' + model + '/bycategory/?d1=' + d1 + '&d2=' + d2 + '&turn=' + turn_id + '&cate_name=' + c_name + '&cate_id=' + c_id )
+            getItemReportsByCategory : ( c_id, c_name, d1, d2, turn_id ) => $http.get( '/reports/' + model + '/bycategory/?d1=' + d1 + '&d2=' + d2 + '&turn=' + turn_id + '&cate_name=' + c_name + '&cate_id=' + c_id ),
+            getStock : () => $http.get( '/' + model + '/stock/' )
         });
+    }])
+    .controller( 'item-stocks-controller', [   '$scope',
+                                    '$rootScope',
+                                    'AuthRepository',
+                                    'ItemRepository',
+                                    'uiGridConstants',
+                                    function(   $scope,
+                                                $rootScope,
+                                                AuthRepository,
+                                                ItemRepository,
+                                                uiGridConstants  ) {
+        if( AuthRepository.viewVerification() ) {
+            // Table grid options
+            $scope.gridOptions = {
+                enableRowSelection: true, enableRowHeaderSelection: false,
+                enableSorting: true,
+                showGridFooter: true,
+                enableGridMenu: true,
+                enableFiltering: true,
+                paginationPageSizes: [25, 50, 75],
+                paginationPageSize: 25,
+                columnDefs: [
+                    { field: 'item_id' },
+                    { field: 'item_description' },
+                    { field: 'stock' }
+                ]
+            };
+            $scope.gridOptions.multiSelect = false;
+            $scope.gridOptions.modifierKeysToMultiSelect = false;
+            $scope.gridOptions.noUnselect = true;
+            $scope.gridOptions.onRegisterApi = function( gridApi ) {
+                $scope.gridApi = gridApi;
+                gridApi.selection.on.rowSelectionChanged($scope,function(row){
+                    $rootScope.grid_action( row.entity );
+                });
+            };
+            // Grid action for selected rows
+            $rootScope.grid_action = function( row ) {
+                // Selected row option
+            };
+            $scope.progress_ban = false;
+            $scope.get_stocks = function() {
+                $scope.progress_ban = true;
+                ItemRepository.getStock().success( function( response ) {
+                    if( !response.error ) {
+                        $scope.stocks = response.data.stocks;
+                        $scope.gridOptions.data = $scope.stocks;
+                    } else {
+                        $scope.errors = response.message;
+                    }$scope.progress_ban = false;
+                }).error( function( error ) {
+                    $scope.errors = error;
+                    $scope.progress_ban = false;
+                });
+            };
+            $scope.get_stocks();
+        }
     }])
     .controller( 'item-controller', [   '$scope',
                                         'LocationRepository',
