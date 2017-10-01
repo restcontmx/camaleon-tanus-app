@@ -962,9 +962,6 @@ yukonApp
                 })
                 .state('auth.reports.categories', {
                     page_title: 'Reports - Categories',
-                    ncyBreadcrumb: {
-                        label: 'Categories'
-                    },
                     url: '/categories',
                     templateUrl: 'views/reports/reports.categories.html',
                     resolve: {
@@ -1023,7 +1020,10 @@ yukonApp
                             }
                         ]
                     },
-                    controller: 'category-reports-controller'
+                    controller: 'category-reports-controller',
+                    ncyBreadcrumb: {
+                        label: 'Categories'
+                    }
                 })
                 .state('auth.reports.classes', {
                     page_title: 'Reports - Classes',
@@ -1254,6 +1254,91 @@ yukonApp
                     template: '<div ui-view autoscroll="false" class="mainView-animate"></div>',
                     ncyBreadcrumb: {
                         label: 'Settings'
+                    }
+                })
+                .state('auth.settings.security', {
+                    abstract: true,
+                    page_title: 'Security Levels',
+                    url: '/security',
+                    templateUrl: 'views/settings/security.html',
+                    ncyBreadcrumb: {
+                        label: 'Security Levels'
+                    }
+                })
+                .state('auth.settings.security.users', {
+                    page_title: 'Users',
+                    url: '/users',
+                    templateUrl: 'views/settings/security.users.html',
+                    resolve: {
+                        files: [
+                            'uiLoad',
+                            function (uiLoad) {
+                                return uiLoad.load([
+                                    //  prism highlight
+                                    'assets/lib/prism/prism_default.css',
+                                    'assets/lib/prism/line_numbers.css',
+                                    'assets/lib/prism/prism.min.js',
+                                    // select2
+                                    'assets/lib/select2/select2.css',
+                                    'assets/lib/select2/select2.min.js',
+                                    // jquery steps
+                                    'assets/js/jquery.steps.custom.min.js',
+                                    // validation
+                                    'assets/js/parsley.config.js',
+                                    'assets/lib/parsley/dist/parsley.min.js',
+                                    // form wizard functions
+                                    'assets/angular/states_jquery/yukon_wizard.min.js',
+                                    // selectize.js
+                                    'assets/lib/selectize-js/css/selectize.css',
+                                    'assets/lib/selectize-js/js/standalone/selectize.min.js',
+                                ])
+                            }
+                        ]
+                    },
+                    controller: 'security-users-controller',
+                    ncyBreadcrumb: {
+                        label: 'Users'
+                    }
+                })
+                .state('auth.settings.security.profiles', {
+                    page_title: 'Profiles',
+                    url: '/profiles',
+                    templateUrl: 'views/settings/security.profiles.html',
+                    resolve: {
+                        permissionsList:  function(PermissionRepository){
+                            return PermissionRepository.getAll()
+                                .then (function (data) {
+                                    return data.data.data;
+                                });
+                        },
+                        files: [
+                            'uiLoad',
+                            function (uiLoad) {
+                                return uiLoad.load([
+                                    // select2
+                                    'assets/lib/select2/select2.css',
+                                    'assets/lib/select2/select2.min.js',
+                                    // autosize
+                                    'assets/lib/autosize/jquery.autosize.min.js',
+                                    // inputmask
+                                    'assets/lib/jquery.inputmask/jquery.inputmask.bundle.min.js',
+                                    // 2col multiselect
+                                    'assets/lib/lou-multi-select/js/jquery.multi-select.js',
+                                    // quicksearch
+                                    'assets/lib/quicksearch/jquery.quicksearch.min.js',
+                                    // icheck
+                                    'assets/lib/iCheck/skins/minimal/blue.css',
+                                    'assets/lib/iCheck/icheck.min.js',
+                                    // selectize.js
+                                    'assets/lib/selectize-js/css/selectize.css',
+                                    'assets/lib/selectize-js/js/standalone/selectize.min.js'
+                                ])
+                            }
+                        ]
+                    },
+                    controller: 'security-profile-controller',
+                    ncyBreadcrumb: {
+                        label: 'Profiles'
                     }
                 })
                 // Turns

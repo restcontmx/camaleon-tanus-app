@@ -175,6 +175,10 @@ yukonApp
                             link: 'auth.reports.items'
                         },
                         {
+                            title: 'Locations',
+                            link: 'auth.reports.locations'
+                        },
+                        {
                             title: 'By Employee',
                             link: 'auth.reports.by_employee'
                         },
@@ -193,15 +197,11 @@ yukonApp
                     submenu: [
                         {
                             title: 'Security Levels',
-                            link: 'auth.settings.secrity_lvls'
+                            link: 'auth.settings.security.users'
                         },
                         {
                             title: 'Turns',
                             link: 'auth.settings.turns.list'
-                        },
-                        {
-                            title: 'Users',
-                            link: 'auth.settings.users'
                         }
                     ]
                 }
