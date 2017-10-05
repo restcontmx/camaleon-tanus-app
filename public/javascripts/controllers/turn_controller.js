@@ -9,28 +9,39 @@ yukonApp
             remove : ( id ) => CRUDService.remove( model, data )
         });
     }])
-    .controller( 'TurnController', [   '$scope',
+    .controller( 'TurnController', [    '$scope',
+                                        '$rootScope',
                                         'TurnRepository',
                                         'AuthRepository',
                                         '$routeParams',
                                         '$location',
                                         'BusinessRepository',
+                                        'growl',
                                         function(   $scope,
+                                                    $rootScope,
                                                     TurnRepository,
                                                     AuthRepository,
                                                     $routeParams,
                                                     $location,
-                                                    BusinessRepository  ) {
+                                                    BusinessRepository,
+                                                    growl  ) {
         if( AuthRepository.viewVerification() ) {
 
             $scope.progress_ban = false;
-            
-            var getAllTurns = function() {
+            var initTurn = function() {
+                    $scope.turn = {
+                        name : "",
+                        description : "",
+                        time_start : "00:00",
+                        time_end : "23:59",
+                        business_id : $rootScope.user_info.business.id
+                    }
+                },
+                getAllTurns = function() {
                     $scope.progress_ban = true;
                     TurnRepository.getAll().success( function( response ) {
                         if( !response.error ) {
-                            $scope.gridOptions.data = response.data;
-                            console.log( response.data )
+                            $scope.turns = response.data;
                         } else {
                             $scope.errors = response.message;
                         }$scope.progress_ban = false;
@@ -65,10 +76,27 @@ yukonApp
                 };
 
             } else {
-                $scope.gridOptions = { data : [] };
-                getAllTurns();
-                $scope.add = function(ev) { 
-                };
+                $scope.initNew = function() {
+                    
+                    $('.clockpicker').clockpicker();
+                    initTurn();
+
+                    $scope.add = function() { 
+                        TurnRepository.add( $scope.turn ).success( function( response ){
+                            if( !response.error ) {
+                                initTurn();
+                                growl.success( "Turn successfuly added.", {});
+                            } else {
+                                growl.error( "There was an error;" + response.message, {});
+                            }
+                        }).error( function( error ) {
+                            growl.error( "There was an error;" + error, {});
+                        });
+                    };          
+                }
+                $scope.initList = function() {
+                    getAllTurns();
+                }      
             }
         }
     }]);

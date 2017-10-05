@@ -1,0 +1,41 @@
+<div class="row" ng-init="initNew()">
+    <div growl></div>
+    <div class="col-md-12">
+        <div class="heading_a"><span class="heading_text">New Turn</span></div>
+    </div>
+    <form ng-submit="add()">
+        <div class="col-md-6">        
+            <label>Name</label>
+            <input class="form-control" ng-model="turn.name" required>
+        </div>
+        
+        <div class="col-md-6">
+            <label>Description</label>
+            <textarea class="form-control" ng-model="turn.description" md-maxlength="200" rows="5" md-select-on-focus></textarea>
+        </div>
+        
+        <div class="col-md-6">
+            <label for="dp_component">Start Time</label>
+            <div class="input-group clockpicker" data-donetext="Done">
+                <input type="text" class="form-control" ng-model="turn.time_start" value="09:32">
+                <span class="input-group-addon">
+                    <span class="icon_clock_alt"></span>
+                </span>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <label for="dp_component">End Time</label>
+            <div class="input-group clockpicker" data-donetext="Done">
+                <input type="text" class="form-control" ng-model="turn.time_end" value="23:59">
+                <span class="input-group-addon">
+                    <span class="icon_clock_alt"></span>
+                </span>
+            </div>
+        </div>
+
+        <div class="col-md-12">
+            <button class="btn btn-block btn-default">Submit</button>
+        </div>
+    </form>
+</div>

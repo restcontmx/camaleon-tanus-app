@@ -167,6 +167,10 @@ yukonApp
                             link: 'auth.reports.departments'
                         },
                         {
+                            title: 'Close',
+                            link: 'auth.reports.close'
+                        },
+                        {
                             title: 'Tickets',
                             link: 'auth.reports.tickets'
                         },
