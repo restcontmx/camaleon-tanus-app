@@ -44,8 +44,8 @@ yukonApp
                 paginationPageSize: 25,
                 columnDefs: [
                     { field: 'close_id', enableSorting: true },
-                    { field: 'close_date' },
-                    { field: 'close_time' },
+                    { field: 'date' },
+                    { field: 'time' },
                     { field: 'register_id' },
                     { field: 'system_amount' },
                     { field: 'cashier_amount' },
