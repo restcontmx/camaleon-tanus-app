@@ -9,6 +9,7 @@ yukonApp
             remove : ( id ) => CRUDService.remove( model, data ),
             getAllByBusiness : ( business_id ) => $http.get( '/' + model + '/bybusiness/' + business_id ),
             getLocationTodayReports : ( d1, d2 ) => $http.get( '/reports/' + model + '/?d1=' + d1 + '&d2=' + d2 ),
+            lastCloses : () => $http.get( '/location/lastcloses/' ),
             validateData : function( data, scope ) {
                 var ban = false;
                 scope.errors = "";

@@ -8,6 +8,55 @@
             </div>
         </div>
     </div>
+    
+    <div class="row">
+        <div class="col-md-4 col-sm-12">
+            <div class="heading_a">
+                <span class="heading_text">Last Close</span>
+            </div>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Location</th>
+                        <th>Last Updated</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="lc in last_closes">
+                        <th scope="row">{{lc.location_name}}</th>
+                        <td>{{lc.timestamp | date:'MM/dd/y H:mm:ss'}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-md-4 col-sm-12">
+            <div class="heading_a">
+                <span class="heading_text">Quick Settings</span>
+
+                <div class="pull-right">
+                    <a href="#"><i class="el-icon-cog heading_icon"></i></a>
+                </div>
+            </div>
+            <ul class="list-group">
+                <li class="list-group-item">
+                    <div id="drp_predefined" class="btn btn-success" style="width:100%">
+                        <i class="icon_calendar"></i>
+                        <span>{{date_range.date_start | date : 'MM/dd/y HH:mm:ss'}} - {{date_range.date_end | date : 'MM/dd/y HH:mm:ss'}}</span> <b class="caret"></b>
+                    </div>
+                </li>
+                <li class="list-group-item">
+                    <button class="btn btn-block btn-default" ng-click="get_reports()"><i class="icon_cloud-download" aria-hidden="true"></i> Get Reports</button>
+                </li>
+            </ul>
+        </div>
+        <div class="col-md-4 col-sm-12">
+            <div class="heading_a">
+                <span class="heading_text">Location Sales</span>
+            </div>
+            <div id="c3_orders" style="height:220px"></div>
+        </div>
+    </div>
+
     <div class="row">
         <div class="col-lg-3 col-sm-6">
             <div class="info_box_var_1 box_bg_b">
@@ -55,40 +104,6 @@
         </div>
     </div>
     
-    <div class="row">
-        <div class="col-md-4 col-sm-12">
-            <div class="heading_a">
-                <span class="heading_text">Quick Settings</span>
-
-                <div class="pull-right">
-                    <a href="#"><i class="el-icon-cog heading_icon"></i></a>
-                </div>
-            </div>
-            <ul class="list-group">
-                <li class="list-group-item">
-                    <div id="drp_predefined" class="btn btn-default" style="width:100%">
-                        <i class="icon_calendar"></i>
-                        <span>{{date_range.date_start | date : 'MM/dd/y HH:mm:ss'}} - {{date_range.date_end | date : 'MM/dd/y HH:mm:ss'}}</span> <b class="caret"></b>
-                    </div>
-                </li>
-                <li class="list-group-item">
-                    <button class="btn btn-block btn-default" ng-click="get_reports()"><i class="icon_cloud-download" aria-hidden="true"></i> Get Reports</button>
-                </li>
-            </ul>
-        </div>
-        <div class="col-md-4 col-sm-6">
-            <div class="heading_a">
-                <span class="heading_text">Location Sales</span>
-            </div>
-            <div id="c3_orders" style="height:220px"></div>
-        </div>
-        <div class="col-md-4 col-sm-6">
-            <div class="heading_a">
-                <span class="heading_text">Top 10 Best Selling days</span>
-            </div>
-            <div id="c3_users_age" style="height:220px"></div>
-        </div>
-    </div>
     <div class="row">
         <div class="col-md-12">
             <div class="heading_a">

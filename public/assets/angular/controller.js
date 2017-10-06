@@ -285,7 +285,8 @@ yukonApp
         'files',
         'AuthRepository',
         'DashboardRepository',
-        function ($scope, files, AuthRepository, DashboardRepository ) {
+        'LocationRepository',
+        function ($scope, files, AuthRepository, DashboardRepository, LocationRepository ) {
             $scope.$on('$stateChangeSuccess', function () {
                 if( AuthRepository.viewVerification( ) ) {
                     // run scripts after state load
@@ -597,6 +598,21 @@ yukonApp
                                 $scope.progress_ban = false;
                             });
                         };
+                        $scope.get_location_last_closes = function() {
+                            LocationRepository.lastCloses().success( function( response ) {
+                                if( !response.error ) {
+                                    $scope.last_closes = response.data;
+                                } else {
+                                    console.log( response.message )                            
+                                    $scope.errors = response.message;
+                                }
+                            }).error( function( error ) {
+                                console.log( error )
+                                $scope.errors = error;
+                            });
+                        }
+                        // Get location last closes
+                        $scope.get_location_last_closes();
                         // Get month reports so far by default
                         $scope.get_reports();
                         // Convert date to a string separated by - - - 

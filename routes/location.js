@@ -123,11 +123,29 @@ router.get( '/bybusiness/:id', jsonParser, function( req, res ) {
 /**
 * todays reports for each location
 **/
-router.get( '/reports/today/', jsonParser, function( req, res ) {
+router.get( '/reports/today', jsonParser, function( req, res ) {
     var userdata = JSON.parse( req.cookies['userdata'] );
     request(
         {
             url : http_helper.get_api_uri( 'location/reports/today/', '' ),
+            method : 'GET',
+            json : true,
+            headers : {
+                'Authorization' : http_helper.get_basic_auth_w_token( encryption_system.decryptCookie( userdata.auth_data ) )
+            }
+        },
+        ( error, response, body ) => { res.send( http_helper.data_format_ok( error, response, body ) ) }
+    );
+});
+
+/**
+* todays reports for each location
+**/
+router.get( '/lastcloses', jsonParser, function( req, res ) {
+    var userdata = JSON.parse( req.cookies['userdata'] );
+    request(
+        {
+            url : http_helper.get_api_uri( 'location/lastcloses/', '' ),
             method : 'GET',
             json : true,
             headers : {
