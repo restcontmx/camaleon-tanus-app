@@ -11,7 +11,7 @@
         <div class="row">
             <div class="col-md-12">
                 <label>Select Report Range</label>
-                <div id="drp_predefined" class="btn btn-default" style="width:100%">
+                <div id="drp_predefined" class="btn btn-success" style="width:100%">
                     <i class="icon_calendar"></i>
                     <span>{{date_range.date_start | date : 'MM/dd/y HH:mm:ss'}} - {{date_range.date_end | date : 'MM/dd/y HH:mm:ss'}}</span> <b class="caret"></b>
                 </div>
@@ -23,8 +23,8 @@
             
             <div class="col-md-12">
                 <br>
-                <button class="btn btn-block btn-default" ng-click="get_reports()"><i class="icon_cloud-download" aria-hidden="true"></i> Get Reports</button>
-                <button class="btn btn-block btn-default"><i class="icon_download" aria-hidden="true"></i> Export Reports</button>
+                <button class="btn btn-block btn-success" ng-click="get_reports()"><i class="icon_cloud-download" aria-hidden="true"></i> Get Reports</button>
+                <button class="btn btn-block btn-primary"><i class="icon_download" aria-hidden="true"></i> Export Reports</button>
             </div>
 
             <div class="col-md-12">
@@ -36,7 +36,26 @@
         </div>
     </div>
     <div class="col-md-8">
-        <div class="col-md-12"><h2><span class="label label-primary">Total : $ {{global_total | number:2}}</span></h2></div>
+        <div class="col-md-12">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <td></td>
+                        <td>System Amount</td>
+                        <td>Cashier Amount</td>
+                        <td>Difference</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Totals</td> 
+                        <td>{{total_sys_am | number : 2}}</td> 
+                        <td>{{total_cash_am | number : 2}}</td> 
+                        <td>{{total_diff | number : 2}}</td> 
+                    </tr>
+                </tbody>
+            </table>
+        </div>
         <div class="col-md-12">
             <div ui-grid="gridOptions" ui-grid-pagination ui-grid-selection></div>
         </div>

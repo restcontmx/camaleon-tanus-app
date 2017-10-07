@@ -52,7 +52,10 @@ yukonApp
                         }
                     }
                 });
-            $scope.hideGrid = false;
+            $scope.report_status = {
+                category : true,
+                items : false
+            };
             $scope.date_end = new Date();
             todays.setDate( 1 );
             $scope.date_start = todays;
@@ -76,13 +79,14 @@ yukonApp
                 paginationPageSizes: [25, 50, 75],
                 paginationPageSize: 25,
                 columnDefs: [
-                    { field: 'item_id' },
-                    { field: 'item_description' },
+                    { field: 'cate_id' },
+                    { field: 'cate_name' },
+                    { field: 'qty' },
                     { field: 'vta_neta' },
                     { field: 'tax1' },
                     { field: 'tax2' },
                     { field: 'tax3' },
-                    { field: 'total', enableSorting: true }
+                    { field: 'total', enableSorting: true } 
                 ]
             };
             $scope.gridOptions.multiSelect = false;
@@ -97,6 +101,9 @@ yukonApp
             // Grid action for selected rows
             $rootScope.grid_action = function( row ) {
                 // Selected row option
+                if( $scope.report_status.category ) {
+                    $scope.get_item_detail_table_on_table( row );
+                }
             };
             // Date range variable
             // the important ones area start and end which are already conffigured on the scope
@@ -167,17 +174,26 @@ yukonApp
             // Function that sets all the reports by date range and turn
             $scope.get_reports = function() {
                 $scope.progress_ban = true;
-                $scope.full_table_display = true;
 
                 let date_1  = ( $scope.date_range.date_start.getMonth() + 1) + '/' + $scope.date_range.date_start.getDate() + '/' + $scope.date_range.date_start.getFullYear() + ' ' + $scope.date_range.date_start.getHours() + ':' + $scope.date_range.date_start.getMinutes() + ':' + $scope.date_range.date_start.getSeconds(),
                     date_2  = ( $scope.date_range.date_end.getMonth() + 1) + '/' + $scope.date_range.date_end.getDate() + '/' + $scope.date_range.date_end.getFullYear() + ' ' + $scope.date_range.date_end.getHours() + ':' + $scope.date_range.date_end.getMinutes() + ':' + $scope.date_range.date_end.getSeconds(),
                     turn_id = $( '#turns_select' ).val() ? $( '#turns_select' ).val() : 0;
 
                 CategoryRepository.reportsByDate( date_1, date_2, turn_id ).success( function( data ) {
-                    if( !data.error ) {
+                    if( !data.error ) { 
+                        $scope.gridOptions.columnDefs = [
+                            { field: 'cate_id' },
+                            { field: 'cate_name' },
+                            { field: 'qty' },
+                            { field: 'vta_neta' },
+                            { field: 'tax1' },
+                            { field: 'tax2' },
+                            { field: 'tax3' },
+                            { field: 'total', enableSorting: true } ];
                         $scope.category_reports = data.data.category_reports;
                         $scope.category_reports_all = data.data.category_reports_all;
                         $scope.category_reports_all_table = data.data.category_reports_all;
+                        $scope.gridOptions.data = data.data.category_reports_all;
                         $scope.top10_donut_data = [];
                         $scope.global_total = $scope.category_reports_all_table.map( r => parseFloat( r.total ) ).reduce( ( a, b ) => ( a + b ), 0 );
                         $scope.category_reports_all_table.slice(0, 10).forEach( r => $scope.top10_donut_data.push( [ r.cate_name, r.total ] ) );
@@ -195,6 +211,9 @@ yukonApp
                                 title: "Category Sales"
                             }
                         });
+                        // Set category status
+                        $scope.report_status.items = false;
+                        $scope.report_status.category = true;
                         // Get locations
                         LocationRepository.getAll().success( function( d1 ) {
                             if( !d1.error ) {
@@ -213,6 +232,7 @@ yukonApp
                                         tokenSeparators: [","]
                                     });
                                 }
+                                $scope.locations_select = location_names;
                                 // Sets the locations bar table
                                 set_compare_table( $scope.locations );
                             } else {
@@ -249,13 +269,23 @@ yukonApp
                 });
                 
                 top10_donut_graphic.destroy();
-                
+
+                $scope.gridOptions.columnDefs = [
+                    { field: 'cate_id' },
+                    { field: 'cate_name' },
+                    { field: 'qty' },
+                    { field: 'vta_neta' },
+                    { field: 'tax1' },
+                    { field: 'tax2' },
+                    { field: 'tax3' },
+                    { field: 'total', enableSorting: true } ];
+                    
                 if ( locations.length == 0 || locations.length == $scope.locations.length ) {
-                    $scope.category_reports_all_table = $scope.category_reports_all;
+                    $scope.gridOptions.data = $scope.category_reports_all;
                     $scope.global_total = $scope.category_reports_all_table.map(r => parseFloat(r.total)).reduce((a, b) => (a + b), 0);
                     set_compare_table( $scope.locations );
                 } else {
-                    $scope.category_reports_all_table = $scope.category_reports.filter( c => ( locations.find( l => ( c.location == l.id ) ) ) );
+                    $scope.gridOptions.data = $scope.category_reports.filter( c => ( locations.find( l => ( c.location == l.id ) ) ) );
                     $scope.global_total = $scope.category_reports_all_table.map(r => parseFloat(r.total)).reduce((a, b) => (a + b), 0);
                     set_compare_table( locations );
                 }
@@ -275,6 +305,9 @@ yukonApp
                         title: "Category Sales"
                     }
                 });
+                // Set category status
+                $scope.report_status.items = false;
+                $scope.report_status.category = true;
             };
             // Get item reports by category and dates
             // This will go to the factory and return all the category items with number reports
@@ -284,10 +317,18 @@ yukonApp
                 ItemRepository.getItemReportsByCategory( category.cate_id, category.cate_name, date1, date2, turn_id ).success( function( response ) {
                     if( !response.error ) {
                         $scope.item_reports_all_table = response.data.item_reports_all;
+                        $scope.global_total = $scope.item_reports_all_table.map( ir => ir.total ).reduce( ( a, b ) => ( a + b ), 0 );
+                        $scope.gridOptions.columnDefs = [
+                            { field: 'item_id' },
+                            { field: 'item_description' },
+                            { field: 'vta_neta' },
+                            { field: 'tax1' },
+                            { field: 'tax2' },
+                            { field: 'tax3' },
+                            { field: 'total', enableSorting: true } ];
                         $scope.gridOptions.data = $scope.item_reports_all_table;
-                        $scope.total_detail = $scope.item_reports_all_table.map( ir => ir.total ).reduce( ( a, b ) => ( a + b ), 0 );
-                        $scope.hideGrid = false;
-                        $scope.full_table_display = false;
+                        $scope.report_status.category = false;
+                        $scope.report_status.items = true;
                     } else {
                         $scope.errors = response.message;
                     }$scope.progress_ban = false;
@@ -312,11 +353,6 @@ yukonApp
                     date_2  = ( $scope.date_range.date_end.getMonth() + 1) + '/' + $scope.date_range.date_end.getDate() + '/' + $scope.date_range.date_end.getFullYear() + ' ' + $scope.date_range.date_end.getHours() + ':' + $scope.date_range.date_end.getMinutes() + ':' + $scope.date_range.date_end.getSeconds(),
                     turn_id = $( '#turns_select' ).val() ? $( '#turns_select' ).val() : 0;
                 $scope.get_item_reports_by_category( category, date_1, date_2, turn_id );
-            };
-            // Just display again the category reports information
-            $scope.go_back = function() {
-                $scope.full_table_display = true;
-                $scope.hideGrid = true;
             };
             // Set compare table
             // This function is for setting the bar graphics comparing all the locaitons

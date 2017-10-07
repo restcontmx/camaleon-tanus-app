@@ -47,58 +47,16 @@
 </div>
 <div class="row">
     <div class="col-md-12">
-        <h3 class="heading_a"><span class="heading_text">Categories</span> <span class="heading_text" ng-hide="hideGrid">[{{selected_category}}]</span></h3>
-        <div class="row" ng-show="full_table_display">
+        <h3 class="heading_a"><span class="heading_text">Categories</span> <span class="heading_text" ng-hide="report_status.category">[{{selected_category}}]</span></h3>
+        <h2><span class="label label-primary">Total : $ {{global_total | number:2}}</span></h2>
+
+        <div class="row">
             <div class="col-md-12" update-fixed-headers>
-                <table id="datatable_demo" class="table table-striped table-bordered" cellspacing="0" width="100%">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Name</th>
-                            <th>Quantity</th>
-                            <th>Sub Total</th>
-                            <th>Tax 1</th>
-                            <th>Tax 2</th>
-                            <th>Tax 3</th>
-                            <th>Total</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr ng-repeat="item in category_reports_all_table" ng-click="get_item_detail_table_on_table( item )">
-                            <td>{{item.cate_id}}</td>
-                            <td>{{item.cate_name}}</td>
-                            <td>{{item.qty | number:2}}</td>
-                            <td>{{item.vta_neta | number:2}}</td>
-                            <td>{{item.tax1 | number:2}}</td>
-                            <td>{{item.tax2 | number:2}}</td>
-                            <td>{{item.tax3 | number:2}}</td>
-                            <td>{{item.total | number:2}}</td>
-                        </tr>
-                        <tr>
-                            <td colspan="7" class="text-align-right"><b>Total</b></td>
-                            <td>$ {{global_total | number : 2}}</td>
-                        </tr>
-                    </tbody>
-                </table>
+                <div ui-grid="gridOptions" ui-grid-pagination ui-grid-selection></div>    
             </div>
         </div>
-        <div class="row" ng-hide="hideGrid">
-            <div class="col-md-12">
-                <div class="row">
-                    <div class="col-md-2">
-                        <button class="btn btn-block btn-success" ng-click="go_back()"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>Go Back</button>
-                    </div>
-                    <div class="col-md-8"></div>                    
-                    <div class="col-md-2"><h2><span class="label label-primary">Total : $ {{total_detail | number:2}}</span></h2></div>
-                </div>
-            </div>
-            <div class="col-md-12"> 
-                <div class="col-md-6"></div>
-                <div class="col-md-6"></div>
-            </div>
-            <div class="col-md-12" >
-                <div ui-grid="gridOptions" ui-grid-pagination ui-grid-selection></div>                
-            </div>
-        </div>
+
+        <button class="btn btn-block btn-success" ng-click="locations_select_change()" ng-hide=report_status.category><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>Go Back</button>
+        
     </div>
 </div>

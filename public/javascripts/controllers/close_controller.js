@@ -44,6 +44,7 @@ yukonApp
                 paginationPageSize: 25,
                 columnDefs: [
                     { field: 'close_id', enableSorting: true },
+                    { field: 'location_name' },
                     { field: 'date' },
                     { field: 'time' },
                     { field: 'register_id' },
@@ -130,7 +131,9 @@ yukonApp
                     if( !data.error ) {
                         $scope.close_reports = data.data.close_reports;
                         $scope.gridOptions.data = $scope.close_reports
-                        $scope.global_total = $scope.close_reports.map( r => parseFloat( r.total ) ).reduce( ( a, b ) => ( a + b ), 0 );
+                        $scope.total_sys_am = $scope.close_reports.map( r => parseFloat( r.system_amount ) ).reduce( ( a, b ) => ( a + b ), 0 );
+                        $scope.total_cash_am = $scope.close_reports.map( r => parseFloat( r.cashier_amount ) ).reduce( ( a, b ) => ( a + b ), 0 );
+                        $scope.total_diff = $scope.close_reports.map( r => parseFloat( r.difference ) ).reduce( ( a, b ) => ( a + b ), 0 );
                         // Get locations
                         LocationRepository.getAll().success( function( d1 ) {
                             if( !d1.error ) {
@@ -167,6 +170,32 @@ yukonApp
             };
             // Get reports by default
             $scope.get_reports();
+            // Locations select change
+            // When the locations field changes of locations
+            $scope.locations_select_change = function() {
+                
+                let locations_selected = $scope.locations_select.split(','), 
+                    locations = [],
+                    removal_ids = [];
 
+                locations_selected.forEach( ls => {
+                    let temp_location = $scope.locations.find( l => ( l.location_name == ls ) )
+                    if( temp_location ) {
+                        locations.push( temp_location );
+                    }
+                });
+                
+                if ( locations.length == 0 || locations.length == $scope.locations.length ) {
+                    $scope.gridOptions.data = $scope.close_reports;
+                    $scope.total_sys_am = $scope.gridOptions.data.map( r => parseFloat( r.system_amount ) ).reduce( ( a, b ) => ( a + b ), 0 );
+                    $scope.total_cash_am = $scope.gridOptions.data.map( r => parseFloat( r.cashier_amount ) ).reduce( ( a, b ) => ( a + b ), 0 );
+                    $scope.total_diff = $scope.gridOptions.data.map( r => parseFloat( r.difference ) ).reduce( ( a, b ) => ( a + b ), 0 );
+                } else {
+                    $scope.gridOptions.data = $scope.close_reports.filter( c => ( locations.find( l => ( c.location == l.id ) ) ) );
+                    $scope.total_sys_am = $scope.gridOptions.data.map( r => parseFloat( r.system_amount ) ).reduce( ( a, b ) => ( a + b ), 0 );
+                    $scope.total_cash_am = $scope.gridOptions.data.map( r => parseFloat( r.cashier_amount ) ).reduce( ( a, b ) => ( a + b ), 0 );
+                    $scope.total_diff = $scope.gridOptions.data.map( r => parseFloat( r.difference ) ).reduce( ( a, b ) => ( a + b ), 0 );
+                }
+            };
         }
     }]);
