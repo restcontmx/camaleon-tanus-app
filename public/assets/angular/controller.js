@@ -277,7 +277,8 @@ yukonApp
     ])
     .factory( 'DashboardRepository', [ '$http', function( $http ) {
         return({
-            get_sales_by_dates : ( d1, d2 ) => $http.get( '/dashboard/sales/?d1=' + d1 + '&d2=' + d2 )
+            get_sales_by_dates : ( d1, d2 ) => $http.get( '/dashboard/sales/?d1=' + d1 + '&d2=' + d2 ),
+            get_void_data_by_dates : ( d1, d2 ) => $http.get( '/dashboard/voids/?d1=' + d1 + '&d2=' + d2 )
         });
     }])
     .controller('dashboardCtrl', [
@@ -420,6 +421,10 @@ yukonApp
                         $scope.promedy_sales = 0;
                         $scope.orders_completed = 0;
                         $scope.ticket_average = 0;
+                        $scope.discounts = 0;
+                        $scope.guests = 0;
+                        $scope.voids_qty = 0;
+                        $scope.voids_total = 0;
                         // Date range variable
                         // the important ones area start and end which are already conffigured on the scope
                         $scope.date_range = {
@@ -454,6 +459,7 @@ yukonApp
                             );
                         }
                         $scope.get_reports = function() {
+                            
                             $scope.progress_ban = true;
                             let date_1  = ( $scope.date_range.date_start.getMonth() + 1) + '/' + $scope.date_range.date_start.getDate() + '/' + $scope.date_range.date_start.getFullYear() + ' ' + $scope.date_range.date_start.getHours() + ':' + $scope.date_range.date_start.getMinutes() + ':' + $scope.date_range.date_start.getSeconds(),
                                 date_2  = ( $scope.date_range.date_end.getMonth() + 1) + '/' + $scope.date_range.date_end.getDate() + '/' + $scope.date_range.date_end.getFullYear() + ' ' + $scope.date_range.date_end.getHours() + ':' + $scope.date_range.date_end.getMinutes() + ':' + $scope.date_range.date_end.getSeconds();       
@@ -462,14 +468,14 @@ yukonApp
                                     $scope.sales = response.data.sale_reports;
                                     $scope.orders_completed = response.data.total_orders[0].completed_orders;
                                     $scope.location_reports = response.data.location_reports;
-                                    $scope.top10_reports = response.data.top10_reports;
+                                    $scope.guests = response.data.total_guests[0].total_guests;
+                                    $scope.discounts = response.data.total_discounts[0].total_discounts;
 
                                     $scope.total_sales = $scope.sales.map( s => s.total ).reduce( ( a, b ) => ( a + b ), 0 );
                                     $scope.promedy_sales = $scope.total_sales / $scope.sales.length;
-                                    $scope.ticket_average = $scope.total_sales / $scope.orders_completed;
+                                    $scope.ticket_average = $scope.total_sales / $scope.guests;
                                     $scope.locations_data = [];
                                     $scope.location_reports.forEach( lr => $scope.locations_data.push( [ lr.location_name, lr.total ] ) );
-                                    $scope.top10_data = $scope.top10_reports.map( tr => [ tr.move_date, tr.total ] );
                                     $scope.sales_complete_dates = [];
                                     
                                     let date_start = angular.copy($scope.date_range.date_start),
@@ -573,22 +579,6 @@ yukonApp
                                     
                                     $(window).on("debouncedresize", function() {
                                         chart_c3_orders.resize();
-                                    });  
-                                    chart_c3_users_age.destroy();
-                                    chart_c3_users_age = c3.generate({
-                                        bindto: '#c3_users_age',
-                                        data: {
-                                            columns: $scope.top10_data,
-                                            type : 'bar'
-                                        },
-                                        donut: {
-                                            onclick: function (d, i) { console.log(d, i); },
-                                            onmouseover: function (d, i) { console.log(d, i); },
-                                            onmouseout: function (d, i) { console.log(d, i); }
-                                        }
-                                    });
-                                    $(window).on("debouncedresize", function() {
-                                        chart_c3_users_age.resize();
                                     });
                                 } else {
                                     $scope.errors = response.message;
@@ -597,7 +587,23 @@ yukonApp
                                 $scope.errors = error;
                                 $scope.progress_ban = false;
                             });
+                            // get void data by default dates
+                            $scope.get_void_data();
                         };
+                        $scope.get_void_data = function() {
+                            let date_1  = ( $scope.date_range.date_start.getMonth() + 1) + '/' + $scope.date_range.date_start.getDate() + '/' + $scope.date_range.date_start.getFullYear() + ' ' + $scope.date_range.date_start.getHours() + ':' + $scope.date_range.date_start.getMinutes() + ':' + $scope.date_range.date_start.getSeconds(),
+                                date_2  = ( $scope.date_range.date_end.getMonth() + 1) + '/' + $scope.date_range.date_end.getDate() + '/' + $scope.date_range.date_end.getFullYear() + ' ' + $scope.date_range.date_end.getHours() + ':' + $scope.date_range.date_end.getMinutes() + ':' + $scope.date_range.date_end.getSeconds();       
+                            DashboardRepository.get_void_data_by_dates( date_1, date_2 ).success( function( response ) {
+                                if( !response.error ) {
+                                    $scope.voids_qty = response.data.void_reports[0].qty;
+                                    $scope.voids_total = response.data.void_reports[0].total;
+                                } else {
+                                    $scope.errors = response.message;
+                                }
+                            }).error( function( error ) {
+                                $scope.errors = error;
+                            })
+                        }
                         $scope.get_location_last_closes = function() {
                             LocationRepository.lastCloses().success( function( response ) {
                                 if( !response.error ) {

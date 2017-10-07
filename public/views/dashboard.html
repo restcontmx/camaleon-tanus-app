@@ -105,36 +105,47 @@
     </div>
     
     <div class="row">
-        <div class="col-lg-4 col-sm-6">
+        <div class="col-lg-3 col-sm-6">
+            <div class="info_box_var_1 box_bg_a">
+                <div class="info_box_body">
+                    <span class="info_box_icon el-icon-remove-sign"></span>
+                    <span class="countUpMe" data-endVal="{{voids_qty}}">{{voids_qty}}</span>
+                </div>
+                <div class="info_box_footer">
+                    Voids Qty
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-sm-6">
             <div class="info_box_var_1 box_bg_b">
                 <div class="info_box_body">
-                    <span class="info_box_icon icon_cart_alt"></span>
-                    <span class="countUpMe" data-endVal="{{orders_completed}}">{{orders_completed | number}}</span>
+                    <span class="info_box_icon el-icon-remove-sign"></span>
+                    $<span class="countUpMe" data-endVal="{{voids_total}}">{{voids_total | number}}</span>
                 </div>
                 <div class="info_box_footer">
-                    Orders Completed
+                    Voids Total
                 </div>
             </div>
         </div>
-        <div class="col-lg-4 col-sm-6">
+        <div class="col-lg-3 col-sm-6">
             <div class="info_box_var_1 box_bg_c">
                 <div class="info_box_body">
-                    <span class="info_box_icon icon_wallet"></span>
-                    $<span class="countUpMe" data-endVal="{{total_sales}}">{{total_sales | number:2}}</span>
+                    <span class="info_box_icon el-icon-user"></span>
+                    <span class="countUpMe" data-endVal="{{guests}}">{{guests}}</span>
                 </div>
                 <div class="info_box_footer">
-                    Sales [{{date_range.date_start | date : 'MM/dd/y'}} - {{date_range.date_end | date : 'MM/dd/y'}} ]
+                    Guests
                 </div>
             </div>
         </div>
-        <div class="col-lg-4 col-sm-12">
+        <div class="col-lg-3 col-sm-6">
             <div class="info_box_var_1 box_bg_d">
                 <div class="info_box_body">
-                    <span class="info_box_icon glyphicon glyphicon-stats"></span>
-                    $<span class="countUpMe" data-endVal="{{promedy_sales}}">{{promedy_sales | number:2}}</span>
+                    <span class="info_box_icon arrow_down_alt"></span>
+                    $<span class="countUpMe" data-endVal="{{discounts}}">{{discounts | number:2}}</span>
                 </div>
                 <div class="info_box_footer">
-                    Sales average
+                    Discounts
                 </div>
             </div>
         </div>
