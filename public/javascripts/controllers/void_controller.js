@@ -1,19 +1,19 @@
 yukonApp
-.factory( 'DiscountRepository',  [ '$http',  function( $http ) {
+.factory( 'VoidRepository',  [ '$http',  function( $http ) {
     return({
-        reportsByDate : ( d1, d2, turn_id ) => $http.get( '/reports/discount/?d1=' + d1 + '&d2=' + d2 + '&turn=' + turn_id ) 
+        reportsByDate : ( d1, d2, turn_id ) => $http.get( '/reports/void/?d1=' + d1 + '&d2=' + d2 + '&turn=' + turn_id ) 
     });
 }])
-.controller( 'discount-reports-controller', [   '$scope', 
+.controller( 'void-reports-controller', [   '$scope', 
                                                 '$rootScope', 
                                                 'AuthRepository',
-                                                'DiscountRepository',
+                                                'VoidRepository',
                                                 'TurnRepository',
                                                 'LocationRepository', 
                                                 function(   $scope,
                                                             $rootScope,
                                                             AuthRepository,
-                                                            DiscountRepository,
+                                                            VoidRepository,
                                                             TurnRepository,
                                                             LocationRepository ) {
     if( AuthRepository.viewVerification() ) {
@@ -42,14 +42,15 @@ yukonApp
             paginationPageSizes: [25, 50, 75],
             paginationPageSize: 25,
             columnDefs: [
-                { field: 'move_id', enableSorting: true },
+                { field: 'ticket', enableSorting: true },
                 { field: 'location_name' },
                 { field: 'date' },
-                { field: 'discount' },
-                { field: 'costo' },
-                { field: 'employee' },
-                { field: 'discount_code' },
-                { field: 'description' }
+                { field: 'producto' },
+                { field: 'reason' },
+                { field: 'price' },
+                { field: 'move_cashier' },
+                { field: 'void_id' },
+                { field: 'barcode' }
             ]
         };
         $scope.gridOptions.multiSelect = false;
@@ -126,10 +127,10 @@ yukonApp
                 date_2  = ( $scope.date_range.date_end.getMonth() + 1) + '/' + $scope.date_range.date_end.getDate() + '/' + $scope.date_range.date_end.getFullYear() + ' ' + $scope.date_range.date_end.getHours() + ':' + $scope.date_range.date_end.getMinutes() + ':' + $scope.date_range.date_end.getSeconds(),
                 turn_id = $( '#turns_select' ).val() ? $( '#turns_select' ).val() : 0;
 
-            DiscountRepository.reportsByDate( date_1, date_2, turn_id ).success( function( data ) {
+            VoidRepository.reportsByDate( date_1, date_2, turn_id ).success( function( data ) {
                 if( !data.error ) {
-                    $scope.discount_reports = data.data.discount_reports;
-                    $scope.gridOptions.data = $scope.discount_reports
+                    $scope.void_reports = data.data.void_reports;
+                    $scope.gridOptions.data = $scope.void_reports
                     // Get locations
                     LocationRepository.getAll().success( function( d1 ) {
                         if( !d1.error ) {
@@ -182,9 +183,9 @@ yukonApp
             });
             
             if ( locations.length == 0 || locations.length == $scope.locations.length ) {
-                $scope.gridOptions.data = $scope.discount_reports;
+                $scope.gridOptions.data = $scope.void_reports;
             } else {
-                $scope.gridOptions.data = $scope.discount_reports.filter( c => ( locations.find( l => ( c.location == l.id ) ) ) );
+                $scope.gridOptions.data = $scope.void_reports.filter( c => ( locations.find( l => ( c.location == l.id ) ) ) );
             }
         };
     }
