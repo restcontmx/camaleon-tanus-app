@@ -1,0 +1,105 @@
+{
+    "data": {
+        "total_discounts": [
+            {
+                "total_discounts": 1836.25
+            }
+        ],
+        "sale_reports": [
+            {
+                "qty": 1264.0,
+                "id": 0,
+                "total": 4164.61,
+                "vta_neta": 3821.03,
+                "tax2": 0.0,
+                "tax3": 0.0,
+                "tax1": 343.58,
+                "move_date": "2017-10-06"
+            },
+            {
+                "qty": 929.0,
+                "id": 0,
+                "total": 4509.73,
+                "vta_neta": 4171.95,
+                "tax2": 0.0,
+                "tax3": 0.0,
+                "tax1": 337.78,
+                "move_date": "2017-10-05"
+            },
+            {
+                "qty": 1421.0,
+                "id": 0,
+                "total": 8365.39,
+                "vta_neta": 6690.71,
+                "tax2": 454.54,
+                "tax3": 0.0,
+                "tax1": 1220.14,
+                "move_date": "2017-10-04"
+            },
+            {
+                "qty": 1933.0,
+                "id": 0,
+                "total": 11499.8,
+                "vta_neta": 9876.04,
+                "tax2": 485.7,
+                "tax3": 0.0,
+                "tax1": 1138.06,
+                "move_date": "2017-10-03"
+            },
+            {
+                "qty": 1374.0,
+                "id": 0,
+                "total": 8350.76,
+                "vta_neta": 7026.18,
+                "tax2": 385.77,
+                "tax3": 0.0,
+                "tax1": 938.81,
+                "move_date": "2017-10-02"
+            },
+            {
+                "qty": 2087.002,
+                "id": 0,
+                "total": 12561.48,
+                "vta_neta": 10160.62,
+                "tax2": 715.15,
+                "tax3": 0.0,
+                "tax1": 1685.7,
+                "move_date": "2017-10-01"
+            }
+        ],
+        "total_orders": [
+            {
+                "completed_orders": 4405
+            }
+        ],
+        "location_reports": [
+            {
+                "qty": 3094.002,
+                "id": 16,
+                "total": 26943.6,
+                "tax1": 3851.27,
+                "tax2": 2041.16,
+                "tax3": 0.0,
+                "vta_neta": 21051.17,
+                "location": 16,
+                "location_name": "Kion New"
+            },
+            {
+                "qty": 5914.0,
+                "id": 27,
+                "total": 22508.17,
+                "tax1": 1812.81,
+                "tax2": 0.0,
+                "tax3": 0.0,
+                "vta_neta": 20695.36,
+                "location": 27,
+                "location_name": "Donn's Bbq #3"
+            }
+        ],
+        "total_guests": [
+            {
+                "total_guests": 4705
+            }
+        ]
+    }
+}

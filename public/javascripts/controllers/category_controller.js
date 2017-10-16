@@ -2,7 +2,8 @@ yukonApp
     .factory( 'CategoryRepository', [ '$http', function( $http ) {
         var model = 'it_tcategory';
         return({
-            reportsByDate : ( d1, d2, turn_id ) => $http.get( '/reports/' + model + '/?d1=' + d1 + '&d2=' + d2 + '&turn=' + turn_id )
+            reportsByDate : ( d1, d2, turn_id ) => $http.get( '/reports/' + model + '/?d1=' + d1 + '&d2=' + d2 + '&turn=' + turn_id ),
+            allReportsByDate : ( d1, d2, turn_id ) => $http.get( '/reports/' + model + '/all/?d1=' + d1 + '&d2=' + d2 + '&turn=' + turn_id )
         });
     }])
     .controller( 'category-controller', [   '$scope',
@@ -190,10 +191,10 @@ yukonApp
                             { field: 'tax2' },
                             { field: 'tax3' },
                             { field: 'total', enableSorting: true } ];
-                        $scope.category_reports = data.data.category_reports;
                         $scope.category_reports_all = data.data.category_reports_all;
                         $scope.category_reports_all_table = data.data.category_reports_all;
                         $scope.gridOptions.data = data.data.category_reports_all;
+                        $scope.category_reports = data.data.category_reports;
                         $scope.top10_donut_data = [];
                         $scope.global_total = $scope.category_reports_all_table.map( r => parseFloat( r.total ) ).reduce( ( a, b ) => ( a + b ), 0 );
                         $scope.category_reports_all_table.slice(0, 10).forEach( r => $scope.top10_donut_data.push( [ r.cate_name, r.total ] ) );
