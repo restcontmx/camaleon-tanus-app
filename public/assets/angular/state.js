@@ -1348,7 +1348,7 @@ yukonApp
                             }
                         ]
                     },
-                    controller: 'discount-reports-controller'
+                    controller: 'void-reports-controller'
                 })
                 .state('auth.reports.tickets', {
                     page_title: 'Reports - Tickets',
