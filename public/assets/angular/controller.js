@@ -179,24 +179,16 @@ yukonApp
                             link: 'auth.reports.void'
                         },
                         {
+                            title: 'Employees',
+                            link: 'auth.reports.employee'
+                        },
+                        {
                             title: 'Tickets',
                             link: 'auth.reports.tickets'
                         },
                         {
                             title: 'Items',
                             link: 'auth.reports.items'
-                        },
-                        {
-                            title: 'Locations',
-                            link: 'auth.reports.locations'
-                        },
-                        {
-                            title: 'By Employee',
-                            link: 'auth.reports.by_employee'
-                        },
-                        {
-                            title: 'By Turn',
-                            link: 'auth.reports.by_turn'
                         }
                     ]
                 },
