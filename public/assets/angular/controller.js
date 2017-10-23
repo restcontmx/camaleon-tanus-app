@@ -608,8 +608,13 @@ yukonApp
                             LocationRepository.lastCloses().success( function( response ) {
                                 if( !response.error ) {
                                     $scope.last_closes = response.data;
-                                } else {
-                                    console.log( response.message )                            
+                                    $scope.last_closes.forEach( l => {
+                                        let d = new Date( l.timestamp )
+                                        console.log( d )
+                                        d.setHours( d.getHours() - 5 )
+                                        l.now_date = d
+                                    })
+                                } else {                          
                                     $scope.errors = response.message;
                                 }
                             }).error( function( error ) {

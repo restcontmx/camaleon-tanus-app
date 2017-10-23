@@ -24,7 +24,7 @@
                 <tbody>
                     <tr ng-repeat="lc in last_closes">
                         <th scope="row">{{lc.location_name}}</th>
-                        <td>{{lc.timestamp | date:'MM/dd/y H:mm:ss'}}</td>
+                        <td>{{lc.now_date | date:'MM/dd/y H:mm:ss'}}</td>
                     </tr>
                 </tbody>
             </table>
