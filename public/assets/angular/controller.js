@@ -610,7 +610,6 @@ yukonApp
                                     $scope.last_closes = response.data;
                                     $scope.last_closes.forEach( l => {
                                         let d = new Date( l.timestamp )
-                                        console.log( d )
                                         d.setHours( d.getHours() - 5 )
                                         l.now_date = d
                                     })

@@ -60,7 +60,6 @@
                                 <th>Tax 1</th>
                                 <th>Tax 2</th>
                                 <th>Tax 3</th>
-                                <th>Sub Total</th>
                                 <th>Total</th>
                             </tr>
                         </thead>
@@ -73,11 +72,10 @@
                                 <td>{{item.tax1 | number:2}}</td>
                                 <td>{{item.tax2 | number:2}}</td>
                                 <td>{{item.tax3 | number:2}}</td>
-                                <td>{{item.sub_total | number:2}}</td>
                                 <td>{{item.total | number:2}}</td>
                             </tr>
                             <tr>
-                                <td colspan="8" class="text-align-right"><b>Total</b></td>
+                                <td colspan="7" class="text-align-right"><b>Total</b></td>
                                 <td>$ {{global_total | number : 2}}</td>
                             </tr>
                         </tbody>

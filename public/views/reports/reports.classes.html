@@ -16,7 +16,7 @@
                         <span>{{date_range.date_start | date : 'MM/dd/y HH:mm:ss'}} - {{date_range.date_end | date : 'MM/dd/y HH:mm:ss'}}</span> <b class="caret"></b>
                     </div>
                 </div>
-                <div class="col-md-12">
+                <div class="col-md-12" ng-hide="true">
                     <label>Turns</label>
                     <input type="hidden" id="turns_select">
                 </div>
@@ -60,7 +60,6 @@
                                 <th>Tax 1</th>
                                 <th>Tax 2</th>
                                 <th>Tax 3</th>
-                                <th>Sub Total</th>
                                 <th>Total</th>
                             </tr>
                         </thead>
@@ -73,11 +72,10 @@
                                 <td>{{item.tax1 | number:2}}</td>
                                 <td>{{item.tax2 | number:2}}</td>
                                 <td>{{item.tax3 | number:2}}</td>
-                                <td>{{item.sub_total | number:2}}</td>
                                 <td>{{item.total | number:2}}</td>
                             </tr>
                             <tr>
-                                <td colspan="8" class="text-align-right"><b>Total</b></td>
+                                <td colspan="7" class="text-align-right"><b>Total</b></td>
                                 <td>$ {{global_total | number : 2}}</td>
                             </tr>
                         </tbody>

@@ -280,18 +280,20 @@ yukonApp
                     { field: 'tax2' },
                     { field: 'tax3' },
                     { field: 'total', enableSorting: true } ];
-                    
+                
+                $scope.top10_donut_data = [];
+
                 if ( locations.length == 0 || locations.length == $scope.locations.length ) {
                     $scope.gridOptions.data = $scope.category_reports_all;
                     $scope.global_total = $scope.category_reports_all_table.map(r => parseFloat(r.total)).reduce((a, b) => (a + b), 0);
                     set_compare_table( $scope.locations );
+                    $scope.category_reports_all_table.slice(0, 10).forEach( r => $scope.top10_donut_data.push( [ r.cate_name, r.total ] ) );
                 } else {
                     $scope.gridOptions.data = $scope.category_reports.filter( c => ( locations.find( l => ( c.location == l.id ) ) ) );
                     $scope.global_total = $scope.category_reports_all_table.map(r => parseFloat(r.total)).reduce((a, b) => (a + b), 0);
                     set_compare_table( locations );
+                    $scope.gridOptions.data.slice( 0, 10 ).forEach( r => $scope.top10_donut_data.push( [ r.cate_name, r.total ] ) );
                 }
-                $scope.top10_donut_data = [];
-                $scope.category_reports_all_table.slice(0, 10).forEach( r => $scope.top10_donut_data.push( [ r.cate_name, r.total ] ) );
 
                 top10_donut_graphic = c3.generate({
                     bindto: '#top10_donut',

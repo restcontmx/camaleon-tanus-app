@@ -207,18 +207,19 @@ yukonApp
                 });
                 
                 top10_donut_graphic.destroy();
-                
+                $scope.top10_donut_data = [];
+
                 if ( locations.length == 0 || locations.length == $scope.locations.length ) {
                     $scope.department_reports_all_table = $scope.department_reports_all;
                     $scope.global_total = $scope.department_reports_all_table.map(r => parseFloat(r.total)).reduce((a, b) => (a + b), 0);
                     set_compare_table( $scope.locations );
+                    $scope.department_reports_all_table.slice(0, 10).forEach( r => $scope.top10_donut_data.push( [ r.depa_name, r.total ] ) );                
                 } else {
                     $scope.department_reports_all_table = $scope.department_reports.filter( c => ( locations.find( l => ( c.location == l.id ) ) ) );
                     $scope.global_total = $scope.department_reports_all_table.map(r => parseFloat(r.total)).reduce((a, b) => (a + b), 0);
                     set_compare_table( locations );
+                    $scope.department_reports_all_table.slice(0, 10).forEach( r => $scope.top10_donut_data.push( [ r.depa_name, r.total ] ) );                                    
                 }
-                $scope.top10_donut_data = [];
-                $scope.department_reports_all_table.slice(0, 10).forEach( r => $scope.top10_donut_data.push( [ r.depa_name, r.total ] ) );
 
                 top10_donut_graphic = c3.generate({
                     bindto: '#top10_donut',
