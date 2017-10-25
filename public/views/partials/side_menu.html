@@ -16,7 +16,7 @@
                     <ul ng-if="section.submenu">
                         <li ng-if="section.submenu_title" class="submenu-title">{{section.submenu_title}}</li>
                         <li ng-repeat="item in section.submenu">
-                            <a ui-sref="{{item.link}}" ng-class="{ act_nav: $state.includes(item.link) }">{{item.title}}</a>
+                            <a ui-sref="{{item.link}}" ng-class="{ act_nav: $state.includes(item.link) }" ng-show="item.permission">{{item.title}}</a>
                         </li>
                     </ul>
                 </li>

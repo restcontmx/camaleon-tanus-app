@@ -106,7 +106,8 @@ yukonApp
         '$state',
         '$stateParams',
         '$timeout',
-        function ($rootScope, $scope, $state, $stateParams, $timeout) {
+        'PermissionRepository',
+        function ($rootScope, $scope, $state, $stateParams, $timeout, PermissionRepository) {
             $scope.sections = [
                 {
                     id: 0,
@@ -122,27 +123,33 @@ yukonApp
                     submenu: [
                         {
                             title: 'Items',
-                            link: 'auth.support.items.edit'
+                            link: 'auth.support.items.edit',
+                            permission : false
                         },
                         {
                             title: 'Classes',
-                            link: 'auth.support.classes'
+                            link: 'auth.support.classes',
+                            permission : false
                         },
                         {
                             title: 'Categories',
-                            link: 'auth.support.categories'
+                            link: 'auth.support.categories',
+                            permission : false
                         },
                         {
                             title: 'Departments',
-                            link: 'auth.support.departments'
+                            link: 'auth.support.departments',
+                            permission : false
                         },
                         {
                             title: 'Families',
-                            link: 'auth.support.families'
+                            link: 'auth.support.families',
+                            permission : false
                         },
                         {
                             title: 'Sub Families',
-                            link: 'auth.support.sub_families'
+                            link: 'auth.support.sub_families',
+                            permission : false
                         }
 
                     ]
@@ -156,39 +163,48 @@ yukonApp
                     submenu: [
                         {
                             title: 'Categories',
-                            link: 'auth.reports.categories'
+                            link: 'auth.reports.categories',
+                            permission : false
                         },
                         {
                             title: 'Classes',
-                            link: 'auth.reports.classes'
+                            link: 'auth.reports.classes',
+                            permission : false
                         },
                         {
                             title: 'Departments',
-                            link: 'auth.reports.departments'
+                            link: 'auth.reports.departments',
+                            permission : false
                         },
                         {
                             title: 'Close',
-                            link: 'auth.reports.close'
+                            link: 'auth.reports.close',
+                            permission : false
                         },
                         {
                             title: 'Discount',
-                            link: 'auth.reports.discount'
+                            link: 'auth.reports.discount',
+                            permission : false
                         },
                         {
                             title: 'Void',
-                            link: 'auth.reports.void'
+                            link: 'auth.reports.void',
+                            permission : false
                         },
                         {
                             title: 'Employees',
-                            link: 'auth.reports.employee'
+                            link: 'auth.reports.employee',
+                            permission : false
                         },
                         {
                             title: 'Tickets',
-                            link: 'auth.reports.tickets'
+                            link: 'auth.reports.tickets',
+                            permission : false
                         },
                         {
                             title: 'Items',
-                            link: 'auth.reports.items'
+                            link: 'auth.reports.items',
+                            permission : false
                         }
                     ]
                 },
@@ -201,16 +217,18 @@ yukonApp
                     submenu: [
                         {
                             title: 'Security Levels',
-                            link: 'auth.settings.security.users'
+                            link: 'auth.settings.security.users',
+                            permission : false
                         },
                         {
                             title: 'Turns',
-                            link: 'auth.settings.turns.list'
+                            link: 'auth.settings.turns.list',
+                            permission : false
                         }
                     ]
                 }
             ];
-
+            
             // accordion menu
             $(document).off('click', '.side_menu_expanded #main_menu .has_submenu > a').on('click', '.side_menu_expanded #main_menu .has_submenu > a', function () {
                 if ($(this).parent('.has_submenu').hasClass('first_level')) {
@@ -258,6 +276,45 @@ yukonApp
                     $rootScope.createScrollbar();
                 }
             });
+            
+            $scope.permissionsSetUp = function() {
+                PermissionRepository.getAll().success( function( response ) {
+                    if( !response.error ) {
+                        $scope.permissions = response.data
+                        if( $rootScope.user_info.system_status == 191413 ) {
+                            let permissions = []
+                            $scope.permissions.forEach( p => {
+                                let temporal_permission = $rootScope.user_info.permissions.find( p2 => p2 == p.id )
+                                if( temporal_permission ) {
+                                    permissions.push( p )
+                                }
+                            })
+                            $scope.sections.forEach( section => {
+                                if( section.submenu ) {
+                                    section.submenu.forEach( s => {
+                                        if( permissions.find( p => p.web_url == s.link ) ) {
+                                            s.permission = true
+                                        }
+                                    })
+                                }
+                            })
+                        } else if( $rootScope.user_info.system_status == 220613 ) {
+                            $scope.sections.forEach( section => {
+                                if( section.submenu ) {
+                                    section.submenu.forEach( s => {
+                                        s.permission = true
+                                    })
+                                }
+                            })
+                        }
+                    }
+                }).error( function( error ) {
+
+                });
+                
+            }
+
+            $scope.permissionsSetUp()
         }
     ])
     .controller('loginCtrl', [

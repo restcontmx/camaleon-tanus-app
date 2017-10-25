@@ -179,7 +179,6 @@ yukonApp
             // Add new user
             // Add user then clean user then refresh all users
             $scope.new_user = function() {
-                console.log( $scope.user )
                 if( $scope.user.profile > 0 ) {
                     $scope.user.profile_id = $scope.user.profile;
                     UserReportsRepository.add( $scope.user ).success( function( response ) {
