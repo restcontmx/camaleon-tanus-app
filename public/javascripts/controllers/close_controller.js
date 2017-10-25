@@ -236,6 +236,12 @@ yukonApp
                 $scope.progress_ban = false
             })
             $scope.calculateOrderTypes = function() {
+                
+                $scope.dine_in = 0
+                $scope.take_out = 0
+                $scope.delivery = 0
+                $scope.drive_thru = 0
+
                 $scope.table_3.forEach( r => {
                     switch( r.dine_type ) {
                         case 0 :

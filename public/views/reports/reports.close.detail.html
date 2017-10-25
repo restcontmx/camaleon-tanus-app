@@ -66,13 +66,83 @@
                         </tr>
                     </tbody>
                 </table>
+                <hr>
+                <h3 class="heading_a">
+                    <span class="heading_text">total sales (per category)</span>
+                </h3>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>CANT</th>
+                            <th>Description</th>
+                            <th>Subtotal</th>
+                            <th>IMP</th>
+                            <th>Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="reg in table_2">
+                            <td>{{reg.contadito}}</td>
+                            <td>{{reg.cate_name}}</td>
+                            <td>{{reg.subtotal | number:2}}</td>
+                            <td>{{reg.totaltax | number:2}}</td>
+                            <td>{{reg.grantotal | number:2}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <hr>
+                <h3 class="heading_a">
+                    <span class="heading_text">VOID ITEMS</span>
+                </h3>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Host</th>
+                            <th>Description</th>
+                            <th>Qty</th>
+                            <th>Price</th>
+                            <th>Reason</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="reg in table_4">
+                            <td>{{reg.user_login}}</td>
+                            <td>{{reg.item_description}}</td>
+                            <td>{{reg.move_deta_q| number}}</td>
+                            <td>{{reg.move_deta_price | number:2}}</td>
+                            <td>{{reg.description}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <hr>
+                <h3 class="heading_a">
+                    <span class="heading_text">Cashier Movement</span>
+                </h3>
+                <table class="table table-hover table-bordered">
+                    <thead>
+                        <tr class="thead-inverse">
+                            <th>Date</th>
+                            <th>Item Name</th>
+                            <th>Total</th>
+                            <th>Comments</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="reg in table_5">
+                            <td>{{reg.move_date | date : "mm/dd/yyyy HH:mm:ss"}}</td>
+                            <td>{{reg.item_description}}</td>
+                            <td>{{reg.grantotal | number:2}}</td>
+                            <td>{{reg.detalles}}</td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
             <div class="col-md-4">
                 <table class="table">
                     <thead>
                         <tr>
                             <th>Cash Gratuity</th>
-                            <th>{{table_1.Cash}}</th>
+                            <th>{{table_1.Cash | number:2}}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -133,37 +203,7 @@
                         </tr>
                     </tbody>
                 </table>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-12">
-        <div class="row">
-            <div class="col-md-8">
-                <h3 class="heading_a">
-                    <span class="heading_text">total sales (per category)</span>
-                </h3>
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>CANT</th>
-                            <th>Description</th>
-                            <th>Subtotal</th>
-                            <th>IMP</th>
-                            <th>Total</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr ng-repeat="reg in table_2">
-                            <td>{{reg.contadito}}</td>
-                            <td>{{reg.cate_name}}</td>
-                            <td>{{reg.subtotal}}</td>
-                            <td>{{reg.totaltax}}</td>
-                            <td>{{reg.grantotal}}</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div class="col-md-4">
+                <hr>
                 <h3 class="heading_a">
                     <span class="heading_text">Order Type(NET)</span>
                 </h3>
@@ -171,71 +211,19 @@
                     <tbody>
                         <tr>
                             <td>DINE IN:</td>
-                            <td>{{dine_in}}</td>
+                            <td>{{dine_in | number:2}}</td>
                         </tr>
                         <tr>
                             <td>TAKE OUT:</td>
-                            <td>{{take_out}}</td>
+                            <td>{{take_out | number:2}}</td>
                         </tr>
                         <tr>
                             <td>DELIVERY:</td>
-                            <td>{{delivery}}</td>
+                            <td>{{delivery | number:2}}</td>
                         </tr>
                         <tr>
                             <td>DRIVE THRU</td>
-                            <td>{{drive_thru}}</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-12">
-        <div class="row">
-            <div class="col-md-6">
-                <h3 class="heading_a">
-                    <span class="heading_text">VOID ITEMS</span>
-                </h3>
-                <table class="table">
-                        <thead>
-                            <tr>
-                                <th>Host</th>
-                                <th>Description</th>
-                                <th>Qty</th>
-                                <th>Price</th>
-                                <th>Reason</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr ng-repeat="reg in table_4">
-                                <td>{{reg.user_login}}</td>
-                                <td>{{reg.item_description}}</td>
-                                <td>{{reg.move_deta_q}}</td>
-                                <td>{{reg.move_deta_price}}</td>
-                                <td>{{reg.description}}</td>
-                            </tr>
-                        </tbody>
-                    </table>
-            </div>
-            <div class="col-md-6">
-                <h3 class="heading_a">
-                    <span class="heading_text">Cashier Movement</span>
-                </h3>
-                <table class="table table-hover table-bordered">
-                    <thead>
-                        <tr class="thead-inverse">
-                            <th>Date</th>
-                            <th>Item Name</th>
-                            <th>Total</th>
-                            <th>Comments</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr ng-repeat="reg in table_5">
-                            <td>{{reg.move_date | date : "mm/dd/yyyy HH:mm:ss"}}</td>
-                            <td>{{reg.item_description}}</td>
-                            <td>{{reg.grantotal}}</td>
-                            <td>{{reg.detalles}}</td>
+                            <td>{{drive_thru | number:2}}</td>
                         </tr>
                     </tbody>
                 </table>
