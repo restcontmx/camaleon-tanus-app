@@ -72,15 +72,46 @@
                     <thead>
                         <tr>
                             <th>Cash Gratuity</th>
-                            <th>0.00</th>
+                            <th>{{table_1.Cash}}</th>
                         </tr>
                     </thead>
                     <tbody>
-                        
+                        <tr>
+                            <td>CC Gratuity</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>CC Tips</td>
+                            <td>{{table_1.gratcctip}}</td>
+                        </tr>
+                        <tr>
+                            <td>Delivery/TOGO Charges</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>Gift Cards Sold</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>Cash (IN/OUT)</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>TOTAL SALES</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>Pending Payment</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>Payments</td>
+                            <td></td>
+                        </tr>
                     </tbody>
                 </table>
                 <hr>
-                <table>
+                <table class="table">
                     <thead>
                         <tr>
                             <th>ON REGISTER</th>
@@ -162,15 +193,37 @@
     <div class="col-md-12">
         <div class="row">
             <div class="col-md-6">
-                
+                <h3 class="heading_a">
+                    <span class="heading_text">VOID ITEMS</span>
+                </h3>
+                <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Host</th>
+                                <th>Description</th>
+                                <th>Qty</th>
+                                <th>Price</th>
+                                <th>Reason</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="reg in table_4">
+                                <td>{{reg.user_login}}</td>
+                                <td>{{reg.item_description}}</td>
+                                <td>{{reg.move_deta_q}}</td>
+                                <td>{{reg.move_deta_price}}</td>
+                                <td>{{reg.description}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
             </div>
             <div class="col-md-6">
                 <h3 class="heading_a">
                     <span class="heading_text">Cashier Movement</span>
                 </h3>
-                <table class="table">
+                <table class="table table-hover table-bordered">
                     <thead>
-                        <tr>
+                        <tr class="thead-inverse">
                             <th>Date</th>
                             <th>Item Name</th>
                             <th>Total</th>

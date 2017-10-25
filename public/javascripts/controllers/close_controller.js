@@ -6,20 +6,20 @@ yukonApp
             reportsByDetail : ( id, loc ) => $http.get( '/reports/' + model + '/detail/' + id + '/' + loc )
         });
     }])
-    .controller( 'close-reports-controller', [  '$scope', 
+    .controller( 'close-reports-controller', [  '$scope',
                                                 '$rootScope',
-                                                '$state', 
+                                                '$state',
                                                 'AuthRepository',
                                                 'CloseRepository',
                                                 'TurnRepository',
-                                                'LocationRepository', 
+                                                'LocationRepository',
                                                 function(   $scope,
                                                             $rootScope,
                                                             $state,
                                                             AuthRepository,
                                                             CloseRepository,
                                                             TurnRepository,
-                                                            LocationRepository ) {
+                                                            LocationRepository  ) {
         if( AuthRepository.viewVerification() ) {
             let todays = new Date();
             $scope.hideGrid = false;
@@ -218,11 +218,9 @@ yukonApp
                                                                     TurnRepository,
                                                                     LocationRepository){
         if( AuthRepository.viewVerification() ) {
-            console.log( "In mutherfucker" )
-            console.log( $stateParams.id, $stateParams.loc )
+            $scope.progress_ban = true;
             CloseRepository.reportsByDetail( $stateParams.id, $stateParams.loc ).success( function( response ) {
                 if( !response.error ) {
-                    console.log( response )
                     $scope.close = response.data.close
                     $scope.table_1 = response.data.close_detail.first_table
                     $scope.table_2 = response.data.close_detail.second_table
@@ -232,9 +230,10 @@ yukonApp
                     $scope.calculateOrderTypes()
                 } else {
                     $scope.errors = response.message
-                }
+                }$scope.progress_ban = false
             }).error( function( error ) {
                 $scope.errors = error
+                $scope.progress_ban = false
             })
             $scope.calculateOrderTypes = function() {
                 $scope.table_3.forEach( r => {
