@@ -1220,6 +1220,27 @@ yukonApp
                     },
                     controller: 'close-reports-controller'
                 })
+                .state('auth.reports.closedetail', {
+                    page_title: 'Reports Detail - Close',
+                    ncyBreadcrumb: {
+                        label: 'Close'
+                    },
+                    url: '/close/:id/:loc',
+                    templateUrl: 'views/reports/reports.close.detail.html',
+                    resolve: {
+                        files: [
+                            'uiLoad',
+                            function (uiLoad) {
+                                return uiLoad.load([
+                                    // selectize.js
+                                    'assets/lib/selectize-js/css/selectize.css',
+                                    'assets/lib/selectize-js/js/standalone/selectize.min.js'
+                                ])
+                            }
+                        ]
+                    },
+                    controller: 'close-detail-reports-controller'
+                })
                 .state('auth.reports.discount', {
                     page_title: 'Reports - Discount',
                     ncyBreadcrumb: {

@@ -1,0 +1,192 @@
+<div class="row">
+    <div class "col-md-12">
+        <div class="progress progress-striped active" ng-show="progress_ban">
+            <div class="progress-bar" role="progressbar" style="width: 85%">
+                <span class="sr-only">85% Complete</span>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-12">
+        <div class="row">
+            <h3 class="heading_a">
+                <span class="heading_text">Register and Cash Counted</span>
+            </h3>
+            <div class="col-md-8">
+                <table class="table">
+                    <tbody>
+                        <tr>
+                            <td></td>
+                            <td>Register</td>
+                            <td>Cash Counted</td>
+                        </tr>
+                        <tr>
+                            <td>Cash</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>Check</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>CreditCard</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>Gift Card</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>On Account</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>N/A</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>Dollars(3.24)</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>Credit Note</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <th>TOTAL COLLECTED</th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-md-4">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Cash Gratuity</th>
+                            <th>0.00</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        
+                    </tbody>
+                </table>
+                <hr>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ON REGISTER</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Credit Note Issued</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>ROUND-OFF DIFF</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>CASH OVER -SHORT-</td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-md-8">
+                <h3 class="heading_a">
+                    <span class="heading_text">total sales (per category)</span>
+                </h3>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>CANT</th>
+                            <th>Description</th>
+                            <th>Subtotal</th>
+                            <th>IMP</th>
+                            <th>Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="reg in table_2">
+                            <td>{{reg.contadito}}</td>
+                            <td>{{reg.cate_name}}</td>
+                            <td>{{reg.subtotal}}</td>
+                            <td>{{reg.totaltax}}</td>
+                            <td>{{reg.grantotal}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-md-4">
+                <h3 class="heading_a">
+                    <span class="heading_text">Order Type(NET)</span>
+                </h3>
+                <table class="table">
+                    <tbody>
+                        <tr>
+                            <td>DINE IN:</td>
+                            <td>{{dine_in}}</td>
+                        </tr>
+                        <tr>
+                            <td>TAKE OUT:</td>
+                            <td>{{take_out}}</td>
+                        </tr>
+                        <tr>
+                            <td>DELIVERY:</td>
+                            <td>{{delivery}}</td>
+                        </tr>
+                        <tr>
+                            <td>DRIVE THRU</td>
+                            <td>{{drive_thru}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-md-6">
+                
+            </div>
+            <div class="col-md-6">
+                <h3 class="heading_a">
+                    <span class="heading_text">Cashier Movement</span>
+                </h3>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Item Name</th>
+                            <th>Total</th>
+                            <th>Comments</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="reg in table_5">
+                            <td>{{reg.move_date | date : "mm/dd/yyyy HH:mm:ss"}}</td>
+                            <td>{{reg.item_description}}</td>
+                            <td>{{reg.grantotal}}</td>
+                            <td>{{reg.detalles}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

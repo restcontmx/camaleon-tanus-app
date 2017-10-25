@@ -2,17 +2,20 @@ yukonApp
     .factory( 'CloseRepository',  [ '$http',  function( $http ) {
         var model = "it_tclose"
         return({
-            reportsByDate : ( d1, d2, turn_id ) => $http.get( '/reports/' + model + '/?d1=' + d1 + '&d2=' + d2 + '&turn=' + turn_id ) 
+            reportsByDate : ( d1, d2, turn_id ) => $http.get( '/reports/' + model + '/?d1=' + d1 + '&d2=' + d2 + '&turn=' + turn_id ),
+            reportsByDetail : ( id, loc ) => $http.get( '/reports/' + model + '/detail/' + id + '/' + loc )
         });
     }])
     .controller( 'close-reports-controller', [  '$scope', 
-                                                '$rootScope', 
+                                                '$rootScope',
+                                                '$state', 
                                                 'AuthRepository',
                                                 'CloseRepository',
                                                 'TurnRepository',
                                                 'LocationRepository', 
                                                 function(   $scope,
                                                             $rootScope,
+                                                            $state,
                                                             AuthRepository,
                                                             CloseRepository,
                                                             TurnRepository,
@@ -65,6 +68,7 @@ yukonApp
             // Grid action for selected rows
             $rootScope.grid_action = function( row ) {
                 // Selected row option
+                $state.go( 'auth.reports.closedetail', { id : row.close_id, loc : row.location })
             };
             // Date range variable
             // the important ones area start and end which are already conffigured on the scope
@@ -197,5 +201,58 @@ yukonApp
                     $scope.total_diff = $scope.gridOptions.data.map( r => parseFloat( r.difference ) ).reduce( ( a, b ) => ( a + b ), 0 );
                 }
             };
+        }
+    }])
+    .controller( 'close-detail-reports-controller', [   '$scope',
+                                                        '$rootScope',
+                                                        '$stateParams',
+                                                        'AuthRepository',
+                                                        'CloseRepository',
+                                                        'TurnRepository',
+                                                        'LocationRepository', 
+                                                        function(   $scope,
+                                                                    $rootScope,
+                                                                    $stateParams,
+                                                                    AuthRepository,
+                                                                    CloseRepository,
+                                                                    TurnRepository,
+                                                                    LocationRepository){
+        if( AuthRepository.viewVerification() ) {
+            console.log( "In mutherfucker" )
+            console.log( $stateParams.id, $stateParams.loc )
+            CloseRepository.reportsByDetail( $stateParams.id, $stateParams.loc ).success( function( response ) {
+                if( !response.error ) {
+                    console.log( response )
+                    $scope.close = response.data.close
+                    $scope.table_1 = response.data.close_detail.first_table
+                    $scope.table_2 = response.data.close_detail.second_table
+                    $scope.table_3 = response.data.close_detail.third_table
+                    $scope.table_4 = response.data.close_detail.fourth_table
+                    $scope.table_5 = response.data.close_detail.fifth_table
+                    $scope.calculateOrderTypes()
+                } else {
+                    $scope.errors = response.message
+                }
+            }).error( function( error ) {
+                $scope.errors = error
+            })
+            $scope.calculateOrderTypes = function() {
+                $scope.table_3.forEach( r => {
+                    switch( r.dine_type ) {
+                        case 0 :
+                            $scope.dine_in = r.grantotal
+                            break;
+                        case 1 :
+                            $scope.take_out = r.grantotal
+                            break;
+                        case 2 :
+                            $scope.delivery = r.grantotal
+                            break;
+                        case 3 :
+                            $scope.drive_thru = r.grantotal
+                            break;
+                    }
+                })
+            }
         }
     }]);
