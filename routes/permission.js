@@ -20,7 +20,7 @@ router.get( '/', jsonParser, function( req, res ) {
             method : 'GET',
             json : true,
             headers : {
-                'Authorization' : http_helper.get_basic_auth_w_token( encryption_system.decryptCookie( userdata.auth_data ) )
+                'Authorization' : http_helper.get_basic_auth_app_header()
             }
         },
         ( error, response, body ) => { res.send( http_helper.data_format_ok( error, response, body ) ) }
