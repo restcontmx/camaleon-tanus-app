@@ -212,7 +212,6 @@ yukonApp
                     id: 3,
                     title: 'Settings',
                     icon: 'icon_cogs first_level_icon',
-                    badge: true,
                     submenu_title: 'settings',
                     submenu: [
                         {
