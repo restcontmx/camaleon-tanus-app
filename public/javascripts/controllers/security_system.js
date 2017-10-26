@@ -1,5 +1,28 @@
 yukonApp
-    .factory( 'AuthRepository', [ '$http', '$state', '$cookies', '$cookieStore', '$location', '$rootScope', function( $http, $state, $cookies, $cookieStore, $location, $rootScope ) {
+    .factory( 'PermissionRepository', [ 'CRUDService', function( CRUDService ) {
+        var model = 'permission';
+        return({
+            getAll : () => CRUDService.getAll( model ),
+            add : ( data ) => CRUDService.add( model, data ),
+            getById : ( id ) => CRUDService.getById( model, id ),
+            update : ( data ) => CRUDService.update( model, data ),
+            remove : ( id ) => CRUDService.remove( model, data )
+        });
+    }])
+    .factory( 'AuthRepository', [   '$http', 
+                                    '$state', 
+                                    '$cookies', 
+                                    '$cookieStore', 
+                                    '$location', 
+                                    '$rootScope',
+                                    'PermissionRepository', 
+                                    function(   $http, 
+                                                $state, 
+                                                $cookies, 
+                                                $cookieStore, 
+                                                $location, 
+                                                $rootScope,
+                                                PermissionRepository  ) {
         return {
             login : ( email, password ) => $http.post( 'auth/login/', JSON.stringify( { email : email, password : password } ) ), // Login function that verifies user on the api
             logout : () => $http.post( 'auth/logout' ), // Logs out the user erreasing the cookie
@@ -30,16 +53,6 @@ yukonApp
                 $cookies["userdata"] = user_data;
             }
         }
-    }])
-    .factory( 'PermissionRepository', [ 'CRUDService', function( CRUDService ) {
-        var model = 'permission';
-        return({
-            getAll : () => CRUDService.getAll( model ),
-            add : ( data ) => CRUDService.add( model, data ),
-            getById : ( id ) => CRUDService.getById( model, id ),
-            update : ( data ) => CRUDService.update( model, data ),
-            remove : ( id ) => CRUDService.remove( model, data )
-        });
     }])
     .factory( 'ProfileRepository', [ 'CRUDService', function( CRUDService ) {
         var model = 'profile';

@@ -340,13 +340,35 @@ yukonApp
     }])
     .controller('dashboardCtrl', [
         '$scope',
+        '$rootScope',
         'files',
         'AuthRepository',
         'DashboardRepository',
         'LocationRepository',
-        function ($scope, files, AuthRepository, DashboardRepository, LocationRepository ) {
+        'PermissionRepository',
+        function ($scope, $rootScope, files, AuthRepository, DashboardRepository, LocationRepository, PermissionRepository ) {
             $scope.$on('$stateChangeSuccess', function () {
-                if( AuthRepository.viewVerification( ) ) {
+                if( AuthRepository.viewVerification() ) {
+                    $scope.main_dashboard = false
+                    PermissionRepository.getAll().success(function( response ) {
+                        if( !response.error ) {
+                            $scope.permissions = response.data
+                            if( $rootScope.user_info.system_status == 220613 ) {
+                                $scope.main_dashboard = true
+                            } else {
+                                let dashboard_permission = $scope.permissions.find( p => p.web_url == 'auth.home' )
+                                if( $rootScope.user_info.permissions.find( p => p == dashboard_permission.id ) ) {
+                                    $scope.main_dashboard = true
+                                } else {
+                                    $scope.main_dashboard = false
+                                }
+                            }
+                        } else {
+                            console.log( response.message )
+                        }
+                    }).error(function( error ) {
+                        console.log( error )
+                    });
                     // run scripts after state load
                     // init dashboard functions
                     $scope.$watch('countries_data', function () {
