@@ -26,21 +26,32 @@ yukonApp
     }])
     .controller('category-reports-controller', [    '$scope',
                                                     '$rootScope',
+                                                    '$timeout',
                                                     'CategoryRepository',
                                                     'LocationRepository',
                                                     'TurnRepository',
                                                     'AuthRepository',
                                                     'ItemRepository',
                                                     'uiGridConstants',
+                                                    'Excel',
                                                     function(   $scope,
                                                                 $rootScope,
+                                                                $timeout,
                                                                 CategoryRepository,
                                                                 LocationRepository,
                                                                 TurnRepository,
                                                                 AuthRepository,
                                                                 ItemRepository,
-                                                                uiGridConstants  ) {
+                                                                uiGridConstants,
+                                                                Excel   ) {
         if( AuthRepository.viewVerification() ) {
+
+            $scope.exportToExcel = function( tableId ){ // ex: '#my-table'
+                var exportHref = Excel.tableToExcel( tableId, 'WireWorkbenchDataExport' );
+                $timeout( function() { 
+                    location.href = exportHref; 
+                }, 100);
+            }
 
             let todays = new Date(),
                 locations_combined = c3.generate({

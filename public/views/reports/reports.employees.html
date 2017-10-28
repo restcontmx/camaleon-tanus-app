@@ -29,8 +29,8 @@
                 <br>
                 <button class="btn btn-block btn-success" ng-click="get_reports()">
                     <i class="icon_cloud-download" aria-hidden="true"></i> Get Reports</button>
-                <button class="btn btn-block btn-primary">
-                    <i class="icon_download" aria-hidden="true"></i> Export Reports</button>
+                <button class="btn btn-block btn-primary" ng-click="exportToExcel('#export_table')">
+                    <i class="fa fa-file-excel-o" aria-hidden="true"></i> Export To Excel</button>
             </div>
 
             <div class="col-md-12">
@@ -41,7 +41,46 @@
             </div>
         </div>
     </div>
-    <div class="col-md-8"></div>
+    <div class="col-md-8">
+        <div ng-show="false">
+            <table id="export_table">
+                <thead>
+                    <tr>
+                        <th colspan="8">
+                            Employees Report
+                        </th>
+                        <th colspan="2" id="date_table"><span></span></th>
+                    </tr>
+                    <tr>
+                        <th>Cashowed</th>
+                        <th>Cash Tip</th>
+                        <th>Cgrat</th>
+                        <th>Sale</th>
+                        <th>Payout Tip</th>
+                        <th>Hr Wage</th>
+                        <th>Employee Name</th>
+                        <th>Location</th>
+                        <th>Difer</th>
+                        <th>Payout</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="e in gridOptions.data">
+                        <td>{{e.cashowed}}</td>
+                        <td>{{e.cashtip}}</td>
+                        <td>{{e.cgrat}}</td>
+                        <td>{{e.cctip}}</td>
+                        <td>{{e.payouttip}}</td>
+                        <td>{{e.hr_wage}}</td>
+                        <td>{{e.employee_name}}</td>
+                        <td>{{e.location_name}}</td>
+                        <td>{{e.difer | number : 2 }}</td>
+                        <td>{{e.payout | number : 2 }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
     <div class="col-md-12">
         <div ui-grid="gridOptions" ui-grid-pagination ui-grid-selection></div>
     </div>

@@ -24,7 +24,7 @@
             <div class="col-md-12">
                 <br>
                 <button class="btn btn-block btn-default" ng-click="get_reports()"><i class="icon_cloud-download" aria-hidden="true"></i> Get Reports</button>
-                <button class="btn btn-block btn-default"><i class="icon_download" aria-hidden="true"></i> Export Reports</button>
+                <button class="btn btn-block btn-default"><i class="fa fa-file-excel-o" aria-hidden="true"></i> Export To Excel</button>
             </div>
 
             <div class="col-md-12">
@@ -59,4 +59,38 @@
         <button class="btn btn-block btn-success" ng-click="locations_select_change()" ng-hide=report_status.category><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>Go Back</button>
         
     </div>
+</div>
+
+<div ng-show="false">
+    <table id="export_table">
+        <thead>
+            <tr>
+                <th colspan="8">
+                    
+                </th>
+            </tr>
+            <tr>
+                <th>Cate ID</th>
+                <th>Cate Name</th>
+                <th>Qty</th>
+                <th>Sale</th>
+                <th>Tax 1</th>
+                <th>Tax 2</th>
+                <th>Tax 3</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="c in gridOptions.data">
+                <td>{{c.id}}</td>
+                <td>{{c.cate_name}}</td>
+                <td>{{c.qty | number}}</td>
+                <td>{{c.vta_neta | number}}</td>
+                <td>{{c.tax1 | number}}</td>
+                <td>{{c.tax2 | number}}</td>
+                <td>{{c.tax3 | number}}</td>
+                <td>{{c.total | number}}</td>
+            </tr>
+        </tbody>
+    </table>
 </div>

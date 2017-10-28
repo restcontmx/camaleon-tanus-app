@@ -10,13 +10,23 @@ yukonApp
                                                     'EmployeeRepository',
                                                     'TurnRepository',
                                                     'LocationRepository', 
+                                                    '$timeout',
+                                                    'Excel',
                                                     function(   $scope,
                                                                 $rootScope,
                                                                 AuthRepository,
                                                                 EmployeeRepository,
                                                                 TurnRepository,
-                                                                LocationRepository ) {
+                                                                LocationRepository,
+                                                                $timeout,
+                                                                Excel   ) {
         if( AuthRepository.viewVerification() ) {
+            $scope.exportToExcel = function( tableId ){ // ex: '#my-table'
+                var exportHref = Excel.tableToExcel( tableId, 'WireWorkbenchDataExport' );
+                $timeout( function() { 
+                    location.href = exportHref; 
+                }, 100);
+            }
             let todays = new Date();
             $scope.hideGrid = false;
             $scope.date_end = new Date();
@@ -75,6 +85,8 @@ yukonApp
                 date_start : $scope.date_start,
                 date_end : $scope.date_end
             };
+            $('#date_table span').html( ($scope.date_range.date_start.getMonth() + 1) + '/' + $scope.date_range.date_start.getDate() + '/' + $scope.date_range.date_start.getFullYear() + ' ' + $scope.date_range.date_start.getHours() + ':' + $scope.date_range.date_start.getMinutes() + ':' + $scope.date_range.date_start.getSeconds() + ' - '
+                                        + ($scope.date_range.date_end.getMonth() + 1) + '/' + $scope.date_range.date_end.getDate() + '/' + $scope.date_range.date_end.getFullYear() + ' ' + $scope.date_range.date_end.getHours() + ':' + $scope.date_range.date_end.getMinutes() + ':' + $scope.date_range.date_end.getSeconds() );            
             // Date range picker settings
             if ($("#drp_predefined").length) {
                 $('#drp_predefined').daterangepicker(
@@ -94,6 +106,7 @@ yukonApp
                     },
                     function(start, end) {
                         $('#drp_predefined span').html(start.format("MM/DD/YYYY HH:mm:ss") + ' - ' + end.format("MM/DD/YYYY HH:mm:ss"));
+                        $('#date_table span').html(start.format("MM/DD/YYYY HH:mm:ss") + ' - ' + end.format("MM/DD/YYYY HH:mm:ss"));
                         // When selected the datepicker returns a moment object; this just formats everything to what we need
                         $scope.date_range.date_start = new Date( start.format("MM/DD/YYYY HH:mm:ss") );
                         $scope.date_range.date_end = new Date( end.format("MM/DD/YYYY HH:mm:ss") );
