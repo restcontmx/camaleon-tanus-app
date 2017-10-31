@@ -237,7 +237,9 @@ yukonApp
                 columnDefs: [
                     { field: 'item_id' },
                     { field: 'item_description' },
-                    { field: 'vta_neta' },
+                    { field: 'qty' }, 
+                    { field: 'sales_avg', name:'Avg Sales Price' },
+                    { field: 'vta_neta' },                    
                     { field: 'tax1' },
                     { field: 'tax2' },
                     { field: 'tax3' },
