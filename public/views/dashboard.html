@@ -1,4 +1,4 @@
-<div ng-if="main_dashboard">
+<div>
     <div class="row">
         <div class"col-md-12">
             <div class="progress progress-striped active" ng-show="progress_ban">
@@ -161,20 +161,3 @@
     </div>
 </div>
 
-<div ng-if="!main_dashboard">
-    <div class="row">
-        <div class="col-md-6">
-            <div class="heading_a">
-                <span class="heading_text">User Profile</span>
-            </div>
-            <table class="table">
-                <tbody>
-                    <tr>
-                        <th>Name :</th>
-                        <td>{{user_info.first_name}} {{user_info.last_name}}</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-</div>

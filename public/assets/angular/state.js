@@ -545,22 +545,18 @@ yukonApp
                 })
                 // Pages > User Profile
                 .state('auth.pages.userProfile', {
-                    page_title: 'Yukon Admin - User Profile',
+                    page_title: 'Camelon Reports - User Profile',
                     ncyBreadcrumb: {
                         label: 'User Profile'
                     },
                     url: '/user_profile',
-                    templateUrl: 'views/pages.user_profile.html',
+                    templateUrl: 'views/profile.html',
                     // load state specific js/css
                     resolve: {
                         files: [
                             'uiLoad',
                             function (uiLoad) {
                                 return uiLoad.load([
-                                    // easePie chart
-                                    'assets/lib/easy-pie-chart/dist/jquery.easypiechart.min.js',
-                                    // dashboard functions
-                                    'assets/angular/states_jquery/yukon_user_profile.min.js'
                                 ]);
                             }
                         ]
