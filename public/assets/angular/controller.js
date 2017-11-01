@@ -192,6 +192,11 @@ yukonApp
                             permission: false
                         },
                         {
+                            title: 'Credit Cards',
+                            link: 'auth.reports.creditcards',
+                            permission : false
+                        },
+                        {
                             title: 'Employees',
                             link: 'auth.reports.employee',
                             permission: false
