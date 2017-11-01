@@ -202,7 +202,7 @@ yukonApp
                             permission: false
                         },
                         {
-                            title: 'Tickets',
+                            title: 'Tickets Search',
                             link: 'auth.reports.tickets',
                             permission: false
                         },

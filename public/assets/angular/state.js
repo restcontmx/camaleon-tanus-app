@@ -1498,11 +1498,11 @@ yukonApp
                     controller: 'employee-reports-controller'
                 })
                 .state('auth.reports.tickets', {
-                    page_title: 'Reports - Tickets',
+                    page_title: 'Reports - Tickets Search',
                     ncyBreadcrumb: {
-                        label: 'Tickets'
+                        label: 'Tickets Search'
                     },
-                    url: '/tickets',
+                    url: '/tickets_search',
                     templateUrl: 'views/reports/reports.tickets.html',
                     resolve: {
                         files: [

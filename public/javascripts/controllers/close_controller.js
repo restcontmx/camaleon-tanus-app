@@ -222,6 +222,7 @@ yukonApp
             CloseRepository.reportsByDetail( $stateParams.id, $stateParams.loc ).success( function( response ) {
                 if( !response.error ) {
                     $scope.close = response.data.close
+                    console.log($scope.close)
                     $scope.table_1 = response.data.close_detail.first_table
                     $scope.table_2 = response.data.close_detail.second_table
                     $scope.table_3 = response.data.close_detail.third_table
