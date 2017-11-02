@@ -19,9 +19,15 @@ const   test_config = {
             api_uri : 'https://bbqcamaleonreportsapi.herokuapp.com/api/',
             port : '36594',
             token : 'QkJRU0RBTl9XRUJBUFA6Wj1WUjRyNXB6UVtKW0ZXXw=='
+        },
+        morelos_production_config = {
+            hostname : 'bbqcamaleonreportsapi.herokuapp.com',
+            api_uri : 'https://morelosreports-api.herokuapp.com/api/',
+            port : '36594',
+            token : 'QkJRU0RBTl9XRUJBUFA6Wj1WUjRyNXB6UVtKW0ZXXw=='
         }
 
-const g_opts = bqqdan_production_config;
+const g_opts = morelos_production_config;
 
 /**
 * Get the full api uri compose with the model and the url data
