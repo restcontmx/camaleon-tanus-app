@@ -197,6 +197,11 @@ yukonApp
                             permission : false
                         },
                         {
+                            title: 'Petty Cash',
+                            link: 'auth.reports.pettycash',
+                            permission : false
+                        },
+                        {
                             title: 'Employees',
                             link: 'auth.reports.employee',
                             permission: false

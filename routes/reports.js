@@ -161,7 +161,26 @@ router.get( '/void/', jsonParser, function( req, res ) {
 });
 
 /**
-* void reports pettition
+* petty cash reports pettition
+**/
+router.get( '/pettycash/', jsonParser, function( req, res ) {
+    var userdata = JSON.parse( req.cookies['userdata'] ),
+        url_parts = urlLib.parse( req.url, true );
+    request(
+        {
+            url : http_helper.get_api_uri( 'pettycash/reports/', '?d1=' + url_parts.query.d1 + '&d2=' + url_parts.query.d2 + '&turn=' + url_parts.query.turn  ),
+            method : 'GET',
+            json : true,
+            headers : {
+                'Authorization' : http_helper.get_basic_auth_w_token( encryption_system.decryptCookie( userdata.auth_data ) )
+            }
+        },
+        ( error, response, body ) => { res.send( http_helper.data_format_ok( error, response, body ) ) }
+    );
+});
+
+/**
+* employee reports pettition
 **/
 router.get( '/it_temployee', jsonParser, function( req, res ) {
     var userdata = JSON.parse( req.cookies['userdata'] ),
