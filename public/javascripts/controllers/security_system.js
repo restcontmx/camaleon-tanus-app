@@ -110,13 +110,17 @@ yukonApp
         });
     }])
     .controller( 'header-controller', [ '$scope', 
+                                        '$rootScope',
                                         '$state', 
                                         'ItemRepository', 
-                                        'AuthRepository', 
+                                        'AuthRepository',
+                                        'BusinessRepository',
                                         function(   $scope, 
+                                                    $rootScope,
                                                     $state, 
                                                     ItemRepository, 
-                                                    AuthRepository  ) {
+                                                    AuthRepository,
+                                                    BusinessRepository  ) {
         $scope.logout = function() {
             AuthRepository.logout().success( function( response ) {
                 AuthRepository.removeSession()               
@@ -135,6 +139,20 @@ yukonApp
         }).error( function( error ) {
             $scope.errors = error;
         });
+
+        if( $rootScope.user_info ) {
+            // 
+            BusinessRepository.getById( $rootScope.user_info.business.id ).success( function( response ) {
+                if( response.error ) {
+                    $scope.errors = response.message
+                } else {
+                    console.log( response )
+                    $scope.business = response.data
+                }
+            }).error( function( error ) {
+                $scope.errors = error;
+            });
+        }
     }])
     .controller( 'security-users-controller', [     '$scope',
                                                     '$timeout',

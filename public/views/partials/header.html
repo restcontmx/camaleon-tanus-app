@@ -3,6 +3,7 @@
 	<div class="container-fluid">
 		<div class="brand_section">
 			<a ui-sref="auth.home"><img ng-src="assets/img/logo.png" alt="site_logo" width="63" height="26"></a>
+			{{business.name}}
 		</div>
 		<ul class="header_notifications clearfix">
 			<li class="dropdown" id="tasks_dropdown" on-toggle="toggled(open)" dropdown>
@@ -27,11 +28,15 @@
 		<div class="header_user_actions dropdown" on-toggle="toggled(open)" dropdown>
 			<div class="dropdown-toggle user_dropdown" dropdown-toggle>
 				<div class="user_avatar">
-					<img ng-src="" alt="" title="Carrol Clark (carrol@example.com)" width="38" height="38">
+					
 				</div>
 				<span class="caret"></span>
 			</div>
 			<ul class="dropdown-menu dropdown-menu-right">
+				<li ng-if="user_info">
+					<a ui-sref="auth.pages.userProfile" ng-if="user_info.first_name">{{user_info.first_name}} {{user_info.last_name}}</a>
+					<a ui-sref="auth.pages.userProfile" ng-if="!user_info.first_name">{{user_info.email}}</a>
+				</li>
 				<li><a ng-click="logout()">Log Out</a></li>
 			</ul>
 		</div>
