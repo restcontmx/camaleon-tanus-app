@@ -159,5 +159,81 @@
             <div id="c3_sales" style="height:280px"></div>
         </div>
     </div>
+
+    <div class="row" ng-hide="true">
+        <div class="col-md-6">
+            <table class="table" ng-repeat="l in locations">
+                <tbody>
+                    <tr>
+                        <th colspan="8" align="center">Daily System Sales Detail</th>
+                    </tr>
+                    <tr>
+                        <th colspan="6" align="left">{{l.location_name}}</th>
+                        <th colspan="4" align="right">{{date_range.date_start | date : 'MM/dd/y HH:mm:ss'}} - {{date_range.date_end | date : 'MM/dd/y HH:mm:ss'}}</th>
+                    </tr>
+                    <tr>
+                        <th colspan="2">Orders Completed</th>
+                        <td colspan="2">{{l.orders_completed}}</td>
+                        <th colspan="2">Total Sales</th>
+                        <td colspan="2">{{l.total_sales | number : 2}}</td>
+                    </tr>
+                    <tr>
+                        <th colspan="2">Sales average</th>
+                        <td colspan="2">{{l.promedy_sales | number : 2}}</td>
+                        <th colspan="2">Ticket average per guest</th>
+                        <td colspan="2">{{l.ticket_average | number : 2}}</td>
+                    </tr>
+                    <tr>
+                        <th colspan="2">Voids Qty</th>
+                        <td colspan="2">{{l.orders_completed}}</td>
+                        <th colspan="2">Voids Total</th>
+                        <td colspan="2">{{l.orders_completed  | number : 2}}</td>
+                    </tr>
+                    <tr>
+                        <th colspan="2">Guests</th>
+                        <td colspan="2">{{l.guests}}</td>
+                        <th colspan="2">Discounts</th>
+                        <td colspan="2">{{l.discounts | number : 2}}</td>
+                    </tr>
+                    <tr><td colspan="8"></td></tr>
+                    <tr>
+                        <th colspan="8">Category Reports</th>
+                    </tr>
+                    <tr ng-repeat="cr in l.category_reports">
+                        <td>{{cr.cate_name}}</td>
+                        <td>{{cr.qty}}</td>
+                        <td>{{cr.total}}</td>
+                    </tr>
+                    <tr>
+                        <th>Total Major</th>
+                        <td></td>
+                        <th>{{l.category_reports_total | number : 2}}</th>
+                    </tr>
+                    <tr><td colspan="8"></td></tr>                    
+                    <tr ng-repeat="dr in l.discount_reports">
+                        <td>{{dr.description}}</td>
+                        <td>{{dr.qty}}</td>
+                        <td>{{dr.total}}</td>
+                    </tr>
+                    <tr>
+                        <th>Total Discounts</th>
+                        <td></td>
+                        <th>{{l.discount_reports_total | number : 2}}</th>
+                    </tr>
+                    <tr><td colspan="8"></td></tr>  
+                    <tr ng-repeat="cr in l.creditcard_reports">
+                        <td>{{cr.c_t}}</td>
+                        <td>{{cr.ticket_count}}</td>
+                        <td>{{cr.amount}}</td>
+                    </tr>
+                    <tr>
+                        <th>Total Credit Cards</th>
+                        <td></td>
+                        <th>{{l.creditcard_reports_total | number : 2}}</th>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
 

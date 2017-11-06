@@ -113,9 +113,9 @@ yukonApp
             // Grid action for selected rows
             $rootScope.grid_action = function( row ) {
                 // Selected row option
-                if( $scope.report_status.category ) {
-                    $scope.get_item_detail_table_on_table( row );
-                }
+                //if( $scope.report_status.category ) {
+                  //  $scope.get_item_detail_table_on_table( row );
+                //}
             };
             // Date range variable
             // the important ones area start and end which are already conffigured on the scope
@@ -215,7 +215,7 @@ yukonApp
                             data: {
                                 columns: $scope.top10_donut_data,
                                 type: 'donut',
-                                onclick: function (d, i) { $scope.get_item_detail_table_on_chart( d, i ) },
+                                onclick: function (d, i) { /*$scope.get_item_detail_table_on_chart( d, i )*/ },
                                 onmouseover: function (d, i) { /*console.log("onmouseover", d, i);*/ },
                                 onmouseout: function (d, i) { /*console.log("onmouseout", d, i);*/ }
                             },

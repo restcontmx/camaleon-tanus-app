@@ -344,7 +344,8 @@ yukonApp
     .factory('DashboardRepository', ['$http', function ($http) {
         return ({
             get_sales_by_dates: (d1, d2) => $http.get('/dashboard/sales/?d1=' + d1 + '&d2=' + d2),
-            get_void_data_by_dates: (d1, d2) => $http.get('/dashboard/voids/?d1=' + d1 + '&d2=' + d2)
+            get_void_data_by_dates: (d1, d2) => $http.get('/dashboard/voids/?d1=' + d1 + '&d2=' + d2),
+            get_sales_by_dates_locations: ( d1, d2 ) => $http.get('/dashboard/saleslocations/?d1=' + d1 + '&d2=' + d2)
         });
     }])
     .controller('dashboardCtrl', [
@@ -356,7 +357,10 @@ yukonApp
         'DashboardRepository',
         'LocationRepository',
         'PermissionRepository',
-        function ($scope, $state, $rootScope, files, AuthRepository, DashboardRepository, LocationRepository, PermissionRepository) {
+        'CategoryRepository',
+        'DiscountRepository',
+        'CreditCardRepository',
+        function ($scope, $state, $rootScope, files, AuthRepository, DashboardRepository, LocationRepository, PermissionRepository, CategoryRepository, DiscountRepository, CreditCardRepository ) {
             $scope.$on('$stateChangeSuccess', function () {
                 if (AuthRepository.viewVerification()) {
                     PermissionRepository.getAll().success(function (response) {
@@ -562,7 +566,7 @@ yukonApp
                                 $scope.locations_data = [];
                                 $scope.location_reports.forEach(lr => $scope.locations_data.push([lr.location_name, lr.total]));
                                 $scope.sales_complete_dates = [];
-
+                                $scope.get_locations_reports();
                                 let date_start = angular.copy($scope.date_range.date_start),
                                     date_end = angular.copy($scope.date_range.date_end);
 
@@ -665,6 +669,67 @@ yukonApp
                                 $(window).on("debouncedresize", function () {
                                     chart_c3_orders.resize();
                                 });
+                            } else {
+                                $scope.errors = response.message;
+                            } $scope.progress_ban = false;
+                        }).error(function (error) {
+                            $scope.errors = error;
+                            $scope.progress_ban = false;
+                        });
+                        // get void data by default dates
+                        $scope.get_void_data();
+                    };
+
+                    $scope.get_locations_reports = function () {
+                        $scope.progress_ban = true;
+                        let date_1 = ($scope.date_range.date_start.getMonth() + 1) + '/' + $scope.date_range.date_start.getDate() + '/' + $scope.date_range.date_start.getFullYear() + ' ' + $scope.date_range.date_start.getHours() + ':' + $scope.date_range.date_start.getMinutes() + ':' + $scope.date_range.date_start.getSeconds(),
+                            date_2 = ($scope.date_range.date_end.getMonth() + 1) + '/' + $scope.date_range.date_end.getDate() + '/' + $scope.date_range.date_end.getFullYear() + ' ' + $scope.date_range.date_end.getHours() + ':' + $scope.date_range.date_end.getMinutes() + ':' + $scope.date_range.date_end.getSeconds();
+                        DashboardRepository.get_sales_by_dates_locations(date_1, date_2).success(function (response) {
+                            if (!response.error) {
+                                LocationRepository.getAll().success( function( data ) {
+                                    if( !data.error ) {
+                                        $scope.locations = data.data;
+                                        CategoryRepository.reportsByDate( date_1, date_2, 0 ).success( function( d1 ) {
+                                            $scope.categroy_reports = d1.data.category_reports
+                                            $scope.locations.forEach( l => {
+                                                l.sales = response.data.sale_reports.filter( r => r.location == l.id );
+                                                l.orders_completed = response.data.total_orders.filter( r => r.location == l.id )[0].completed_orders;
+                                                l.guests = response.data.total_guests.filter( r => r.location == l.id )[0].total_guests;
+                                                l.discounts = response.data.total_discounts.filter( r => r.location == l.id )[0].total_discounts;
+                                                l.category_reports = $scope.categroy_reports.filter( r => r.location == l.id )
+                                                l.category_reports_total = $scope.categroy_reports.filter( r => r.location == l.id ).reduce( ( a, b  ) => ( a + b.total ), 0 )
+                                                l.total_sales = l.sales.map(s => s.total).reduce((a, b) => (a + b), 0);
+                                                l.promedy_sales = l.total_sales / l.sales.length;
+                                                l.ticket_average = l.total_sales / l.guests;
+                                            })
+                                        }).error( function( error ) {
+                                            console.log( error )
+                                        })
+                                        DiscountRepository.reportsByDate( date_1, date_2, 0 ).success( function( d1 ) {
+                                            $scope.discount_reports = d1.data.discount_reports
+                                            $scope.locations.forEach( l => {
+                                                l.discount_reports = $scope.discount_reports.filter( r => r.location == l.id )
+                                                l.discount_reports_total = $scope.discount_reports.filter( r => r.location == l.id ).reduce( ( a, b  ) => ( a + b.total ), 0 )
+                                            })
+                                        }).error( function( error ) {
+                                            console.log( error )
+                                        })
+                                        CreditCardRepository.reportsByDate( date_1, date_2, 0 ).success( function( d1 ) {
+                                            $scope.creditcard_reports = d1.data.creditcard_reports
+                                            $scope.locations.forEach( l => {
+                                                l.creditcard_reports = $scope.creditcard_reports.filter( r => r.location == l.id )
+                                                l.creditcard_reports_total = $scope.creditcard_reports.filter( r => r.location == l.id ).reduce( ( a, b  ) => ( a + b.amount ), 0 )
+                                            })
+                                        }).error( function( error ) {
+                                            console.log( error )
+                                        })
+                                    } else {
+                                        console.log( data.message )
+                                    }
+                                }).error( function( error ) {
+                                    console.log( error )
+                                })
+
                             } else {
                                 $scope.errors = response.message;
                             } $scope.progress_ban = false;
