@@ -762,8 +762,13 @@ yukonApp
                                                 $scope.void_reports = d1.data.void_reports
                                                 $scope.locations.forEach( l => {
                                                     l.void_reports = $scope.void_reports.filter( r => r.location == l.id )
-                                                    l.voids_qty = l.void_reports[0].qty;
-                                                    l.voids_total = l.void_reports[0].total;
+                                                    if( l.void_reports.length > 0 ) {
+                                                        l.voids_qty = l.void_reports[0].qty;
+                                                        l.voids_total = l.void_reports[0].total;
+                                                    } else {
+                                                        l.voids_qty = 0
+                                                        l.voids_total = 0
+                                                    }
                                                 })
                                                 $scope.voids_done = true
                                             } else {
