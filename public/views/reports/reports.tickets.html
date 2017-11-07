@@ -1,5 +1,5 @@
 <div class="row">
-    <div class"col-md-12">
+    <div class "col-md-12">
         <div class="progress progress-striped active" ng-show="progress_ban">
             <div class="progress-bar" role="progressbar" style="width: 85%">
                 <span class="sr-only">85% Complete</span>
@@ -12,12 +12,22 @@
                 <label>Select Report Range</label>
                 <div id="drp_predefined" class="btn btn-default" style="width:100%">
                     <i class="icon_calendar"></i>
-                    <span>{{date_range.date_start | date : 'MM/dd/y HH:mm:ss'}} - {{date_range.date_end | date : 'MM/dd/y HH:mm:ss'}}</span> <b class="caret"></b>
+                    <span>{{date_range.date_start | date : 'MM/dd/y HH:mm:ss'}} - {{date_range.date_end | date : 'MM/dd/y HH:mm:ss'}}</span>
+                    <b class="caret"></b>
                 </div>
             </div>
             <div class="col-md-12">
-                <button class="btn btn-block btn-default" ng-click="get_reports(p)"><i class="icon_cloud-download" aria-hidden="true"></i> Get Reports</button>
+                <button class="btn btn-block btn-default" ng-click="get_reports(p)">
+                    <i class="icon_cloud-download" aria-hidden="true"></i> Get Reports</button>
             </div>
+            
+            <div class="col-md-12">
+                <br>
+                <label>Locations</label>
+                <input type="text" id="locations_tokenization" value="" ng-model="locations_select" ng-change="locations_select_change()">
+                <span class="help-block">Try typing in the search field above and entering a space or a comma.</span>
+            </div>
+
             <div class="col-md-12">
                 <br>
                 <br>
@@ -25,62 +35,108 @@
             </div>
         </div>
     </div>
-    
+
     <div class="col-md-4">
-            <div class="row">
-                <div class="col-sm-6">
-                    <h1 class="page_heading">
-                        {{selected_item.move_id}}
-                        <span>{{selected_item.move_date}}</span>
-                    </h1>
-                </div>
-                <div class="col-sm-6 text-right hidden-print">
-                    <a class="btn btn-sm btn-default btn-outline" href="#">PRINT</a>
-                </div>
+        <div class="row">
+            <div class="col-sm-6">
+                <h1 class="page_heading">
+                    {{selected_item.move_id}}
+                    <span>{{selected_item.move_date}}</span>
+                </h1>
             </div>
-            <hr/>
-            <div class="row">
-                <div class"col-md-12">
-                    <div class="progress progress-striped active" ng-show="loading_details">
-                        <div class="progress-bar" role="progressbar" style="width: 85%">
-                            <span class="sr-only">85% Complete</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-12">
-                    <table class="table table-yuk2 table-invoices">
-                        <thead>
-                            <tr>
-                                <th>Description</th>
-                                <th class="cw text-center">Quantity</th>
-                                <th class="cw text-center">Sub Total</th>
-                                <th class="cw text-center">Total (USD)</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr ng-repeat="deta in selected_item.detamoves">
-                                <td>{{deta.item_description}}</td>
-                                <td class="text-center">{{deta.qty}}</td>
-                                <td class="text-center">{{deta.sub_total|number:2}}</td>
-                                <td class="text-center"><strong>{{deta.total|number:2}}</strong></td>
-                            </tr>
-                        </tbody>
-                        <tfoot>
-                            <tr>
-                                <td colspan="3" class="text-right text-muted">Subtotal</td>
-                                <td class="text-center"><strong>{{selected_item.sub_total|number:2}}</strong></td>
-                            </tr>
-                            <tr>
-                                <td colspan="3" class="text-right text-muted">Tax Total</td>
-                                <td class="text-center"><strong>{{(selected_item.tax1 + selected_item.tax2 + selected_item.tax3)|number:2}}</strong></td>
-                            </tr>
-                            <tr class="grand_total">
-                                <td colspan="3" class="text-right text-muted">Grand Total</td>
-                                <td class="text-center text-success"><strong>{{selected_item.total|number:2}}</strong></td>
-                            </tr>
-                        </tfoot>
-                    </table>
-                </div>
+            <div class="col-sm-6 text-right hidden-print" ng-hide="true">
+                <button type="button" class="btn btn-sm btn-default" ng-click="print_tickets()">
+                    <i class="glyphicon glyphicon-cloud-download"></i> PRINT TICKETS</button>
             </div>
         </div>
+        <hr/>
+        <div class="row">
+            <div class "col-md-12">
+                <div class="progress progress-striped active" ng-show="loading_details">
+                    <div class="progress-bar" role="progressbar" style="width: 85%">
+                        <span class="sr-only">85% Complete</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <table class="table table-yuk2 table-invoices">
+                    <thead>
+                        <tr>
+                            <th>Description</th>
+                            <th class="cw text-center">Quantity</th>
+                            <th class="cw text-center">Sub Total</th>
+                            <th class="cw text-center">Total (USD)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="deta in selected_item.detamoves">
+                            <td>{{deta.item_description}}</td>
+                            <td class="text-center">{{deta.qty}}</td>
+                            <td class="text-center">{{deta.sub_total|number:2}}</td>
+                            <td class="text-center">
+                                <strong>{{deta.total|number:2}}</strong>
+                            </td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="3" class="text-right text-muted">Subtotal</td>
+                            <td class="text-center">
+                                <strong>{{selected_item.sub_total|number:2}}</strong>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="3" class="text-right text-muted">Tax Total</td>
+                            <td class="text-center">
+                                <strong>{{(selected_item.tax1 + selected_item.tax2 + selected_item.tax3)|number:2}}</strong>
+                            </td>
+                        </tr>
+                        <tr class="grand_total">
+                            <td colspan="3" class="text-right text-muted">Grand Total</td>
+                            <td class="text-center text-success">
+                                <strong>{{selected_item.total|number:2}}</strong>
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row" ng-hide="true">
+    <div class="col-md-12">
+        <table class="table" id="ticket_reports">
+            <thead>
+                <tr>
+                    <th colspan="4" align="center">Tickets</th>
+                    <th colspan="3" align="right">Printed by {{user_info.first_name}} {{user_info.last_name}}</th>
+                </tr>
+                <tr>
+                    <th colspan="4">Location(s): {{locations_select ? locations_select : 'All Locations' }}</th>
+                    <th colspan="3" align="right"><div class="date_reports"><span>{{date_range.date_start | date : 'MM/dd/y HH:mm:ss'}} - {{date_range.date_end | date : 'MM/dd/y HH:mm:ss'}}</span></div></th>
+                </tr>
+                <tr>
+                    <th>Move ID</th>
+                    <th>Move Date</th>
+                    <th>Sub Total</th>
+                    <th>Tax 1</th>
+                    <th>Tax 2</th>
+                    <th>Tax 3</th>
+                    <th>Move Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="t in gridOptions.data">
+                    <td>{{t.move_id}}</td>
+                    <td>{{t.move_date}}</td>
+                    <td>{{t.sub_total}}</td>
+                    <td>{{t.tax1}}</td>
+                    <td>{{t.tax2}}</td>
+                    <td>{{t.tax3}}</td>
+                    <td>{{t.total}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 </div>

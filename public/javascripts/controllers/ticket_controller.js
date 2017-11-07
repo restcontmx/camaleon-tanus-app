@@ -12,12 +12,16 @@ yukonApp
                                                 'AuthRepository',
                                                 '$rootScope',
                                                 'uiGridConstants',
+                                                'Excel',
+                                                '$timeout',
                                                 function(   $scope,
                                                             TicketRepository,
                                                             LocationRepository,
                                                             AuthRepository,
                                                             $rootScope,
-                                                            uiGridConstants  ) {
+                                                            uiGridConstants,
+                                                            Excel,
+                                                            $timeout  ) {
         if( AuthRepository.viewVerification() ) {
 
             $scope.progress_ban = false;
@@ -89,25 +93,37 @@ yukonApp
                     },
                     function(start, end) {
                         $('#drp_predefined span').html(start.format("MM/DD/YYYY HH:mm:ss") + ' - ' + end.format("MM/DD/YYYY HH:mm:ss"));
+                        $('.date_reports span').html(start.format("MM/DD/YYYY HH:mm:ss") + ' - ' + end.format("MM/DD/YYYY HH:mm:ss"));
                         $scope.date_range.date_start = new Date( start.format("MM/DD/YYYY HH:mm:ss") );
                         $scope.date_range.date_end = new Date( end.format("MM/DD/YYYY HH:mm:ss") );
                     }
 				);
             }
 
-            LocationRepository.getAll().success( function( data ) {
-                if( !data.error ) {
-                    $scope.locations = data.data;
-                    $scope.locations.forEach( l => $scope.locations_options.push( { 'name' : l.location_name, 'location' : l  } ) );
+            LocationRepository.getAll().success( function( d1 ) {
+                if( !d1.error ) {
+                    let location_names = "";
+                    $scope.locations = d1.data;
+                    $scope.locations.forEach( l => location_names += (l.location_name + ",") );
+                    location_names = location_names.substring( 0, location_names.length-1 );
+                    // locations on tokenization field
+                    // is just an array with the names
+                    // And sets by default all with a string separated by commas
+                    $( '#locations_tokenization' ).val( location_names );
+                    if($('#locations_tokenization').length) {
+                        $('#locations_tokenization').select2({
+                            placeholder: "Select Locations (all by default)...",
+                            tags: $scope.locations.map( l => l.location_name ),
+                            tokenSeparators: [","]
+                        });
+                    }
                 } else {
-                    $scope.errors = data.message;
+                    $scope.errors = d1.message;
                 }
             }).error( function( error ) {
                 $scope.errors = error;
             });
 
-            
-            
             $scope.get_reports = function( p ) {
                 $scope.progress_ban = true;
                 $rootScope.selected_item = { 'detamoves' : [] };
@@ -157,11 +173,40 @@ yukonApp
                     $scope.loading_details = false;
                 });
             };
+            // Locations select change
+            // When the locations field changes of locations
+            $scope.locations_select_change = function() {
+                
+                let locations_selected = $scope.locations_select.split(','), 
+                    locations = [],
+                    removal_ids = [];
 
-            $scope.$watch( 'selectedLocation', angular.bind( this, function(locationIndex) {
-                if( locationIndex != undefined ) {
-                    $rootScope.loc = $scope.locations_options[locationIndex].location.id;
+                locations_selected.forEach( ls => {
+                    let temp_location = $scope.locations.find( l => ( l.location_name == ls ) )
+                    if( temp_location ) {
+                        locations.push( temp_location );
+                    }
+                });
+                
+                if ( locations.length == 0 || locations.length == $scope.locations.length ) {
+                    $scope.gridOptions.data = $scope.tickets;
+                } else {
+                    $scope.gridOptions.data = $scope.tickets.filter( c => ( locations.find( l => ( c.location == l.id ) ) ) );
                 }
-            }));
+            };
+
+            $scope.print_tickets = function( ) {
+                /*
+                var exportHref = Excel.tableToExcel( '#ticket_reports', 'WireWorkbenchDataExport' );
+                console.log( exportHref )
+                $timeout( function() { 
+                    location.href = exportHref; 
+                }, 100);
+                */
+                var data = new Blob( [ JSON.stringify( $scope.gridOptions.data ) ], {
+                    type: "application/vnd.ms-excel;charset=charset=utf-8"
+                })
+                saveAs( data, "Sample.xls" )
+            };
         }
     }]);

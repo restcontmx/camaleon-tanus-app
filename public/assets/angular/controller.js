@@ -345,12 +345,15 @@ yukonApp
         return ({
             get_sales_by_dates: (d1, d2) => $http.get('/dashboard/sales/?d1=' + d1 + '&d2=' + d2),
             get_void_data_by_dates: (d1, d2) => $http.get('/dashboard/voids/?d1=' + d1 + '&d2=' + d2),
-            get_sales_by_dates_locations: ( d1, d2 ) => $http.get('/dashboard/saleslocations/?d1=' + d1 + '&d2=' + d2)
+            get_sales_by_dates_locations: ( d1, d2 ) => $http.get('/dashboard/saleslocations/?d1=' + d1 + '&d2=' + d2),
+            get_void_data_by_dates_locations: (d1, d2) => $http.get('/dashboard/voidslocations/?d1=' + d1 + '&d2=' + d2),
+            get_cash_data_by_dates_locations: (d1, d2) => $http.get('/dashboard/cashlocations/?d1=' + d1 + '&d2=' + d2)
         });
     }])
     .controller('dashboardCtrl', [
         '$scope',
         '$state',
+        '$timeout',
         '$rootScope',
         'files',
         'AuthRepository',
@@ -360,7 +363,20 @@ yukonApp
         'CategoryRepository',
         'DiscountRepository',
         'CreditCardRepository',
-        function ($scope, $state, $rootScope, files, AuthRepository, DashboardRepository, LocationRepository, PermissionRepository, CategoryRepository, DiscountRepository, CreditCardRepository ) {
+        'Excel',
+        function (  $scope, 
+                    $state, 
+                    $timeout, 
+                    $rootScope, 
+                    files, 
+                    AuthRepository, 
+                    DashboardRepository, 
+                    LocationRepository, 
+                    PermissionRepository, 
+                    CategoryRepository, 
+                    DiscountRepository, 
+                    CreditCardRepository, 
+                    Excel   ) {
             $scope.$on('$stateChangeSuccess', function () {
                 if (AuthRepository.viewVerification()) {
                     PermissionRepository.getAll().success(function (response) {
@@ -514,6 +530,11 @@ yukonApp
                     $scope.guests = 0;
                     $scope.voids_qty = 0;
                     $scope.voids_total = 0;
+                    $scope.cats_done = false
+                    $scope.dis_done = false
+                    $scope.credit_cards_done = false
+                    $scope.voids_done = false
+                    $scope.cash_done = false
                     // Date range variable
                     // the important ones area start and end which are already conffigured on the scope
                     $scope.date_range = {
@@ -541,12 +562,14 @@ yukonApp
                             },
                             function (start, end) {
                                 $('#drp_predefined span').html(start.format("MM/DD/YYYY HH:mm:ss") + ' - ' + end.format("MM/DD/YYYY HH:mm:ss"));
+                                $('.date_reports span').html(start.format("MM/DD/YYYY HH:mm:ss") + ' - ' + end.format("MM/DD/YYYY HH:mm:ss"));
                                 // When selected the datepicker returns a moment object; this just formats everything to what we need
                                 $scope.date_range.date_start = new Date(start.format("MM/DD/YYYY HH:mm:ss"));
                                 $scope.date_range.date_end = new Date(end.format("MM/DD/YYYY HH:mm:ss"));
                             }
                         );
                     }
+
                     $scope.get_reports = function () {
 
                         $scope.progress_ban = true;
@@ -689,19 +712,28 @@ yukonApp
                                 LocationRepository.getAll().success( function( data ) {
                                     if( !data.error ) {
                                         $scope.locations = data.data;
+                                        
+                                        $scope.cats_done = false
+                                        $scope.dis_done = false
+                                        $scope.credit_cards_done = false
+                                        $scope.voids_done = false
+                                        $scope.cash_done = false
+
                                         CategoryRepository.reportsByDate( date_1, date_2, 0 ).success( function( d1 ) {
                                             $scope.categroy_reports = d1.data.category_reports
                                             $scope.locations.forEach( l => {
-                                                l.sales = response.data.sale_reports.filter( r => r.location == l.id );
-                                                l.orders_completed = response.data.total_orders.filter( r => r.location == l.id )[0].completed_orders;
-                                                l.guests = response.data.total_guests.filter( r => r.location == l.id )[0].total_guests;
-                                                l.discounts = response.data.total_discounts.filter( r => r.location == l.id )[0].total_discounts;
+                                                l.sales = response.data.sale_reports.filter( r => r.location == l.id )
+                                                l.orders_completed = response.data.total_orders.filter( r => r.location == l.id )[0].completed_orders
+                                                l.guests = response.data.total_guests.filter( r => r.location == l.id )[0].total_guests
+                                                l.discounts = response.data.total_discounts.filter( r => r.location == l.id ).length > 0 ? response.data.total_discounts.filter( r => r.location == l.id )[0].total_discounts : 0;
                                                 l.category_reports = $scope.categroy_reports.filter( r => r.location == l.id )
                                                 l.category_reports_total = $scope.categroy_reports.filter( r => r.location == l.id ).reduce( ( a, b  ) => ( a + b.total ), 0 )
-                                                l.total_sales = l.sales.map(s => s.total).reduce((a, b) => (a + b), 0);
-                                                l.promedy_sales = l.total_sales / l.sales.length;
-                                                l.ticket_average = l.total_sales / l.guests;
+                                                l.category_reports_taxes = $scope.categroy_reports.filter( r => r.location == l.id ).reduce( ( a, b  ) => ( a + ( b.tax1 + b.tax2 + b.tax3 ) ), 0 )
+                                                l.total_sales = l.sales.map(s => s.total).reduce((a, b) => (a + b), 0)
+                                                l.promedy_sales = l.total_sales / l.sales.length
+                                                l.ticket_average = l.total_sales / l.guests
                                             })
+                                            $scope.cats_done = true
                                         }).error( function( error ) {
                                             console.log( error )
                                         })
@@ -709,8 +741,9 @@ yukonApp
                                             $scope.discount_reports = d1.data.discount_reports
                                             $scope.locations.forEach( l => {
                                                 l.discount_reports = $scope.discount_reports.filter( r => r.location == l.id )
-                                                l.discount_reports_total = $scope.discount_reports.filter( r => r.location == l.id ).reduce( ( a, b  ) => ( a + b.total ), 0 )
+                                                l.discount_reports_total = $scope.discount_reports.filter( r => r.location == l.id ).reduce( ( a, b  ) => ( a + b.discount ), 0 )
                                             })
+                                            $scope.dis_done = true
                                         }).error( function( error ) {
                                             console.log( error )
                                         })
@@ -720,9 +753,38 @@ yukonApp
                                                 l.creditcard_reports = $scope.creditcard_reports.filter( r => r.location == l.id )
                                                 l.creditcard_reports_total = $scope.creditcard_reports.filter( r => r.location == l.id ).reduce( ( a, b  ) => ( a + b.amount ), 0 )
                                             })
+                                            $scope.credit_cards_done = true
                                         }).error( function( error ) {
                                             console.log( error )
                                         })
+                                        DashboardRepository.get_void_data_by_dates_locations( date_1, date_2 ).success( function( d1 ) {
+                                            if( !d1.error ) {
+                                                $scope.void_reports = d1.data.void_reports
+                                                $scope.locations.forEach( l => {
+                                                    l.void_reports = $scope.void_reports.filter( r => r.location == l.id )
+                                                    l.voids_qty = l.void_reports[0].qty;
+                                                    l.voids_total = l.void_reports[0].total;
+                                                })
+                                                $scope.voids_done = true
+                                            } else {
+                                                console.log( d1.message )
+                                            }
+                                        }).error(function (error) {
+                                            $scope.errors = error;
+                                        });
+                                        DashboardRepository.get_cash_data_by_dates_locations( date_1, date_2 ).success( function( d1 ) {
+                                            if( !d1.error ) {
+                                                $scope.cash_reports = d1.data.cash_reports
+                                                $scope.locations.forEach( l => {
+                                                    l.cash_reports = $scope.cash_reports.filter( r => r.location == l.id )[0]
+                                                })
+                                                $scope.cash_done = true
+                                            } else {
+                                                console.log( d1.message )
+                                            }
+                                        }).error(function (error) {
+                                            $scope.errors = error;
+                                        });
                                     } else {
                                         console.log( data.message )
                                     }
@@ -737,8 +799,6 @@ yukonApp
                             $scope.errors = error;
                             $scope.progress_ban = false;
                         });
-                        // get void data by default dates
-                        $scope.get_void_data();
                     };
                     $scope.get_void_data = function () {
                         let date_1 = ($scope.date_range.date_start.getMonth() + 1) + '/' + $scope.date_range.date_start.getDate() + '/' + $scope.date_range.date_start.getFullYear() + ' ' + $scope.date_range.date_start.getHours() + ':' + $scope.date_range.date_start.getMinutes() + ':' + $scope.date_range.date_start.getSeconds(),
@@ -753,7 +813,7 @@ yukonApp
                         }).error(function (error) {
                             $scope.errors = error;
                         })
-                    }
+                    };
                     $scope.get_location_last_closes = function () {
                         LocationRepository.lastCloses().success(function (response) {
                             if (!response.error) {
@@ -770,7 +830,7 @@ yukonApp
                             console.log(error)
                             $scope.errors = error;
                         });
-                    }
+                    };
                     // Get location last closes
                     $scope.get_location_last_closes();
                     // Get month reports so far by default
@@ -778,6 +838,13 @@ yukonApp
                     // Convert date to a string separated by - - - 
                     function DateToString(d) {
                         return d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate()
+                    }
+                    // Export to excel
+                    $scope.export_location_to_excel = function( location_id ) {
+                        var exportHref = Excel.tableToExcel( '#' + location_id + '_location', 'WireWorkbenchDataExport' );
+                        $timeout( function() { 
+                            location.href = exportHref; 
+                        }, 100);
                     }
                 }
             });

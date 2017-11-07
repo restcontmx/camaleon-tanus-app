@@ -1584,6 +1584,9 @@ yukonApp
                                     // date range picker
                                     'assets/lib/bootstrap-daterangepicker/daterangepicker-bs3.css',
                                     'assets/lib/bootstrap-daterangepicker/daterangepicker.js',
+                                    // select2
+                                    'assets/lib/select2/select2.css',
+                                    'assets/lib/select2/select2.min.js'
                                 ])
                             }
                         ]

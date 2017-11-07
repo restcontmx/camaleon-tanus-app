@@ -186,7 +186,7 @@ yukonApp
                     let temp_location = $scope.locations.find( l => ( l.location_name == ls ) )
                     if( temp_location ) {
                         locations.push( temp_location );
-                    }ç
+                    }
                 });
                 
                 if ( locations.length == 0 || locations.length == $scope.locations.length ) {

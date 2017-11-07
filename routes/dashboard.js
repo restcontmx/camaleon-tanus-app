@@ -50,6 +50,44 @@ router.get( '/voids', jsonParser, function( req, res ) {
 /**
 * it_tcategory reports pettition
 **/
+router.get( '/voidslocations', jsonParser, function( req, res ) {
+    var userdata    = JSON.parse( req.cookies['userdata'] ),
+        url_parts   = urlLib.parse( req.url, true );
+    request(
+        {
+            url : http_helper.get_api_uri( 'voidlocations/dashboard/', '?d1=' + url_parts.query.d1 + '&d2=' + url_parts.query.d2 ),
+            method : 'GET',
+            json : true,
+            headers : {
+                'Authorization' : http_helper.get_basic_auth_w_token( encryption_system.decryptCookie( userdata.auth_data ) )
+            }
+        },
+        ( error, response, body ) => { res.send( http_helper.data_format_ok( error, response, body ) ) }
+    );
+});
+
+/**
+* cash  reports  by locations pettition
+**/
+router.get( '/cashlocations', jsonParser, function( req, res ) {
+    var userdata    = JSON.parse( req.cookies['userdata'] ),
+        url_parts   = urlLib.parse( req.url, true );
+    request(
+        {
+            url : http_helper.get_api_uri( 'cashlocations/dashboard/', '?d1=' + url_parts.query.d1 + '&d2=' + url_parts.query.d2 ),
+            method : 'GET',
+            json : true,
+            headers : {
+                'Authorization' : http_helper.get_basic_auth_w_token( encryption_system.decryptCookie( userdata.auth_data ) )
+            }
+        },
+        ( error, response, body ) => { res.send( http_helper.data_format_ok( error, response, body ) ) }
+    );
+});
+
+/**
+* it_tcategory reports pettition
+**/
 router.get( '/saleslocations', jsonParser, function( req, res ) {
     var userdata = JSON.parse( req.cookies['userdata'] ),
         url_parts = urlLib.parse( req.url, true );
