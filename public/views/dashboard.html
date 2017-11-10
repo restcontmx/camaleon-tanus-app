@@ -52,6 +52,9 @@
                 <li class="list-group-item">
                     <button class="btn btn-block btn-success" ng-click="get_reports()"><i class="icon_cloud-download" aria-hidden="true"></i> Get Reports</button>
                 </li>
+                <li class="list-group-item" ng-show="cats_done && dis_done && credit_cards_done && voids_done && cash_done">
+                    <button class="btn btn-block btn-primary" ng-click="print_all_reports()"> Print All Reports</button>
+                </li>
             </ul>
         </div>
         <div class="col-md-4 col-sm-12">
@@ -260,6 +263,70 @@
                 </tbody>
             </table>
         </div>
+    </div>
+
+    <div class="row">
+        <table class="table" id="all_reports">
+            <thead>
+                <tr>
+                    <th colspan="6">Sales Summary</th>
+                </tr>
+                <tr>
+                    <th>Location</th>
+                    <th>Sale</th>
+                    <th>Taxes</th>
+                    <th>Total</th>
+                    <th>Credit Card</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="l in locations">
+                    <td>{{l.location_name}}</td>
+                    <td>{{l.total_vta_neta | number : 2}}</td>
+                    <td>{{l.total_tax | number : 2}}</td>
+                    <td>{{l.total_sales | number : 2}}</td>
+                    <td>{{l.creditcard_reports_total | number : 2 }}</td>
+                </tr>
+                <tr>
+                    <th>
+                        Total
+                    </th>
+                    <th>{{total_vta_neta}}</th>
+                    <th>{{total_tax}}</th>
+                    <th>{{total_sales}}</th>
+                    <th>{{total_credit_card}}</th>
+                </tr>
+                <tr>
+                    <td colspan="6"></td>
+                </tr>
+                <tr>
+                    <th colspan="6">Movements Summary</th>
+                </tr>
+                <tr>
+                    <th>Location</th>
+                    <th>Qty Discounts</th>
+                    <th>Total Discounts</th>
+                    <th>Qty Voids</th>
+                    <th>Total Voids</th>
+                </tr>
+                <tr ng-repeat="l in locations">
+                    <td>{{l.location_name}}</td>
+                    <td>{{l.discount_reports_qty | number : 2}}</td>
+                    <td>{{l.discount_reports_total | number : 2}}</td>
+                    <td>{{l.voids_qty | number}}</td>
+                    <td>{{l.voids_total | number : 2}}</td>
+                </tr>
+                <tr>
+                    <th>
+                        Total
+                    </th>
+                    <th>{{discounts_qty}}</th>
+                    <th>{{discounts}}</th>
+                    <th>{{voids_qty}}</th>
+                    <th>{{voids_total}}</th>
+                </tr>
+            </tbody>
+        </table>
     </div>
 </div>
 

@@ -582,8 +582,13 @@ yukonApp
                                 $scope.location_reports = response.data.location_reports;
                                 $scope.guests = response.data.total_guests[0].total_guests;
                                 $scope.discounts = response.data.total_discounts[0].total_discounts;
+                                $scope.discounts_qty = response.data.total_discounts[0].qty;
 
                                 $scope.total_sales = $scope.sales.map(s => s.total).reduce((a, b) => (a + b), 0);
+                                
+                                $scope.total_tax = $scope.sales.map( s => s.tax1 + s.tax2 + s.tax3 ).reduce( ( a, b ) => ( a + b ), 0)
+                                $scope.total_vta_neta = $scope.sales.map( s => s.vta_neta ).reduce( ( a, b ) => ( a + b ), 0)
+
                                 $scope.promedy_sales = $scope.total_sales / $scope.sales.length;
                                 $scope.ticket_average = $scope.total_sales / $scope.guests;
                                 $scope.locations_data = [];
@@ -761,6 +766,8 @@ yukonApp
                                                 l.category_reports_total = $scope.categroy_reports.filter( r => r.location == l.id ).reduce( ( a, b  ) => ( a + b.total ), 0 )
                                                 l.category_reports_taxes = $scope.categroy_reports.filter( r => r.location == l.id ).reduce( ( a, b  ) => ( a + ( b.tax1 + b.tax2 + b.tax3 ) ), 0 )
                                                 l.total_sales = l.sales.map(s => s.total).reduce((a, b) => (a + b), 0)
+                                                l.total_tax = l.sales.map( s => s.tax1 + s.tax2 + s.tax3 ).reduce( ( a, b ) => ( a + b ), 0)
+                                                l.total_vta_neta = l.sales.map( s => s.vta_neta ).reduce( ( a, b ) => ( a + b ), 0)
                                                 l.promedy_sales = l.total_sales / l.sales.length
                                                 l.ticket_average = l.total_sales / l.guests
                                             })
@@ -772,7 +779,8 @@ yukonApp
                                             $scope.discount_reports = d1.data.discount_reports
                                             $scope.locations.forEach( l => {
                                                 l.discount_reports = $scope.discount_reports.filter( r => r.location == l.id )
-                                                l.discount_reports_total = $scope.discount_reports.filter( r => r.location == l.id ).reduce( ( a, b  ) => ( a + b.discount ), 0 )
+                                                l.discount_reports_qty = l.discount_reports.reduce( ( a, b  ) => ( a + b.qty ), 0 )
+                                                l.discount_reports_total = l.discount_reports.reduce( ( a, b  ) => ( a + b.discount ), 0 )
                                             })
                                             $scope.dis_done = true
                                         }).error( function( error ) {
@@ -784,10 +792,13 @@ yukonApp
                                                 l.creditcard_reports = $scope.creditcard_reports.filter( r => r.location == l.id )
                                                 l.creditcard_reports_total = $scope.creditcard_reports.filter( r => r.location == l.id ).reduce( ( a, b  ) => ( a + b.amount ), 0 )
                                             })
+                                            // Calculate all debit total
+                                            $scope.total_credit_card = $scope.locations.map( l => l.creditcard_reports_total ).reduce( ( a, b ) => ( a + b ), 0 )
                                             $scope.credit_cards_done = true
                                         }).error( function( error ) {
                                             console.log( error )
                                         })
+                                
                                         DashboardRepository.get_void_data_by_dates_locations( date_1, date_2 ).success( function( d1 ) {
                                             if( !d1.error ) {
                                                 $scope.void_reports = d1.data.void_reports
@@ -878,6 +889,12 @@ yukonApp
                     // Export to excel
                     $scope.export_location_to_excel = function( location_id ) {
                         var exportHref = Excel.tableToExcel( '#' + location_id + '_location', 'WireWorkbenchDataExport' );
+                        $timeout( function() { 
+                            location.href = exportHref; 
+                        }, 100);
+                    }
+                    $scope.print_all_reports = function() {
+                        var exportHref = Excel.tableToExcel( '#all_reports', 'WireWorkbenchDataExport' );
                         $timeout( function() { 
                             location.href = exportHref; 
                         }, 100);
