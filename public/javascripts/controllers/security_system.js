@@ -146,7 +146,6 @@ yukonApp
                 if( response.error ) {
                     $scope.errors = response.message
                 } else {
-                    console.log( response )
                     $scope.business = response.data
                 }
             }).error( function( error ) {
@@ -160,6 +159,7 @@ yukonApp
                                                     'AuthRepository',
                                                     'ProfileRepository',
                                                     'UserReportsRepository',
+                                                    'locationsList',
                                                     'growl',
                                                     function(   $scope,
                                                                 $timeout,
@@ -167,8 +167,10 @@ yukonApp
                                                                 AuthRepository,
                                                                 ProfileRepository,
                                                                 UserReportsRepository,
+                                                                locationsList,
                                                                 growl   ) {
         if( AuthRepository.viewVerification() ) {
+            $scope.locationsList = locationsList
             // Get all profiles from service
             function getAllProfiles() {
                 ProfileRepository.getAll().success( function( response ) {
@@ -212,6 +214,7 @@ yukonApp
             $scope.new_user = function() {
                 if( $scope.user.profile > 0 ) {
                     $scope.user.profile_id = $scope.user.profile;
+                    $scope.user.allowed_locations = $scope.location_list.map( l => l.id );
                     UserReportsRepository.add( $scope.user ).success( function( response ) {
                         if( !response.error ) {
                             growl.success( "User successfuly created.", {});
@@ -227,6 +230,86 @@ yukonApp
                     growl.warning( "Please select a valid profile.", {});
                 }
             }
+            // locations input
+            $scope.$on('$stateChangeSuccess', function () {
+                $timeout(function() {
+                    // init form.extended_elements functions
+                    col_multiselect = {
+                        init: function() {
+                            if($('#2col_ms_default').length) {
+                                var $msListDefault = $('#2col_ms_default');
+                                $msListDefault.multiSelect({
+                                    keepOrder: true,
+                                    selectableHeader: '<div class="ms-header">Selectable items</div>',
+                                    selectionHeader: '<div class="ms-header">Selection items</div>',
+                                    selectableFooter: '<div class="ms-footer">Selectable footer</div>',
+                                    selectionFooter: '<div class="ms-footer">Selection footer</div>'
+                                });
+                                $msListDefault.closest('.ms-wrapper').find('.ms_select_all').click(function (e) {
+                                    e.preventDefault();
+                                    $msListDefault.multiSelect('select_all');
+                                });
+                                $msListDefault.closest('.ms-wrapper').find('.ms_deselect_all').click(function (e) {
+                                    e.preventDefault();
+                                    $msListDefault.multiSelect('deselect_all');
+                                });
+                            }
+                            if($('#2col_ms_search').length) {
+                                var $msListSearch = $('#2col_ms_search');
+                                $msListSearch.multiSelect({
+                                    keepOrder: true,
+                                    selectableHeader: '<div class="ms-header-search"><input class="form-control input-sm" type="text" placeholder="Search in selectable..."/></div>',
+                                    selectionHeader: '<div class="ms-header-search"><input class="form-control input-sm" type="text" placeholder="Search in selection..."/></div>',
+                                    afterInit: function(ms){
+                                        ms.find('.ms-list li').each(function() {
+                                            var thisText = $(this).children('span').text(),
+                                                flag = thisText.substr(2, 2),
+                                                flag_remove = thisText.substr(0, 6);
+                                            $(this).children('span').html( '<i class="flag-'+ flag +'"></i>'+ thisText.replace(flag_remove,'') );
+                                        });
+                                        var that = this,
+                                            $selectableSearch = that.$selectableUl.prev().children(),
+                                            $selectionSearch = that.$selectionUl.prev().children(),
+                                            selectableSearchString = '#' + that.$container.attr('id') + ' .ms-elem-selectable:not(.ms-selected)',
+                                            selectionSearchString = '#' + that.$container.attr('id') + ' .ms-elem-selection.ms-selected';
+                
+                                        that.qs1 = $selectableSearch.quicksearch(selectableSearchString).on('keydown', function (e) {
+                                            if (e.which === 40) {
+                                                that.$selectableUl.focus();
+                                                return false;
+                                            }
+                                        });
+                
+                                        that.qs2 = $selectionSearch.quicksearch(selectionSearchString).on('keydown', function (e) {
+                                            if (e.which == 40) {
+                                                that.$selectionUl.focus();
+                                                return false;
+                                            }
+                                        });
+                                    },
+                                    afterSelect: function () {
+                                        this.qs1.cache();
+                                        this.qs2.cache();
+                                    },
+                                    afterDeselect: function () {
+                                        this.qs1.cache();
+                                        this.qs2.cache();
+                                    }
+                                });
+                                $msListSearch.closest('.ms-wrapper').find('.ms_select_all').click(function (e) {
+                                    e.preventDefault();
+                                    $msListSearch.multiSelect('select_all');
+                                });
+                                $msListSearch.closest('.ms-wrapper').find('.ms_deselect_all').click(function (e) {
+                                    e.preventDefault();
+                                    $msListSearch.multiSelect('deselect_all');
+                                });
+                            }
+                        }
+                    };
+                    col_multiselect.init();
+                })
+            })
         }
     }])
     .controller( 'security-profile-controller', [   '$scope',
@@ -259,6 +342,17 @@ yukonApp
                 ProfileRepository.getAll().success( function( response ) {
                     if( !response.error ) {   
                         $scope.profiles = response.data;
+                        $scope.profiles.forEach( s => {
+                            s.p_v = {}
+                            $scope.permissionsList.forEach( p => {
+                                let found_permission = s.permissions.find( per => per.id == p.id )
+                                if( found_permission ){
+                                    s.p_v[ p.name ] = true
+                                } else {
+                                    s.p_v[ p.name ] = false                                    
+                                }
+                            })
+                        })
                     } else {
                         growl.error( "There was an error getting the profiles; " + response.message, {});
                     }
@@ -266,10 +360,10 @@ yukonApp
                     growl.error( "There was an error getting the profiles; " + error, {});
                 });
             }
-
+            
             initProfile();
             getAllProfiles();
-
+            
             $scope.$on('$stateChangeSuccess', function () {
                 $timeout(function() {
                     // init form.extended_elements functions

@@ -19,6 +19,7 @@
                     <tr>
                         <th>Location</th>
                         <th>Last Updated</th>
+                        <th>Last Sale</th>
                         <th>Export</th>
                     </tr>
                 </thead>
@@ -26,6 +27,7 @@
                     <tr ng-repeat="lc in last_closes">
                         <th scope="row">{{lc.location_name}}</th>
                         <td>{{lc.now_date | date:'MM/dd/y H:mm:ss'}}</td> 
+                        <td>{{lc.last_sale | date:'MM/dd/y H:mm:ss'}}</td> 
                         <td ng-show="cats_done && dis_done && credit_cards_done && voids_done && cash_done"><a ng-click="export_location_to_excel( lc.id )"><i class="glyphicon glyphicon-cloud-download"></i></a></td>
                         <td ng-hide="cats_done && dis_done && credit_cards_done && voids_done && cash_done"><i class="glyphicon glyphicon-hourglass"></i></td>
                     </tr>

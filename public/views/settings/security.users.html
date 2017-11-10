@@ -30,6 +30,15 @@
                         <option ng-repeat="p in profiles" value="{{p.id}}">{{p.name}}</option>
                     </select>
                 </div>
+                <div class="form-group">
+                    <label for="2col_ms_default">Locations; ({{locationsList.length}} elements)</label>
+                    <div class="ms-wrapper">
+                        <select id="2col_ms_default" multiple ng-model="location_list" ng-options="l.location_name for l in locationsList track by l.id" required>
+                        </select>
+                        <button type="button" class="btn btn-default btn-xs ms_select_all bs_ttip" title="Select All"><span class="arrow_carrot-2right"></span></button>
+                        <button type="button" class="btn btn-default btn-xs ms_deselect_all bs_ttip" title="Deselect All"><span class="arrow_carrot-2left"></span></button>
+                    </div>
+                </div>
                 <button type="submit" class="btn btn-block btn-default">Create New User</button>
             </section>
         </form>
@@ -43,6 +52,7 @@
                     <td>Last Name</td>
                     <td>Email</td>
                     <td>Profile</td>
+                    <td>Allowed Locations</td>
                 </tr>
             </thead>
             <tbody>
@@ -51,6 +61,11 @@
                     <td>{{u.user.last_name}}</td>
                     <td>{{u.user.email}}</td>
                     <td>{{u.profile.name}}</td>
+                    <td>
+                        <ul>
+                            <li ng-repeat="l in u.allowed_locations">{{l.location_name}}</li>
+                        </ul>
+                    </td>
                 </tr>
             </tbody>
         </table>

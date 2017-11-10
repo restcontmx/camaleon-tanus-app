@@ -1680,6 +1680,12 @@ yukonApp
                     url: '/users',
                     templateUrl: 'views/settings/security.users.html',
                     resolve: {
+                        locationsList:  function(LocationRepository){
+                            return LocationRepository.getAll()
+                                .then (function (data) {
+                                    return data.data.data;
+                                });
+                        },
                         files: [
                             'uiLoad',
                             function (uiLoad) {
@@ -1693,6 +1699,8 @@ yukonApp
                                     'assets/lib/select2/select2.min.js',
                                     // jquery steps
                                     'assets/js/jquery.steps.custom.min.js',
+                                    // 2col multiselect
+                                    'assets/lib/lou-multi-select/js/jquery.multi-select.js',
                                     // validation
                                     'assets/js/parsley.config.js',
                                     'assets/lib/parsley/dist/parsley.min.js',

@@ -15,7 +15,7 @@
                         <input type="text" class="form-control" id="description" name="wizard_lname" data-parsley-required="true" ng-model="profile.description">
                     </div>
                     <div class="form-group">
-                        <label for="2col_ms_default">Custom headers/footers ({{permissionsList.length}} elements)</label>
+                        <label for="2col_ms_default">Permissions; ({{permissionsList.length}} elements)</label>
                         <div class="ms-wrapper">
                             <select id="2col_ms_default" multiple ng-model="permission_list" ng-options="p.name for p in permissionsList track by p.id" required>
                             </select>
@@ -46,6 +46,30 @@
                         <td>{{p.description}}</td>
                         <td>{{p.bussines.name}}</td>
                         <td>{{p.timestamp}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-md-12">
+            <h3>Profile Permissions View</h3>
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th ng-repeat="p in profiles">{{p.id}}</th>
+                    </tr>
+                    <tr>
+                        <th>Name</th>
+                        <th ng-repeat="p in profiles">{{p.name}}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="p in permissionsList">
+                        <th>{{p.name}}</th>
+                        <td ng-repeat="prof in profiles">
+                            <i class="glyphicon glyphicon-ok" ng-if="prof.p_v[p.name]"></i>
+                            <i class="glyphicon glyphicon-remove" ng-if="!prof.p_v[p.name]"></i>
+                        </td>
                     </tr>
                 </tbody>
             </table>

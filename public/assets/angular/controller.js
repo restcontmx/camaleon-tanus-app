@@ -610,71 +610,14 @@ yukonApp
                                     date_start.setDate(date_start.getDate() + 1);
                                 }
 
-                                let total_sales = Array.of('Total sales'),
-                                    move_dates = Array.of('x');
+                                $scope.total_sales_graph = Array.of( 'Total sales' )
+                                $scope.move_dates  = Array.of( 'x' )
 
                                 $scope.sales_complete_dates.forEach(s => {
-                                    move_dates.push(s.move_date);
-                                    total_sales.push(s.total);
+                                    $scope.move_dates.push( s.move_date );
+                                    $scope.total_sales_graph.push( s.total );
                                 })
-
-                                chart_c3_sales.destroy();
-                                chart_c3_sales = c3.generate({
-                                    bindto: '#c3_sales',
-                                    data: {
-                                        x: 'x',
-                                        columns: [
-                                            move_dates,
-                                            total_sales
-                                        ],
-                                        types: {
-                                            'Total sales': 'area'
-                                        }
-                                    },
-                                    zoom: {
-                                        enabled: true
-                                    },
-                                    axis: {
-                                        x: {
-                                            type: 'timeseries',
-                                            tick: {
-                                                culling: false,
-                                                fit: true,
-                                                format: function (x) { return (x.getMonth() + 1) + '-' + x.getDate() } // format string is also available for timeseries data
-                                            }
-                                        },
-                                        y: {
-                                            tick: {
-                                                format: d3.format("$,")
-                                            }
-                                        }
-                                    },
-                                    point: {
-                                        r: '4',
-                                        focus: {
-                                            expand: {
-                                                r: '5'
-                                            }
-                                        }
-                                    },
-                                    bar: {
-                                        width: {
-                                            ratio: 0.4 // this makes bar width 50% of length between ticks
-                                        }
-                                    },
-                                    grid: {
-                                        x: {
-                                            show: true
-                                        },
-                                        y: {
-                                            show: true
-                                        }
-                                    },
-                                    color: {
-                                        pattern: ['#1f77b4', '#ff7f0e', '#2ca02c', '#d62728', '#9467bd', '#8c564b', '#e377c2', '#7f7f7f', '#bcbd22', '#17becf']
-                                    }
-                                });
-
+                                
                                 chart_c3_orders.destroy();
                                 chart_c3_orders = c3.generate({
                                     bindto: '#c3_orders',
@@ -712,12 +655,100 @@ yukonApp
                                 LocationRepository.getAll().success( function( data ) {
                                     if( !data.error ) {
                                         $scope.locations = data.data;
+                                        $scope.locations_sales = response.data.sale_reports
                                         
                                         $scope.cats_done = false
                                         $scope.dis_done = false
                                         $scope.credit_cards_done = false
                                         $scope.voids_done = false
                                         $scope.cash_done = false
+
+                                        let columns = []
+                                        let types_vars = {}
+
+                                        types_vars[ 'Total sales' ] = 'area'
+
+                                        columns.push( $scope.move_dates )
+                                        columns.push( $scope.total_sales_graph )
+                                        
+                                        $scope.locations.forEach( l => {
+                                            let temp_locs = Array.of( l.location_name )
+                                            types_vars[ l.location_name ] = 'area' 
+                                            
+                                            let date_start = angular.copy($scope.date_range.date_start),
+                                                date_end = angular.copy($scope.date_range.date_end);
+
+                                            while (date_start <= date_end) {
+                                                let temp_date_str = date_start.getFullYear() + '-' + (date_start.getMonth() + 1) + '-' + date_start.getDate(),
+                                                    temp_obj = $scope.locations_sales.filter( s => s.location == l.id ).find( s => {
+                                                        let inter_d = new Date(s.move_date)
+                                                        inter_d.setDate(inter_d.getDate() + 1)
+                                                        if (DateToString(inter_d) == DateToString(new Date(temp_date_str))) {
+                                                            return s;
+                                                        }
+                                                    });
+                                                if (temp_obj) {
+                                                    temp_locs.push(temp_obj.total);
+                                                } else {                                               
+                                                    temp_locs.push(0);
+                                                }
+                                                date_start.setDate(date_start.getDate() + 1);
+                                            }
+                                            
+                                            columns.push( temp_locs )
+                                        });
+                                        
+                                        chart_c3_sales.destroy();
+                                        chart_c3_sales = c3.generate({
+                                            bindto: '#c3_sales',
+                                            data: {
+                                                x: 'x',
+                                                columns: columns,
+                                                types: types_vars
+                                            },
+                                            zoom: {
+                                                enabled: true
+                                            },
+                                            axis: {
+                                                x: {
+                                                    type: 'timeseries',
+                                                    tick: {
+                                                        culling: false,
+                                                        fit: true,
+                                                        format: function (x) { return (x.getMonth() + 1) + '-' + x.getDate() } // format string is also available for timeseries data
+                                                    }
+                                                },
+                                                y: {
+                                                    tick: {
+                                                        format: d3.format("$,")
+                                                    }
+                                                }
+                                            },
+                                            point: {
+                                                r: '4',
+                                                focus: {
+                                                    expand: {
+                                                        r: '5'
+                                                    }
+                                                }
+                                            },
+                                            bar: {
+                                                width: {
+                                                    ratio: 0.4 // this makes bar width 50% of length between ticks
+                                                }
+                                            },
+                                            grid: {
+                                                x: {
+                                                    show: true
+                                                },
+                                                y: {
+                                                    show: true
+                                                }
+                                            },
+                                            color: {
+                                                pattern: ['#1f77b4', '#ff7f0e', '#2ca02c', '#d62728', '#9467bd', '#8c564b', '#e377c2', '#7f7f7f', '#bcbd22', '#17becf']
+                                            }
+                                        });
 
                                         CategoryRepository.reportsByDate( date_1, date_2, 0 ).success( function( d1 ) {
                                             $scope.categroy_reports = d1.data.category_reports
