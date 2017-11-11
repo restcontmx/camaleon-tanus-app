@@ -37,6 +37,7 @@
                         <td>Description</td>
                         <td>Business</td>
                         <td>Created</td>
+                        <td></td>
                     </tr>
                 </thead>
                 <tbody>
@@ -46,6 +47,9 @@
                         <td>{{p.description}}</td>
                         <td>{{p.bussines.name}}</td>
                         <td>{{p.timestamp}}</td>
+                        <td>
+                            <a ng-click="goEdit( p.id )"><i class="glyphicon glyphicon-edit"></i></a>
+                        </td>
                     </tr>
                 </tbody>
             </table>

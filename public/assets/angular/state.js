@@ -1815,6 +1815,54 @@ yukonApp
                         label: 'Profiles'
                     }
                 })
+                .state('auth.settings.security.profilesedit', {
+                    page_title: 'Profiles',
+                    url: '/profiles/:id',
+                    templateUrl: 'views/settings/security.profiles.edit.html',
+                    resolve: {
+                        profileObj: function( ProfileRepository, $stateParams ) {
+                            return ProfileRepository.getById( $stateParams.id )
+                                    .then( function( response ) {
+                                        console.log( response )
+                                        return response.data.data
+                                    })
+                        },
+                        permissionsList:  function(PermissionRepository){
+                            return PermissionRepository.getAll()
+                                    .then (function (data) {
+                                        return data.data.data;
+                                    });
+                        },
+                        files: [
+                            'uiLoad',
+                            function (uiLoad) {
+                                return uiLoad.load([
+                                    // select2
+                                    'assets/lib/select2/select2.css',
+                                    'assets/lib/select2/select2.min.js',
+                                    // autosize
+                                    'assets/lib/autosize/jquery.autosize.min.js',
+                                    // inputmask
+                                    'assets/lib/jquery.inputmask/jquery.inputmask.bundle.min.js',
+                                    // 2col multiselect
+                                    'assets/lib/lou-multi-select/js/jquery.multi-select.js',
+                                    // quicksearch
+                                    'assets/lib/quicksearch/jquery.quicksearch.min.js',
+                                    // icheck
+                                    'assets/lib/iCheck/skins/minimal/blue.css',
+                                    'assets/lib/iCheck/icheck.min.js',
+                                    // selectize.js
+                                    'assets/lib/selectize-js/css/selectize.css',
+                                    'assets/lib/selectize-js/js/standalone/selectize.min.js'
+                                ])
+                            }
+                        ]
+                    },
+                    controller: 'security-profiles-edit-controller',
+                    ncyBreadcrumb: {
+                        label: 'Profiles'
+                    }
+                })
                 // Turns
                 .state('auth.settings.turns', {
                     abstract: true,

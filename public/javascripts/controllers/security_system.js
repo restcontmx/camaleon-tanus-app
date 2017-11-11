@@ -141,7 +141,6 @@ yukonApp
         });
 
         if( $rootScope.user_info ) {
-            // 
             BusinessRepository.getById( $rootScope.user_info.business.id ).success( function( response ) {
                 if( response.error ) {
                     $scope.errors = response.message
@@ -349,12 +348,18 @@ yukonApp
             // update new user
             // updates user
             $scope.update_user = function() {
-                if( $scope.user.profile > 0 ) {
-                    $scope.user.profile_id = $scope.user.profile;
-                    $scope.user.allowed_locations = $scope.location_list.map( l => l.id );
+                if( $scope.user.profile.id > 0 ) {
+                    $scope.user.profile_id = $scope.user.profile.id;
+                    $scope.user.user = {
+                        username : $scope.user.user.email,
+                        first_name : $scope.user.user.first_name,
+                        last_name : $scope.user.user.last_name,
+                        email : $scope.user.user.email
+                    }
+                    $scope.user.allowed_locations = $scope.user.allowed_locations.map( l => l.id );
                     UserReportsRepository.update( $scope.user ).success( function( response ) {
                         if( !response.error ) {
-                            growl.success( "User successfuly created.", {});
+                            growl.success( "User successfuly updated.", {});
                             $state.go( 'auth.settings.security.users' )
                         } else {
                             growl.error( "There was an error;" + response.message, {});
@@ -449,6 +454,7 @@ yukonApp
         }
     }])
     .controller( 'security-profile-controller', [   '$scope',
+                                                    '$state',
                                                     '$rootScope',
                                                     'AuthRepository',
                                                     '$timeout',
@@ -456,6 +462,7 @@ yukonApp
                                                     'ProfileRepository',
                                                     'growl',
                                                     function(   $scope,
+                                                                $state,
                                                                 $rootScope,
                                                                 AuthRepository,
                                                                 $timeout,
@@ -601,5 +608,129 @@ yukonApp
                     growl.error("Please select at least one permission.", {});            
                 }
             }
+            // Go to edit profile view
+            $scope.goEdit = function( id ) {
+                $state.go( 'auth.settings.security.profilesedit', { 'id' : id } )
+            }
+        }
+    }])
+    .controller( 'security-profiles-edit-controller', [ '$scope',
+                                                        '$state',
+                                                        '$timeout',
+                                                        '$rootScope',
+                                                        'AuthRepository',
+                                                        'ProfileRepository',
+                                                        'permissionsList',
+                                                        'profileObj',
+                                                        'growl',
+                                                        function(   $scope,
+                                                                    $state,
+                                                                    $timeout,
+                                                                    $rootScope,
+                                                                    AuthRepository,
+                                                                    ProfileRepository,
+                                                                    permissionsList,
+                                                                    profileObj,
+                                                                    growl   ) {
+        if (AuthRepository.viewVerification()) {
+            
+            $scope.profile = profileObj
+            $scope.permissionsList = permissionsList;
+
+            // update new user
+            // updates user
+            $scope.update_profile = function () {
+                $scope.profile.permissions = $scope.profile.permissions.map(l => l.id);
+                ProfileRepository.update($scope.profile).success(function (response) {
+                    if (!response.error) {
+                        growl.success("Profile successfuly updated.", {});
+                        $state.go('auth.settings.security.profiles')
+                    } else {
+                        growl.error("There was an error;" + response.message, {});
+                    }
+                }).error(function (error) {
+                    growl.error("There was an error;" + error, {});
+                });
+            }
+            // locations input
+            $scope.$on('$stateChangeSuccess', function () {
+                $timeout(function () {
+                    // init form.extended_elements functions
+                    col_multiselect = {
+                        init: function () {
+                            if ($('#2col_ms_default').length) {
+                                var $msListDefault = $('#2col_ms_default');
+                                $msListDefault.multiSelect({
+                                    keepOrder: true,
+                                    selectableHeader: '<div class="ms-header">Selectable items</div>',
+                                    selectionHeader: '<div class="ms-header">Selection items</div>',
+                                    selectableFooter: '<div class="ms-footer">Selectable footer</div>',
+                                    selectionFooter: '<div class="ms-footer">Selection footer</div>'
+                                });
+                                $msListDefault.closest('.ms-wrapper').find('.ms_select_all').click(function (e) {
+                                    e.preventDefault();
+                                    $msListDefault.multiSelect('select_all');
+                                });
+                                $msListDefault.closest('.ms-wrapper').find('.ms_deselect_all').click(function (e) {
+                                    e.preventDefault();
+                                    $msListDefault.multiSelect('deselect_all');
+                                });
+                            }
+                            if ($('#2col_ms_search').length) {
+                                var $msListSearch = $('#2col_ms_search');
+                                $msListSearch.multiSelect({
+                                    keepOrder: true,
+                                    selectableHeader: '<div class="ms-header-search"><input class="form-control input-sm" type="text" placeholder="Search in selectable..."/></div>',
+                                    selectionHeader: '<div class="ms-header-search"><input class="form-control input-sm" type="text" placeholder="Search in selection..."/></div>',
+                                    afterInit: function (ms) {
+                                        ms.find('.ms-list li').each(function () {
+                                            var thisText = $(this).children('span').text(),
+                                                flag = thisText.substr(2, 2),
+                                                flag_remove = thisText.substr(0, 6);
+                                            $(this).children('span').html('<i class="flag-' + flag + '"></i>' + thisText.replace(flag_remove, ''));
+                                        });
+                                        var that = this,
+                                            $selectableSearch = that.$selectableUl.prev().children(),
+                                            $selectionSearch = that.$selectionUl.prev().children(),
+                                            selectableSearchString = '#' + that.$container.attr('id') + ' .ms-elem-selectable:not(.ms-selected)',
+                                            selectionSearchString = '#' + that.$container.attr('id') + ' .ms-elem-selection.ms-selected';
+
+                                        that.qs1 = $selectableSearch.quicksearch(selectableSearchString).on('keydown', function (e) {
+                                            if (e.which === 40) {
+                                                that.$selectableUl.focus();
+                                                return false;
+                                            }
+                                        });
+
+                                        that.qs2 = $selectionSearch.quicksearch(selectionSearchString).on('keydown', function (e) {
+                                            if (e.which == 40) {
+                                                that.$selectionUl.focus();
+                                                return false;
+                                            }
+                                        });
+                                    },
+                                    afterSelect: function () {
+                                        this.qs1.cache();
+                                        this.qs2.cache();
+                                    },
+                                    afterDeselect: function () {
+                                        this.qs1.cache();
+                                        this.qs2.cache();
+                                    }
+                                });
+                                $msListSearch.closest('.ms-wrapper').find('.ms_select_all').click(function (e) {
+                                    e.preventDefault();
+                                    $msListSearch.multiSelect('select_all');
+                                });
+                                $msListSearch.closest('.ms-wrapper').find('.ms_deselect_all').click(function (e) {
+                                    e.preventDefault();
+                                    $msListSearch.multiSelect('deselect_all');
+                                });
+                            }
+                        }
+                    };
+                    col_multiselect.init();
+                })
+            })
         }
     }]);
