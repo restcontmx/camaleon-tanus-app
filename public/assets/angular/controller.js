@@ -759,8 +759,20 @@ yukonApp
                                             $scope.categroy_reports = d1.data.category_reports
                                             $scope.locations.forEach( l => {
                                                 l.sales = response.data.sale_reports.filter( r => r.location == l.id )
-                                                l.orders_completed = response.data.total_orders.filter( r => r.location == l.id )[0].completed_orders
-                                                l.guests = response.data.total_guests.filter( r => r.location == l.id )[0].total_guests
+                                                let total_orders = response.data.total_orders.filter( r => r.location == l.id )
+                                                // l.orders_completed = response.data.total_orders.filter( r => r.location == l.id )[0].completed_orders
+                                                if( total_orders.length > 0 ) {
+                                                    l.orders_completed = total_orders[0].completed_orders
+                                                } else {
+                                                    l.orders_completed = 0
+                                                }
+                                                let total_guests = response.data.total_guests.filter( r => r.location == l.id )
+                                                if( total_guests.length > 0 ) {
+                                                    l.guests = total_orders[0].total_guests
+                                                } else {
+                                                    l.guests = 0
+                                                }
+                                                // l.guests = response.data.total_guests.filter( r => r.location == l.id )[0].total_guests
                                                 l.discounts = response.data.total_discounts.filter( r => r.location == l.id ).length > 0 ? response.data.total_discounts.filter( r => r.location == l.id )[0].total_discounts : 0;
                                                 l.category_reports = $scope.categroy_reports.filter( r => r.location == l.id )
                                                 l.category_reports_total = $scope.categroy_reports.filter( r => r.location == l.id ).reduce( ( a, b  ) => ( a + b.total ), 0 )
