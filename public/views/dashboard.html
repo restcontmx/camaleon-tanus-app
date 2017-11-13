@@ -117,7 +117,7 @@
             <div class="info_box_var_1 box_bg_a">
                 <div class="info_box_body">
                     <span class="info_box_icon el-icon-remove-sign"></span>
-                    <span class="countUpMe" data-endVal="{{voids_qty}}">{{voids_qty}}</span>
+                    <span class="countUpMe" data-endVal="{{voids_qty}}">{{voids_qty | number}}</span>
                 </div>
                 <div class="info_box_footer">
                     Voids Qty
@@ -139,7 +139,7 @@
             <div class="info_box_var_1 box_bg_c">
                 <div class="info_box_body">
                     <span class="info_box_icon el-icon-user"></span>
-                    <span class="countUpMe" data-endVal="{{guests}}">{{guests}}</span>
+                    <span class="countUpMe" data-endVal="{{guests}}">{{guests | number}}</span>
                 </div>
                 <div class="info_box_footer">
                     Guests
@@ -218,7 +218,7 @@
                     </tr>
                     <tr>
                         <th colspan="2">Gift</th>
-                        <td colspan="2">{{l.cash_reports.gift}}</td>
+                        <td colspan="2">{{l.cash_reports.gift | number : 2}}</td>
                         <th colspan="2">Total</th>
                         <td colspan="2">{{l.cash_reports.total | number : 2}}</td>
                     </tr>
@@ -291,10 +291,10 @@
                     <th>
                         Total
                     </th>
-                    <th>{{total_vta_neta}}</th>
-                    <th>{{total_tax}}</th>
-                    <th>{{total_sales}}</th>
-                    <th>{{total_credit_card}}</th>
+                    <th>{{total_vta_neta | number : 2}}</th>
+                    <th>{{total_tax | number : 2}}</th>
+                    <th>{{total_sales | number : 2}}</th>
+                    <th>{{total_credit_card | number : 2}}</th>
                 </tr>
                 <tr>
                     <td colspan="6"></td>
@@ -320,10 +320,10 @@
                     <th>
                         Total
                     </th>
-                    <th>{{discounts_qty}}</th>
-                    <th>{{discounts}}</th>
-                    <th>{{voids_qty}}</th>
-                    <th>{{voids_total}}</th>
+                    <th>{{discounts_qty | number}}</th>
+                    <th>{{discounts | number : 2}}</th>
+                    <th>{{voids_qty | number}}</th>
+                    <th>{{voids_total | number : 2}}</th>
                 </tr>
             </tbody>
         </table>
