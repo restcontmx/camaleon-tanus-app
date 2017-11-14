@@ -17,7 +17,7 @@ router.get( '/sales', jsonParser, function( req, res ) {
         url_parts = urlLib.parse( req.url, true );
     request(
         {
-            url : http_helper.get_api_uri( 'sales/reports/', '?d1=' + url_parts.query.d1 + '&d2=' + url_parts.query.d2 ),
+            url : http_helper.get_business_api_uri( userdata.user_data.e_p, 'sales/reports/', '?d1=' + url_parts.query.d1 + '&d2=' + url_parts.query.d2 ),
             method : 'GET',
             json : true,
             headers : {
@@ -36,7 +36,7 @@ router.get( '/voids', jsonParser, function( req, res ) {
         url_parts = urlLib.parse( req.url, true );
     request(
         {
-            url : http_helper.get_api_uri( 'void/dashboard/', '?d1=' + url_parts.query.d1 + '&d2=' + url_parts.query.d2 ),
+            url : http_helper.get_business_api_uri( userdata.user_data.e_p, 'void/dashboard/', '?d1=' + url_parts.query.d1 + '&d2=' + url_parts.query.d2 ),
             method : 'GET',
             json : true,
             headers : {
@@ -55,7 +55,7 @@ router.get( '/voidslocations', jsonParser, function( req, res ) {
         url_parts   = urlLib.parse( req.url, true );
     request(
         {
-            url : http_helper.get_api_uri( 'voidlocations/dashboard/', '?d1=' + url_parts.query.d1 + '&d2=' + url_parts.query.d2 ),
+            url : http_helper.get_business_api_uri( userdata.user_data.e_p, 'voidlocations/dashboard/', '?d1=' + url_parts.query.d1 + '&d2=' + url_parts.query.d2 ),
             method : 'GET',
             json : true,
             headers : {
@@ -74,7 +74,7 @@ router.get( '/cashlocations', jsonParser, function( req, res ) {
         url_parts   = urlLib.parse( req.url, true );
     request(
         {
-            url : http_helper.get_api_uri( 'cashlocations/dashboard/', '?d1=' + url_parts.query.d1 + '&d2=' + url_parts.query.d2 ),
+            url : http_helper.get_business_api_uri( userdata.user_data.e_p, 'cashlocations/dashboard/', '?d1=' + url_parts.query.d1 + '&d2=' + url_parts.query.d2 ),
             method : 'GET',
             json : true,
             headers : {
@@ -93,7 +93,7 @@ router.get( '/saleslocations', jsonParser, function( req, res ) {
         url_parts = urlLib.parse( req.url, true );
     request(
         {
-            url : http_helper.get_api_uri( 'saleslocations/reports/', '?d1=' + url_parts.query.d1 + '&d2=' + url_parts.query.d2 ),
+            url : http_helper.get_business_api_uri( userdata.user_data.e_p, 'saleslocations/reports/', '?d1=' + url_parts.query.d1 + '&d2=' + url_parts.query.d2 ),
             method : 'GET',
             json : true,
             headers : {

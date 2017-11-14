@@ -16,7 +16,7 @@ router.put( '/it_titem', jsonParser,  function( req, res ) {
     var userdata = JSON.parse( req.cookies[ 'userdata' ] );
     request(
         {
-            url : http_helper.get_api_uri( 'it_titem/global/', '' ),
+            url : http_helper.get_business_api_uri( userdata.user_data.e_p, 'it_titem/global/', '' ),
             method : 'PUT',
             json : true,
             body : req.body,
@@ -35,7 +35,7 @@ router.put( '/it_titem/revert/:id', jsonParser,  function( req, res ) {
     var userdata = JSON.parse( req.cookies[ 'userdata' ] );
     request(
         {
-            url : http_helper.get_api_uri( 'it_titem/logs/revert/', req.params.id ),
+            url : http_helper.get_business_api_uri( userdata.user_data.e_p, 'it_titem/logs/revert/', req.params.id ),
             method : 'PUT',
             json : true,
             body : req.body,
@@ -54,7 +54,7 @@ router.get( '/it_titem/active', jsonParser,  function( req, res ) {
    var userdata = JSON.parse( req.cookies[ 'userdata' ] );
    request(
        {
-           url : http_helper.get_api_uri( 'it_titem/logs/active/', '' ),
+           url : http_helper.get_business_api_uri( userdata.user_data.e_p, 'it_titem/logs/active/', '' ),
            method : 'GET',
            json : true,
            headers : {
@@ -72,7 +72,7 @@ router.get( '/it_titem/inactive', jsonParser,  function( req, res ) {
     var userdata = JSON.parse( req.cookies[ 'userdata' ] );
     request(
         {
-            url : http_helper.get_api_uri( 'it_titem/logs/inactive/', '' ),
+            url : http_helper.get_business_api_uri( userdata.user_data.e_p, 'it_titem/logs/inactive/', '' ),
             method : 'GET',
             json : true,
             headers : {

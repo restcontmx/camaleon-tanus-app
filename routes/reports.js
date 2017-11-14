@@ -17,7 +17,7 @@ router.get( '/it_tcategory', jsonParser, function( req, res ) {
         url_parts = urlLib.parse( req.url, true );
     request(
         {
-            url : http_helper.get_api_uri( 'it_tcategory/reports/', '?d1=' + url_parts.query.d1 + '&d2=' + url_parts.query.d2 + '&turn=' + url_parts.query.turn  ),
+            url : http_helper.get_business_api_uri( userdata.user_data.e_p, 'it_tcategory/reports/', '?d1=' + url_parts.query.d1 + '&d2=' + url_parts.query.d2 + '&turn=' + url_parts.query.turn  ),
             method : 'GET',
             json : true,
             headers : {
@@ -36,7 +36,7 @@ router.get( '/it_tcategory/all', jsonParser, function( req, res ) {
         url_parts = urlLib.parse( req.url, true );
     request(
         {
-            url : http_helper.get_api_uri( 'it_tcategory/reports/all/', '?d1=' + url_parts.query.d1 + '&d2=' + url_parts.query.d2 + '&turn=' + url_parts.query.turn  ),
+            url : http_helper.get_business_api_uri( userdata.user_data.e_p, 'it_tcategory/reports/all/', '?d1=' + url_parts.query.d1 + '&d2=' + url_parts.query.d2 + '&turn=' + url_parts.query.turn  ),
             method : 'GET',
             json : true,
             headers : {
@@ -55,7 +55,7 @@ router.get( '/it_titemclass/', jsonParser, function( req, res ) {
         url_parts = urlLib.parse( req.url, true );
     request(
         {
-            url : http_helper.get_api_uri( 'it_titemclass/reports/', '?d1=' + url_parts.query.d1 + '&d2=' + url_parts.query.d2 + '&turn=' + url_parts.query.turn  ),
+            url : http_helper.get_business_api_uri( userdata.user_data.e_p, 'it_titemclass/reports/', '?d1=' + url_parts.query.d1 + '&d2=' + url_parts.query.d2 + '&turn=' + url_parts.query.turn  ),
             method : 'GET',
             json : true,
             headers : {
@@ -74,7 +74,7 @@ router.get( '/it_tdepartment/', jsonParser, function( req, res ) {
         url_parts = urlLib.parse( req.url, true );
     request(
         {
-            url : http_helper.get_api_uri( 'it_tdepartment/reports/', '?d1=' + url_parts.query.d1 + '&d2=' + url_parts.query.d2 + '&turn=' + url_parts.query.turn  ),
+            url : http_helper.get_business_api_uri( userdata.user_data.e_p, 'it_tdepartment/reports/', '?d1=' + url_parts.query.d1 + '&d2=' + url_parts.query.d2 + '&turn=' + url_parts.query.turn  ),
             method : 'GET',
             json : true,
             headers : {
@@ -93,7 +93,7 @@ router.get( '/it_tclose', jsonParser, function( req, res ) {
         url_parts = urlLib.parse( req.url, true );
     request(
         {
-            url : http_helper.get_api_uri( 'it_tclose/reports/', '?d1=' + url_parts.query.d1 + '&d2=' + url_parts.query.d2 + '&turn=' + url_parts.query.turn  ),
+            url : http_helper.get_business_api_uri( userdata.user_data.e_p, 'it_tclose/reports/', '?d1=' + url_parts.query.d1 + '&d2=' + url_parts.query.d2 + '&turn=' + url_parts.query.turn  ),
             method : 'GET',
             json : true,
             headers : {
@@ -111,7 +111,7 @@ router.get( '/it_tclose/detail/:id/:loc', jsonParser, function( req, res ) {
     var userdata = JSON.parse( req.cookies['userdata'] );
     request(
         {
-            url : http_helper.get_api_uri( 'it_tclose/reports/detail/' + req.params.id + '/' + req.params.loc, '' ),
+            url : http_helper.get_business_api_uri( userdata.user_data.e_p, 'it_tclose/reports/detail/' + req.params.id + '/' + req.params.loc, '' ),
             method : 'GET',
             json : true,
             headers : {
@@ -130,7 +130,7 @@ router.get( '/discount/', jsonParser, function( req, res ) {
         url_parts = urlLib.parse( req.url, true );
     request(
         {
-            url : http_helper.get_api_uri( 'discount/reports/', '?d1=' + url_parts.query.d1 + '&d2=' + url_parts.query.d2 + '&turn=' + url_parts.query.turn  ),
+            url : http_helper.get_business_api_uri( userdata.user_data.e_p, 'discount/reports/', '?d1=' + url_parts.query.d1 + '&d2=' + url_parts.query.d2 + '&turn=' + url_parts.query.turn  ),
             method : 'GET',
             json : true,
             headers : {
@@ -149,7 +149,7 @@ router.get( '/void/', jsonParser, function( req, res ) {
         url_parts = urlLib.parse( req.url, true );
     request(
         {
-            url : http_helper.get_api_uri( 'void/reports/', '?d1=' + url_parts.query.d1 + '&d2=' + url_parts.query.d2 + '&turn=' + url_parts.query.turn  ),
+            url : http_helper.get_business_api_uri( userdata.user_data.e_p, 'void/reports/', '?d1=' + url_parts.query.d1 + '&d2=' + url_parts.query.d2 + '&turn=' + url_parts.query.turn  ),
             method : 'GET',
             json : true,
             headers : {
@@ -168,7 +168,7 @@ router.get( '/pettycash/', jsonParser, function( req, res ) {
         url_parts = urlLib.parse( req.url, true );
     request(
         {
-            url : http_helper.get_api_uri( 'pettycash/reports/', '?d1=' + url_parts.query.d1 + '&d2=' + url_parts.query.d2 + '&turn=' + url_parts.query.turn  ),
+            url : http_helper.get_business_api_uri( userdata.user_data.e_p, 'pettycash/reports/', '?d1=' + url_parts.query.d1 + '&d2=' + url_parts.query.d2 + '&turn=' + url_parts.query.turn  ),
             method : 'GET',
             json : true,
             headers : {
@@ -187,7 +187,7 @@ router.get( '/it_temployee', jsonParser, function( req, res ) {
         url_parts = urlLib.parse( req.url, true );
     request(
         {
-            url : http_helper.get_api_uri( 'it_temployee/reports/', '?d1=' + url_parts.query.d1 + '&d2=' + url_parts.query.d2  ),
+            url : http_helper.get_business_api_uri( userdata.user_data.e_p, 'it_temployee/reports/', '?d1=' + url_parts.query.d1 + '&d2=' + url_parts.query.d2  ),
             method : 'GET',
             json : true,
             headers : {
@@ -206,7 +206,7 @@ router.get( '/creditcard', jsonParser, function( req, res ) {
         url_parts = urlLib.parse( req.url, true );
     request(
         {
-            url : http_helper.get_api_uri( 'creditcard/reports/', '?d1=' + url_parts.query.d1 + '&d2=' + url_parts.query.d2 + '&turn=' + url_parts.query.turn  ),
+            url : http_helper.get_business_api_uri( userdata.user_data.e_p, 'creditcard/reports/', '?d1=' + url_parts.query.d1 + '&d2=' + url_parts.query.d2 + '&turn=' + url_parts.query.turn  ),
             method : 'GET',
             json : true,
             headers : {
@@ -226,7 +226,7 @@ router.get( '/it_titem', jsonParser, function( req, res ) {
         url_parts = urlLib.parse( req.url, true );
     request(
         {
-            url : http_helper.get_api_uri( 'it_titem/reports/', '?d1=' + url_parts.query.d1 + '&d2=' + url_parts.query.d2 + '&turn=' + url_parts.query.turn  ),
+            url : http_helper.get_business_api_uri( userdata.user_data.e_p, 'it_titem/reports/', '?d1=' + url_parts.query.d1 + '&d2=' + url_parts.query.d2 + '&turn=' + url_parts.query.turn  ),
             method : 'GET',
             json : true,
             headers : {
@@ -245,7 +245,7 @@ router.get( '/it_titem/bycategory', jsonParser, function( req, res ) {
         url_parts = urlLib.parse( req.url, true );
     request(
         {
-            url : http_helper.get_api_uri( 'it_titem/bycategory/reports/', '?d1=' + url_parts.query.d1 + '&d2=' + url_parts.query.d2 + '&turn=' + url_parts.query.turn + '&cate_name=' + url_parts.query.cate_name + '&cate_id=' + url_parts.query.cate_id ),
+            url : http_helper.get_business_api_uri( userdata.user_data.e_p, 'it_titem/bycategory/reports/', '?d1=' + url_parts.query.d1 + '&d2=' + url_parts.query.d2 + '&turn=' + url_parts.query.turn + '&cate_name=' + url_parts.query.cate_name + '&cate_id=' + url_parts.query.cate_id ),
             method : 'GET',
             json : true,
             headers : {
@@ -265,7 +265,7 @@ router.get( '/location/', jsonParser, function( req, res ) {
         url_parts = urlLib.parse( req.url, true );
     request(
         {
-            url : http_helper.get_api_uri( 'location/reports/', '?d1=' + url_parts.query.d1 + '&d2=' + url_parts.query.d2  ),
+            url : http_helper.get_business_api_uri( userdata.user_data.e_p, 'location/reports/', '?d1=' + url_parts.query.d1 + '&d2=' + url_parts.query.d2  ),
             method : 'GET',
             json : true,
             headers : {
@@ -284,7 +284,7 @@ router.get( '/ticket', jsonParser, function( req, res ) {
         url_parts = urlLib.parse( req.url, true );
     request(
         {
-            url : http_helper.get_api_uri( 'ticket/reports/', '?d1=' + url_parts.query.d1 + '&d2=' + url_parts.query.d2  + '&loc=' + url_parts.query.loc + '&turn=' + url_parts.query.turn ),
+            url : http_helper.get_business_api_uri( userdata.user_data.e_p, 'ticket/reports/', '?d1=' + url_parts.query.d1 + '&d2=' + url_parts.query.d2  + '&loc=' + url_parts.query.loc + '&turn=' + url_parts.query.turn ),
             method : 'GET',
             json : true,
             headers : {
@@ -303,7 +303,7 @@ router.get( '/ticket/details', jsonParser, function( req, res ) {
         url_parts = urlLib.parse( req.url, true );
     request(
         {
-            url : http_helper.get_api_uri( 'ticket/details/', '?ticket=' + url_parts.query.ticket + '&loc=' + url_parts.query.loc ),
+            url : http_helper.get_business_api_uri( userdata.user_data.e_p, 'ticket/details/', '?ticket=' + url_parts.query.ticket + '&loc=' + url_parts.query.loc ),
             method : 'GET',
             json : true,
             headers : {
@@ -322,7 +322,7 @@ router.get( '/dummy', jsonParser, function( req, res ) {
         url_parts = urlLib.parse( req.url, true );
     request(
         {
-            url : http_helper.get_api_uri( 'dummy/reports/', '?d1=' + url_parts.query.d1 + '&d2=' + url_parts.query.d2  + '&loc=' + url_parts.query.loc + '&turn=' + url_parts.query.turn ),
+            url : http_helper.get_business_api_uri( userdata.user_data.e_p, 'dummy/reports/', '?d1=' + url_parts.query.d1 + '&d2=' + url_parts.query.d2  + '&loc=' + url_parts.query.loc + '&turn=' + url_parts.query.turn ),
             method : 'GET',
             json : true,
             headers : {

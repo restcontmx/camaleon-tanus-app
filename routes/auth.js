@@ -33,7 +33,7 @@ router.post( '/login', jsonParser, function( req, res ) {
                 case 403:
                     var jsonData = JSON.stringify({
                         error : true,
-                        message : "There was an application error."
+                        message : "Forbbiden pettition."
                     });
                     res.send( jsonData );
                     break;
@@ -45,6 +45,14 @@ router.post( '/login', jsonParser, function( req, res ) {
                     });
                     res.send( jsonData );
                     break;
+                case 500 :
+                    var data_from_server = body;
+                    var jsonData = JSON.stringify({
+                        error : true,
+                        message : "There was a connection error."
+                    });
+                    res.send( jsonData );
+                    break;
                 case 200 :
                     var data_from_server = body,
                         jsonData = JSON.stringify({
@@ -53,14 +61,13 @@ router.post( '/login', jsonParser, function( req, res ) {
                             user_data : data_from_server.data[ 'user' ]
                         }),
                         user_data = JSON.stringify({
-                            email : req.body.email,
                             user_data : data_from_server.data['user'],
                             auth_data : encryption_system.encryptCookie( http_helper.get_user_basic_auth( req.body.email, req.body.password ) )
                         });
-                        
                     res.cookie( 'userdata', user_data, { maxAge : 2592000000, httpOnly:false, sameSite:'strict' } );
                     res.send( jsonData );
                     break;
+                
                 default :
                     res.send( error );
                     break;

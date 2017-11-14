@@ -17,7 +17,7 @@ router.get( '/items/filter/', jsonParser, function( req, res ) {
         url_parts = urlLib.parse( req.url, true );
     request(
         {
-            url : http_helper.get_api_uri( 'it_titem/filter/?text=' + url_parts.query.text, '' ),
+            url : http_helper.get_business_api_uri( userdata.user_data.e_p, 'it_titem/filter/?text=' + url_parts.query.text, '' ),
             method : 'GET',
             json : true,
             headers : {

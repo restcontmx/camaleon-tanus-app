@@ -16,7 +16,7 @@ router.get( '/', jsonParser, function( req, res ) {
     var userdata = JSON.parse( req.cookies[ 'userdata' ] );
     request(
         {
-            url : http_helper.get_api_uri( 'profile/', '' ),
+            url : http_helper.get_business_api_uri( userdata.user_data.e_p, 'profile/', '' ),
             method : 'GET',
             json : true,
             headers : {
@@ -34,7 +34,7 @@ router.post( '/', jsonParser, function( req, res ) {
     var userdata = JSON.parse( req.cookies[ 'userdata' ] );
     request(
         {
-            url : http_helper.get_api_uri( 'profile/', '' ),
+            url : http_helper.get_business_api_uri( userdata.user_data.e_p, 'profile/', '' ),
             method : 'POST',
             json : true,
             body : req.body,
@@ -53,7 +53,7 @@ router.get( '/:id', jsonParser, function( req, res ) {
     var userdata = JSON.parse( req.cookies['userdata'] );
     request(
         {
-            url : http_helper.get_api_uri( 'profile/', req.params.id ),
+            url : http_helper.get_business_api_uri( userdata.user_data.e_p, 'profile/', req.params.id ),
             method : 'GET',
             json : true,
             headers : {
@@ -71,7 +71,7 @@ router.put( '/:id', jsonParser, function( req, res ) {
     var userdata = JSON.parse( req.cookies['userdata'] );
     request(
         {
-            url : http_helper.get_api_uri( 'profile/', req.params.id ),
+            url : http_helper.get_business_api_uri( userdata.user_data.e_p, 'profile/', req.params.id ),
             method : 'PUT',
             json : true,
             body : req.body,
@@ -90,7 +90,7 @@ router.delete( '/:id', jsonParser, function( req, res ) {
     var userdata = JSON.parse( req.cookies['userdata'] );
     request(
         {
-            url : http_helper.get_api_uri( 'profile/', req.params.id ),
+            url : http_helper.get_business_api_uri( userdata.user_data.e_p, 'profile/', req.params.id ),
             method : 'DELETE',
             json : true,
             headers : {

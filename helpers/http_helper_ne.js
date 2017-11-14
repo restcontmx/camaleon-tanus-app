@@ -3,47 +3,49 @@ var http = require( 'http' );
 * application global info for api connection
 **/
 const   test_config = {
-            hostname : 'api-example-ramonbadillo.c9users.io',
             api_uri : 'https://api-example-ramonbadillo.c9users.io/api/',
-            port : '36594',
             token : 'UkVQT1JUU19XRUJBUFA6NztXZWEhVEBVPkFmUlJ1Yw=='
         },
-        production_config = {
-            hostname : 'camaleon-reports-api.herokuapp.com',
-            api_uri : 'https://camaleon-reports-api.herokuapp.com/api/',
-            port : '36594',
-            token : 'UkVQT1JUU19XRUJBUFA6NztXZWEhVEBVPkFmUlJ1Yw=='
-        },
-        bqqdan_production_config = {
-            hostname : 'bbqcamaleonreportsapi.herokuapp.com',
-            api_uri : 'https://bbqcamaleonreportsapi.herokuapp.com/api/',
-            port : '36594',
+        auth_production_config = {
+            api_uri : 'https://camaleonauth-api.herokuapp.com/api/',
             token : 'QkJRU0RBTl9XRUJBUFA6Wj1WUjRyNXB6UVtKW0ZXXw=='
-        },
-        morelos_production_config = {
-            hostname : 'bbqcamaleonreportsapi.herokuapp.com',
-            api_uri : 'https://morelosreports-api.herokuapp.com/api/',
-            port : '36594',
-            token : 'QkJRU0RBTl9XRUJBUFA6Wj1WUjRyNXB6UVtKW0ZXXw=='
-        },
-        peru1_production_config = {
-            hostname : 'bbqcamaleonreportsapi.herokuapp.com',
-            api_uri : 'https://camaleonperureports1-api.herokuapp.com/api/',
-            port : '36594',
-            token : 'QkJRU0RBTl9XRUJBUFA6Wj1WUjRyNXB6UVtKW0ZXXw=='
-        }
-
-const g_opts = bqqdan_production_config;
+        };
+        
+const g_opts = auth_production_config;
+const DEBUG = false
 
 /**
 * Get the full api uri compose with the model and the url data
 **/
-var get_api_uri = ( model, url_data ) => g_opts.api_uri + model + url_data;
+var get_api_uri = ( model, url_data ) => {
+    if( DEBUG ) {
+        return test_config.api_uri + model + url_data;
+    } else {
+        return auth_production_config.api_uri + model + url_data;        
+    }
+}
+
+/**
+ * Get full formatted url for business
+ */
+var get_business_api_uri = ( e_p, model, url_data ) => {
+    if( DEBUG ) {
+        return test_config.api_uri + model + url_data;
+    } else {
+        return e_p + model + url_data;
+    }
+}
 
 /**
 * Get the basic authorization appliation header
 **/
-var get_basic_auth_app_header = ( ) => ( 'Basic ' + g_opts.token );
+var get_basic_auth_app_header = ( ) => {
+    if( DEBUG ) {
+        return ( 'Basic ' + test_config.token )
+    } else {
+        return ( 'Basic ' + auth_production_config.token )     
+    }
+}
 
 /**
 * Get the user basic authorization appliation header
@@ -72,10 +74,23 @@ var data_format_ok = function( error, response, body ) {
             case 400 :
                 return JSON.stringify({
                     error : true,
-                    message : body.data
+                    message : body.message
                 });
-            default:
-                return error;
+            case 401 :
+                return JSON.stringify({
+                    error : true,
+                    message : "Credentials are not valid."
+                });
+            case 403 :
+                return JSON.stringify({
+                    error : true,
+                    message : "Forbidden pettition."
+                });
+            case 500 :
+                return JSON.stringify({
+                    error : true,
+                    message : "Server Error or Connection error."
+                });
         }
     } else {
         return error;
@@ -97,10 +112,23 @@ var data_format_ok_streaming = function( error, response, body ) {
             case 400 :
                 return JSON.stringify({
                     error : true,
-                    message : body
+                    message : body.message
                 });
-            default:
-                return error;
+            case 401 :
+                return JSON.stringify({
+                    error : true,
+                    message : "Credentials are not valid."
+                });
+            case 403 :
+                return JSON.stringify({
+                    error : true,
+                    message : "Forbidden pettition."
+                });
+            case 500 :
+                return JSON.stringify({
+                    error : true,
+                    message : "Server Error or Connection error."
+                });
         }
     } else {
         return error;
@@ -117,7 +145,7 @@ var data_format_updated = function( error, response, body ) {
             case 200 :
                 return JSON.stringify({
                     error : false,
-                    data : body.message
+                    data : body.data
                 });
             case 400 :
                 return JSON.stringify({
@@ -127,10 +155,23 @@ var data_format_updated = function( error, response, body ) {
             case 409 :
                 return JSON.stringify({
                     error : true,
-                    message : body.message
+                    message : "There was a conflict updating this object."
                 });
-            default:
-                return error;
+            case 401 :
+                return JSON.stringify({
+                    error : true,
+                    message : "Credentials are not valid."
+                });
+            case 403 :
+                return JSON.stringify({
+                    error : true,
+                    message : "Forbidden pettition."
+                });
+            case 500 :
+                return JSON.stringify({
+                    error : true,
+                    message : "Server Error or Connection error."
+                });
         }
     } else {
         return error;
@@ -159,8 +200,21 @@ var data_format_created = function( error, response, body ) {
                     error : true,
                     message : body.message
                 });
-            default:
-                return error;
+            case 401 :
+                return JSON.stringify({
+                    error : true,
+                    message : "Credentials are not valid."
+                });
+            case 403 :
+                return JSON.stringify({
+                    error : true,
+                    message : "Forbidden pettition."
+                });
+            case 500 :
+                return JSON.stringify({
+                    error : true,
+                    message : "Server Error or Connection error."
+                });
         }
     } else {
         return error;
@@ -184,8 +238,21 @@ var data_format_deleted = function( error, response, body ) {
                     error : true,
                     message : body.message
                 });
-            default:
-                return error;
+            case 401 :
+                return JSON.stringify({
+                    error : true,
+                    message : "Credentials are not valid."
+                });
+            case 403 :
+                return JSON.stringify({
+                    error : true,
+                    message : "Forbidden pettition."
+                });
+            case 500 :
+                return JSON.stringify({
+                    error : true,
+                    message : "Server Error or Connection error."
+                });
         }
     } else {
         return error;
@@ -203,3 +270,4 @@ module.exports.data_format_created = data_format_created;
 module.exports.data_format_updated = data_format_updated;
 module.exports.data_format_deleted = data_format_deleted;
 module.exports.data_format_ok_streaming = data_format_ok_streaming;
+module.exports.get_business_api_uri = get_business_api_uri;

@@ -16,7 +16,7 @@ router.get( '/', jsonParser, function( req, res ) {
     var userdata = JSON.parse( req.cookies[ 'userdata' ] );
     request(
         {
-            url : http_helper.get_api_uri( 'location/byuser/', '' ),
+            url : http_helper.get_business_api_uri( userdata.user_data.e_p, 'location/byuser/', '' ),
             method : 'GET',
             json : true,
             headers : {
@@ -34,7 +34,7 @@ router.post( '/', jsonParser, function( req, res ) {
     var userdata = JSON.parse( req.cookies[ 'userdata' ] );
     request(
         {
-            url : http_helper.get_api_uri( 'location/', '' ),
+            url : http_helper.get_business_api_uri( userdata.user_data.e_p, 'location/', '' ),
             method : 'POST',
             json : true,
             body : req.body,
@@ -53,7 +53,7 @@ router.get( '/:id', jsonParser, function( req, res ) {
     var userdata = JSON.parse( req.cookies['userdata'] );
     request(
         {
-            url : http_helper.get_api_uri( 'location/', req.params.id ),
+            url : http_helper.get_business_api_uri( userdata.user_data.e_p, 'location/', req.params.id ),
             method : 'GET',
             json : true,
             headers : {
@@ -71,7 +71,7 @@ router.put( '/:id', jsonParser, function( req, res ) {
     var userdata = JSON.parse( req.cookies['userdata'] );
     request(
         {
-            url : http_helper.get_api_uri( 'location/', req.params.id ),
+            url : http_helper.get_business_api_uri( userdata.user_data.e_p, 'location/', req.params.id ),
             method : 'PUT',
             json : true,
             body : req.body,
@@ -90,7 +90,7 @@ router.delete( '/:id', jsonParser, function( req, res ) {
     var userdata = JSON.parse( req.cookies['userdata'] );
     request(
         {
-            url : http_helper.get_api_uri( 'location/', req.params.id ),
+            url : http_helper.get_business_api_uri( userdata.user_data.e_p, 'location/', req.params.id ),
             method : 'DELETE',
             json : true,
             headers : {
@@ -109,7 +109,7 @@ router.get( '/bybusiness/:id', jsonParser, function( req, res ) {
     var userdata = JSON.parse( req.cookies['userdata'] );
     request(
         {
-            url : http_helper.get_api_uri( 'location/bybusiness/?business_id=' + req.params.id, '' ),
+            url : http_helper.get_business_api_uri( userdata.user_data.e_p, 'location/bybusiness/?business_id=' + req.params.id, '' ),
             method : 'GET',
             json : true,
             headers : {
@@ -127,7 +127,7 @@ router.get( '/reports/today', jsonParser, function( req, res ) {
     var userdata = JSON.parse( req.cookies['userdata'] );
     request(
         {
-            url : http_helper.get_api_uri( 'location/reports/today/', '' ),
+            url : http_helper.get_business_api_uri( userdata.user_data.e_p, 'location/reports/today/', '' ),
             method : 'GET',
             json : true,
             headers : {
@@ -145,7 +145,7 @@ router.get( '/lastcloses', jsonParser, function( req, res ) {
     var userdata = JSON.parse( req.cookies['userdata'] );
     request(
         {
-            url : http_helper.get_api_uri( 'location/lastcloses/', '' ),
+            url : http_helper.get_business_api_uri( userdata.user_data.e_p, 'location/lastcloses/', '' ),
             method : 'GET',
             json : true,
             headers : {
