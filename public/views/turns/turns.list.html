@@ -12,6 +12,7 @@
                     <th>Time Start</th>
                     <th>Time End</th>
                     <th>Created</th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
@@ -22,6 +23,7 @@
                     <td>{{turn.time_start}}</td>
                     <td>{{turn.time_end}}</td>
                     <td>{{turn.timestamp}}</td>
+                    <td><a href="" ng-click="edit_turn( turn.id )"><i class="glyphicon glyphicon-edit"></i></a></td>
                 </tr>
             </tbody>
         </table>

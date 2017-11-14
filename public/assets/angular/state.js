@@ -1914,6 +1914,26 @@ yukonApp
                     },
                     controller: 'TurnController'
                 })
+                .state('auth.settings.turns.edit', {
+                    page_title: 'Turns Edit',
+                    ncyBreadcrumb: {
+                        label: 'Turns Edit'
+                    },
+                    url: '/edit/:id',
+                    templateUrl: 'views/turns/turns.edit.html',
+                    resolve: {
+                        files: [
+                            'uiLoad',
+                            function (uiLoad) {
+                                return uiLoad.load([
+                                    // clock picker
+                                    'assets/lib/clock-picker/bootstrap-clockpicker.min.js',
+                                ]);
+                            }
+                        ]
+                    },
+                    controller: 'TurnController'
+                })
                 // Plugins > tables > footables
                 .state('auth.plugins.tables.footable', {
                     page_title: 'Yukon Admin - Footable',

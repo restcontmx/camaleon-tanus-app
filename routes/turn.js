@@ -53,7 +53,7 @@ router.get( '/:id', jsonParser, function( req, res ) {
     var userdata = JSON.parse( req.cookies['userdata'] );
     request(
         {
-            url : http_helper.get_business_api_uri( userdata.user_data.e_p, 'turn/', req.params.idea ),
+            url : http_helper.get_business_api_uri( userdata.user_data.e_p, 'turn/', req.params.id ),
             method : 'GET',
             json : true,
             headers : {

@@ -11,6 +11,8 @@ yukonApp
     }])
     .controller( 'TurnController', [    '$scope',
                                         '$rootScope',
+                                        '$state',
+                                        '$stateParams',
                                         'TurnRepository',
                                         'AuthRepository',
                                         '$routeParams',
@@ -19,6 +21,8 @@ yukonApp
                                         'growl',
                                         function(   $scope,
                                                     $rootScope,
+                                                    $state,
+                                                    $stateParams,
                                                     TurnRepository,
                                                     AuthRepository,
                                                     $routeParams,
@@ -28,6 +32,7 @@ yukonApp
         if( AuthRepository.viewVerification() ) {
 
             $scope.progress_ban = false;
+        
             var initTurn = function() {
                     $scope.turn = {
                         name : "",
@@ -50,28 +55,30 @@ yukonApp
                         $scope.progress_ban = false;
                     });
                 };
-            
-            if( $routeParams.id ) {
+            $scope.edit_turn = function( id ) {
+                $state.go( 'auth.settings.turns.edit', { 'id' : id } )
+            }
 
-                TurnRepository.getById( $routeParams.id ).success( function( response ) {
+            if( $stateParams.id ) {
+                TurnRepository.getById( $stateParams.id ).success( function( response ) {
                     if( !response.error ) {
-                        $scope.turn = response.data;
+                        $scope.turn = response.data
                     } else {
-                        $scope.errors = response.message;
+                        growl.error( "There was an error;" + response.message, {});
                     }
                 }).error( function( error ) {
-                    $scope.errors = error;
-                });
-                
-                $scope.edit = function() {
+                    $scope.errors = error
+                })
+                $scope.update = function() {
                     TurnRepository.update( $scope.turn ).success( function( response ) {
                         if ( !response.error ) {
-                            $scope.turn = response.data;
+                            growl.success( "Turn successfuly editted.", {});
+                            $state.go( 'auth.settings.turns.list' )
                         } else {
-                            $scope.errors = response.message;
+                            growl.error( "There was an error;" + response.message, {});
                         }
                     }).error( function( error ) {
-                        $scope.errors = error;
+                        growl.error( "There was an error;" + error, {});
                     });
                 };
 
