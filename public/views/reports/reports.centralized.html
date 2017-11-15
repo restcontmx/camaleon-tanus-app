@@ -126,34 +126,34 @@
                     <td>{{l.l_y_m_guests | number}}</td>
                     <td>{{l.m_guests | number}}</td>
                     <td>{{l.m_guests - l.l_y_m_guests  | number : 2}}</td>
-                    <td>{{ ( ( l.m_guests - l.l_y_m_guests ) * 100 ) / ( l.l_y_m_guests ) | number : 2}}%</td>
+                    <td>{{ ( ( l.m_guests / l.l_y_m_guests ) - 1 ) * 100 | number : 2}}%</td>
                     <td></td>
                     <td>{{l.l_y_m_ticket_avg | number :2}}</td>
                     <td>{{l.m_ticket_avg | number : 2}}</td>
                     <td>{{l.m_ticket_avg - l.l_y_m_ticket_avg  | number : 2}}</td>
-                    <td>{{ ( ( l.m_ticket_avg - l.l_y_m_ticket_avg ) * 100 ) / ( l.l_y_m_ticket_avg ) | number : 2}}%</td>
+                    <td>{{ ( ( l.m_ticket_avg / l.l_y_m_ticket_avg ) - 1 ) * 100 | number : 2}}%</td>
                     <td></td>
                     <td>{{l.l_y_m_total_sales | number : 2}}</td>
                     <td>{{l.m_total_sales | number : 2}}</td>
                     <td>{{l.m_total_sales - l.l_y_m_total_sales | number : 2}}</td>
-                    <td>{{ ( ( l.m_total_sales - l.l_y_m_total_sales ) * 100 ) / ( l.l_y_m_total_sales ) | number : 2}}%</td>
+                    <td>{{ ( ( l.m_total_sales / l.l_y_m_total_sales ) - 1 ) * 100 | number : 2}}%</td>
                 </tr>
                 <tr>
                     <td>Total</td>
                     <td>{{l_y_monthly_guests_total | number : 2}}</td>
                     <td>{{monthly_guests_total | number : 2}}</td>
                     <td>{{monthly_guests_total - l_y_monthly_guests_total | number : 2}}</td>
-                    <td>{{ ( ( monthly_guests_total - l_y_monthly_guests_total ) * 100 ) / ( l_y_monthly_guests_total ) | number : 2}}%</td>                   
+                    <td>{{ ( ( monthly_guests_total / l_y_monthly_guests_total ) - 1 ) * 100 | number : 2}}%</td>                
                     <td></td>
                     <td>{{l_y_monthly_ticket_avg_total | number : 2}}</td>
                     <td>{{monthly_ticket_avg_total | number : 2}}</td>
                     <td>{{monthly_ticket_avg_total - l_y_monthly_ticket_avg_total | number : 2}}</td>
-                    <td>{{ ( ( monthly_ticket_avg_total - l_y_monthly_ticket_avg_total ) * 100 ) / ( l_y_monthly_ticket_avg_total ) | number : 2}}%</td>                   
+                    <td>{{ ( ( monthly_ticket_avg_total / l_y_monthly_ticket_avg_total ) - 1 ) * 100 | number : 2}}%</td>             
                     <td></td>
                     <td>{{l_y_monthly_sales_total | number : 2}}</td>
                     <td>{{monthly_sales_total | number : 2}}</td>
                     <td>{{monthly_sales_total - l_y_monthly_sales_total | number : 2}}</td>
-                    <td>{{ ( ( monthly_sales_total - l_y_monthly_sales_total ) * 100 ) / ( l_y_monthly_sales_total ) | number : 2}}%</td>
+                    <td>{{ ( ( monthly_sales_total / l_y_monthly_sales_total ) - 1 ) * 100 | number : 2}}%</td>  
                 </tr>
                 <tr>
                     <td colspan="15"></td>
@@ -188,34 +188,34 @@
                     <td>{{l.l_y_y_guests | number}}</td>
                     <td>{{l.y_guests | number}}</td>
                     <td>{{l.y_guests - l.l_y_y_guests  | number : 2}}</td>
-                    <td>{{ ( ( l.y_guests - l.l_y_y_guests ) * 100 ) / ( l.l_y_y_guests ) | number : 2}}%</td>
+                    <td>{{ ( ( l.y_guests / l.l_y_y_guests ) - 1 ) * 100 | number : 2}}%</td>
                     <td></td>
                     <td>{{l.l_y_y_ticket_avg | number :2}}</td>
                     <td>{{l.y_ticket_avg | number : 2}}</td>
                     <td>{{l.y_ticket_avg - l.l_y_y_ticket_avg  | number : 2}}</td>
-                    <td>{{ ( ( l.y_ticket_avg - l.l_y_y_ticket_avg ) * 100 ) / ( l.l_y_y_ticket_avg ) | number : 2}} %</td>
+                    <td>{{ ( ( l.y_ticket_avg / l.l_y_y_ticket_avg ) - 1 ) * 100 | number : 2}}%</td>
                     <td></td>
                     <td>{{l.l_y_y_total_sales | number : 2}}</td>
                     <td>{{l.y_total_sales | number : 2}}</td>
                     <td>{{l.y_total_sales - l.l_y_y_total_sales | number : 2}}</td>
-                    <td>{{ ( ( l.y_total_sales - l.l_y_y_total_sales ) * 100 ) / ( l.l_y_y_total_sales ) | number : 2}}%</td>
+                    <td>{{ ( ( l.y_total_sales / l.l_y_y_total_sales ) - 1 ) * 100 | number : 2}}%</td>
                 </tr>
                 <tr>
                     <td>Total</td>
                     <td>{{l_y_yearly_guests_total | number : 2}}</td>
                     <td>{{yearly_guests_total | number : 2}}</td>
                     <td>{{yearly_guests_total - l_y_yearly_guests_total | number : 2}}</td>
-                    <td>{{ ( ( yearly_guests_total - l_y_yearly_guests_total ) * 100 ) / ( l_y_yearly_guests_total ) | number : 2}}%</td>                   
+                    <td>{{ ( ( yearly_guests_total / l_y_yearly_guests_total ) - 1 ) * 100 | number : 2}}%</td>                   
                     <td></td>
                     <td>{{l_y_yearly_ticket_avg_total | number : 2}}</td>
                     <td>{{yearly_ticket_avg_total | number : 2}}</td>
                     <td>{{yearly_ticket_avg_total - l_y_yearly_ticket_avg_total | number : 2}}</td>
-                    <td>{{ ( ( yearly_ticket_avg_total - l_y_yearly_ticket_avg_total ) * 100 ) / ( l_y_yearly_ticket_avg_total ) | number : 2}}%</td>                   
+                    <td>{{ ( ( yearly_ticket_avg_total / l_y_yearly_ticket_avg_total ) - 1 ) * 100 | number : 2}}%</td>                
                     <td></td>
                     <td>{{l_y_yearly_sales_total | number : 2}}</td>
                     <td>{{yearly_sales_total | number : 2}}</td>
                     <td>{{yearly_sales_total - l_y_yearly_sales_total | number : 2}}</td>
-                    <td>{{ ( ( yearly_sales_total - l_y_yearly_sales_total ) * 100 ) / ( l_y_yearly_sales_total ) | number : 2}}%</td>
+                    <td>{{ ( ( yearly_sales_total / l_y_yearly_sales_total ) - 1 ) * 100 | number : 2}}%</td> 
                 </tr>
             </tbody>
         </table>
