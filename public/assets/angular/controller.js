@@ -162,6 +162,11 @@ yukonApp
                     submenu_title: 'Reports',
                     submenu: [
                         {
+                            title: 'Centralized Summary',
+                            link: 'auth.reports.centralized',
+                            permission: false
+                        },
+                        {
                             title: 'Categories',
                             link: 'auth.reports.categories',
                             permission: false
