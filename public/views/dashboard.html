@@ -28,8 +28,8 @@
                         <th scope="row">{{lc.location_name}}</th>
                         <td>{{lc.now_date | date:'MM/dd/y H:mm:ss'}}</td> 
                         <td>{{lc.last_sale | date:'MM/dd/y H:mm:ss'}}</td> 
-                        <td ng-show="cats_done && dis_done && credit_cards_done && voids_done && cash_done"><a ng-click="export_location_to_excel( lc.id )"><i class="glyphicon glyphicon-cloud-download"></i></a></td>
-                        <td ng-hide="cats_done && dis_done && credit_cards_done && voids_done && cash_done"><i class="glyphicon glyphicon-hourglass"></i></td>
+                        <td ng-show="cats_done && totals_done && credit_cards_done && voids_done && cash_done"><a ng-click="export_location_to_excel( lc.id )"><i class="glyphicon glyphicon-cloud-download"></i></a></td>
+                        <td ng-hide="cats_done && totals_done && credit_cards_done && voids_done && cash_done"><i class="glyphicon glyphicon-hourglass"></i></td>
                     </tr>
                 </tbody>
             </table>
@@ -52,7 +52,7 @@
                 <li class="list-group-item">
                     <button class="btn btn-block btn-success" ng-click="get_reports()"><i class="icon_cloud-download" aria-hidden="true"></i> Get Reports</button>
                 </li>
-                <li class="list-group-item" ng-show="cats_done && dis_done && credit_cards_done && voids_done && cash_done">
+                <li class="list-group-item" ng-show="cats_done && totals_done && credit_cards_done && voids_done && cash_done">
                     <button class="btn btn-block btn-primary" ng-click="print_all_reports()"> Print All Reports</button>
                 </li>
             </ul>
@@ -240,15 +240,9 @@
                         <th>{{l.category_reports_taxes | number : 2}}</th>
                         <th>{{l.category_reports_total | number : 2}}</th>
                     </tr>
-                    <tr><td colspan="8"></td></tr>                    
-                    <tr ng-repeat="dr in l.discount_reports">
-                        <td colspan="6">{{dr.description}}</td>
-                        <td>{{dr.qty}}</td>
-                        <td>{{dr.discount}}</td>
-                    </tr>
                     <tr>
                         <th colspan="7">Total Discounts</th>
-                        <th>{{l.discount_reports_total | number : 2}}</th>
+                        <th>{{l.discounts | number : 2}}</th>
                     </tr>
                     <tr><td colspan="8"></td></tr>
                     <tr ng-repeat="cr in l.creditcard_reports">
@@ -311,8 +305,8 @@
                 </tr>
                 <tr ng-repeat="l in locations">
                     <td>{{l.location_name}}</td>
-                    <td>{{l.discount_reports_qty | number : 2}}</td>
-                    <td>{{l.discount_reports_total | number : 2}}</td>
+                    <td>{{l.discounts_qty | number : 2}}</td>
+                    <td>{{l.discounts | number : 2}}</td>
                     <td>{{l.voids_qty | number}}</td>
                     <td>{{l.voids_total | number : 2}}</td>
                 </tr>

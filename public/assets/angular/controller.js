@@ -351,6 +351,7 @@ yukonApp
             get_sales_by_dates: (d1, d2) => $http.get('/dashboard/sales/?d1=' + d1 + '&d2=' + d2),
             get_void_data_by_dates: (d1, d2) => $http.get('/dashboard/voids/?d1=' + d1 + '&d2=' + d2),
             get_sales_by_dates_locations: ( d1, d2 ) => $http.get('/dashboard/saleslocations/?d1=' + d1 + '&d2=' + d2),
+            get_totals_by_dates_locations: ( d1, d2 ) => $http.get('/dashboard/totalslocations/?d1=' + d1 + '&d2=' + d2),
             get_void_data_by_dates_locations: (d1, d2) => $http.get('/dashboard/voidslocations/?d1=' + d1 + '&d2=' + d2),
             get_cash_data_by_dates_locations: (d1, d2) => $http.get('/dashboard/cashlocations/?d1=' + d1 + '&d2=' + d2)
         });
@@ -540,6 +541,7 @@ yukonApp
                     $scope.credit_cards_done = false
                     $scope.voids_done = false
                     $scope.cash_done = false
+                    $scope.totals_done = false
                     // Date range variable
                     // the important ones area start and end which are already conffigured on the scope
                     $scope.date_range = {
@@ -672,6 +674,7 @@ yukonApp
                                         $scope.credit_cards_done = false
                                         $scope.voids_done = false
                                         $scope.cash_done = false
+                                        $scope.totals_done = false
 
                                         let columns = []
                                         let types_vars = {}
@@ -759,50 +762,36 @@ yukonApp
                                                 pattern: ['#1f77b4', '#ff7f0e', '#2ca02c', '#d62728', '#9467bd', '#8c564b', '#e377c2', '#7f7f7f', '#bcbd22', '#17becf']
                                             }
                                         });
+                                        DashboardRepository.get_totals_by_dates_locations(  date_1, date_2 ).success( function( d1 ) {
+                                            $scope.locations.forEach( l => {
+                                                l.sales = response.data.sale_reports.filter( r => r.location == l.id )
+                                                l.orders_completed = d1.data.total_orders.filter( r => r.location == l.id ).reduce( ( a, b ) => ( a + b.completed_orders ), 0 )
+                                                l.guests = d1.data.total_guests.filter( r => r.location == l.id ).reduce( ( a, b ) => ( a + b.total_guests ), 0 )
+                                                l.discounts = d1.data.total_discounts.filter( r => r.location == l.id ).reduce( ( a, b ) => ( a + b.total_discounts ), 0 )
+                                                l.discounts_qty = d1.data.total_discounts.filter( r => r.location == l.id ).reduce( ( a, b ) => ( a + b.qty ), 0 )
+                                                l.total_sales = l.sales.map(s => s.total).reduce((a, b) => (a + b), 0)
+                                                l.total_tax = l.sales.map( s => s.tax1 + s.tax2 + s.tax3 ).reduce( ( a, b ) => ( a + b ), 0)
+                                                l.total_vta_neta = l.sales.map( s => s.vta_neta ).reduce( ( a, b ) => ( a + b ), 0)
+                                                l.promedy_sales = l.sales.length > 0 ? l.total_sales / l.sales.length : 0
+                                                l.ticket_average = l.guests > 0 ? l.total_sales / l.guests : 0
+                                            })
+                                            $scope.totals_done = true
+                                        }).error( function( error ) {
+                                            console.log( error )
+                                        })
 
                                         CategoryRepository.reportsByDate( date_1, date_2, 0 ).success( function( d1 ) {
                                             $scope.categroy_reports = d1.data.category_reports
                                             $scope.locations.forEach( l => {
-                                                l.sales = response.data.sale_reports.filter( r => r.location == l.id )
-                                                let total_orders = response.data.total_orders.filter( r => r.location == l.id )
-                                                // l.orders_completed = response.data.total_orders.filter( r => r.location == l.id )[0].completed_orders
-                                                if( total_orders.length > 0 ) {
-                                                    l.orders_completed = total_orders[0].completed_orders
-                                                } else {
-                                                    l.orders_completed = 0
-                                                }
-                                                let total_guests = response.data.total_guests.filter( r => r.location == l.id )
-                                                if( total_guests.length > 0 ) {
-                                                    l.guests = total_orders[0].total_guests
-                                                } else {
-                                                    l.guests = 0
-                                                }
-                                                // l.guests = response.data.total_guests.filter( r => r.location == l.id )[0].total_guests
-                                                l.discounts = response.data.total_discounts.filter( r => r.location == l.id ).length > 0 ? response.data.total_discounts.filter( r => r.location == l.id )[0].total_discounts : 0;
                                                 l.category_reports = $scope.categroy_reports.filter( r => r.location == l.id )
                                                 l.category_reports_total = $scope.categroy_reports.filter( r => r.location == l.id ).reduce( ( a, b  ) => ( a + b.total ), 0 )
                                                 l.category_reports_taxes = $scope.categroy_reports.filter( r => r.location == l.id ).reduce( ( a, b  ) => ( a + ( b.tax1 + b.tax2 + b.tax3 ) ), 0 )
-                                                l.total_sales = l.sales.map(s => s.total).reduce((a, b) => (a + b), 0)
-                                                l.total_tax = l.sales.map( s => s.tax1 + s.tax2 + s.tax3 ).reduce( ( a, b ) => ( a + b ), 0)
-                                                l.total_vta_neta = l.sales.map( s => s.vta_neta ).reduce( ( a, b ) => ( a + b ), 0)
-                                                l.promedy_sales = l.total_sales / l.sales.length
-                                                l.ticket_average = l.total_sales / l.guests
                                             })
                                             $scope.cats_done = true
                                         }).error( function( error ) {
                                             console.log( error )
                                         })
-                                        DiscountRepository.reportsByDate( date_1, date_2, 0 ).success( function( d1 ) {
-                                            $scope.discount_reports = d1.data.discount_reports
-                                            $scope.locations.forEach( l => {
-                                                l.discount_reports = $scope.discount_reports.filter( r => r.location == l.id )
-                                                l.discount_reports_qty = l.discount_reports.reduce( ( a, b  ) => ( a + b.qty ), 0 )
-                                                l.discount_reports_total = l.discount_reports.reduce( ( a, b  ) => ( a + b.discount ), 0 )
-                                            })
-                                            $scope.dis_done = true
-                                        }).error( function( error ) {
-                                            console.log( error )
-                                        })
+
                                         CreditCardRepository.reportsByDate( date_1, date_2, 0 ).success( function( d1 ) {
                                             $scope.creditcard_reports = d1.data.creditcard_reports
                                             $scope.locations.forEach( l => {
