@@ -162,6 +162,16 @@ yukonApp
                     submenu_title: 'Reports',
                     submenu: [
                         {
+                            title: 'Sales Detail',
+                            link: 'auth.reports.sales_detail',
+                            permission: false
+                        },
+                        {
+                            title: 'Sales Summary',
+                            link: 'auth.reports.summary',
+                            permission: false
+                        },
+                        {
                             title: 'Centralized Summary',
                             link: 'auth.reports.centralized',
                             permission: false
@@ -392,9 +402,7 @@ yukonApp
                                 $scope.main_dashboard = true
                             } else {
                                 let dashboard_permission = $scope.permissions.find(p => p.web_url == 'auth.home')
-                                if ($rootScope.user_info.permissions.find(p => p == dashboard_permission.id)) {
-                                    // does nothing
-                                } else {
+                                if (!$rootScope.user_info.permissions.find(p => p == dashboard_permission.id)) {
                                     // this will send to profile
                                     $state.go( 'auth.pages.userProfile' )
                                 }
@@ -761,82 +769,6 @@ yukonApp
                                             color: {
                                                 pattern: ['#1f77b4', '#ff7f0e', '#2ca02c', '#d62728', '#9467bd', '#8c564b', '#e377c2', '#7f7f7f', '#bcbd22', '#17becf']
                                             }
-                                        });
-                                        DashboardRepository.get_totals_by_dates_locations(  date_1, date_2 ).success( function( d1 ) {
-                                            $scope.locations.forEach( l => {
-                                                l.sales = response.data.sale_reports.filter( r => r.location == l.id )
-                                                l.orders_completed = d1.data.total_orders.filter( r => r.location == l.id ).reduce( ( a, b ) => ( a + b.completed_orders ), 0 )
-                                                l.guests = d1.data.total_guests.filter( r => r.location == l.id ).reduce( ( a, b ) => ( a + b.total_guests ), 0 )
-                                                l.discounts = d1.data.total_discounts.filter( r => r.location == l.id ).reduce( ( a, b ) => ( a + b.total_discounts ), 0 )
-                                                l.discounts_qty = d1.data.total_discounts.filter( r => r.location == l.id ).reduce( ( a, b ) => ( a + b.qty ), 0 )
-                                                l.total_sales = l.sales.map(s => s.total).reduce((a, b) => (a + b), 0)
-                                                l.total_tax = l.sales.map( s => s.tax1 + s.tax2 + s.tax3 ).reduce( ( a, b ) => ( a + b ), 0)
-                                                l.total_vta_neta = l.sales.map( s => s.vta_neta ).reduce( ( a, b ) => ( a + b ), 0)
-                                                l.promedy_sales = l.sales.length > 0 ? l.total_sales / l.sales.length : 0
-                                                l.ticket_average = l.guests > 0 ? l.total_sales / l.guests : 0
-                                            })
-                                            $scope.totals_done = true
-                                        }).error( function( error ) {
-                                            console.log( error )
-                                        })
-
-                                        CategoryRepository.reportsByDate( date_1, date_2, 0 ).success( function( d1 ) {
-                                            $scope.categroy_reports = d1.data.category_reports
-                                            $scope.locations.forEach( l => {
-                                                l.category_reports = $scope.categroy_reports.filter( r => r.location == l.id )
-                                                l.category_reports_total = $scope.categroy_reports.filter( r => r.location == l.id ).reduce( ( a, b  ) => ( a + b.total ), 0 )
-                                                l.category_reports_taxes = $scope.categroy_reports.filter( r => r.location == l.id ).reduce( ( a, b  ) => ( a + ( b.tax1 + b.tax2 + b.tax3 ) ), 0 )
-                                            })
-                                            $scope.cats_done = true
-                                        }).error( function( error ) {
-                                            console.log( error )
-                                        })
-
-                                        CreditCardRepository.reportsByDate( date_1, date_2, 0 ).success( function( d1 ) {
-                                            $scope.creditcard_reports = d1.data.creditcard_reports
-                                            $scope.locations.forEach( l => {
-                                                l.creditcard_reports = $scope.creditcard_reports.filter( r => r.location == l.id )
-                                                l.creditcard_reports_total = $scope.creditcard_reports.filter( r => r.location == l.id ).reduce( ( a, b  ) => ( a + b.amount ), 0 )
-                                            })
-                                            // Calculate all debit total
-                                            $scope.total_credit_card = $scope.locations.map( l => l.creditcard_reports_total ).reduce( ( a, b ) => ( a + b ), 0 )
-                                            $scope.credit_cards_done = true
-                                        }).error( function( error ) {
-                                            console.log( error )
-                                        })
-                                
-                                        DashboardRepository.get_void_data_by_dates_locations( date_1, date_2 ).success( function( d1 ) {
-                                            if( !d1.error ) {
-                                                $scope.void_reports = d1.data.void_reports
-                                                $scope.locations.forEach( l => {
-                                                    l.void_reports = $scope.void_reports.filter( r => r.location == l.id )
-                                                    if( l.void_reports.length > 0 ) {
-                                                        l.voids_qty = l.void_reports[0].qty;
-                                                        l.voids_total = l.void_reports[0].total;
-                                                    } else {
-                                                        l.voids_qty = 0
-                                                        l.voids_total = 0
-                                                    }
-                                                })
-                                                $scope.voids_done = true
-                                            } else {
-                                                console.log( d1.message )
-                                            }
-                                        }).error(function (error) {
-                                            $scope.errors = error;
-                                        });
-                                        DashboardRepository.get_cash_data_by_dates_locations( date_1, date_2 ).success( function( d1 ) {
-                                            if( !d1.error ) {
-                                                $scope.cash_reports = d1.data.cash_reports
-                                                $scope.locations.forEach( l => {
-                                                    l.cash_reports = $scope.cash_reports.filter( r => r.location == l.id )[0]
-                                                })
-                                                $scope.cash_done = true
-                                            } else {
-                                                console.log( d1.message )
-                                            }
-                                        }).error(function (error) {
-                                            $scope.errors = error;
                                         });
                                     } else {
                                         console.log( data.message )
@@ -1266,7 +1198,6 @@ yukonApp
                     midClick: true // allow opening popup on middle mouse click. Always set it to true if you don't provide alternative source.
                 });
             });
-
         }
     ])
     .controller('notificationsPopupsCtrl', [

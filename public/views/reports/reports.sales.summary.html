@@ -1,0 +1,106 @@
+<div>
+    <div class="row">
+        <div class"col-md-12">
+            <div class="progress progress-striped active" ng-hide="totals_done && credit_cards_done && voids_done">
+                <div class="progress-bar" role="progressbar" style="width: 85%">
+                    <span class="sr-only">85% Complete</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="row">
+        <div class="col-md-4 col-sm-12">
+            <div class="heading_a">
+                <span class="heading_text">Quick Settings</span>
+
+                <div class="pull-right">
+                    <a href="#"><i class="el-icon-cog heading_icon"></i></a>
+                </div>
+            </div>
+            <ul class="list-group">
+                <li class="list-group-item">
+                    <div id="drp_predefined" class="btn btn-success" style="width:100%">
+                        <i class="icon_calendar"></i>
+                        <span>{{date_range.date_start | date : 'MM/dd/y HH:mm:ss'}} - {{date_range.date_end | date : 'MM/dd/y HH:mm:ss'}}</span> <b class="caret"></b>
+                    </div>
+                </li>
+                <li class="list-group-item">
+                    <button class="btn btn-block btn-success" ng-click="get_locations_reports()"><i class="icon_cloud-download" aria-hidden="true"></i> Get Reports</button>
+                </li>
+                <li class="list-group-item" ng-show="totals_done && credit_cards_done && voids_done">
+                    <button class="btn btn-block btn-primary" ng-click="print_all_reports()"> Print All Reports</button>
+                </li>
+            </ul>
+        </div>
+        
+        <div class="col-md-4 col-sm-12">
+        </div>
+
+        <div class="col-md-4 col-sm-12">
+        </div>
+    </div>
+    <div class="row">
+        <table class="table" id="all_reports">
+            <thead>
+                <tr>
+                    <th colspan="6">Sales Summary</th>
+                </tr>
+                <tr>
+                    <th>Location</th>
+                    <th>Sale</th>
+                    <th>Taxes</th>
+                    <th>Total</th>
+                    <th>Credit Card</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="l in locations">
+                    <td>{{l.location_name}}</td>
+                    <td>{{l.total_vta_neta | number : 2}}</td>
+                    <td>{{l.total_tax | number : 2}}</td>
+                    <td>{{l.total_sales | number : 2}}</td>
+                    <td>{{l.creditcard_reports_total | number : 2 }}</td>
+                </tr>
+                <tr>
+                    <th>
+                        Total
+                    </th>
+                    <th>{{total_vta_neta | number : 2}}</th>
+                    <th>{{total_tax | number : 2}}</th>
+                    <th>{{total_sales | number : 2}}</th>
+                    <th>{{total_credit_card | number : 2}}</th>
+                </tr>
+                <tr>
+                    <td colspan="6"></td>
+                </tr>
+                <tr>
+                    <th colspan="6">Movements Summary</th>
+                </tr>
+                <tr>
+                    <th>Location</th>
+                    <th>Qty Discounts</th>
+                    <th>Total Discounts</th>
+                    <th>Qty Voids</th>
+                    <th>Total Voids</th>
+                </tr>
+                <tr ng-repeat="l in locations">
+                    <td>{{l.location_name}}</td>
+                    <td>{{l.discounts_qty | number : 2}}</td>
+                    <td>{{l.discounts | number : 2}}</td>
+                    <td>{{l.voids_qty | number}}</td>
+                    <td>{{l.voids_total | number : 2}}</td>
+                </tr>
+                <tr>
+                    <th>
+                        Total
+                    </th>
+                    <th>{{discounts_qty | number}}</th>
+                    <th>{{discounts | number : 2}}</th>
+                    <th>{{voids_qty | number}}</th>
+                    <th>{{voids_total | number : 2}}</th>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
