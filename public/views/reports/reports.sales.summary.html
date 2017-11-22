@@ -1,5 +1,6 @@
 <div>
     <div class="row">
+        <div growl></div>
         <div class"col-md-12">
             <div class="progress progress-striped active" ng-hide="totals_done && credit_cards_done && voids_done">
                 <div class="progress-bar" role="progressbar" style="width: 85%">
@@ -29,7 +30,7 @@
                     <button class="btn btn-block btn-success" ng-click="get_locations_reports()"><i class="icon_cloud-download" aria-hidden="true"></i> Get Reports</button>
                 </li>
                 <li class="list-group-item" ng-show="totals_done && credit_cards_done && voids_done">
-                    <button class="btn btn-block btn-primary" ng-click="print_all_reports()"> Print All Reports</button>
+                    <button class="btn btn-block btn-primary" ng-click="print_all_reports()"><i class="fa fa-file-excel-o" aria-hidden="true"></i> Export To Excel</button>
                 </li>
             </ul>
         </div>

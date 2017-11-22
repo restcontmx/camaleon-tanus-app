@@ -121,26 +121,28 @@ yukonApp
                                                     ItemRepository, 
                                                     AuthRepository,
                                                     BusinessRepository  ) {
-        $scope.logout = function() {
-            AuthRepository.logout().success( function( response ) {
-                AuthRepository.removeSession()               
-                $state.go( 'login' );
+        if( $rootScope.user_info ) {
+            
+            $scope.logout = function() {
+                AuthRepository.logout().success( function( response ) {
+                    AuthRepository.removeSession()               
+                    $state.go( 'login' );
+                }).error( function( error ) {
+                    $scope.errors = error;
+                });
+            };
+            
+            ItemRepository.getActiveLogs().success( function( response ) {
+                if( !response.error ) {
+                    $scope.logs = response.data;
+                    $scope.preview_logs = $scope.logs.slice( 0, 5 );
+                } else {
+                    $scope.errors = response.message;
+                }
             }).error( function( error ) {
                 $scope.errors = error;
             });
-        };
-        ItemRepository.getActiveLogs().success( function( response ) {
-            if( !response.error ) {
-                $scope.logs = response.data;
-                $scope.preview_logs = $scope.logs.slice( 0, 5 );
-            } else {
-                $scope.errors = response.message;
-            }
-        }).error( function( error ) {
-            $scope.errors = error;
-        });
 
-        if( $rootScope.user_info ) {
             BusinessRepository.getById( $rootScope.user_info.business.id ).success( function( response ) {
                 if( response.error ) {
                     $scope.errors = response.message

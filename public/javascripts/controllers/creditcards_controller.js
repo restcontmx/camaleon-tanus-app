@@ -4,18 +4,20 @@ yukonApp
         reportsByDate : ( d1, d2, turn_id ) => $http.get( '/reports/creditcard/?d1=' + d1 + '&d2=' + d2 + '&turn=' + turn_id ) 
     });
 }])
-.controller( 'creditcard-reports-controller', [   '$scope', 
+.controller( 'creditcard-reports-controller', [ '$scope', 
                                                 '$rootScope', 
                                                 'AuthRepository',
                                                 'CreditCardRepository',
                                                 'TurnRepository',
                                                 'LocationRepository', 
+                                                'growl',
                                                 function(   $scope,
                                                             $rootScope,
                                                             AuthRepository,
                                                             CreditCardRepository,
                                                             TurnRepository,
-                                                            LocationRepository ) {
+                                                            LocationRepository,
+                                                            growl   ) {
     if( AuthRepository.viewVerification() ) {
         let todays = new Date();
         $scope.hideGrid = false;
@@ -131,7 +133,6 @@ yukonApp
             CreditCardRepository.reportsByDate( date_1, date_2, turn_id ).success( function( data ) {
                 if( !data.error ) {
                     $scope.creditcard_reports = data.data.creditcard_reports;
-                    console.log( data.data.creditcard_reports )
                     $scope.gridOptions.data = $scope.creditcard_reports
                     // Get locations
                     LocationRepository.getAll().success( function( d1 ) {
@@ -152,19 +153,19 @@ yukonApp
                                 });
                             }
                         } else {
-                            $scope.errors = d1.message;
+                            growl.error("There was an error;" + d1.message, {});
                         }
                         $scope.progress_ban = false;
                         $scope.hideGrid = true;
                     }).error( function( error ) {
-                        $scope.errors = error;
+                        growl.error("There was an error;" + error, {});
                         $scope.progress_ban = false;
                     });
                 } else {
-                    $scope.errors = data.error;
+                    growl.error("There was an error;" + data.message, {});
                 }
             }).error( function( error ) {
-                $scope.errors = error;
+                growl.error("There was an error;" + error, {});
             });
         };
         // Get reports by default

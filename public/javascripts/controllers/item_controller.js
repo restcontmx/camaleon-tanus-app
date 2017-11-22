@@ -195,13 +195,15 @@ yukonApp
                                                 'ItemRepository',
                                                 '$rootScope',
                                                 'uiGridConstants',
+                                                'growl',
                                                 function(   $scope,
                                                             LocationRepository,
                                                             TurnRepository,
                                                             AuthRepository,
                                                             ItemRepository,
                                                             $rootScope,
-                                                            uiGridConstants ) {
+                                                            uiGridConstants,
+                                                            growl ) {
         if( AuthRepository.viewVerification() ) {
             let todays = new Date(),
                 locations_combined = c3.generate({
@@ -305,10 +307,10 @@ yukonApp
                     });
                     $( '#turns_select' ).val(0);
                 } else {
-                    $scope.errors = response.message;
+                    growl.error("There was an error;" + response.error, {});
                 }
             }).error( function( error ) {
-                $scope.errors = error;
+                growl.error("There was an error;" + error, {});
             });
             // Top ten objects grafic
             var top10_donut_graphic = c3.generate({
@@ -377,18 +379,18 @@ yukonApp
                                 // Sets the locations bar table
                                 set_compare_table( $scope.locations );
                             } else {
-                                $scope.errors = d1.message;
+                                growl.error("There was an error;" + d1.message, {});
                             }
                             $scope.progress_ban = false;
                         }).error( function( error ) {
-                            $scope.errors = error;
+                            growl.error("There was an error;" + error, {});
                             $scope.progress_ban = false;
                         });
                     } else {
-                        $scope.errors = data.error;
+                        growl.error("There was an error;" + data.message, {});
                     }
                 }).error( function( error ) {
-                    $scope.errors = error;
+                    growl.error("There was an error;" + error, {});
                 });
             };
             // Gets by default all the reports between todays date and the start of the month

@@ -16,7 +16,6 @@ yukonApp
                                                                     $timeout,
                                                                     Excel   ) {
         if( AuthRepository.viewVerification() ) {
-            console.log( "Sales summary" )
             $scope.$on('$stateChangeSuccess', function () {
                 let todays = new Date();
                 $scope.date_end = new Date();
@@ -87,59 +86,66 @@ yukonApp
 
                 $scope.get_locations_reports = function () {
                     
-                    let date_1 = ($scope.date_range.date_start.getMonth() + 1) + '/' + $scope.date_range.date_start.getDate() + '/' + $scope.date_range.date_start.getFullYear() + ' ' + $scope.date_range.date_start.getHours() + ':' + $scope.date_range.date_start.getMinutes() + ':' + $scope.date_range.date_start.getSeconds(),
-                        date_2 = ($scope.date_range.date_end.getMonth() + 1) + '/' + $scope.date_range.date_end.getDate() + '/' + $scope.date_range.date_end.getFullYear() + ' ' + $scope.date_range.date_end.getHours() + ':' + $scope.date_range.date_end.getMinutes() + ':' + $scope.date_range.date_end.getSeconds();
+                    let date_1 = ( $scope.date_range.date_start.getMonth() + 1 ) + '/' + $scope.date_range.date_start.getDate() + '/' + $scope.date_range.date_start.getFullYear() + ' ' + $scope.date_range.date_start.getHours() + ':' + $scope.date_range.date_start.getMinutes() + ':' + $scope.date_range.date_start.getSeconds(),
+                        date_2 = ( $scope.date_range.date_end.getMonth() + 1 ) + '/' + $scope.date_range.date_end.getDate() + '/' + $scope.date_range.date_end.getFullYear() + ' ' + $scope.date_range.date_end.getHours() + ':' + $scope.date_range.date_end.getMinutes() + ':' + $scope.date_range.date_end.getSeconds();
                     
                     $scope.cats_done = false
                     $scope.dis_done = false
                     $scope.credit_cards_done = false
                     $scope.voids_done = false
                     $scope.cash_done = false
-                    $scope.totals_done = false
+                    $scope.totals_done = false 
 
                     DashboardRepository.get_sales_by_dates_locations(date_1, date_2).success(function (response) {
-                        if (!response.error) {
+                        if( !response.error ) {
                             LocationRepository.getAll().success( function( data ) {
                                 if( !data.error ) {
+                                    
                                     $scope.locations = data.data;
                                     $scope.locations_sales = response.data.sale_reports
                                     
-
                                     DashboardRepository.get_totals_by_dates_locations(  date_1, date_2 ).success( function( d1 ) {
-                                        $scope.locations.forEach( l => {
-                                            l.sales = response.data.sale_reports.filter( r => r.location == l.id )
-                                            l.orders_completed = d1.data.total_orders.filter( r => r.location == l.id ).reduce( ( a, b ) => ( a + b.completed_orders ), 0 )
-                                            l.guests = d1.data.total_guests.filter( r => r.location == l.id ).reduce( ( a, b ) => ( a + b.total_guests ), 0 )
-                                            l.discounts = d1.data.total_discounts.filter( r => r.location == l.id ).reduce( ( a, b ) => ( a + b.total_discounts ), 0 )
-                                            l.discounts_qty = d1.data.total_discounts.filter( r => r.location == l.id ).reduce( ( a, b ) => ( a + b.qty ), 0 )
-                                            l.total_sales = l.sales.map(s => s.total).reduce((a, b) => (a + b), 0)
-                                            l.total_tax = l.sales.map( s => s.tax1 + s.tax2 + s.tax3 ).reduce( ( a, b ) => ( a + b ), 0)
-                                            l.total_vta_neta = l.sales.map( s => s.vta_neta ).reduce( ( a, b ) => ( a + b ), 0)
-                                            l.promedy_sales = l.sales.length > 0 ? l.total_sales / l.sales.length : 0
-                                            l.ticket_average = l.guests > 0 ? l.total_sales / l.guests : 0
-                                        })
-                                        $scope.discounts_qty = $scope.locations.reduce( ( a, b ) => ( a + b.discounts_qty ), 0 )
-                                        $scope.discounts = $scope.locations.reduce( ( a, b ) => ( a + b.discounts ), 0 )
-                                        $scope.total_sales = $scope.locations.reduce( ( a, b ) => ( a + b.total_sales ), 0 )
-                                        $scope.total_tax = $scope.locations.reduce( ( a, b ) => ( a + b.total_tax ), 0 )
-                                        $scope.total_vta_neta = $scope.locations.reduce( ( a, b ) => ( a + b.total_vta_neta ), 0 )
-
+                                        if( !response.error ) {
+                                            $scope.locations.forEach( l => {
+                                                l.sales = response.data.sale_reports.filter( r => r.location == l.id )
+                                                l.orders_completed = d1.data.total_orders.filter( r => r.location == l.id ).reduce( ( a, b ) => ( a + b.completed_orders ), 0 )
+                                                l.guests = d1.data.total_guests.filter( r => r.location == l.id ).reduce( ( a, b ) => ( a + b.total_guests ), 0 )
+                                                l.discounts = d1.data.total_discounts.filter( r => r.location == l.id ).reduce( ( a, b ) => ( a + b.total_discounts ), 0 )
+                                                l.discounts_qty = d1.data.total_discounts.filter( r => r.location == l.id ).reduce( ( a, b ) => ( a + b.qty ), 0 )
+                                                l.total_sales = l.sales.map(s => s.total).reduce((a, b) => (a + b), 0)
+                                                l.total_tax = l.sales.map( s => s.tax1 + s.tax2 + s.tax3 ).reduce( ( a, b ) => ( a + b ), 0)
+                                                l.total_vta_neta = l.sales.map( s => s.vta_neta ).reduce( ( a, b ) => ( a + b ), 0)
+                                                l.promedy_sales = l.sales.length > 0 ? l.total_sales / l.sales.length : 0
+                                                l.ticket_average = l.guests > 0 ? l.total_sales / l.guests : 0
+                                            })
+                                            $scope.discounts_qty = $scope.locations.reduce( ( a, b ) => ( a + b.discounts_qty ), 0 )
+                                            $scope.discounts = $scope.locations.reduce( ( a, b ) => ( a + b.discounts ), 0 )
+                                            $scope.total_sales = $scope.locations.reduce( ( a, b ) => ( a + b.total_sales ), 0 )
+                                            $scope.total_tax = $scope.locations.reduce( ( a, b ) => ( a + b.total_tax ), 0 )
+                                            $scope.total_vta_neta = $scope.locations.reduce( ( a, b ) => ( a + b.total_vta_neta ), 0 )
+                                        } else {
+                                            growl.error("There was an error;" + response.message, {});
+                                        }
                                         $scope.totals_done = true
                                     }).error( function( error ) {
-                                        console.log( error )
+                                        growl.error("There was an error;" + error, {});
                                     })
 
                                     CreditCardRepository.reportsByDate( date_1, date_2, 0 ).success( function( d1 ) {
-                                        $scope.creditcard_reports = d1.data.creditcard_reports
-                                        $scope.locations.forEach( l => {
-                                            l.creditcard_reports = $scope.creditcard_reports.filter( r => r.location == l.id )
-                                            l.creditcard_reports_total = $scope.creditcard_reports.filter( r => r.location == l.id ).reduce( ( a, b  ) => ( a + b.amount ), 0 )
-                                        })
-                                        // Calculate all debit total
-                                        $scope.total_credit_card = $scope.locations.map( l => l.creditcard_reports_total ).reduce( ( a, b ) => ( a + b ), 0 )
+                                        if( !d1.error ) {
+                                            $scope.creditcard_reports = d1.data.creditcard_reports
+                                            $scope.locations.forEach( l => {
+                                                l.creditcard_reports = $scope.creditcard_reports.filter( r => r.location == l.id )
+                                                l.creditcard_reports_total = $scope.creditcard_reports.filter( r => r.location == l.id ).reduce( ( a, b  ) => ( a + b.amount ), 0 )
+                                            })
+                                            // Calculate all debit total
+                                            $scope.total_credit_card = $scope.locations.map( l => l.creditcard_reports_total ).reduce( ( a, b ) => ( a + b ), 0 )
+                                        } else {
+                                            growl.error("There was an error;" + d1.message, {});
+                                        }    
                                         $scope.credit_cards_done = true
                                     }).error( function( error ) {
-                                        console.log( error )
+                                        growl.error("There was an error;" + error, {});
                                     })
                             
                                     DashboardRepository.get_void_data_by_dates_locations( date_1, date_2 ).success( function( d1 ) {
@@ -159,23 +165,23 @@ yukonApp
                                             $scope.voids_total = $scope.locations.reduce( ( a, b ) => ( a + b.voids_total ), 0 )
                                             $scope.voids_done = true
                                         } else {
-                                            console.log( d1.message )
+                                            growl.error("There was an error;" + d1.message, {});
                                         }
                                     }).error(function (error) {
-                                        $scope.errors = error;
+                                        growl.error("There was an error;" + error, {});
                                     });
                                 } else {
-                                    console.log( data.message )
+                                    growl.error("There was an error;" + data.message, {});
                                 }
                             }).error( function( error ) {
-                                console.log( error )
+                                growl.error("There was an error;" + error, {});
                             })
 
                         } else {
-                            $scope.errors = response.message;
+                            growl.error("There was an error;" + response.message, {});
                         } $scope.progress_ban = false;
                     }).error(function (error) {
-                        $scope.errors = error;
+                        growl.error("There was an error;" + error, {});
                         $scope.progress_ban = false;
                     });
                 };

@@ -366,33 +366,34 @@ yukonApp
             get_cash_data_by_dates_locations: (d1, d2) => $http.get('/dashboard/cashlocations/?d1=' + d1 + '&d2=' + d2)
         });
     }])
-    .controller('dashboardCtrl', [
-        '$scope',
-        '$state',
-        '$timeout',
-        '$rootScope',
-        'files',
-        'AuthRepository',
-        'DashboardRepository',
-        'LocationRepository',
-        'PermissionRepository',
-        'CategoryRepository',
-        'DiscountRepository',
-        'CreditCardRepository',
-        'Excel',
-        function (  $scope, 
-                    $state, 
-                    $timeout, 
-                    $rootScope, 
-                    files, 
-                    AuthRepository, 
-                    DashboardRepository, 
-                    LocationRepository, 
-                    PermissionRepository, 
-                    CategoryRepository, 
-                    DiscountRepository, 
-                    CreditCardRepository, 
-                    Excel   ) {
+    .controller('dashboardCtrl', [  '$scope',
+                                    '$state',
+                                    '$timeout',
+                                    '$rootScope',
+                                    'files',
+                                    'AuthRepository',
+                                    'DashboardRepository',
+                                    'LocationRepository',
+                                    'PermissionRepository',
+                                    'CategoryRepository',
+                                    'DiscountRepository',
+                                    'CreditCardRepository',
+                                    'Excel',
+                                    'growl',
+                                    function (  $scope, 
+                                                $state, 
+                                                $timeout, 
+                                                $rootScope, 
+                                                files, 
+                                                AuthRepository, 
+                                                DashboardRepository, 
+                                                LocationRepository, 
+                                                PermissionRepository, 
+                                                CategoryRepository, 
+                                                DiscountRepository, 
+                                                CreditCardRepository, 
+                                                Excel,
+                                                growl   ) {
             $scope.$on('$stateChangeSuccess', function () {
                 if (AuthRepository.viewVerification()) {
                     PermissionRepository.getAll().success(function (response) {
@@ -408,10 +409,10 @@ yukonApp
                                 }
                             }
                         } else {
-                            console.log(response.message)
+                            growl.error("There was an error;" + response.message, {});
                         }
                     }).error(function (error) {
-                        console.log(error)
+                        growl.error("There was an error;" + error, {});
                     });
                     // run scripts after state load
                     // init dashboard functions
@@ -656,10 +657,10 @@ yukonApp
                                     chart_c3_orders.resize();
                                 });
                             } else {
-                                $scope.errors = response.message;
+                                growl.error("There was an error;" + response.message, {});
                             } $scope.progress_ban = false;
                         }).error(function (error) {
-                            $scope.errors = error;
+                            growl.error("There was an error;" + error, {});
                             $scope.progress_ban = false;
                         });
                         // get void data by default dates
@@ -771,17 +772,17 @@ yukonApp
                                             }
                                         });
                                     } else {
-                                        console.log( data.message )
+                                        growl.error("There was an error;" + data.message, {});
                                     }
                                 }).error( function( error ) {
-                                    console.log( error )
+                                    growl.error("There was an error;" + error, {});
                                 })
 
                             } else {
-                                $scope.errors = response.message;
+                                growl.error("There was an error;" + response.message, {});
                             } $scope.progress_ban = false;
                         }).error(function (error) {
-                            $scope.errors = error;
+                            growl.error("There was an error;" + error, {});
                             $scope.progress_ban = false;
                         });
                     };
@@ -793,10 +794,10 @@ yukonApp
                                 $scope.voids_qty = response.data.void_reports[0].qty;
                                 $scope.voids_total = response.data.void_reports[0].total;
                             } else {
-                                $scope.errors = response.message;
+                                growl.error("There was an error;" + response.message, {});
                             }
                         }).error(function (error) {
-                            $scope.errors = error;
+                            growl.error("There was an error;" + error, {});
                         })
                     };
                     $scope.get_location_last_closes = function () {
@@ -809,11 +810,10 @@ yukonApp
                                     l.now_date = d
                                 })
                             } else {
-                                $scope.errors = response.message;
+                                growl.error("There was an error;" + response.message, {});
                             }
                         }).error(function (error) {
-                            console.log(error)
-                            $scope.errors = error;
+                            growl.error("There was an error;" + error, {});
                         });
                     };
                     // Get location last closes
