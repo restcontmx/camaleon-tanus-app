@@ -17,35 +17,17 @@ const DEBUG = false
 /**
 * Get the full api uri compose with the model and the url data
 **/
-var get_api_uri = ( model, url_data ) => {
-    if( DEBUG ) {
-        return test_config.api_uri + model + url_data;
-    } else {
-        return auth_production_config.api_uri + model + url_data;        
-    }
-}
+var get_api_uri = ( model, url_data ) => ( DEBUG ? ( test_config.api_uri + model + url_data ) : ( auth_production_config.api_uri + model + url_data ) )
 
 /**
  * Get full formatted url for business
  */
-var get_business_api_uri = ( e_p, model, url_data ) => {
-    if( DEBUG ) {
-        return test_config.api_uri + model + url_data;
-    } else {
-        return e_p + model + url_data;
-    }
-}
+var get_business_api_uri = ( e_p, model, url_data ) => ( DEBUG ? ( test_config.api_uri + model + url_data ) : ( e_p + model + url_data ) )
 
 /**
 * Get the basic authorization appliation header
 **/
-var get_basic_auth_app_header = ( ) => {
-    if( DEBUG ) {
-        return ( 'Basic ' + test_config.token )
-    } else {
-        return ( 'Basic ' + auth_production_config.token )     
-    }
-}
+var get_basic_auth_app_header = ( ) => ( DEBUG ? ( 'Basic ' + test_config.token ) : ( 'Basic ' + auth_production_config.token ) )
 
 /**
 * Get the user basic authorization appliation header

@@ -236,7 +236,7 @@ yukonApp
                                                 let temp = l.credit_cards.find( c_c => c_c.c_t == r.c_t )
                                                 temp ? temp.amount += r.amount : l.credit_cards.push( r )
                                             })
-                                            l.creditcard_reports_total = $scope.creditcard_reports.filter( r => r.location == l.id ).reduce( ( a, b  ) => ( a + b.amount ), 0 )
+                                            l.creditcard_reports_total = l.credit_cards.reduce( ( a, b  ) => ( a + b.amount ), 0 )
                                         })
 
                                         // Calculate all debit total
