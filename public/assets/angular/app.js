@@ -22,7 +22,8 @@ var yukonApp = angular.module('yukonApp', [ 'ui.router',
                                             'log-service',
                                             'ui.grid',
                                             'ui.grid.pagination',
-                                            'ui.grid.selection' ]);
+                                            'ui.grid.selection',
+                                            'ui.grid.treeView'  ]);
 
 /* Run Block */
 yukonApp.run(

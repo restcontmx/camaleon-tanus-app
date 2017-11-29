@@ -1787,6 +1787,68 @@ yukonApp
                     },
                     controller: 'ticket-reports-controller'
                 })
+                .state('auth.reports.ticketcount', {
+                    page_title: 'Reports - Tickets Count',
+                    ncyBreadcrumb: {
+                        label: 'Ticket Count'
+                    },
+                    url: '/ticket_count',
+                    templateUrl: 'views/reports/reports.ticket.count.html',
+                    resolve: {
+                        files: [
+                            'uiLoad',
+                            function (uiLoad) {
+                                return uiLoad.load([
+                                    //  datatables
+                                    'assets/lib/DataTables/media/js/jquery.dataTables.min.js',
+                                    'assets/lib/DataTables/extensions/FixedHeader/js/dataTables.fixedHeader.min.js',
+                                    'assets/lib/DataTables/media/js/dataTables.bootstrap.js',
+                                    // datepicker
+                                    'assets/lib/bootstrap-datepicker/css/datepicker3.css',
+                                    'assets/lib/bootstrap-datepicker/js/bootstrap-datepicker.js',
+                                    // date range picker
+                                    'assets/lib/bootstrap-daterangepicker/daterangepicker-bs3.css',
+                                    'assets/lib/bootstrap-daterangepicker/daterangepicker.js',
+                                    // select2
+                                    'assets/lib/select2/select2.css',
+                                    'assets/lib/select2/select2.min.js'
+                                ])
+                            }
+                        ]
+                    },
+                    controller: 'ticket-count-reports-controller'
+                })
+                .state('auth.reports.ticketcountdetail', {
+                    page_title: 'Reports - Tickets Count Detail',
+                    ncyBreadcrumb: {
+                        label: 'Ticket Count Detail'
+                    },
+                    url: '/ticket_count_detail',
+                    templateUrl: 'views/reports/reports.ticket.count.detail.html',
+                    resolve: {
+                        files: [
+                            'uiLoad',
+                            function (uiLoad) {
+                                return uiLoad.load([
+                                    //  datatables
+                                    'assets/lib/DataTables/media/js/jquery.dataTables.min.js',
+                                    'assets/lib/DataTables/extensions/FixedHeader/js/dataTables.fixedHeader.min.js',
+                                    'assets/lib/DataTables/media/js/dataTables.bootstrap.js',
+                                    // datepicker
+                                    'assets/lib/bootstrap-datepicker/css/datepicker3.css',
+                                    'assets/lib/bootstrap-datepicker/js/bootstrap-datepicker.js',
+                                    // date range picker
+                                    'assets/lib/bootstrap-daterangepicker/daterangepicker-bs3.css',
+                                    'assets/lib/bootstrap-daterangepicker/daterangepicker.js',
+                                    // select2
+                                    'assets/lib/select2/select2.css',
+                                    'assets/lib/select2/select2.min.js'
+                                ])
+                            }
+                        ]
+                    },
+                    controller: 'ticket-count-detail-reports-controller'
+                })
                 .state('auth.reports.items', {
                     page_title: 'Reports - Items',
                     ncyBreadcrumb: {

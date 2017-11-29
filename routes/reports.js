@@ -298,6 +298,44 @@ router.get( '/ticket', jsonParser, function( req, res ) {
 /**
 * ticket reports pettition
 **/
+router.get( '/ticket/count', jsonParser, function( req, res ) {
+    var userdata = JSON.parse( req.cookies['userdata'] ),
+        url_parts = urlLib.parse( req.url, true );
+    request(
+        {
+            url : http_helper.get_business_api_uri( userdata.user_data.e_p, 'ticket/count/', '?d1=' + url_parts.query.d1 + '&d2=' + url_parts.query.d2  + '&p=' + url_parts.query.p ),
+            method : 'GET',
+            json : true,
+            headers : {
+                'Authorization' : http_helper.get_basic_auth_w_token( encryption_system.decryptCookie( userdata.auth_data ) )
+            }
+        },
+        ( error, response, body ) => { res.send( http_helper.data_format_ok( error, response, body ) ) }
+    );
+});
+
+/**
+* ticket reports pettition
+**/
+router.get( '/ticket/count/size', jsonParser, function( req, res ) {
+    var userdata = JSON.parse( req.cookies['userdata'] ),
+        url_parts = urlLib.parse( req.url, true );
+    request(
+        {
+            url : http_helper.get_business_api_uri( userdata.user_data.e_p, 'ticket/count/size/', '?d1=' + url_parts.query.d1 + '&d2=' + url_parts.query.d2 ),
+            method : 'GET',
+            json : true,
+            headers : {
+                'Authorization' : http_helper.get_basic_auth_w_token( encryption_system.decryptCookie( userdata.auth_data ) )
+            }
+        },
+        ( error, response, body ) => { res.send( http_helper.data_format_ok( error, response, body ) ) }
+    );
+});
+
+/**
+* ticket reports pettition
+**/
 router.get( '/ticket/details', jsonParser, function( req, res ) {
     var userdata = JSON.parse( req.cookies['userdata'] ),
         url_parts = urlLib.parse( req.url, true );

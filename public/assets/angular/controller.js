@@ -226,6 +226,16 @@ yukonApp
                             link: 'auth.reports.tickets',
                             permission: false
                         },
+                        // {
+                        //     title: 'Tickets Count',
+                        //     link: 'auth.reports.ticketcount',
+                        //     permission: false
+                        // },
+                        {
+                            title: 'Tickets Count Detail',
+                            link: 'auth.reports.ticketcountdetail',
+                            permission: false
+                        },
                         {
                             title: 'Items',
                             link: 'auth.reports.items',
