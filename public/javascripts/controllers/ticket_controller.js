@@ -840,6 +840,8 @@ yukonApp
                     TicketRepository.getTicketCountSize(date_1, date_2).success(function (response) {
                         if (!response.error) {
                             $scope.size = response.data.size
+
+                            console.log( $scope.size )
                             $scope.num_pettitions = Math.ceil($scope.size / 15000)
                             
                             console.log( $scope.num_pettitions )
@@ -857,9 +859,11 @@ yukonApp
                             }
                         } else {
                             growl.error("There was an error " + response.message, {})
+                            $scope.streamming_msg = ""
                         }
                     }).error(function (error) {
                         growl.error("There was an error " + error, {})
+                        $scope.streamming_msg = ""
                     });
                 }
             }
@@ -1018,6 +1022,90 @@ yukonApp
                     growl.error("Please wait, data to load.", {})
                 }
             };
+
+            $scope.print_not_detailed_tickets = function( ) {
+                if( $scope.gridOptions.data.length > 0 ) {
+                    var data = [{
+                        location_name : 'Location',
+                        move_date : 'Date',
+                        ticket_count_fmt : 'Ticket Count',
+                        taxexemptno : 'Tax ID Number',
+                        customer_name : 'Customer Name',
+                        item_description : 'Description',
+                        cate_name : 'Category',
+                        afecto : 'Taxable',
+                        noafecto : 'No Taxable',
+                        pprice : 'Price',
+                        ucost : 'Cost',
+                        tx : 'I.G.V.',
+                        tx2 : 'RC',
+                        tx3 : 'Tax3',
+                        servicio : 'Servicio',
+                        total : 'Total',
+                        p_type : 'Type',
+                        move_credit_value : 'Credit',
+                        move_cash_value : 'Cash',
+                        move_debit_value : 'Debit',
+                        move_check_value : 'Check',
+                        move_stamp_value : 'Stamp',
+                        move_wic_value : 'Dollars',
+                        move_gift_value : 'GiftCards',
+                        move_onaccount_value : 'On Account',
+                        move_crnote_value : 'Credit Note',
+                        move_tip_value : 'Tip',
+                        move_cc_tip : 'CC Tip',
+                        move_regi_name : 'Station',
+                        money_conv : 'Conversion',
+                        move_fiscal_date : 'Fiscal Date',
+                        docu_type_id : 'Docu Type',
+                        move_refer : 'Ref No.',
+                        nota_cr_code : 'Credit Note'
+                    }]
+                    $scope.gridOptions.data.forEach( d => {
+                        if( d.$$treeLevel == 0 ) {
+                            data.push({
+                                location_name : d.location_name,
+                                move_date : d.move_date,
+                                ticket_count_fmt : d.ticket_count_fmt,
+                                taxexemptno : d.taxexemptno,
+                                customer_name : d.customer_name,
+                                item_description : d.item_description,
+                                cate_name : d.cate_name,
+                                afecto : d.afecto,
+                                noafecto : d.noafecto,
+                                pprice : d.pprice,
+                                ucost : d.ucost,
+                                tx : d.tx,
+                                tx2 : d.tx2,
+                                tx3 : d.tx3,
+                                servicio : d.servicio,
+                                total : d.total,
+                                p_type : d.p_type,
+                                move_credit_value : d.move_credit_value,
+                                move_cash_value : d.move_cash_value,
+                                move_debit_value : d.move_debit_value,
+                                move_check_value : d.move_check_value,
+                                move_stamp_value : d.move_stamp_value,
+                                move_wic_value : d.move_wic_value,
+                                move_gift_value : d.move_gift_value,
+                                move_onaccount_value : d.move_onaccount_value,
+                                move_crnote_value : d.move_crnote_value,
+                                move_tip_value : d.move_tip_value,
+                                move_cc_tip : d.move_cc_tip,
+                                move_regi_name : d.move_regi_name,
+                                money_conv : d.money_conv,
+                                move_fiscal_date : d.move_fiscal_date,
+                                docu_type_id : d.docu_type_id,
+                                move_refer : d.move_refer,
+                                nota_cr_code : d.nota_cr_code
+                            })
+                        }
+                    })
+                    alasql("SELECT * INTO XLSX('ticket_count_not_detail.xlsx', {headers:false}) FROM ? ", [data]);
+                } else {
+                    growl.error("Please wait, data to load.", {})
+                }
+            }
 
             function round(value, decimals) {
                 return Number(Math.round(value+'e'+decimals)+'e-'+decimals);
