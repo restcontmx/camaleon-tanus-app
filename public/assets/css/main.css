@@ -194,7 +194,7 @@ fieldset[disabled] .btn-primary.active {
 }
 .btn-success {
   color: #ffffff;
-  background-color: #8cc152;
+  background-color: #4baf50;
   border-color: #8cc152;
 }
 .btn-success:hover,
@@ -5275,7 +5275,7 @@ body.error_page {
 }
 #main_header.topBar_style_9,
 .sw_tb_style_9 {
-  background: #8cc152;
+  background: #4baf50;
 }
 #main_header.topBar_style_10,
 .sw_tb_style_10 {
