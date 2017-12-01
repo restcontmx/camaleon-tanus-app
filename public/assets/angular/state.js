@@ -1842,7 +1842,9 @@ yukonApp
                                     'assets/lib/bootstrap-daterangepicker/daterangepicker.js',
                                     // select2
                                     'assets/lib/select2/select2.css',
-                                    'assets/lib/select2/select2.min.js'
+                                    'assets/lib/select2/select2.min.js',
+                                    'https://cdn.jsdelivr.net/alasql/0.3/alasql.min.js',
+                                    'https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.7.12/xlsx.core.min.js'
                                 ])
                             }
                         ]
@@ -2189,6 +2191,42 @@ yukonApp
                         ]
                     },
                     controller: 'TurnController'
+                })
+                .state('auth.tanus', {
+                    abstract: true,
+                    url: '/tanus',
+                    template: '<div ui-view autoscroll="false" class="mainView-animate"></div>',
+                    ncyBreadcrumb: {
+                        label: 'Tanus'
+                    }
+                })
+                .state('auth.tanus.ticketrefdocs', {
+                    page_title: 'Reports - Tickets Reference',
+                    ncyBreadcrumb: {
+                        label: 'Ticket Reference'
+                    },
+                    url: '/ticket_ref_docs',
+                    templateUrl: 'views/tanus/ticket.ref.docs.html',
+                    resolve: {
+                        files: [
+                            'uiLoad',
+                            function (uiLoad) {
+                                return uiLoad.load([
+                                    // inputmask
+                                    'assets/lib/jquery.inputmask/jquery.inputmask.bundle.min.js',
+                                    // select2
+                                    'assets/lib/select2/select2.css',
+                                    'assets/lib/select2/select2.min.js',
+                                    'assets/lib/selectize-js/css/selectize.css',
+                                    'assets/lib/selectize-js/js/standalone/selectize.min.js',
+                                    'https://cdn.jsdelivr.net/alasql/0.3/alasql.min.js',
+                                    'https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.7.12/xlsx.core.min.js'
+                                    
+                                ])
+                            }
+                        ]
+                    },
+                    controller: 'ticketref-reports-controller'
                 })
                 // Plugins > tables > footables
                 .state('auth.plugins.tables.footable', {

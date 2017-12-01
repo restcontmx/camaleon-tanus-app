@@ -30,7 +30,8 @@ var it_taccotypegeneral = require( './routes/ittaccotypegeneral' ),
     permission          = require( './routes/permission' ),
     userreports         = require( './routes/userreports' ),
     camaleonadmin       = require( './routes/camaleonadmin' ),
-    profile             = require( './routes/profile' );
+    profile             = require( './routes/profile' ),
+    tanus               = require( './routes/tanus' );
 
 var app = express();
 
@@ -69,6 +70,7 @@ app.use( '/permission', permission );
 app.use( '/userreports', userreports );
 app.use( '/camaleonadmin', camaleonadmin );
 app.use( '/profile', profile );
+app.use( '/tanus', tanus );
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

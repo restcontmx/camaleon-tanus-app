@@ -73,9 +73,17 @@ var data_format_ok = function( error, response, body ) {
                     error : true,
                     message : "Server Error or Connection error."
                 });
+            case 503 :
+                return JSON.stringify({
+                    error : true,
+                    message : "Server Timeout."
+                });
         }
     } else {
-        return error;
+        return JSON.stringify({
+            error : true,
+            message : error
+        });
     }
 };
 
@@ -111,9 +119,17 @@ var data_format_ok_streaming = function( error, response, body ) {
                     error : true,
                     message : "Server Error or Connection error."
                 });
+            case 503 :
+                return JSON.stringify({
+                    error : true,
+                    message : "Server Timeout."
+                });
         }
     } else {
-        return error;
+        return JSON.stringify({
+            error : true,
+            message : error
+        });
     }
 };
 
@@ -154,9 +170,17 @@ var data_format_updated = function( error, response, body ) {
                     error : true,
                     message : "Server Error or Connection error."
                 });
+            case 503 :
+                return JSON.stringify({
+                    error : true,
+                    message : "Server Timeout."
+                });
         }
     } else {
-        return error;
+        return JSON.stringify({
+            error : true,
+            message : error
+        });
     }
 };
 
@@ -197,9 +221,17 @@ var data_format_created = function( error, response, body ) {
                     error : true,
                     message : "Server Error or Connection error."
                 });
+            case 503 :
+                return JSON.stringify({
+                    error : true,
+                    message : "Server Timeout."
+                });
         }
     } else {
-        return error;
+        return JSON.stringify({
+            error : true,
+            message : error
+        });
     }
 };
 
@@ -235,9 +267,17 @@ var data_format_deleted = function( error, response, body ) {
                     error : true,
                     message : "Server Error or Connection error."
                 });
+            case 503 :
+                return JSON.stringify({
+                    error : true,
+                    message : "Server Timeout."
+                });
         }
     } else {
-        return error;
+        return JSON.stringify({
+            error : true,
+            message : error
+        });
     }
 };
 

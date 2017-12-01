@@ -1,0 +1,57 @@
+<h2>Ticket Ref Documents</h2>
+
+<div class="row">
+    <div growl></div>
+    <div class "col-md-12">
+        <div class="progress progress-striped active" ng-show="progress_ban">
+            <div class="progress-bar" role="progressbar" style="width: 85%">
+                <span class="sr-only">85% Complete</span>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <h3 class="heading_a">
+            <span class="heading_text">Filters</span>
+        </h3>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label for="ticket_ref">Ticket Reference</label>
+                    <input type="text" id="ticket_ref" class="form-control">
+                </div>
+            </div>
+            <div class="col-md-12">
+                <label>Locations</label>
+                <input type="hidden" id="locations_select">
+            </div>
+
+            <div class="col-md-12">
+                <br>
+                <button class="btn btn-block btn-success" ng-click="get_reports()">
+                    <i class="icon_cloud-download" aria-hidden="true"></i> Get Reports</button>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-8">
+        <table class="table">
+            <thead>
+                <th>Ticket Number</th>
+                <th>Date</th>
+                <th>PDF</th>
+                <th>XML</th>
+                <th>Estatus</th>
+            </thead>
+            <tbody>
+                <tr ng-repeat="report in reports">
+                    <td><h2>{{report.p01_numcompleto}}</h2></td>
+                    <td><h2>{{report.p01_fecha | date}}</h2></td>
+                    <td><h2><a ng-click="print_pdf_document( report )">
+                            <i class="icon_documents" aria-hidden="true"></i></a></h2></td>
+                    <td><h2><a ng-click="print_xml_document( report )">
+                            <i class="glyphicon glyphicon-file" aria-hidden="true"></i></a></h2></td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

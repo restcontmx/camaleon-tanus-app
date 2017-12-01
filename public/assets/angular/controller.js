@@ -245,6 +245,19 @@ yukonApp
                 },
                 {
                     id: 3,
+                    title: 'Tanus',
+                    icon: 'icon_cogs first_level_icon',
+                    submenu_title: 'tanus',
+                    submenu: [
+                        {
+                            title: 'Ticket Reference Docs',
+                            link: 'auth.tanus.ticketrefdocs',
+                            permission: false
+                        }
+                    ]
+                },
+                {
+                    id: 3,
                     title: 'Settings',
                     icon: 'icon_cogs first_level_icon',
                     submenu_title: 'settings',

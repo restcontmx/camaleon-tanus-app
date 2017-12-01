@@ -7,7 +7,7 @@
 		</div>
 		<ul class="header_notifications clearfix">
 			<li class="dropdown" id="tasks_dropdown" on-toggle="toggled(open)" dropdown>
-				<span class="label label-danger">{{logs.length}}</span>
+				<span class="label label-danger" ng-if="logs.length > 0">{{logs.length}}</span>
 				<a href class="dropdown-toggle" dropdown-toggle><i class="el-icon-tasks"></i></a>
 				<div class="dropdown-menu">
 					<ul>
