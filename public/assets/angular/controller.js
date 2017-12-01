@@ -246,7 +246,7 @@ yukonApp
                 {
                     id: 3,
                     title: 'Tanus',
-                    icon: 'icon_cogs first_level_icon',
+                    icon: 'el-icon-paper-clip first_level_icon',
                     submenu_title: 'tanus',
                     submenu: [
                         {

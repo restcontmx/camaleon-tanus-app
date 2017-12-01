@@ -696,44 +696,113 @@ yukonApp
                                             'nota_cr_code' : ''
                                          })
                                     } else {
-                                        let temp_data = {
-                                            'location' : r.location,
-                                            'location_name' : r.location_name,
-                                            'move_date' : r.move_date,
-                                            'ticket_count_fmt' : r.ticket_count_fmt,
-                                            'taxexemptno' : r.taxexemptno,
-                                            'customer_name' : r.customer_name,
-                                            'item_description' : '',
-                                            'cate_name' : '',
-                                            'afecto' : 0,
-                                            'noafecto' : 0,
-                                            'pprice' : '',
-                                            'ucost' : '',
-                                            'tx' : 0,
-                                            'tx2' : 0,
-                                            'tx3' : 0,
-                                            'servicio' : r.servicio,
-                                            'total' : 0,
-                                            'p_type' : r.p_type,
-                                            'move_credit_value' : r.move_credit_value,
-                                            'move_cash_value' : r.move_cash_value,
-                                            'move_debit_value' : r.move_debit_value,
-                                            'move_check_value' : r.move_check_value,
-                                            'move_stamp_value' : r.move_stamp_value,
-                                            'move_wic_value' : r.move_wic_value,
-                                            'move_gift_value' : r.move_gift_value,
-                                            'move_onaccount_value' : r.move_onaccount_value,
-                                            'move_crnote_value' : r.move_crnote_value,
-                                            'move_tip_value' : r.move_tip_value,
-                                            'move_cc_tip' : r.move_cc_tip,
-                                            'move_regi_name' : r.move_regi_name,
-                                            'money_conv' : r.money_conv,
-                                            'move_fiscal_date' : r.move_fiscal_date,
-                                            'docu_type_id' : r.docu_type_id,
-                                            'nota_cr_code' : r.nota_cr_code,
-                                            'details' : []
+
+                                        let customer_name = r.company_name != '' ? r.company_name : r.cust_name + ' ' + r.cust_last, 
+                                            tax_id_no = r.taxexemptno != '' ? r.taxexemptno : r.ss_no,
+                                            temp_data = {
+                                                'location' : r.location,
+                                                'location_name' : r.location_name,
+                                                'move_date' : r.move_date,
+                                                'ticket_count_fmt' : r.ticket_count_fmt,
+                                                'taxexemptno' : tax_id_no,
+                                                'customer_name' : customer_name,
+                                                'item_description' : '',
+                                                'cate_name' : '',
+                                                'afecto' : 0,
+                                                'noafecto' : 0,
+                                                'pprice' : '',
+                                                'ucost' : '',
+                                                'tx' : 0,
+                                                'tx2' : 0,
+                                                'tx3' : 0,
+                                                'servicio' : r.servicio,
+                                                'total' : 0,
+                                                'p_type' : r.p_type,
+                                                'move_credit_value' : r.move_credit_value,
+                                                'move_cash_value' : r.move_cash_value,
+                                                'move_debit_value' : r.move_debit_value,
+                                                'move_check_value' : r.move_check_value,
+                                                'move_stamp_value' : r.move_stamp_value,
+                                                'move_wic_value' : r.move_wic_value,
+                                                'move_gift_value' : r.move_gift_value,
+                                                'move_onaccount_value' : r.move_onaccount_value,
+                                                'move_crnote_value' : r.move_crnote_value,
+                                                'move_tip_value' : r.move_tip_value,
+                                                'move_cc_tip' : r.move_cc_tip,
+                                                'move_regi_name' : r.move_regi_name,
+                                                'money_conv' : r.money_conv,
+                                                'move_fiscal_date' : r.move_fiscal_date,
+                                                'docu_type_id' : r.docu_type_id,
+                                                'nota_cr_code' : r.nota_cr_code,
+                                                'details' : []
+                                            }
+                                            
+                                        temp_data.p_type += r.move_credit_value > 0 ? 'CREDIT/' : ''
+                                        temp_data.p_type += r.move_cash_value > 0 ? 'CASH/' : ''
+                                        temp_data.p_type += r.move_debit_value > 0 ? 'DEBIT/' : ''
+                                        temp_data.p_type += r.move_check_value > 0 ? 'CHECK/' : ''
+                                        temp_data.p_type += r.move_stamp_value > 0 ? 'STAMP/' : ''
+                                        temp_data.p_type += r.move_wic_value > 0 ? 'DOLLARS/' : ''
+                                        temp_data.p_type += r.move_gift_value > 0 ? 'GIFT/' : ''
+                                        temp_data.p_type += r.move_onaccount_value > 0 ? 'ONACC/' : ''
+                                        temp_data.p_type += r.move_crnote_value > 0 ? 'CRNOTE/' : ''
+
+                                        if( temp_data.p_type != '' ) {
+                                            temp_data.p_type = temp_data.p_type.slice(0, -1)
                                         }
+
                                         $scope.display_data.push( temp_data )
+
+                                        temp_data.total += r.total
+                                        temp_data.tx  += r.tx
+                                        temp_data.tx2 += r.tx2
+                                        temp_data.tx3 += r.tx3
+                                        temp_data.afecto += r.afecto
+                                        temp_data.noafecto += r.noafecto
+
+                                        temp_data.total = round( temp_data.total, 2 )
+                                        temp_data.tx = round( temp_data.tx, 2 )
+                                        temp_data.tx2 = round( temp_data.tx2, 2 )
+                                        temp_data.tx3 = round( temp_data.tx3, 2 )
+                                        temp_data.afecto = round( temp_data.afecto, 2 )
+                                        temp_data.noafecto = round( temp_data.noafecto, 2 )
+
+                                        temp_data.details.push({
+                                            'location' : r.location,
+                                            'location_name' : '',
+                                            'move_date' : '',
+                                            'ticket_count_fmt' : '',
+                                            'taxexemptno' : '',
+                                            'customer_name' : '',
+                                            'item_description' : r.item_description,
+                                            'cate_name' : r.cate_name,
+                                            'afecto' : r.afecto,
+                                            'noafecto' : r.noafecto,
+                                            'pprice' : r.pprice,
+                                            'ucost' : r.ucost,
+                                            'tx' : r.tx,
+                                            'tx2' : r.tx2,
+                                            'tx3' : r.tx3,
+                                            'servicio' : '',
+                                            'total' : r.total,
+                                            'p_type' : r.p_type,
+                                            'move_credit_value' : '',
+                                            'move_cash_value' : '',
+                                            'move_debit_value' : '',
+                                            'move_check_value' : '',
+                                            'move_stamp_value' : '',
+                                            'move_wic_value' : '',
+                                            'move_gift_value' : '',
+                                            'move_onaccount_value' : '',
+                                            'move_crnote_value' : '',
+                                            'move_tip_value' : '',
+                                            'move_cc_tip' : '',
+                                            'move_regi_name' : '',
+                                            'money_conv' : '',
+                                            'move_fiscal_date' : '',
+                                            'docu_type_id' : '',
+                                            'nota_cr_code' : ''
+                                         })
                                     }
                                 })
                                 $scope.streamming_msg = ( ( ( p + 1 ) / $scope.num_pettitions ) * 100 ) + "% done..."
