@@ -456,6 +456,7 @@ yukonApp
                                                                 'growl',
                                                                 'uiGridTreeViewConstants',
                                                                 'uiGridConstants',
+                                                                'CamaleonMath',
                                                                 function(   $scope,
                                                                             TicketRepository,
                                                                             LocationRepository,
@@ -466,7 +467,8 @@ yukonApp
                                                                             $timeout,
                                                                             growl,
                                                                             uiGridTreeViewConstants,
-                                                                            uiGridConstants ) {
+                                                                            uiGridConstants,
+                                                                            CamaleonMath    ) {
         if( AuthRepository.viewVerification() ) {
 
             $scope.progress_ban = false;
@@ -652,12 +654,12 @@ yukonApp
                                         finded_data.afecto += r.afecto
                                         finded_data.noafecto += r.noafecto
 
-                                        finded_data.total = round( finded_data.total, 2 )
-                                        finded_data.tx = round( finded_data.tx, 2 )
-                                        finded_data.tx2 = round( finded_data.tx2, 2 )
-                                        finded_data.tx3 = round( finded_data.tx3, 2 )
-                                        finded_data.afecto = round( finded_data.afecto, 2 )
-                                        finded_data.noafecto = round( finded_data.noafecto, 2 )
+                                        finded_data.total = CamaleonMath.round( finded_data.total, 2 )
+                                        finded_data.tx = CamaleonMath.round( finded_data.tx, 2 )
+                                        finded_data.tx2 = CamaleonMath.round( finded_data.tx2, 2 )
+                                        finded_data.tx3 = CamaleonMath.round( finded_data.tx3, 2 )
+                                        finded_data.afecto = CamaleonMath.round( finded_data.afecto, 2 )
+                                        finded_data.noafecto = CamaleonMath.round( finded_data.noafecto, 2 )
 
                                         finded_data.details.push({
                                             'location' : r.location,
@@ -760,12 +762,12 @@ yukonApp
                                         temp_data.afecto += r.afecto
                                         temp_data.noafecto += r.noafecto
 
-                                        temp_data.total = round( temp_data.total, 2 )
-                                        temp_data.tx = round( temp_data.tx, 2 )
-                                        temp_data.tx2 = round( temp_data.tx2, 2 )
-                                        temp_data.tx3 = round( temp_data.tx3, 2 )
-                                        temp_data.afecto = round( temp_data.afecto, 2 )
-                                        temp_data.noafecto = round( temp_data.noafecto, 2 )
+                                        temp_data.total = CamaleonMath.round( temp_data.total, 2 )
+                                        temp_data.tx = CamaleonMath.round( temp_data.tx, 2 )
+                                        temp_data.tx2 = CamaleonMath.round( temp_data.tx2, 2 )
+                                        temp_data.tx3 = CamaleonMath.round( temp_data.tx3, 2 )
+                                        temp_data.afecto = CamaleonMath.round( temp_data.afecto, 2 )
+                                        temp_data.noafecto = CamaleonMath.round( temp_data.noafecto, 2 )
 
                                         temp_data.details.push({
                                             'location' : r.location,
@@ -841,11 +843,7 @@ yukonApp
                         if (!response.error) {
                             $scope.size = response.data.size
 
-                            console.log( $scope.size )
                             $scope.num_pettitions = Math.ceil($scope.size / 15000)
-                            
-                            console.log( $scope.num_pettitions )
-                            console.log( $scope.size )
 
                             for ( let j = 0; j < $scope.num_pettitions; j++ ) {
                                 $scope.pettition_states.push( false )
@@ -1107,8 +1105,5 @@ yukonApp
                 }
             }
 
-            function round(value, decimals) {
-                return Number(Math.round(value+'e'+decimals)+'e-'+decimals);
-            }
         }
     }]);

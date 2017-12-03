@@ -17,11 +17,18 @@ yukonApp
             base64=function(s){return $window.btoa(unescape(encodeURIComponent(s)));},
             format=function(s,c){return s.replace(/{(\w+)}/g,function(m,p){return c[p];})};
         return {
-            tableToExcel:function(tableId,worksheetName){
+            tableToExcel : function(tableId,worksheetName){
                 var table=$(tableId),
                     ctx={worksheet:worksheetName,table:table.html()},
                     href=uri+base64(format(template,ctx));
                 return href;
             }
         };
+    })
+    .factory( 'CamaleonMath', function() {
+        return {
+            round : function(value, decimals) {
+                return Number(Math.round(value+'e'+decimals)+'e-'+decimals);
+            }
+        }
     });
