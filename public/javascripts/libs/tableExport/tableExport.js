@@ -75,7 +75,10 @@ THE SOFTWARE.*/
 						console.log(tdData);
 					}
 					var base64data = "base64," + $.base64.encode(tdData);
+
+ 					var win = window.open();
 					window.open('data:application/'+defaults.type+';filename=exportData;' + base64data);
+					
 				}else if(defaults.type == 'sql'){
 				
 					// Header
@@ -317,7 +320,6 @@ THE SOFTWARE.*/
 						startRowPosition=startRowPosition+10;
 					}
 					rowPosition=(startRowPosition + (rowCalc * 10)) - ((page -1) * 280);
-						
 						$(this).filter(':visible').find('td').each(function(index,data) {
 							if ($(this).css('display') != 'none'){	
 								if(defaults.ignoreColumn.indexOf(index) == -1){
@@ -326,13 +328,12 @@ THE SOFTWARE.*/
 								}
 							}
 							
-						});															
-						
+						});
 					});					
-										
+					
 					// Output as Data URI
 					doc.output('datauri');
-	
+					
 				}
 				
 				

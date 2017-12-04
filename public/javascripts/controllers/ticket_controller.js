@@ -629,13 +629,13 @@ yukonApp
                                 let temporary_reports = response.data.reports
                                 temporary_reports.forEach(r => {
                                     switch (r.docu_type_id) {
-                                        case 3:
-                                            // Boleta 
-                                            r.ticket_count_fmt = "B" + r.ticket_count;
-                                            break;
                                         case 1:
                                             // Factura
                                             r.ticket_count_fmt = "F" + r.ticket_count;
+                                            break;
+                                        case 3:
+                                            // Boleta 
+                                            r.ticket_count_fmt = "B" + r.ticket_count;
                                             break;
                                         case 7:
                                             // nota credito

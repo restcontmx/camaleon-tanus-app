@@ -28,30 +28,148 @@
             <div class="col-md-12">
                 <br>
                 <button class="btn btn-block btn-success" ng-click="get_reports()">
-                    <i class="icon_cloud-download" aria-hidden="true"></i> Get Reports</button>
+                    <i class="icon_cloud-download" aria-hidden="true"></i> Get Ticket</button>
+            </div>
+        </div>
+        <h3 class="heading_a">
+            <span class="heading_text">Available Tickets</span>
+        </h3>
+        <div class="row">
+            <div class="col-md-12 col-sep-md hidden-print">        
+                <div class="list-group inv_list">
+                    <a class="list-group-item" ng-repeat="report in reports" ng-click="select_ticket( report )">
+                        <span class="inv_list_company">{{report.p01_numcompleto}}</span>
+                        <span class="inv_list_nb">{{report.p01_numero}}</span>
+                        <span class="inv_list_date">{{report.p01_fecha | date}}</span>
+                    </a>
+                </div>
             </div>
         </div>
     </div>
     <div class="col-md-8">
-        <table class="table">
-            <thead>
-                <th>Ticket Number</th>
-                <th>Date</th>
-                <th>PDF</th>
-                <th>XML</th>
-                <th>Estatus</th>
-            </thead>
-            <tbody>
-                <tr ng-repeat="report in reports">
-                    <td><h2>{{report.p01_numcompleto}}</h2></td>
-                    <td><h2>{{report.p01_fecha | date}}</h2></td>
-                    <td><h2><a ng-click="print_pdf_document( report )">
-                            <i class="icon_documents" aria-hidden="true"></i></a></h2></td>
-                    <td><h2><a ng-click="print_xml_document( report )">
-                            <i class="glyphicon glyphicon-file" aria-hidden="true"></i></a></h2></td>
-                    <td></td>
-                </tr>
-            </tbody>
-        </table>
+        <div class="row">
+            <div class="col-sm-3">
+            </div>
+            <div class="col-sm-9 text-right hidden-print">
+                <a class="btn btn-sm btn-success btn-outline" ng-click="print_xml_document( selected_report )">
+                    <i class="fa fa-file-code-o" aria-hidden="true"></i> XML</a>
+                <a class="btn btn-sm btn-info btn-outline" ng-click="print_pdf_document( selected_report )">
+                    <i class="fa fa-file-pdf-o" aria-hidden="true"></i> PDF</a>
+            </div>
+        </div>
+
+        <div class="row" ng-if="selected_report">
+            <div class="col-md-12" id="detail_table">
+                <div class="row">
+                    <div class="col-sm-3">
+                        <h1 class="page_heading">
+                            {{selected_report.p01_numcompleto}}
+                            <span>{{selected_report.p01_fecha | date}}</span>
+                        </h1>
+                    </div>
+                    <div class="col-sm-9 text-right hidden-print">
+                    </div>
+                </div>
+                <hr/>
+                <div class="row">
+                    <div class="col-sm-4">
+                        <h4 class="heading_b">
+                            <span class="heading_text">From:</span>
+                        </h4>
+                        <address>
+                            <strong>Kertzmann-Rohan</strong>
+                            <br> 5807 Moore Shore Suite 872
+                            <br> Hartmannshire
+                            <br>
+                            <abbr title="Phone">P:</abbr> (123) 456-7890
+                        </address>
+                    </div>
+                    <div class="col-sm-4">
+                        <h4 class="heading_b">
+                            <span class="heading_text">To:</span>
+                        </h4>
+                        <address>
+                            <strong>Gusikowski-Hackett</strong>
+                            <br> 286 Braxton Centers Apt. 712
+                            <br> Lake Christopfort
+                            <br>
+                            <abbr title="Phone">P:</abbr> (123) 456-7890
+                        </address>
+                    </div>
+                    <div class="col-sm-4">
+                        <div id="invoice_qrcode" class="qrcode" ng-init="qr_base_size=160;qr_text='http://themeforest.net/user/tzd/portfolio'"></div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <table class="table table-yuk2 table-invoices">
+                            <thead>
+                                <tr>
+                                    <th>Description</th>
+                                    <th class="cw text-center">Quantity</th>
+                                    <th class="cw text-center">Rate</th>
+                                    <th class="cw text-center">Amount (USD)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Quibusdam optio deleniti et harum adipisci.</td>
+                                    <td class="text-center">6</td>
+                                    <td class="text-center">120</td>
+                                    <td class="text-center">
+                                        <strong>720</strong>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Culpa blanditiis architecto blanditiis corporis suscipit.</td>
+                                    <td class="text-center">2</td>
+                                    <td class="text-center">78</td>
+                                    <td class="text-center">
+                                        <strong>156</strong>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Nobis dolorum et in est.</td>
+                                    <td class="text-center">10</td>
+                                    <td class="text-center">43</td>
+                                    <td class="text-center">
+                                        <strong>430</strong>
+                                    </td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td colspan="3" class="text-right text-muted">Subtotal</td>
+                                    <td class="text-center">
+                                        <strong>2394.27</strong>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3" class="text-right text-muted">Tax</td>
+                                    <td class="text-center">
+                                        <strong>126.00</strong>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3" class="text-right text-muted">Shipping</td>
+                                    <td class="text-center">
+                                        <strong>21.49</strong>
+                                    </td>
+                                </tr>
+                                <tr class="grand_total">
+                                    <td colspan="3" class="text-right text-muted">Grand Total</td>
+                                    <td class="text-center text-success">
+                                        <strong>2639.99</strong>
+                                    </td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row" ng-if="!selected_report">
+            <alert type="danger" ng:bind-html="'Please select a ticket.'"></alert>
+        </div>
     </div>
 </div>

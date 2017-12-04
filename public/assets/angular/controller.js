@@ -246,7 +246,7 @@ yukonApp
                 {
                     id: 3,
                     title: 'Tanus',
-                    icon: 'el-icon-paper-clip first_level_icon',
+                    icon: 'fa fa-university first_level_icon',
                     submenu_title: 'tanus',
                     submenu: [
                         {
