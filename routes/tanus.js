@@ -36,7 +36,7 @@ router.get( '/ticketrefdetail', jsonParser, function( req, res ) {
         url_parts = urlLib.parse( req.url, true );
     request(
         {
-            url : http_helper.get_business_api_uri( userdata.user_data.e_p, 'tanus/ticketrefdetail/', '?ticket_ref=' + url_parts.query.ticket_ref ),
+            url : http_helper.get_business_api_uri( userdata.user_data.e_p, 'tanus/ticketrefdetail/', '?move_id=' + url_parts.query.move_id + '&loc=' + url_parts.query.loc ),
             method : 'GET',
             json : true,
             headers : {

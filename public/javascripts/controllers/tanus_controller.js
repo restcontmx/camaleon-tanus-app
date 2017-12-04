@@ -2,7 +2,7 @@ yukonApp
     .factory('TanusRepository', ['$http', function ($http) {
         return ({
             ticketRefDocs: (ticket_ref, loc_id) => $http.get('/tanus/ticketrefdocs/?ticket_ref=' + ticket_ref + '&loc=' + loc_id ),
-            ticketRefDocDetail: (ticket_ref) => $http.get('/tanus/ticketrefdocdetail/?ticket_ref=' + ticket_ref ),
+            ticketRefDocDetail: (move_id, loc_id) => $http.get('/tanus/ticketrefdetail/?move_id=' + move_id + '&loc=' + loc_id )
         })
     }])
     
@@ -28,11 +28,11 @@ yukonApp
                                                                 CamaleonTools   ) {
         if (AuthRepository.viewVerification()) {
             $scope.progress_ban = false; // This is for the loanding simbols or whatever you want to activate
-            $scope.locations_options = []
+            $scope.locations_options = [] // Location options for the locations select
             // Get reports
             // Get all the locations
-            // Then addthem to the turns select
-            // Its on jquery, so be careful
+            // Then addthem to the locations select
+            // Its on jquery, so be careful!
             LocationRepository.getAll().success( function( response ) {
                 if( !response.error ) {
                     $scope.locations = response.data;
@@ -48,9 +48,13 @@ yukonApp
             }).error( function( error ) {
                 growl.error( "There was an error; " + error, {} );
             });
-            // Function that sets all the reports by date range and turn
+            //
+            // Get reports
+            // Function that sets all the reports by location id and ticket reference
+            // Validates there is a location selected and a string on the input
+            //
             $scope.get_reports = function () {
-                $scope.progress_ban = true;
+                $scope.progress_ban = true; // Activate loanding ...
                 // Format dates and get turn according of the selected index
                 let loc_id = $('#locations_select').val() ? $('#locations_select').val() : 0;
                 let ticket_ref = $( '#ticket_ref' ).val() ? $( '#ticket_ref' ).val() : ''
@@ -70,6 +74,11 @@ yukonApp
                     $scope.progress_ban = false;
                 } 
             };
+            // 
+            // Print xml document
+            // Will take the ticket validates existence then gets xml variable
+            // Then just print it on a file with xml extension
+            //
             $scope.print_xml_document = function( ticket ) {
                 if( ticket ) {
                     CamaleonTools.dowload_file( ticket.p01_numcompleto + ".xml", ticket.p01_xml )
@@ -77,33 +86,58 @@ yukonApp
                     growl.warning( "Please select a ticket on the list.", {} );
                 }
             }
+            //
+            // Print the pdf document
+            // This will take a ticket, validates details and existence
+            // Then will print the pdf with html2canvas and jsPDF libs
+            //
             $scope.print_pdf_document = function( ticket ) {
-                console.log( "print_pdf_document" )
+                console.log( ticket )
+                // if there is a selected ticket
                 if( ticket ) {
-                    // format the ticket count to the real number
-                    // split by "-" character
-                    // remove the first character of the first word
-                    // remove the first two 00s of the second word
-                    // Concatenate them with an "-" again
-                    // Retrieve the data by the detail pettition
-                    // After getting data make a table with the details on it as in the document
-                    // print all the hmtl with the excel print function
-                    html2canvas(document.getElementById( 'detail_table' ), {
-                        onrendered: function (canvas) {
-                            console.log( canvas.toDataURL() )
-                            var doc = new jsPDF();
-                            
-                            doc.addImage( canvas.toDataURL(), 'JPEG', 15, 25, 180, 0);
-                            doc.save();
-                        }
-                    });
+                    // Validates there are details on the ticket
+                    if( ticket.details.length > 0 ) {
+                        // This will get the detail table element
+                        // Then will get the canvas once its rendered
+                        html2canvas(document.getElementById( 'detail_table' ), {
+                            onrendered: function (canvas) {
+                                // Instance new document
+                                var doc = new jsPDF();
+                                // Adds the image on the document
+                                // Then saves it
+                                doc.addImage( canvas.toDataURL(), 'JPEG', 15, 25, 180, 0);
+                                doc.save();
+                            }
+                        });
+                    } else {
+                        growl.warning( "There are not details on this ticket jet, wait or the ticket is empty on the DB.", {} );
+                    }
                 } else {
                     growl.warning( "Please select a ticket on the list.", {} );
                 }
             }
-
+            //
+            // select ticket 
+            // this will set the selected ticket 
+            // Then will get all the ticket details
+            //
             $scope.select_ticket = function( report ) {
+                // Sets the ticket
                 $scope.selected_report = report;
+                // Sets an empty ticket response on the selected ticket
+                // This will make the validation on the printing functions
+                $scope.selected_report.details = [];
+                // Gets the details
+                TanusRepository.ticketRefDocDetail( report.move_id, report.location ).success( function( response ) {
+                    if( !response.error ) {
+                        // Set the details on the selected report
+                        $scope.selected_report.details = response.data;
+                    } else {
+                        growl.error( 'There was an error; ' + response.message, {} )
+                    }
+                }).error( function( error ) {
+                    growl.error( 'There was an error; ' + error, {} )
+                });
             }
 
         }
