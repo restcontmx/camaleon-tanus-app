@@ -1,0 +1,86 @@
+<div class="row">
+    <div class"col-md-12">
+        <div class="progress progress-striped active" ng-show="progress_ban">
+            <div class="progress-bar" role="progressbar" style="width: 85%">
+                <span class="sr-only">85% Complete</span>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <h3 class="heading_a"><span class="heading_text">Filters</span></h3>
+        <div class="row">
+            <div class="col-md-12">
+                <label>Select Report Range</label>
+                <div id="drp_predefined" class="btn btn-success" style="width:100%">
+                    <i class="icon_calendar"></i>
+                    <span>{{date_range.date_start | date : 'MM/dd/y HH:mm:ss'}} - {{date_range.date_end | date : 'MM/dd/y HH:mm:ss'}}</span> <b class="caret"></b>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <label>Turns</label>
+                <input type="hidden" id="turns_select">
+            </div>
+            
+            <div class="col-md-12">
+                <br>
+                <button class="btn btn-block btn-success" ng-click="get_reports()"><i class="icon_cloud-download" aria-hidden="true"></i> Get Reports</button>
+                <button class="btn btn-block btn-primary"><i class="icon_download" aria-hidden="true"></i> Export Reports</button>
+            </div>
+
+            <div class="col-md-12">
+                <br>
+                <label>Locations</label>
+                <input type="text" id="locations_tokenization" value="" ng-model="locations_select" ng-change="locations_select_change()">
+                <span class="help-block">Try typing in the search field above and entering a space or a comma.</span>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <h3 class="heading_a"><span class="heading_text">Locations</span></h3>
+        <div id="locations_combined" style="height:280px"></div>
+
+    </div>
+    <div class="col-md-4">
+        <h3 class="heading_a"><span class="heading_text">Top 10 Families</span></h3>
+        <div id="top10_donut" style="height:280px"></div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <h3 class="heading_a"><span class="heading_text">Families</span></h3>
+        <div class="row">
+            <div class="col-md-12" update-fixed-headers>
+                <table id="datatable_demo" class="table table-striped table-bordered" cellspacing="0" width="100%">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Quantity</th>
+                            <th>Sale</th>
+                            <th>Tax 1</th>
+                            <th>Tax 2</th>
+                            <th>Tax 3</th>
+                            <th>Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="item in family_reports_all_table">
+                            <td>{{item.fam_id}}</td>
+                            <td>{{item.fam_name}}</td>
+                            <td>{{item.qty | number:2}}</td>
+                            <td>{{item.vta_neta | number:2}}</td>
+                            <td>{{item.tax1 | number:2}}</td>
+                            <td>{{item.tax2 | number:2}}</td>
+                            <td>{{item.tax3 | number:2}}</td>
+                            <td>{{item.total | number:2}}</td>
+                        </tr>
+                        <tr>
+                            <td colspan="7" class="text-align-right"><b>Total</b></td>
+                            <td>$ {{global_total | number : 2}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

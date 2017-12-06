@@ -192,6 +192,11 @@ yukonApp
                             permission: false
                         },
                         {
+                            title: 'Families',
+                            link: 'auth.reports.families',
+                            permission: false
+                        },
+                        {
                             title: 'Close',
                             link: 'auth.reports.close',
                             permission: false
