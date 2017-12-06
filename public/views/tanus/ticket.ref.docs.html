@@ -46,7 +46,8 @@
             </div>
         </div>
     </div>
-    <div class="col-md-8">
+    <div class="col-md-1"></div>
+    <div class="col-md-7">
         <div class="row">
             <div class="col-sm-3">
             </div>
@@ -106,60 +107,40 @@
                             <thead>
                                 <tr>
                                     <th>Description</th>
-                                    <th class="cw text-center">Quantity</th>
-                                    <th class="cw text-center">Rate</th>
-                                    <th class="cw text-center">Amount (USD)</th>
+                                    <th>Category</th>
+                                    <th class="cw text-center">Price</th>
+                                    <th class="cw text-center">Tax</th>
+                                    <th class="cw text-center">Amount ()</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr ng-repeat="deta in selected_report.details">
-                                    <td>Quibusdam optio deleniti et harum adipisci.</td>
-                                    <td class="text-center">6</td>
-                                    <td class="text-center">120</td>
+                                    <td>{{deta.item_description}}</td>
+                                    <td>{{deta.cate_name}}</td>
+                                    <td class="text-center">{{deta.pprice | number : 2}}</td>
+                                    <td class="text-center">{{deta.tx + deta.tx2 + deta.tx3 | number : 2}}</td>
                                     <td class="text-center">
-                                        <strong>720</strong>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Culpa blanditiis architecto blanditiis corporis suscipit.</td>
-                                    <td class="text-center">2</td>
-                                    <td class="text-center">78</td>
-                                    <td class="text-center">
-                                        <strong>156</strong>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Nobis dolorum et in est.</td>
-                                    <td class="text-center">10</td>
-                                    <td class="text-center">43</td>
-                                    <td class="text-center">
-                                        <strong>430</strong>
+                                        <strong>{{deta.total | number : 2}}</strong>
                                     </td>
                                 </tr>
                             </tbody>
                             <tfoot>
                                 <tr>
-                                    <td colspan="3" class="text-right text-muted">Subtotal</td>
+                                    <td colspan="4" class="text-right text-muted">Subtotal</td>
                                     <td class="text-center">
-                                        <strong>2394.27</strong>
+                                        <strong>{{selected_report.sub_total | number : 2}}</strong>
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td colspan="3" class="text-right text-muted">Tax</td>
+                                    <td colspan="4" class="text-right text-muted">Tax</td>
                                     <td class="text-center">
-                                        <strong>126.00</strong>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td colspan="3" class="text-right text-muted">Shipping</td>
-                                    <td class="text-center">
-                                        <strong>21.49</strong>
+                                        <strong>{{selected_report.total_tax | number : 2}}</strong>
                                     </td>
                                 </tr>
                                 <tr class="grand_total">
-                                    <td colspan="3" class="text-right text-muted">Grand Total</td>
+                                    <td colspan="4" class="text-right text-muted">Grand Total</td>
                                     <td class="text-center text-success">
-                                        <strong>2639.99</strong>
+                                        <strong>{{selected_report.total | number : 2}}</strong>
                                     </td>
                                 </tr>
                             </tfoot>
