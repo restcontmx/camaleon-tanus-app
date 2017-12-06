@@ -51,6 +51,8 @@ yukonApp
             function dailyReports( date_f ) {
                 $scope.the_date = new Date( date_f )
                 let selected_date = new Date( date_f )
+                $scope.current_year = selected_date.getFullYear()                
+                $scope.last_year = selected_date.getFullYear() - 1                
                 let daily_date_s = date_f + ' 00:00:00',
                     daily_date_e = date_f + ' 23:59:59'
                 let last_year_daily_date_e = ( selected_date.getMonth() + 1 ) + '/' + selected_date.getDate() +  '/' + ( selected_date.getFullYear() - 1 ) + ' 23:59:59'

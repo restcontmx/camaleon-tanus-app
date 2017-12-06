@@ -492,6 +492,7 @@ label.label-primary,
 /* list group */
 .list-group-item {
   border: none;
+  padding: 10px 0px 10px;
 }
 .list-group-item + .list-group-item {
   border-top: 1px solid #eee;
@@ -1258,7 +1259,7 @@ h5 {
 }
 /* main content */
 #main_wrapper {
-  padding: 25px 10px 40px;
+  padding: 10px 5px 20px;
   background: #ffffff;
 }
 /* fixed width */
@@ -1318,10 +1319,10 @@ h5 {
 }
 .side_menu_active #main_wrapper,
 .side_menu_active #breadcrumbs {
-  margin-left: 240px;
+  margin-left: 180px;
 }
 .side_menu_active #main_menu {
-  width: 240px;
+  width: 180px;
   height: 100%;
   position: fixed;
   left: 0;
@@ -1746,7 +1747,7 @@ h5 {
 }
 /* scrollbar */
 .side_menu_active #main_menu .mCustomScrollbar {
-  width: 240px;
+  width: 180px;
 }
 .side_menu_active #main_menu .mCustomScrollbar .mCSB_scrollTools_vertical {
   left: auto;
@@ -5492,4 +5493,20 @@ body.error_page {
 }
 .icon_list.list_small li > span {
   margin-top: 10px;
+}
+
+
+.col-sm-12 div{
+/*padding: 0px 12px 0px;*/
+
+}
+.container-fluid div {
+  padding-right: 5px ;
+  padding-left: 5px ;
+
+}
+.mainView-animate {
+  position: relative;
+  padding-right: 5px ;
+  padding-left: 5px ;
 }

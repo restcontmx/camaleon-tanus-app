@@ -47,9 +47,12 @@
                 </tr>
                 <tr>
                     <th>Location</th>
-                    <th>Meta</th>
-                    <th>Real</th>
+                    <th> {{last_year}}</th>
+                    <th> {{current_year}}</th>
+                    <th>{{}}</th>
                     <th colspan="2">Variation</th>
+                    <th>Target</th>
+                    <th colspan="2">Target Variation</th>
                     <th></th>
                     <th>Meta</th>
                     <th>Real</th>
@@ -57,14 +60,15 @@
                     <th></th>                    
                     <th>Meta</th>
                     <th>Real</th>
-                    <th colspan="2">Variation</th>                  
+                    <th colspan="2">Variation</th>  
+                                   
                 </tr>
                 <tr ng-repeat="l in locations">
                     <td>{{l.location_name}}</td>
                     <td>{{l.l_y_guests}}</td>
                     <td>{{l.guests}}</td>
                     <td>{{l.guests - l.l_y_guests  | number : 2}}</td>
-                    <td>{{ ( ( l.guests - l.l_y_guests ) * 100 ) / ( l.l_y_guests ) | number : 2}}%</td>
+                    <td>{{ ( ( l.guests - l.l_y_guests ) * 100 ) / ( l.l_y_guests ) | number : 2}} %</td>
                     <td></td>
                     <td>{{l.l_y_ticket_avg | number :2}}</td>
                     <td>{{l.ticket_avg | number : 2}}</td>
