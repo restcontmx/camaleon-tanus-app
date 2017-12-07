@@ -5495,18 +5495,26 @@ body.error_page {
   margin-top: 10px;
 }
 
-
-.col-sm-12 div{
-/*padding: 0px 12px 0px;*/
-
-}
+/*
+TODO : Add better an other class 
 .container-fluid div {
   padding-right: 5px ;
   padding-left: 5px ;
 
 }
+
 .mainView-animate {
   position: relative;
   padding-right: 5px ;
   padding-left: 5px ;
+}
+
+**/
+
+.dashboard-link {
+  color : white;
+}
+
+.dashboard-link:hover {
+  color : #4baf50;
 }

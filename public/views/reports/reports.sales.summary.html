@@ -58,19 +58,19 @@
             <tbody>
                 <tr ng-repeat="l in locations">
                     <td>{{l.location_name}}</td>
-                    <td>{{l.total_vta_neta | number : 2}}</td>
-                    <td>{{l.total_tax | number : 2}}</td>
-                    <td>{{l.total_sales | number : 2}}</td>
-                    <td>{{l.creditcard_reports_total | number : 2 }}</td>
+                    <td>{{currency}} {{l.total_vta_neta | number : 2}}</td>
+                    <td>{{currency}} {{l.total_tax | number : 2}}</td>
+                    <td>{{currency}} {{l.total_sales | number : 2}}</td>
+                    <td>{{currency}} {{l.creditcard_reports_total | number : 2 }}</td>
                 </tr>
                 <tr>
                     <th>
                         Total
                     </th>
-                    <th>{{total_vta_neta | number : 2}}</th>
-                    <th>{{total_tax | number : 2}}</th>
-                    <th>{{total_sales | number : 2}}</th>
-                    <th>{{total_credit_card | number : 2}}</th>
+                    <th>{{currency}} {{total_vta_neta | number : 2}}</th>
+                    <th>{{currency}} {{total_tax | number : 2}}</th>
+                    <th>{{currency}} {{total_sales | number : 2}}</th>
+                    <th>{{currency}} {{total_credit_card | number : 2}}</th>
                 </tr>
                 <tr>
                     <td colspan="6"></td>
@@ -88,18 +88,18 @@
                 <tr ng-repeat="l in locations">
                     <td>{{l.location_name}}</td>
                     <td>{{l.discounts_qty | number : 2}}</td>
-                    <td>{{l.discounts | number : 2}}</td>
+                    <td>{{currency}} {{l.discounts | number : 2}}</td>
                     <td>{{l.voids_qty | number}}</td>
-                    <td>{{l.voids_total | number : 2}}</td>
+                    <td>{{currency}} {{l.voids_total | number : 2}}</td>
                 </tr>
                 <tr>
                     <th>
                         Total
                     </th>
                     <th>{{discounts_qty | number}}</th>
-                    <th>{{discounts | number : 2}}</th>
+                    <th>{{currency}} {{discounts | number : 2}}</th>
                     <th>{{voids_qty | number}}</th>
-                    <th>{{voids_total | number : 2}}</th>
+                    <th>{{currency}} {{voids_total | number : 2}}</th>
                 </tr>
             </tbody>
         </table>

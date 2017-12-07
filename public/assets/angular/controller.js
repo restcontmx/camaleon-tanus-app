@@ -167,11 +167,6 @@ yukonApp
                             permission: false
                         },
                         {
-                            title: 'Sales Summary',
-                            link: 'auth.reports.summary',
-                            permission: false
-                        },
-                        {
                             title: 'Centralized Summary',
                             link: 'auth.reports.centralized',
                             permission: false
@@ -424,6 +419,7 @@ yukonApp
                                                 growl   ) {
             $scope.$on('$stateChangeSuccess', function () {
                 if (AuthRepository.viewVerification()) {
+                    $scope.currency = 'S/.'
                     PermissionRepository.getAll().success(function (response) {
                         if (!response.error) {
                             $scope.permissions = response.data
@@ -463,7 +459,7 @@ yukonApp
                             },
                             y: {
                                 tick: {
-                                    format: d3.format("$,")
+                                    format: d3.format( ",")
                                 }
                             }
                         },
@@ -770,7 +766,7 @@ yukonApp
                                                 },
                                                 y: {
                                                     tick: {
-                                                        format: d3.format("$,")
+                                                        format: d3.format(",")
                                                     }
                                                 }
                                             },

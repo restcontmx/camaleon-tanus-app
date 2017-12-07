@@ -18,6 +18,7 @@ yukonApp
         if( AuthRepository.viewVerification() ) {
             $scope.$on('$stateChangeSuccess', function () {
                 let todays = new Date();
+                $scope.currency = 'S/.'
                 $scope.date_end = new Date();
                 todays.setDate(1);
                 $scope.date_start = todays;

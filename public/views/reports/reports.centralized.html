@@ -27,201 +27,203 @@
     <div class="col-md-12">
         <br>
         <div class="heading_a"><span class="heading_text">Centralized Summary</span></div>
-        <table id="export_table" class="table">
-            <tbody>
-                <tr>
-                    <th colspan="5">Centralized Summary</th>
-                    <th colspan="5">Date : {{the_date | date : "MM/dd/y"}}</th>
-                    <th colspan="5">Printed by {{users_info}}</th>
-                </tr>
-                <tr>
-                    <th colspan="15">Daily</th>
-                </tr>
-                <tr>
-                    <th></th>
-                    <th colspan="4">Guests</th>
-                    <th></th>
-                    <th colspan="4">Ticket Avg.</th>
-                    <th></th>
-                    <th colspan="4">Total Sales</th>
-                </tr>
-                <tr>
-                    <th>Location</th>
-                    <th> {{last_year}}</th>
-                    <th> {{current_year}}</th>
-                    <th>{{}}</th>
-                    <th colspan="2">Variation</th>
-                    <th>Target</th>
-                    <th colspan="2">Target Variation</th>
-                    <th></th>
-                    <th>Meta</th>
-                    <th>Real</th>
-                    <th colspan="2">Variation</th>
-                    <th></th>                    
-                    <th>Meta</th>
-                    <th>Real</th>
-                    <th colspan="2">Variation</th>  
-                                   
-                </tr>
-                <tr ng-repeat="l in locations">
-                    <td>{{l.location_name}}</td>
-                    <td>{{l.l_y_guests}}</td>
-                    <td>{{l.guests}}</td>
-                    <td>{{l.guests - l.l_y_guests  | number : 2}}</td>
-                    <td>{{ ( ( l.guests - l.l_y_guests ) * 100 ) / ( l.l_y_guests ) | number : 2}} %</td>
-                    <td></td>
-                    <td>{{l.l_y_ticket_avg | number :2}}</td>
-                    <td>{{l.ticket_avg | number : 2}}</td>
-                    <td>{{l.ticket_avg - l.l_y_ticket_avg  | number : 2}}</td>
-                    <td>{{ ( ( l.ticket_avg - l.l_y_ticket_avg ) * 100 ) / ( l.l_y_ticket_avg ) | number : 2}}%</td>
-                    <td></td>
-                    <td>{{l.l_y_total_sales | number : 2}}</td>
-                    <td>{{l.total_sales | number : 2}}</td>
-                    <td>{{l.total_sales - l.l_y_total_sales | number : 2}}</td>
-                    <td>{{ ( ( l.total_sales - l.l_y_total_sales ) * 100 ) / ( l.l_y_total_sales ) | number : 2}}%</td>
-                </tr>
-                <tr>
-                    <td>Total</td>
-                    <td>{{l_y_daily_guests_total | number : 2}}</td>
-                    <td>{{daily_guests_total | number : 2}}</td>
-                    <td>{{daily_guests_total - l_y_daily_guests_total | number : 2}}</td>
-                    <td>{{ ( ( daily_guests_total - l_y_daily_guests_total ) * 100 ) / ( l_y_daily_guests_total ) | number : 2}}%</td>                   
-                    <td></td>
-                    <td>{{l_y_daily_ticket_avg_total | number : 2}}</td>
-                    <td>{{daily_ticket_avg_total | number : 2}}</td>
-                    <td>{{daily_ticket_avg_total - l_y_daily_ticket_avg_total | number : 2}}</td>
-                    <td>{{ ( ( daily_ticket_avg_total - l_y_daily_ticket_avg_total ) * 100 ) / ( l_y_daily_ticket_avg_total ) | number : 2}}%</td>                   
-                    <td></td>
-                    <td>{{l_y_daily_sales_total | number : 2}}</td>
-                    <td>{{daily_sales_total | number : 2}}</td>
-                    <td>{{daily_sales_total - l_y_daily_sales_total | number : 2}}</td>
-                    <td>{{ ( ( daily_sales_total - l_y_daily_sales_total ) * 100 ) / ( l_y_daily_sales_total ) | number : 2}}%</td>
-                </tr>
-                <tr>
-                    <td colspan="15"></td>
-                </tr>
-                <tr>
-                    <th colspan="15">Monthly</th>
-                </tr>
-                <tr>
-                    <th></th>
-                    <th colspan="4">Guests</th>
-                    <th></th>
-                    <th colspan="4">Ticket Avg.</th>
-                    <th></th>
-                    <th colspan="4">Total Sales</th>
-                </tr>
-                <tr>
-                    <th>Location</th>
-                    <th>Meta</th>
-                    <th>Real</th>
-                    <th colspan="2">Variation</th>
-                    <th></th>
-                    <th>Meta</th>
-                    <th>Real</th>
-                    <th colspan="2">Variation</th>
-                    <th></th>                    
-                    <th>Meta</th>
-                    <th>Real</th>
-                    <th colspan="2">Variation</th>                  
-                </tr>
-                <tr ng-repeat="l in locations">
-                    <td>{{l.location_name}}</td>
-                    <td>{{l.l_y_m_guests | number}}</td>
-                    <td>{{l.m_guests | number}}</td>
-                    <td>{{l.m_guests - l.l_y_m_guests  | number : 2}}</td>
-                    <td>{{ ( ( l.m_guests / l.l_y_m_guests ) - 1 ) * 100 | number : 2}}%</td>
-                    <td></td>
-                    <td>{{l.l_y_m_ticket_avg | number :2}}</td>
-                    <td>{{l.m_ticket_avg | number : 2}}</td>
-                    <td>{{l.m_ticket_avg - l.l_y_m_ticket_avg  | number : 2}}</td>
-                    <td>{{ ( ( l.m_ticket_avg / l.l_y_m_ticket_avg ) - 1 ) * 100 | number : 2}}%</td>
-                    <td></td>
-                    <td>{{l.l_y_m_total_sales | number : 2}}</td>
-                    <td>{{l.m_total_sales | number : 2}}</td>
-                    <td>{{l.m_total_sales - l.l_y_m_total_sales | number : 2}}</td>
-                    <td>{{ ( ( l.m_total_sales / l.l_y_m_total_sales ) - 1 ) * 100 | number : 2}}%</td>
-                </tr>
-                <tr>
-                    <td>Total</td>
-                    <td>{{l_y_monthly_guests_total | number : 2}}</td>
-                    <td>{{monthly_guests_total | number : 2}}</td>
-                    <td>{{monthly_guests_total - l_y_monthly_guests_total | number : 2}}</td>
-                    <td>{{ ( ( monthly_guests_total / l_y_monthly_guests_total ) - 1 ) * 100 | number : 2}}%</td>                
-                    <td></td>
-                    <td>{{l_y_monthly_ticket_avg_total | number : 2}}</td>
-                    <td>{{monthly_ticket_avg_total | number : 2}}</td>
-                    <td>{{monthly_ticket_avg_total - l_y_monthly_ticket_avg_total | number : 2}}</td>
-                    <td>{{ ( ( monthly_ticket_avg_total / l_y_monthly_ticket_avg_total ) - 1 ) * 100 | number : 2}}%</td>             
-                    <td></td>
-                    <td>{{l_y_monthly_sales_total | number : 2}}</td>
-                    <td>{{monthly_sales_total | number : 2}}</td>
-                    <td>{{monthly_sales_total - l_y_monthly_sales_total | number : 2}}</td>
-                    <td>{{ ( ( monthly_sales_total / l_y_monthly_sales_total ) - 1 ) * 100 | number : 2}}%</td>  
-                </tr>
-                <tr>
-                    <td colspan="15"></td>
-                </tr>
-                <tr>
-                    <th colspan="15">Yearly</th>
-                </tr>
-                <tr>
-                    <th></th>
-                    <th colspan="4">Guests</th>
-                    <th></th>
-                    <th colspan="4">Ticket Avg.</th>
-                    <th></th>
-                    <th colspan="4">Total Sales</th>
-                </tr>
-                <tr>
-                    <th>Location</th>
-                    <th>Meta</th>
-                    <th>Real</th>
-                    <th colspan="2">Variation</th>
-                    <th></th>
-                    <th>Meta</th>
-                    <th>Real</th>
-                    <th colspan="2">Variation</th>
-                    <th></th>                    
-                    <th>Meta</th>
-                    <th>Real</th>
-                    <th colspan="2">Variation</th>                  
-                </tr>
-                <tr ng-repeat="l in locations">
-                    <td>{{l.location_name}}</td>
-                    <td>{{l.l_y_y_guests | number}}</td>
-                    <td>{{l.y_guests | number}}</td>
-                    <td>{{l.y_guests - l.l_y_y_guests  | number : 2}}</td>
-                    <td>{{ ( ( l.y_guests / l.l_y_y_guests ) - 1 ) * 100 | number : 2}}%</td>
-                    <td></td>
-                    <td>{{l.l_y_y_ticket_avg | number :2}}</td>
-                    <td>{{l.y_ticket_avg | number : 2}}</td>
-                    <td>{{l.y_ticket_avg - l.l_y_y_ticket_avg  | number : 2}}</td>
-                    <td>{{ ( ( l.y_ticket_avg / l.l_y_y_ticket_avg ) - 1 ) * 100 | number : 2}}%</td>
-                    <td></td>
-                    <td>{{l.l_y_y_total_sales | number : 2}}</td>
-                    <td>{{l.y_total_sales | number : 2}}</td>
-                    <td>{{l.y_total_sales - l.l_y_y_total_sales | number : 2}}</td>
-                    <td>{{ ( ( l.y_total_sales / l.l_y_y_total_sales ) - 1 ) * 100 | number : 2}}%</td>
-                </tr>
-                <tr>
-                    <td>Total</td>
-                    <td>{{l_y_yearly_guests_total | number : 2}}</td>
-                    <td>{{yearly_guests_total | number : 2}}</td>
-                    <td>{{yearly_guests_total - l_y_yearly_guests_total | number : 2}}</td>
-                    <td>{{ ( ( yearly_guests_total / l_y_yearly_guests_total ) - 1 ) * 100 | number : 2}}%</td>                   
-                    <td></td>
-                    <td>{{l_y_yearly_ticket_avg_total | number : 2}}</td>
-                    <td>{{yearly_ticket_avg_total | number : 2}}</td>
-                    <td>{{yearly_ticket_avg_total - l_y_yearly_ticket_avg_total | number : 2}}</td>
-                    <td>{{ ( ( yearly_ticket_avg_total / l_y_yearly_ticket_avg_total ) - 1 ) * 100 | number : 2}}%</td>                
-                    <td></td>
-                    <td>{{l_y_yearly_sales_total | number : 2}}</td>
-                    <td>{{yearly_sales_total | number : 2}}</td>
-                    <td>{{yearly_sales_total - l_y_yearly_sales_total | number : 2}}</td>
-                    <td>{{ ( ( yearly_sales_total / l_y_yearly_sales_total ) - 1 ) * 100 | number : 2}}%</td> 
-                </tr>
-            </tbody>
-        </table>
+        <div class="table-responsive">
+            <table id="export_table" class="table">
+                <tbody>
+                    <tr>
+                        <th colspan="5">Centralized Summary</th>
+                        <th colspan="5">Date : {{the_date | date : "MM/dd/y"}}</th>
+                        <th colspan="5">Printed by {{users_info}}</th>
+                    </tr>
+                    <tr>
+                        <th colspan="15">Daily</th>
+                    </tr>
+                    <tr>
+                        <th></th>
+                        <th colspan="4">Guests</th>
+                        <th></th>
+                        <th colspan="4">Ticket Avg.</th>
+                        <th></th>
+                        <th colspan="4">Total Sales</th>
+                    </tr>
+                    <tr>
+                        <th>Location</th>
+                        <th> {{last_year}}</th>
+                        <th> {{current_year}}</th>
+                        <th>{{}}</th>
+                        <th colspan="2">Variation</th>
+                        <th>Target</th>
+                        <th colspan="2">Target Variation</th>
+                        <th></th>
+                        <th>Meta</th>
+                        <th>Real</th>
+                        <th colspan="2">Variation</th>
+                        <th></th>                    
+                        <th>Meta</th>
+                        <th>Real</th>
+                        <th colspan="2">Variation</th>  
+                                    
+                    </tr>
+                    <tr ng-repeat="l in locations">
+                        <td>{{l.location_name}}</td>
+                        <td>{{l.l_y_guests}}</td>
+                        <td>{{l.guests}}</td>
+                        <td>{{l.guests - l.l_y_guests  | number : 2}}</td>
+                        <td>{{ ( ( l.guests - l.l_y_guests ) * 100 ) / ( l.l_y_guests ) | number : 2}} %</td>
+                        <td></td>
+                        <td>{{l.l_y_ticket_avg | number :2}}</td>
+                        <td>{{l.ticket_avg | number : 2}}</td>
+                        <td>{{l.ticket_avg - l.l_y_ticket_avg  | number : 2}}</td>
+                        <td>{{ ( ( l.ticket_avg - l.l_y_ticket_avg ) * 100 ) / ( l.l_y_ticket_avg ) | number : 2}}%</td>
+                        <td></td>
+                        <td>{{l.l_y_total_sales | number : 2}}</td>
+                        <td>{{l.total_sales | number : 2}}</td>
+                        <td>{{l.total_sales - l.l_y_total_sales | number : 2}}</td>
+                        <td>{{ ( ( l.total_sales - l.l_y_total_sales ) * 100 ) / ( l.l_y_total_sales ) | number : 2}}%</td>
+                    </tr>
+                    <tr>
+                        <td>Total</td>
+                        <td>{{l_y_daily_guests_total | number : 2}}</td>
+                        <td>{{daily_guests_total | number : 2}}</td>
+                        <td>{{daily_guests_total - l_y_daily_guests_total | number : 2}}</td>
+                        <td>{{ ( ( daily_guests_total - l_y_daily_guests_total ) * 100 ) / ( l_y_daily_guests_total ) | number : 2}}%</td>                   
+                        <td></td>
+                        <td>{{l_y_daily_ticket_avg_total | number : 2}}</td>
+                        <td>{{daily_ticket_avg_total | number : 2}}</td>
+                        <td>{{daily_ticket_avg_total - l_y_daily_ticket_avg_total | number : 2}}</td>
+                        <td>{{ ( ( daily_ticket_avg_total - l_y_daily_ticket_avg_total ) * 100 ) / ( l_y_daily_ticket_avg_total ) | number : 2}}%</td>                   
+                        <td></td>
+                        <td>{{l_y_daily_sales_total | number : 2}}</td>
+                        <td>{{daily_sales_total | number : 2}}</td>
+                        <td>{{daily_sales_total - l_y_daily_sales_total | number : 2}}</td>
+                        <td>{{ ( ( daily_sales_total - l_y_daily_sales_total ) * 100 ) / ( l_y_daily_sales_total ) | number : 2}}%</td>
+                    </tr>
+                    <tr>
+                        <td colspan="15"></td>
+                    </tr>
+                    <tr>
+                        <th colspan="15">Monthly</th>
+                    </tr>
+                    <tr>
+                        <th></th>
+                        <th colspan="4">Guests</th>
+                        <th></th>
+                        <th colspan="4">Ticket Avg.</th>
+                        <th></th>
+                        <th colspan="4">Total Sales</th>
+                    </tr>
+                    <tr>
+                        <th>Location</th>
+                        <th>Meta</th>
+                        <th>Real</th>
+                        <th colspan="2">Variation</th>
+                        <th></th>
+                        <th>Meta</th>
+                        <th>Real</th>
+                        <th colspan="2">Variation</th>
+                        <th></th>                    
+                        <th>Meta</th>
+                        <th>Real</th>
+                        <th colspan="2">Variation</th>                  
+                    </tr>
+                    <tr ng-repeat="l in locations">
+                        <td>{{l.location_name}}</td>
+                        <td>{{l.l_y_m_guests | number}}</td>
+                        <td>{{l.m_guests | number}}</td>
+                        <td>{{l.m_guests - l.l_y_m_guests  | number : 2}}</td>
+                        <td>{{ ( ( l.m_guests / l.l_y_m_guests ) - 1 ) * 100 | number : 2}}%</td>
+                        <td></td>
+                        <td>{{l.l_y_m_ticket_avg | number :2}}</td>
+                        <td>{{l.m_ticket_avg | number : 2}}</td>
+                        <td>{{l.m_ticket_avg - l.l_y_m_ticket_avg  | number : 2}}</td>
+                        <td>{{ ( ( l.m_ticket_avg / l.l_y_m_ticket_avg ) - 1 ) * 100 | number : 2}}%</td>
+                        <td></td>
+                        <td>{{l.l_y_m_total_sales | number : 2}}</td>
+                        <td>{{l.m_total_sales | number : 2}}</td>
+                        <td>{{l.m_total_sales - l.l_y_m_total_sales | number : 2}}</td>
+                        <td>{{ ( ( l.m_total_sales / l.l_y_m_total_sales ) - 1 ) * 100 | number : 2}}%</td>
+                    </tr>
+                    <tr>
+                        <td>Total</td>
+                        <td>{{l_y_monthly_guests_total | number : 2}}</td>
+                        <td>{{monthly_guests_total | number : 2}}</td>
+                        <td>{{monthly_guests_total - l_y_monthly_guests_total | number : 2}}</td>
+                        <td>{{ ( ( monthly_guests_total / l_y_monthly_guests_total ) - 1 ) * 100 | number : 2}}%</td>                
+                        <td></td>
+                        <td>{{l_y_monthly_ticket_avg_total | number : 2}}</td>
+                        <td>{{monthly_ticket_avg_total | number : 2}}</td>
+                        <td>{{monthly_ticket_avg_total - l_y_monthly_ticket_avg_total | number : 2}}</td>
+                        <td>{{ ( ( monthly_ticket_avg_total / l_y_monthly_ticket_avg_total ) - 1 ) * 100 | number : 2}}%</td>             
+                        <td></td>
+                        <td>{{l_y_monthly_sales_total | number : 2}}</td>
+                        <td>{{monthly_sales_total | number : 2}}</td>
+                        <td>{{monthly_sales_total - l_y_monthly_sales_total | number : 2}}</td>
+                        <td>{{ ( ( monthly_sales_total / l_y_monthly_sales_total ) - 1 ) * 100 | number : 2}}%</td>  
+                    </tr>
+                    <tr>
+                        <td colspan="15"></td>
+                    </tr>
+                    <tr>
+                        <th colspan="15">Yearly</th>
+                    </tr>
+                    <tr>
+                        <th></th>
+                        <th colspan="4">Guests</th>
+                        <th></th>
+                        <th colspan="4">Ticket Avg.</th>
+                        <th></th>
+                        <th colspan="4">Total Sales</th>
+                    </tr>
+                    <tr>
+                        <th>Location</th>
+                        <th>Meta</th>
+                        <th>Real</th>
+                        <th colspan="2">Variation</th>
+                        <th></th>
+                        <th>Meta</th>
+                        <th>Real</th>
+                        <th colspan="2">Variation</th>
+                        <th></th>                    
+                        <th>Meta</th>
+                        <th>Real</th>
+                        <th colspan="2">Variation</th>                  
+                    </tr>
+                    <tr ng-repeat="l in locations">
+                        <td>{{l.location_name}}</td>
+                        <td>{{l.l_y_y_guests | number}}</td>
+                        <td>{{l.y_guests | number}}</td>
+                        <td>{{l.y_guests - l.l_y_y_guests  | number : 2}}</td>
+                        <td>{{ ( ( l.y_guests / l.l_y_y_guests ) - 1 ) * 100 | number : 2}}%</td>
+                        <td></td>
+                        <td>{{l.l_y_y_ticket_avg | number :2}}</td>
+                        <td>{{l.y_ticket_avg | number : 2}}</td>
+                        <td>{{l.y_ticket_avg - l.l_y_y_ticket_avg  | number : 2}}</td>
+                        <td>{{ ( ( l.y_ticket_avg / l.l_y_y_ticket_avg ) - 1 ) * 100 | number : 2}}%</td>
+                        <td></td>
+                        <td>{{l.l_y_y_total_sales | number : 2}}</td>
+                        <td>{{l.y_total_sales | number : 2}}</td>
+                        <td>{{l.y_total_sales - l.l_y_y_total_sales | number : 2}}</td>
+                        <td>{{ ( ( l.y_total_sales / l.l_y_y_total_sales ) - 1 ) * 100 | number : 2}}%</td>
+                    </tr>
+                    <tr>
+                        <td>Total</td>
+                        <td>{{l_y_yearly_guests_total | number : 2}}</td>
+                        <td>{{yearly_guests_total | number : 2}}</td>
+                        <td>{{yearly_guests_total - l_y_yearly_guests_total | number : 2}}</td>
+                        <td>{{ ( ( yearly_guests_total / l_y_yearly_guests_total ) - 1 ) * 100 | number : 2}}%</td>                   
+                        <td></td>
+                        <td>{{l_y_yearly_ticket_avg_total | number : 2}}</td>
+                        <td>{{yearly_ticket_avg_total | number : 2}}</td>
+                        <td>{{yearly_ticket_avg_total - l_y_yearly_ticket_avg_total | number : 2}}</td>
+                        <td>{{ ( ( yearly_ticket_avg_total / l_y_yearly_ticket_avg_total ) - 1 ) * 100 | number : 2}}%</td>                
+                        <td></td>
+                        <td>{{l_y_yearly_sales_total | number : 2}}</td>
+                        <td>{{yearly_sales_total | number : 2}}</td>
+                        <td>{{yearly_sales_total - l_y_yearly_sales_total | number : 2}}</td>
+                        <td>{{ ( ( yearly_sales_total / l_y_yearly_sales_total ) - 1 ) * 100 | number : 2}}%</td> 
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>

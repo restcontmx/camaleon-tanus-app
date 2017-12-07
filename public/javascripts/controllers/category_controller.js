@@ -46,6 +46,8 @@ yukonApp
                                                                 Excel   ) {
         if( AuthRepository.viewVerification() ) {
 
+            $scope.currency = 'S/.'
+
             $scope.exportToExcel = function( tableId ){ // ex: '#my-table'
                 var exportHref = Excel.tableToExcel( tableId, 'WireWorkbenchDataExport' );
                 $timeout( function() { 
@@ -91,13 +93,12 @@ yukonApp
                 paginationPageSizes: [25, 50, 75],
                 paginationPageSize: 25,
                 columnDefs: [
-                    { field: 'cate_id' },
-                    { field: 'cate_name' },
-                    { field: 'qty' },
-                    { field: 'vta_neta' },
-                    { field: 'tax1' },
-                    { field: 'tax2' },
-                    { field: 'tax3' },
+                    { field: 'location_name', name : 'Location' },
+                    { field: 'cate_name', name : 'Category' },
+                    { field: 'qty', name : 'Qty' },
+                    { field: 'vta_neta', name : 'Sale' },
+                    { field: 'tax1', displayName : 'IGV' },
+                    { field: 'tax2', displayName : 'RC' },
                     { field: 'total', enableSorting: true } 
                 ]
             };
@@ -194,13 +195,12 @@ yukonApp
                 CategoryRepository.reportsByDate( date_1, date_2, turn_id ).success( function( data ) {
                     if( !data.error ) { 
                         $scope.gridOptions.columnDefs = [
-                            { field: 'cate_id' },
-                            { field: 'cate_name' },
-                            { field: 'qty' },
-                            { field: 'vta_neta' },
-                            { field: 'tax1' },
-                            { field: 'tax2' },
-                            { field: 'tax3' },
+                            { field: 'location_name', name : 'Location' },
+                            { field: 'cate_name', name : 'Category' },
+                            { field: 'qty', name : 'Qty' },
+                            { field: 'vta_neta', name : 'Sale' },
+                            { field: 'tax1', displayName : 'IGV' },
+                            { field: 'tax2', displayName : 'RC' },
                             { field: 'total', enableSorting: true } ];
                         $scope.category_reports_all = data.data.category_reports_all;
                         $scope.category_reports_all_table = data.data.category_reports_all;
@@ -283,13 +283,12 @@ yukonApp
                 top10_donut_graphic.destroy();
 
                 $scope.gridOptions.columnDefs = [
-                    { field: 'cate_id' },
-                    { field: 'cate_name' },
-                    { field: 'qty' },
-                    { field: 'vta_neta' },
-                    { field: 'tax1' },
-                    { field: 'tax2' },
-                    { field: 'tax3' },
+                    { field: 'location_name', name : 'Location' },
+                    { field: 'cate_name', name : 'Category' },
+                    { field: 'qty', name : 'Qty' },
+                    { field: 'vta_neta', name : 'Sale' },
+                    { field: 'tax1', displayName : 'IGV' },
+                    { field: 'tax2', displayName : 'RC' },
                     { field: 'total', enableSorting: true } ];
                 
                 $scope.top10_donut_data = [];

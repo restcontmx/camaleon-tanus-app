@@ -237,15 +237,19 @@ yukonApp
                 paginationPageSizes: [25, 50, 75],
                 paginationPageSize: 25,
                 columnDefs: [
-                    { field: 'item_id' },
-                    { field: 'item_description' },
-                    { field: 'qty' }, 
-                    { field: 'sales_avg', name:'Avg Sales Price' },
-                    { field: 'vta_neta' },                    
-                    { field: 'tax1' },
-                    { field: 'tax2' },
-                    { field: 'tax3' },
-                    { field: 'total', enableSorting: true }
+                    { field: 'location_name', name : 'Location', width:150 },
+                    { field: 'item_id', width:150 },
+                    { field: 'item_description', name : 'Description', width:150 },
+                    { field: 'cate_name', name : 'Category', width:150 },
+                    { field: 'class_name', name : 'Class', width:150 },
+                    { field: 'depa_name', name : 'Department', width:150 },
+                    { field: 'fam_name', name : 'Family', width:150 },
+                    { field: 'qty', width:150 }, 
+                    { field: 'sales_avg', name:'Avg Sales Price', width:150 },
+                    { field: 'vta_neta', width:150 },                    
+                    { field: 'tax1', displayName : 'IGV', width:150 },
+                    { field: 'tax2', displayName : 'RC', width:150 },
+                    { field: 'total', enableSorting: true, width:150 }
                 ]
             };
             $scope.gridOptions.multiSelect = false;

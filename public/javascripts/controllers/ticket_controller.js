@@ -539,7 +539,7 @@ yukonApp
                       // You should always pass the event to the callback since ui-grid 
                       scrollHandler(event);
                     });
-                  }
+                }
             };
 
             $scope.gridOptions.multiSelect = false;
