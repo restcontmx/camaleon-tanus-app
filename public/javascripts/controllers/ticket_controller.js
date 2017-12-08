@@ -641,6 +641,10 @@ yukonApp
                                             // nota credito
                                             r.ticket_count_fmt = r.ticket_count;
                                             break;
+                                        case 12:
+                                            // Boleta
+                                            r.ticket_count_fmt = "B" + r.ticket_count;
+                                            break;
                                     }
                                 })
                                 temporary_reports.forEach( r => {
@@ -878,7 +882,7 @@ yukonApp
             };
 
             $rootScope.grid_action = function (item) {
-                console.log("Row pressed")
+                // Grid action
             };
             // Locations select change
             // When the locations field changes of locations

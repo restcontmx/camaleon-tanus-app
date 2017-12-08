@@ -195,13 +195,13 @@ yukonApp
                 CategoryRepository.reportsByDate( date_1, date_2, turn_id ).success( function( data ) {
                     if( !data.error ) { 
                         $scope.gridOptions.columnDefs = [
-                            { field: 'location_name', name : 'Location' },
-                            { field: 'cate_name', name : 'Category' },
-                            { field: 'qty', name : 'Qty' },
-                            { field: 'vta_neta', name : 'Sale' },
-                            { field: 'tax1', displayName : 'IGV' },
-                            { field: 'tax2', displayName : 'RC' },
-                            { field: 'total', enableSorting: true } ];
+                            { field: 'location_name', name : 'Location', width:150 },
+                            { field: 'cate_name', name : 'Category', width:150 },
+                            { field: 'qty', name : 'Qty', width:150 },
+                            { field: 'vta_neta', name : 'Sale', width:150 },
+                            { field: 'tax1', displayName : 'IGV', width:150 },
+                            { field: 'tax2', displayName : 'RC', width:150 },
+                            { field: 'total', enableSorting: true, width:150 } ];
                         $scope.category_reports_all = data.data.category_reports_all;
                         $scope.category_reports_all_table = data.data.category_reports_all;
                         $scope.gridOptions.data = data.data.category_reports_all;
@@ -283,13 +283,13 @@ yukonApp
                 top10_donut_graphic.destroy();
 
                 $scope.gridOptions.columnDefs = [
-                    { field: 'location_name', name : 'Location' },
-                    { field: 'cate_name', name : 'Category' },
-                    { field: 'qty', name : 'Qty' },
-                    { field: 'vta_neta', name : 'Sale' },
-                    { field: 'tax1', displayName : 'IGV' },
-                    { field: 'tax2', displayName : 'RC' },
-                    { field: 'total', enableSorting: true } ];
+                    { field: 'location_name', name : 'Location', width:150 },
+                    { field: 'cate_name', name : 'Category', width:150 },
+                    { field: 'qty', name : 'Qty', width:150 },
+                    { field: 'vta_neta', name : 'Sale', width:150 },
+                    { field: 'tax1', displayName : 'IGV', width:150 },
+                    { field: 'tax2', displayName : 'RC', width:150 },
+                    { field: 'total', enableSorting: true, width:150 } ];
                 
                 $scope.top10_donut_data = [];
 
@@ -300,11 +300,11 @@ yukonApp
                     $scope.category_reports_all_table.slice(0, 10).forEach( r => $scope.top10_donut_data.push( [ r.cate_name, r.total ] ) );
                 } else {
                     $scope.gridOptions.data = $scope.category_reports.filter( c => ( locations.find( l => ( c.location == l.id ) ) ) );
-                    $scope.global_total = $scope.category_reports_all_table.map(r => parseFloat(r.total)).reduce((a, b) => (a + b), 0);
                     set_compare_table( locations );
                     $scope.gridOptions.data.slice( 0, 10 ).forEach( r => $scope.top10_donut_data.push( [ r.cate_name, r.total ] ) );
+                    $scope.global_total = $scope.gridOptions.data.reduce( ( a, b ) => ( a + b.total ), 0 );
                 }
-
+                
                 top10_donut_graphic = c3.generate({
                     bindto: '#top10_donut',
                     data: {
@@ -332,12 +332,11 @@ yukonApp
                         $scope.item_reports_all_table = response.data.item_reports_all;
                         $scope.global_total = $scope.item_reports_all_table.map( ir => ir.total ).reduce( ( a, b ) => ( a + b ), 0 );
                         $scope.gridOptions.columnDefs = [
-                            { field: 'item_id' },
-                            { field: 'item_description' },
-                            { field: 'vta_neta' },
-                            { field: 'tax1' },
-                            { field: 'tax2' },
-                            { field: 'tax3' },
+                            { field: 'item_id', displayName : "CODE", width:150 },
+                            { field: 'item_description', width:150 },
+                            { field: 'vta_neta', width:150 },
+                            { field: 'tax1', width:150 },
+                            { field: 'tax2', width:150 },
                             { field: 'total', enableSorting: true } ];
                         $scope.gridOptions.data = $scope.item_reports_all_table;
                         $scope.report_status.category = false;

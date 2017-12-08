@@ -42,15 +42,15 @@ yukonApp
             paginationPageSizes: [25, 50, 75],
             paginationPageSize: 25,
             columnDefs: [
-                { field: 'ticket', enableSorting: true },
-                { field: 'location_name' },
-                { field: 'date' },
-                { field: 'producto' },
-                { field: 'reason' },
-                { field: 'price' },
-                { field: 'move_cashier' },
-                { field: 'void_id' },
-                { field: 'barcode' }
+                { field: 'ticket', enableSorting: true, width:150 },
+                { field: 'location_name', width:150 },
+                { field: 'date', width:150 },
+                { field: 'producto', width:150 },
+                { field: 'reason', width:150 },
+                { field: 'price', width:150 },
+                { field: 'move_cashier', width:150 },
+                { field: 'void_id', width:150 },
+                { field: 'barcode', width:150 }
             ]
         };
         $scope.gridOptions.multiSelect = false;

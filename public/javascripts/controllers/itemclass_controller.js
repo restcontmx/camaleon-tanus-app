@@ -35,7 +35,7 @@ yukonApp
                                                                 TurnRepository,
                                                                 AuthRepository  ) {
         if( AuthRepository.viewVerification() ) {
-
+            $scope.currency = 'S/.'
             let todays = new Date(),
                 locations_combined = c3.generate({
                     bindto: '#locations_combined',
