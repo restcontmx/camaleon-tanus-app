@@ -62,13 +62,14 @@
         <div class="row" ng-if="selected_report">
             <div class="col-md-12" id="detail_table">
                 <div class="row">
-                    <div class="col-sm-3">
+                    <div class="col-sm-9 text-left hidden-print">
+                        <img src="assets/img/7IYWUFg.png" alt="" class="img-responsive" style="width:242px">
+                    </div>
+                    <div class="col-sm-3 text-right">
                         <h1 class="page_heading">
                             {{selected_report.p01_numcompleto}}
                             <span>{{selected_report.p01_fecha | date}}</span>
                         </h1>
-                    </div>
-                    <div class="col-sm-9 text-right hidden-print">
                     </div>
                 </div>
                 <hr/>
@@ -78,11 +79,9 @@
                             <span class="heading_text">From:</span>
                         </h4>
                         <address>
-                            <strong>Kertzmann-Rohan</strong>
-                            <br> 5807 Moore Shore Suite 872
-                            <br> Hartmannshire
-                            <br>
-                            <abbr title="Phone">P:</abbr> (123) 456-7890
+                            <strong>{{selected_report.p01_localventa}}</strong>
+                            <br> {{selected_report.p01_rucventa}}
+                            <br> 
                         </address>
                     </div>
                     <div class="col-sm-4">
@@ -90,61 +89,79 @@
                             <span class="heading_text">To:</span>
                         </h4>
                         <address>
-                            <strong>Gusikowski-Hackett</strong>
-                            <br> 286 Braxton Centers Apt. 712
-                            <br> Lake Christopfort
-                            <br>
-                            <abbr title="Phone">P:</abbr> (123) 456-7890
+                            <strong>{{selected_report.p01_razonsocial}}</strong>
+                            <br> {{selected_report.p01_ruc}}
+                            <br> {{selected_report.p01_moneda}}
+                            <br> {{selected_report.p01_direccion}}
                         </address>
                     </div>
-                    <div class="col-sm-4">
-                        <div id="invoice_qrcode" class="qrcode" ng-init="qr_base_size=160;qr_text='http://themeforest.net/user/tzd/portfolio'"></div>
+                    <div class="col-md-2"></div>
+                    <div class="col-sm-2">
+                        <div id="invoice_qrcode" class="qrcode" ng-init="qr_base_size=50;qr_text=''"></div>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-12">
-                        <table class="table table-yuk2 table-invoices">
-                            <thead>
-                                <tr>
-                                    <th>Description</th>
-                                    <th>Category</th>
-                                    <th class="cw text-center">Price</th>
-                                    <th class="cw text-center">Tax</th>
-                                    <th class="cw text-center">Amount ()</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr ng-repeat="deta in selected_report.details">
-                                    <td>{{deta.item_description}}</td>
-                                    <td>{{deta.cate_name}}</td>
-                                    <td class="text-center">{{deta.pprice | number : 2}}</td>
-                                    <td class="text-center">{{deta.tx + deta.tx2 + deta.tx3 | number : 2}}</td>
-                                    <td class="text-center">
-                                        <strong>{{deta.total | number : 2}}</strong>
-                                    </td>
-                                </tr>
-                            </tbody>
-                            <tfoot>
-                                <tr>
-                                    <td colspan="4" class="text-right text-muted">Subtotal</td>
-                                    <td class="text-center">
-                                        <strong>{{selected_report.sub_total | number : 2}}</strong>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td colspan="4" class="text-right text-muted">Tax</td>
-                                    <td class="text-center">
-                                        <strong>{{selected_report.total_tax | number : 2}}</strong>
-                                    </td>
-                                </tr>
-                                <tr class="grand_total">
-                                    <td colspan="4" class="text-right text-muted">Grand Total</td>
-                                    <td class="text-center text-success">
-                                        <strong>{{selected_report.total | number : 2}}</strong>
-                                    </td>
-                                </tr>
-                            </tfoot>
-                        </table>
+                        <div class="table-responsive">
+                            <table class="table table-yuk2 table-invoices">
+                                <thead>
+                                    <tr>
+                                        <th>Cantidad</th>
+                                        <th>Unidad</th>
+                                        <th>Código</th>
+                                        <th>Descripción</th>
+                                        <th class="cw text-center">Price</th>
+                                        <th class="cw text-center">Tax</th>
+                                        <th class="cw text-center">Amount</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="deta in selected_report.details">
+                                        <td>{{deta.qty}}</td>
+                                        <td>{{deta.unit_des}}</td>
+                                        <td>{{deta.item_id}}</td>
+                                        <td>{{deta.item_description}}</td>
+                                        <td class="text-center">{{deta.pprice | number : 2}}</td>
+                                        <td class="text-center">{{deta.tx + deta.tx2 + deta.tx3 | number : 2}}</td>
+                                        <td class="text-center">
+                                            <strong>{{deta.total | number : 2}}</strong>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <td colspan="6" class="text-right text-muted">Subtotal</td>
+                                        <td class="text-center">
+                                            <strong>{{selected_report.sub_total | number : 2}}</strong>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="6" class="text-right text-muted">IGV</td>
+                                        <td class="text-center">
+                                            <strong>{{selected_report.total_igv | number : 2}}</strong>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="6" class="text-right text-muted">RC</td>
+                                        <td class="text-center">
+                                            <strong>{{selected_report.total_rc | number : 2}}</strong>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="6" class="text-right text-muted">Tax</td>
+                                        <td class="text-center">
+                                            <strong>{{selected_report.total_tax | number : 2}}</strong>
+                                        </td>
+                                    </tr>
+                                    <tr class="grand_total">
+                                        <td colspan="6" class="text-right text-muted">Grand Total</td>
+                                        <td class="text-center text-success">
+                                            <strong>{{selected_report.total | number : 2}}</strong>
+                                        </td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>

@@ -2286,7 +2286,8 @@ yukonApp
                                     'assets/lib/selectize-js/css/selectize.css',
                                     'assets/lib/selectize-js/js/standalone/selectize.min.js',
                                     'https://cdn.jsdelivr.net/alasql/0.3/alasql.min.js',
-                                    'https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.7.12/xlsx.core.min.js'
+                                    'https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.7.12/xlsx.core.min.js',
+                                    'assets/lib/jquery-qrcode-0.10.1/jquery.qrcode-0.10.1.min.js'
                                     
                                 ])
                             }

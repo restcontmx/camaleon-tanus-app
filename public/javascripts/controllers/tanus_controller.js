@@ -29,6 +29,10 @@ yukonApp
         if (AuthRepository.viewVerification()) {
             $scope.progress_ban = false; // This is for the loanding simbols or whatever you want to activate
             $scope.locations_options = [] // Location options for the locations select
+            // generate qrcode
+            if($('#invoice_qrcode').length) {
+    
+            }
             // Get reports
             // Get all the locations
             // Then addthem to the locations select
@@ -99,13 +103,14 @@ yukonApp
                         // This will get the detail table element
                         // Then will get the canvas once its rendered
                         html2canvas(document.getElementById( 'detail_table' ), {
+                            allowTaint : true,
                             onrendered: function (canvas) {
                                 // Instance new document
                                 var doc = new jsPDF();
                                 // Adds the image on the document
                                 // Then saves it
                                 doc.addImage( canvas.toDataURL(), 'JPEG', 15, 25, 180, 0);
-                                doc.save();
+                                doc.save( '-01-' + ticket.p01_numcompleto + '.pdf' );
                             }
                         });
                     } else {
@@ -131,9 +136,44 @@ yukonApp
                         $scope.selected_report.details = [];
                         // Set the details on the selected report
                         $scope.selected_report.details = response.data;
+                        $scope.selected_report.details.forEach( d => {
+                            switch( d.unit_id ) {
+                                case 1 :
+                                    // Each
+                                    d.unit_des = "Each"
+                                    break;
+                                case 2 :
+                                    // Lb
+                                    d.unit_des = "Lb"
+                                    break;
+                                case 3 :
+                                    // Kg
+                                    d.unit_des = "Kg"
+                                    break;
+                                case 4 :
+                                    // unidad
+                                    d.unit_des = "Unidad"
+                                    break;                            
+                                case 5 :
+                                    // Botella
+                                    d.unit_des = "Botella"
+                                    break;
+                            }
+                        })
+                        
                         $scope.selected_report.total = $scope.selected_report.details.reduce( ( a, b ) => ( a + b.total ), 0 )
+                        $scope.selected_report.total_igv = $scope.selected_report.details.reduce( ( a, b ) => ( a + ( b.tx ) ), 0 )
+                        $scope.selected_report.total_rc = $scope.selected_report.details.reduce( ( a, b ) => ( a + ( b.tx2 ) ), 0 )
                         $scope.selected_report.total_tax = $scope.selected_report.details.reduce( ( a, b ) => ( a + ( b.tx + b.tx2 + b.tx3 ) ), 0 )
                         $scope.selected_report.sub_total = $scope.selected_report.total - $scope.selected_report.total_tax;
+                        
+                        $scope.$watch('qr_base_size', function () {
+                            $('#invoice_qrcode').css({'width': $scope.qr_base_size / 2, 'height': $scope.qr_base_size / 2}).qrcode({
+                                render: 'canvas',
+                                size: $scope.qr_base_size,
+                                text: $scope.selected_report.p01_hash
+                            }).children('img').prop('title', $scope.qr_text);
+                        });
                     } else {
                         growl.error( 'There was an error; ' + response.message, {} )
                     }

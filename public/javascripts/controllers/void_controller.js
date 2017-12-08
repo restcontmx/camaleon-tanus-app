@@ -48,6 +48,7 @@ yukonApp
                 { field: 'producto', width:150 },
                 { field: 'reason', width:150 },
                 { field: 'price', width:150 },
+                { field: 'host', width:150 },
                 { field: 'move_cashier', width:150 },
                 { field: 'void_id', width:150 },
                 { field: 'barcode', width:150 }
