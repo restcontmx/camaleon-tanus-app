@@ -52,16 +52,16 @@ yukonApp
                 paginationPageSizes: [25, 50, 75],
                 paginationPageSize: 25,
                 columnDefs: [
-                    { field: 'cashowed', enableSorting: true },
-                    { field: 'cashtip' },
-                    { field: 'cgrat' },
-                    { field: 'cctip' },
-                    { field: 'payouttip' },
-                    { field: 'hr_wage' },
-                    { field: 'employee_name' },
-                    { field: 'location_name' },
-                    { field: 'difer' },
-                    { field: 'payout' }
+                    { field: 'cashowed', enableSorting: true, width:150 },
+                    { field: 'cashtip', width:150 },
+                    { field: 'cgrat', width:150 },
+                    { field: 'cctip', width:150 },
+                    { field: 'payouttip', width:150 },
+                    { field: 'hr_wage', width:150 },
+                    { field: 'employee_name', width:150 },
+                    { field: 'location_name', width:150 },
+                    { field: 'difer', width:150 },
+                    { field: 'payout', width:150 }
                 ]
             };
             $scope.gridOptions.multiSelect = false;

@@ -92,7 +92,6 @@ yukonApp
             // Then will print the pdf with html2canvas and jsPDF libs
             //
             $scope.print_pdf_document = function( ticket ) {
-                console.log( ticket )
                 // if there is a selected ticket
                 if( ticket ) {
                     // Validates there are details on the ticket

@@ -44,16 +44,16 @@ yukonApp
             paginationPageSizes: [25, 50, 75],
             paginationPageSize: 25,
             columnDefs: [
-                { field: 'tc_id', enableSorting: true },
-                { field: 'trans_date' },
-                { field: 'c_t' },
-                { field: 'cc_numero' },
-                { field: 'amount' },
-                { field: 'first_name' },
-                { field: 'last_name' },
-                { field: 'credit_tip' },
-                { field: 'ticket_count' },
-                { field: 'location_name' }
+                { field: 'tc_id', enableSorting: true, width:150 },
+                { field: 'trans_date', width:150 },
+                { field: 'c_t', width:150 },
+                { field: 'cc_numero', width:150 },
+                { field: 'amount', width:150 },
+                { field: 'first_name', width:150 },
+                { field: 'last_name', width:150 },
+                { field: 'credit_tip', width:150 },
+                { field: 'ticket_count', width:150 },
+                { field: 'location_name', width:150 }
             ]
         };
         $scope.gridOptions.multiSelect = false;

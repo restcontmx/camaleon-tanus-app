@@ -14,22 +14,24 @@
             <div class="heading_a">
                 <span class="heading_text">Last Close</span>
             </div>
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>Location</th>
-                        <th>Last Updated</th>
-                        <th>Last Sale</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr ng-repeat="lc in last_closes">
-                        <th scope="row">{{lc.location_name}}</th>
-                        <td>{{lc.now_date | date:'MM/dd/y H:mm:ss'}}</td> 
-                        <td>{{lc.last_sale | date:'MM/dd/y H:mm:ss'}}</td> 
-                    </tr>
-                </tbody>
-            </table>
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Location</th>
+                            <th>Last Updated</th>
+                            <th>Last Sale</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="lc in last_closes">
+                            <th scope="row">{{lc.location_name}}</th>
+                            <td>{{lc.now_date | date:'MM/dd/y H:mm:ss'}}</td> 
+                            <td>{{lc.last_sale | date:'MM/dd/y H:mm:ss'}}</td> 
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
         <div class="col-md-4 col-sm-12">
             <div class="heading_a">

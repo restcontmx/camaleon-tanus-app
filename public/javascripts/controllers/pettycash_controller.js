@@ -42,14 +42,14 @@ yukonApp
                     paginationPageSizes: [25, 50, 75],
                     paginationPageSize: 25,
                     columnDefs: [
-                        { field: 'move_id', enableSorting: true },
-                        { field: 'location_name' },
-                        { field: 'move_date' },
-                        { field: 'move_user_login' },
-                        { field: 'detalles' },
-                        { field: 'move_regi_name' },
-                        { field: 'move_cashier' },
-                        { field: 'cash' }
+                        { field: 'move_id', enableSorting: true, width:150 },
+                        { field: 'location_name', width:150 },
+                        { field: 'move_date', width:150 },
+                        { field: 'move_user_login', width:150 },
+                        { field: 'detalles', width:150 },
+                        { field: 'move_regi_name', width:150 },
+                        { field: 'move_cashier', width:150 },
+                        { field: 'cash', width:150 }
                     ]
                 };
                 $scope.gridOptions.multiSelect = false;
