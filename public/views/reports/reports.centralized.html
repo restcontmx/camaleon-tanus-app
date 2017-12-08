@@ -30,114 +30,25 @@
     <div class="col-md-12">
         <br>
         <div class="heading_a"><span class="heading_text">Centralized Summary</span></div>
-
-        <table id="export_table" class="table table-bordered">
-            <tbody>
-                <tr>
-                    <th colspan="8">Centralized Summary</th>
-                    <th colspan="7">Date : {{the_date | date : "MM/dd/y"}}</th>
-                    <th colspan="7">Printed by {{users_info}}</th>
-                </tr>
-                <tr>
-                    <th class="text-center" colspan="22"><h4>Daily</h4></th>
-                </tr>
-                <tr>
-                    <th></th>
-                    <th class="text-center" colspan="7">Guests</th>
-                    <th class="text-center" colspan="7">Ticket Avg.</th>
-                    <th class="text-center" colspan="7">Total Sales</th>
-                </tr>
-                <tr>
-                    
-                    <th>Location</th> <!-- Location  -->
-                    <th> {{last_year}}</th><!--  1 Guests Last Year -->
-                    <th> {{current_year}}</th><!-- 2 Guests Current Year -->
-                    <th colspan="2">Variation</th><!-- Guest Variation -->
-                    <th>Target</th><!--  -->
-                    <th colspan="2">Target Variation</th><!--  -->
-                    
-                    <th> {{last_year}}</th><!--  -->
-                    <th> {{current_year}}</th><!--  -->
-                    <th colspan="2">Variation</th><!--  -->
-                    <th>Target</th><!--  -->
-                    <th colspan="2">Target Variation</th><!--  -->
-                            
-                    <th> {{last_year}}</th><!--  -->
-                    <th> {{current_year}}</th><!--  -->
-                    <th colspan="2">Variation</th>  <!--  -->
-                    <th>Target</th><!--  -->
-                    <th colspan="2">Target Variation</th><!--  -->
-                                   
-                </tr>
-                <tr ng-repeat="l in locations">
-                    <th>{{l.location_name}}</td><!-- 1 Location  -->
-                    <td ng-class="{ 'text-danger': l.l_y_guests < 0, 'text-primary': l.l_y_guests > 0  }"> {{l.l_y_guests}}</td><!--  2 Guests Last Year -->
-                    <td ng-class="{ 'text-danger': l.guests < 0, 'text-primary': l.guests > 0  }">{{l.guests}}</td><!--  3 Guests Current Year -->
-                    <td ng-class="{ 'text-danger': l.guests - l.l_y_guests < 0, 'text-primary': l.guests - l.l_y_guests > 0  }">{{l.guests - l.l_y_guests  | number : 2}}</td> <!--  4 Guests Variation Qty -->
-                    <td ng-class="{ 'text-danger': ((l.guests - l.l_y_guests ) * 100 ) / ( l.l_y_guests ) < 0, 'text-primary': ((l.guests - l.l_y_guests ) * 100 ) / ( l.l_y_guests ) > 0  }">{{ ((l.guests - l.l_y_guests ) * 100 ) / ( l.l_y_guests ) | number : 2}}%</td><!--  5 Guests Variation % -->
-                    <td ng-class="{ 'text-danger': (l.l_y_guests*.10)+l.l_y_guests < 0, 'text-primary': (l.l_y_guests*.10)+l.l_y_guests > 0  }">{{(l.l_y_guests*.10)+l.l_y_guests| number : 2}}</td><!--  6 Guests Target -->
-                    <td ng-class="{ 'text-danger': l.guests-((l.l_y_guests*.10)+l.l_y_guests) < 0, 'text-primary': l.guests-((l.l_y_guests*.10)+l.l_y_guests) > 0  }">{{l.guests-((l.l_y_guests*.10)+l.l_y_guests)| number : 2}}</td><!--  7 Guests Target Variation Qty -->
-                    <td ng-class="{ 'text-danger': ((l.guests-((l.l_y_guests*.10)+l.l_y_guests))/((l.l_y_guests*.10)+l.l_y_guests))*100 < 0, 'text-primary': ((l.guests-((l.l_y_guests*.10)+l.l_y_guests))/((l.l_y_guests*.10)+l.l_y_guests))*100 > 0  }">{{((l.guests-((l.l_y_guests*.10)+l.l_y_guests))/((l.l_y_guests*.10)+l.l_y_guests))*100| number : 2}}%</td><!--  8 Guests Target Variation & -->
-                    
-                    <td ng-class="{ 'text-danger': l.l_y_ticket_avg < 0, 'text-primary': l.l_y_ticket_avg > 0  }"> {{ l.l_y_ticket_avg | number : 2 }}</td><!--  2 Guests Last Year -->
-                    <td ng-class="{ 'text-danger': l.ticket_avg < 0, 'text-primary': l.ticket_avg > 0  }">{{ l.ticket_avg | number : 2 }}</td><!--  3 Guests Current Year -->
-                    <td ng-class="{ 'text-danger': l.ticket_avg - l.l_y_ticket_avg < 0, 'text-primary': l.ticket_avg - l.l_y_ticket_avg > 0  }">{{l.ticket_avg - l.l_y_ticket_avg  | number : 2}}</td> <!--  4 Guests Variation Qty -->
-                    <td ng-class="{ 'text-danger': (( l.ticket_avg - l.l_y_ticket_avg ) * 100 ) / ( l.l_y_ticket_avg ) < 0, 'text-primary': ((l.ticket_avg - l.l_y_ticket_avg ) * 100 ) / ( l.l_y_ticket_avg ) > 0  }">{{ ((l.ticket_avg - l.l_y_ticket_avg ) * 100 ) / ( l.l_y_ticket_avg ) | number : 2}}%</td><!--  5 Guests Variation % -->
-                    <td ng-class="{ 'text-danger': ( l.l_y_ticket_avg *.10)+ l.l_y_ticket_avg < 0, 'text-primary': ( l.l_y_ticket_avg*.10)+ l.l_y_ticket_avg > 0  }">{{( l.l_y_ticket_avg*.10)+ l.l_y_ticket_avg| number : 2}}</td><!--  6 Guests Target -->
-                    <td ng-class="{ 'text-danger': l.ticket_avg -(( l.l_y_ticket_avg *.10)+ l.l_y_ticket_avg ) < 0, 'text-primary': l.ticket_avg -(( l.l_y_ticket_avg *.10)+ l.l_y_ticket_avg ) > 0  }">{{ l.ticket_avg -(( l.l_y_ticket_avg *.10)+ l.l_y_ticket_avg )| number : 2}}</td><!--  7 Guests Target Variation Qty -->
-                    <td ng-class="{ 'text-danger': (( l.ticket_avg-((l.l_y_ticket_avg*.10)+ l.l_y_ticket_avg ))/(( l.l_y_ticket_avg *.10)+ l.l_y_ticket_avg ))*100 < 0, 'text-primary': (( l.ticket_avg -(( l.l_y_ticket_avg *.10)+ l.l_y_ticket_avg ))/(( l.l_y_ticket_avg*.10)+ l.l_y_ticket_avg ))*100 > 0  }">{{(( l.ticket_avg -(( l.l_y_ticket_avg *.10)+ l.l_y_ticket_avg ))/(( l.l_y_ticket_avg *.10)+ l.l_y_ticket_avg ))*100| number : 2}}%</td><!--  8 Guests Target Variation & -->
-                    
-                    <td ng-class="{ 'text-danger': l.l_y_total_sales < 0, 'text-primary': l.l_y_total_sales > 0  }"> {{ l.l_y_total_sales }}</td><!--  2 Guests Last Year -->
-                    <td ng-class="{ 'text-danger': l.total_sales < 0, 'text-primary': l.total_sales > 0  }">{{ l.total_sales }}</td><!--  3 Guests Current Year -->
-                    <td ng-class="{ 'text-danger': l.total_sales - l.l_y_total_sales < 0, 'text-primary': l.total_sales - l.l_y_total_sales > 0  }">{{l.total_sales - l.l_y_total_sales  | number : 2}}</td> <!--  4 Guests Variation Qty -->
-                    <td ng-class="{ 'text-danger': (( l.total_sales - l.l_y_total_sales ) * 100 ) / ( l.l_y_total_sales ) < 0, 'text-primary': ((l.total_sales - l.l_y_total_sales ) * 100 ) / ( l.l_y_total_sales ) > 0  }">{{ ((l.total_sales - l.l_y_total_sales ) * 100 ) / ( l.l_y_total_sales ) | number : 2}}%</td><!--  5 Guests Variation % -->
-                    <td ng-class="{ 'text-danger': ( l.l_y_total_sales *.10)+ l.l_y_total_sales < 0, 'text-primary': ( l.l_y_total_sales*.10)+ l.l_y_total_sales > 0  }">{{( l.l_y_total_sales*.10)+ l.l_y_total_sales| number : 2}}</td><!--  6 Guests Target -->
-                    <td ng-class="{ 'text-danger': l.total_sales -(( l.l_y_total_sales *.10)+ l.l_y_total_sales ) < 0, 'text-primary': l.total_sales -(( l.l_y_total_sales *.10)+ l.l_y_total_sales ) > 0  }">{{ l.total_sales -(( l.l_y_total_sales *.10)+ l.l_y_total_sales )| number : 2}}</td><!--  7 Guests Target Variation Qty -->
-                    <td ng-class="{ 'text-danger': (( l.total_sales-((l.l_y_total_sales*.10)+ l.l_y_total_sales ))/(( l.l_y_total_sales *.10)+ l.l_y_total_sales ))*100 < 0, 'text-primary': (( l.total_sales -(( l.l_y_total_sales *.10)+ l.l_y_total_sales ))/(( l.l_y_total_sales*.10)+ l.l_y_total_sales ))*100 > 0  }">{{(( l.total_sales -(( l.l_y_total_sales *.10)+ l.l_y_total_sales ))/(( l.l_y_total_sales *.10)+ l.l_y_total_sales ))*100| number : 2}}%</td><!--  8 Guests Target Variation & -->
-
-
-                </tr>
-                <tr>
-                    <th>Total</td>
-                    <td ng-class="{ 'text-danger': l_y_daily_guests_total < 0, 'text-primary': l_y_daily_guests_total > 0  }"> {{ l_y_daily_guests_total | number : 2 }}</td><!--  2 Guests Last Year -->
-                    <td ng-class="{ 'text-danger': daily_guests_total < 0, 'text-primary': daily_guests_total > 0  }">{{ daily_guests_total | number : 2 }}</td><!--  3 Guests Current Year -->
-                    <td ng-class="{ 'text-danger': daily_guests_total - l_y_daily_guests_total < 0, 'text-primary': daily_guests_total - l_y_daily_guests_total > 0  }">{{daily_guests_total - l_y_daily_guests_total  | number : 2}}</td> <!--  4 Guests Variation Qty -->
-                    <td ng-class="{ 'text-danger': (( daily_guests_total - l_y_daily_guests_total ) * 100 ) / ( l_y_daily_guests_total ) < 0, 'text-primary': ((daily_guests_total - l_y_daily_guests_total ) * 100 ) / ( l_y_daily_guests_total ) > 0  }">{{ ((daily_guests_total - l_y_daily_guests_total ) * 100 ) / ( l_y_daily_guests_total ) | number : 2}}%</td><!--  5 Guests Variation % -->
-                    <td ng-class="{ 'text-danger': ( l_y_daily_guests_total *.10)+ l_y_daily_guests_total < 0, 'text-primary': ( l_y_daily_guests_total*.10)+ l_y_daily_guests_total > 0  }">{{( l_y_daily_guests_total*.10)+ l_y_daily_guests_total| number : 2}}</td><!--  6 Guests Target -->
-                    <td ng-class="{ 'text-danger': daily_guests_total -(( l_y_daily_guests_total *.10)+ l_y_daily_guests_total ) < 0, 'text-primary': daily_guests_total -(( l_y_daily_guests_total *.10)+ l_y_daily_guests_total ) > 0  }">{{ daily_guests_total -(( l_y_daily_guests_total *.10)+ l_y_daily_guests_total )| number : 2}}</td><!--  7 Guests Target Variation Qty -->
-                    <td ng-class="{ 'text-danger': (( daily_guests_total-((l_y_daily_guests_total*.10)+ l_y_daily_guests_total ))/(( l_y_daily_guests_total *.10)+ l_y_daily_guests_total ))*100 < 0, 'text-primary': (( daily_guests_total -(( l_y_daily_guests_total *.10)+ l_y_daily_guests_total ))/(( l_y_daily_guests_total*.10)+ l_y_daily_guests_total ))*100 > 0  }">{{(( daily_guests_total -(( l_y_daily_guests_total *.10)+ l_y_daily_guests_total ))/(( l_y_daily_guests_total *.10)+ l_y_daily_guests_total ))*100| number : 2}}%</td><!--  8 Guests Target Variation & -->
-            
-                    <td ng-class="{ 'text-danger': l_y_daily_ticket_avg_total < 0, 'text-primary': l_y_daily_ticket_avg_total > 0  }"> {{ l_y_daily_ticket_avg_total | number : 2 }}</td><!--  2 Guests Last Year -->
-                    <td ng-class="{ 'text-danger': daily_ticket_avg_total < 0, 'text-primary': daily_ticket_avg_total > 0  }">{{ daily_ticket_avg_total | number : 2 }}</td><!--  3 Guests Current Year -->
-                    <td ng-class="{ 'text-danger': daily_ticket_avg_total - l_y_daily_ticket_avg_total < 0, 'text-primary': daily_ticket_avg_total - l_y_daily_ticket_avg_total > 0  }">{{daily_ticket_avg_total - l_y_daily_ticket_avg_total  | number : 2}}</td> <!--  4 Guests Variation Qty -->
-                    <td ng-class="{ 'text-danger': (( daily_ticket_avg_total - l_y_daily_ticket_avg_total ) * 100 ) / ( l_y_daily_ticket_avg_total ) < 0, 'text-primary': ((daily_ticket_avg_total - l_y_daily_ticket_avg_total ) * 100 ) / ( l_y_daily_ticket_avg_total ) > 0  }">{{ ((daily_ticket_avg_total - l_y_daily_ticket_avg_total ) * 100 ) / ( l_y_daily_ticket_avg_total ) | number : 2}}%</td><!--  5 Guests Variation % -->
-                    <td ng-class="{ 'text-danger': ( l_y_daily_ticket_avg_total *.10)+ l_y_daily_ticket_avg_total < 0, 'text-primary': ( l_y_daily_ticket_avg_total*.10)+ l_y_daily_ticket_avg_total > 0  }">{{( l_y_daily_ticket_avg_total*.10)+ l_y_daily_ticket_avg_total| number : 2}}</td><!--  6 Guests Target -->
-                    <td ng-class="{ 'text-danger': daily_ticket_avg_total -(( l_y_daily_ticket_avg_total *.10)+ l_y_daily_ticket_avg_total ) < 0, 'text-primary': daily_ticket_avg_total -(( l_y_daily_ticket_avg_total *.10)+ l_y_daily_ticket_avg_total ) > 0  }">{{ daily_ticket_avg_total -(( l_y_daily_ticket_avg_total *.10)+ l_y_daily_ticket_avg_total )| number : 2}}</td><!--  7 Guests Target Variation Qty -->
-                    <td ng-class="{ 'text-danger': (( daily_ticket_avg_total-((l_y_daily_ticket_avg_total*.10)+ l_y_daily_ticket_avg_total ))/(( l_y_daily_ticket_avg_total *.10)+ l_y_daily_ticket_avg_total ))*100 < 0, 'text-primary': (( daily_ticket_avg_total -(( l_y_daily_ticket_avg_total *.10)+ l_y_daily_ticket_avg_total ))/(( l_y_daily_ticket_avg_total*.10)+ l_y_daily_ticket_avg_total ))*100 > 0  }">{{(( daily_ticket_avg_total -(( l_y_daily_ticket_avg_total *.10)+ l_y_daily_ticket_avg_total ))/(( l_y_daily_ticket_avg_total *.10)+ l_y_daily_ticket_avg_total ))*100| number : 2}}%</td><!--  8 Guests Target Variation & -->
-                   
-                    <td ng-class="{ 'text-danger': l_y_daily_sales_total < 0, 'text-primary': l_y_daily_sales_total > 0  }"> {{ l_y_daily_sales_total | number : 2 }}</td><!--  2 Guests Last Year -->
-                    <td ng-class="{ 'text-danger': daily_sales_total < 0, 'text-primary': daily_sales_total > 0  }">{{ daily_sales_total | number : 2 }}</td><!--  3 Guests Current Year -->
-                    <td ng-class="{ 'text-danger': daily_sales_total - l_y_daily_sales_total < 0, 'text-primary': daily_sales_total - l_y_daily_sales_total > 0  }">{{daily_sales_total - l_y_daily_sales_total  | number : 2}}</td> <!--  4 Guests Variation Qty -->
-                    <td ng-class="{ 'text-danger': (( daily_sales_total - l_y_daily_sales_total ) * 100 ) / ( l_y_daily_sales_total ) < 0, 'text-primary': ((daily_sales_total - l_y_daily_sales_total ) * 100 ) / ( l_y_daily_sales_total ) > 0  }">{{ ((daily_sales_total - l_y_daily_sales_total ) * 100 ) / ( l_y_daily_sales_total ) | number : 2}}%</td><!--  5 Guests Variation % -->
-                    <td ng-class="{ 'text-danger': ( l_y_daily_sales_total *.10)+ l_y_daily_sales_total < 0, 'text-primary': ( l_y_daily_sales_total*.10)+ l_y_daily_sales_total > 0  }">{{( l_y_daily_sales_total*.10)+ l_y_daily_sales_total| number : 2}}</td><!--  6 Guests Target -->
-                    <td ng-class="{ 'text-danger': daily_sales_total -(( l_y_daily_sales_total *.10)+ l_y_daily_sales_total ) < 0, 'text-primary': daily_sales_total -(( l_y_daily_sales_total *.10)+ l_y_daily_sales_total ) > 0  }">{{ daily_sales_total -(( l_y_daily_sales_total *.10)+ l_y_daily_sales_total )| number : 2}}</td><!--  7 Guests Target Variation Qty -->
-                    <td ng-class="{ 'text-danger': (( daily_sales_total-((l_y_daily_sales_total*.10)+ l_y_daily_sales_total ))/(( l_y_daily_sales_total *.10)+ l_y_daily_sales_total ))*100 < 0, 'text-primary': (( daily_sales_total -(( l_y_daily_sales_total *.10)+ l_y_daily_sales_total ))/(( l_y_daily_sales_total*.10)+ l_y_daily_sales_total ))*100 > 0  }">{{(( daily_sales_total -(( l_y_daily_sales_total *.10)+ l_y_daily_sales_total ))/(( l_y_daily_sales_total *.10)+ l_y_daily_sales_total ))*100| number : 2}}%</td><!--  8 Guests Target Variation & -->
-
-                </tr>
-                <tr>
-                    <td colspan="22"></td>
-                </tr>
-                
-                <tr>
-                    <th class="text-center" colspan="22"><h4>Monthly</h4></th>
-                </tr>
-                <tr>
-                    <th></th>
-                    <th class="text-center" colspan="7">Guests</th>
-                    <th class="text-center" colspan="7">Ticket Avg.</th>
-                    <th class="text-center" colspan="7">Total Sales</th>
-                </tr>
-                <tr>
+        <div class="table-responsive">
+            <table id="export_table" class="table table-bordered">
+                <tbody>
+                    <tr>
+                        <th colspan="8">Centralized Summary</th>
+                        <th colspan="7">Date : {{the_date | date : "MM/dd/y"}}</th>
+                        <th colspan="7">Printed by {{users_info}}</th>
+                    </tr>
+                    <tr>
+                        <th class="text-center" colspan="22"><h4>Daily</h4></th>
+                    </tr>
+                    <tr>
+                        <th></th>
+                        <th class="text-center" colspan="7">Guests</th>
+                        <th class="text-center" colspan="7">Ticket Avg.</th>
+                        <th class="text-center" colspan="7">Total Sales</th>
+                    </tr>
+                    <tr>
+                        
                         <th>Location</th> <!-- Location  -->
                         <th> {{last_year}}</th><!--  1 Guests Last Year -->
                         <th> {{current_year}}</th><!-- 2 Guests Current Year -->
@@ -155,153 +66,242 @@
                         <th> {{current_year}}</th><!--  -->
                         <th colspan="2">Variation</th>  <!--  -->
                         <th>Target</th><!--  -->
-                        <th colspan="2">Target Variation</th><!--  -->            
-                </tr>
-                <tr ng-repeat="l in locations">
+                        <th colspan="2">Target Variation</th><!--  -->
+                                    
+                    </tr>
+                    <tr ng-repeat="l in locations">
                         <th>{{l.location_name}}</td><!-- 1 Location  -->
-                            <td ng-class="{ 'text-danger': l.l_y_m_guests < 0, 'text-primary': l.l_y_m_guests > 0  }"> {{ l.l_y_m_guests }}</td><!--  2 Guests Last Year -->
-                            <td ng-class="{ 'text-danger': l.m_guests < 0, 'text-primary': l.m_guests > 0  }">{{ l.m_guests }}</td><!--  3 Guests Current Year -->
-                            <td ng-class="{ 'text-danger': l.m_guests - l.l_y_m_guests < 0, 'text-primary': l.m_guests - l.l_y_m_guests > 0  }">{{l.m_guests - l.l_y_m_guests  | number : 2}}</td> <!--  4 Guests Variation Qty -->
-                            <td ng-class="{ 'text-danger': (( l.m_guests - l.l_y_m_guests ) * 100 ) / ( l.l_y_m_guests ) < 0, 'text-primary': ((l.m_guests - l.l_y_m_guests ) * 100 ) / ( l.l_y_m_guests ) > 0  }">{{ ((l.m_guests - l.l_y_m_guests ) * 100 ) / ( l.l_y_m_guests ) | number : 2}}%</td><!--  5 Guests Variation % -->
-                            <td ng-class="{ 'text-danger': ( l.l_y_m_guests *.10)+ l.l_y_m_guests < 0, 'text-primary': ( l.l_y_m_guests*.10)+ l.l_y_m_guests > 0  }">{{( l.l_y_m_guests*.10)+ l.l_y_m_guests| number : 2}}</td><!--  6 Guests Target -->
-                            <td ng-class="{ 'text-danger': l.m_guests -(( l.l_y_m_guests *.10)+ l.l_y_m_guests ) < 0, 'text-primary': l.m_guests -(( l.l_y_m_guests *.10)+ l.l_y_m_guests ) > 0  }">{{ l.m_guests -(( l.l_y_m_guests *.10)+ l.l_y_m_guests )| number : 2}}</td><!--  7 Guests Target Variation Qty -->
-                            <td ng-class="{ 'text-danger': (( l.m_guests-((l.l_y_m_guests*.10)+ l.l_y_m_guests ))/(( l.l_y_m_guests *.10)+ l.l_y_m_guests ))*100 < 0, 'text-primary': (( l.m_guests -(( l.l_y_m_guests *.10)+ l.l_y_m_guests ))/(( l.l_y_m_guests*.10)+ l.l_y_m_guests ))*100 > 0  }">{{(( l.m_guests -(( l.l_y_m_guests *.10)+ l.l_y_m_guests ))/(( l.l_y_m_guests *.10)+ l.l_y_m_guests ))*100| number : 2}}%</td><!--  8 Guests Target Variation & -->
-                    
-                        <td ng-class="{ 'text-danger': l.l_y_m_ticket_avg < 0, 'text-primary': l.l_y_m_ticket_avg > 0  }"> {{ l.l_y_m_ticket_avg | number : 2}}</td><!--  2 Guests Last Year -->
-                        <td ng-class="{ 'text-danger': l.m_ticket_avg < 0, 'text-primary': l.m_ticket_avg > 0  }">{{ l.m_ticket_avg | number : 2}}</td><!--  3 Guests Current Year -->
-                        <td ng-class="{ 'text-danger': l.m_ticket_avg - l.l_y_m_ticket_avg < 0, 'text-primary': l.m_ticket_avg - l.l_y_m_ticket_avg > 0  }">{{l.m_ticket_avg - l.l_y_m_ticket_avg  | number : 2}}</td> <!--  4 Guests Variation Qty -->
-                        <td ng-class="{ 'text-danger': (( l.m_ticket_avg - l.l_y_m_ticket_avg ) * 100 ) / ( l.l_y_m_ticket_avg ) < 0, 'text-primary': ((l.m_ticket_avg - l.l_y_m_ticket_avg ) * 100 ) / ( l.l_y_m_ticket_avg ) > 0  }">{{ ((l.m_ticket_avg - l.l_y_m_ticket_avg ) * 100 ) / ( l.l_y_m_ticket_avg ) | number : 2}}%</td><!--  5 Guests Variation % -->
-                        <td ng-class="{ 'text-danger': ( l.l_y_m_ticket_avg *.10)+ l.l_y_m_ticket_avg < 0, 'text-primary': ( l.l_y_m_ticket_avg*.10)+ l.l_y_m_ticket_avg > 0  }">{{( l.l_y_m_ticket_avg*.10)+ l.l_y_m_ticket_avg| number : 2}}</td><!--  6 Guests Target -->
-                        <td ng-class="{ 'text-danger': l.m_ticket_avg -(( l.l_y_m_ticket_avg *.10)+ l.l_y_m_ticket_avg ) < 0, 'text-primary': l.m_ticket_avg -(( l.l_y_m_ticket_avg *.10)+ l.l_y_m_ticket_avg ) > 0  }">{{ l.m_ticket_avg -(( l.l_y_m_ticket_avg *.10)+ l.l_y_m_ticket_avg )| number : 2}}</td><!--  7 Guests Target Variation Qty -->
-                        <td ng-class="{ 'text-danger': (( l.m_ticket_avg-((l.l_y_m_ticket_avg*.10)+ l.l_y_m_ticket_avg ))/(( l.l_y_m_ticket_avg *.10)+ l.l_y_m_ticket_avg ))*100 < 0, 'text-primary': (( l.m_ticket_avg -(( l.l_y_m_ticket_avg *.10)+ l.l_y_m_ticket_avg ))/(( l.l_y_m_ticket_avg*.10)+ l.l_y_m_ticket_avg ))*100 > 0  }">{{(( l.m_ticket_avg -(( l.l_y_m_ticket_avg *.10)+ l.l_y_m_ticket_avg ))/(( l.l_y_m_ticket_avg *.10)+ l.l_y_m_ticket_avg ))*100| number : 2}}%</td><!--  8 Guests Target Variation & -->
-                    
-                        <td ng-class="{ 'text-danger': l.l_y_m_total_sales < 0, 'text-primary': l.l_y_m_total_sales > 0  }"> {{ l.l_y_m_total_sales| number : 2 }}</td><!--  2 Guests Last Year -->
-                        <td ng-class="{ 'text-danger': l.m_total_sales < 0, 'text-primary': l.m_total_sales > 0  }">{{ l.m_total_sales | number : 2}}</td><!--  3 Guests Current Year -->
-                        <td ng-class="{ 'text-danger': l.m_total_sales - l.l_y_m_total_sales < 0, 'text-primary': l.m_total_sales - l.l_y_m_total_sales > 0  }">{{l.m_total_sales - l.l_y_m_total_sales  | number : 2}}</td> <!--  4 Guests Variation Qty -->
-                        <td ng-class="{ 'text-danger': (( l.m_total_sales - l.l_y_m_total_sales ) * 100 ) / ( l.l_y_m_total_sales ) < 0, 'text-primary': ((l.m_total_sales - l.l_y_m_total_sales ) * 100 ) / ( l.l_y_m_total_sales ) > 0  }">{{ ((l.m_total_sales - l.l_y_m_total_sales ) * 100 ) / ( l.l_y_m_total_sales ) | number : 2}}%</td><!--  5 Guests Variation % -->
-                        <td ng-class="{ 'text-danger': ( l.l_y_m_total_sales *.10)+ l.l_y_m_total_sales < 0, 'text-primary': ( l.l_y_m_total_sales*.10)+ l.l_y_m_total_sales > 0  }">{{( l.l_y_m_total_sales*.10)+ l.l_y_m_total_sales| number : 2}}</td><!--  6 Guests Target -->
-                        <td ng-class="{ 'text-danger': l.m_total_sales -(( l.l_y_m_total_sales *.10)+ l.l_y_m_total_sales ) < 0, 'text-primary': l.m_total_sales -(( l.l_y_m_total_sales *.10)+ l.l_y_m_total_sales ) > 0  }">{{ l.m_total_sales -(( l.l_y_m_total_sales *.10)+ l.l_y_m_total_sales )| number : 2}}</td><!--  7 Guests Target Variation Qty -->
-                        <td ng-class="{ 'text-danger': (( l.m_total_sales-((l.l_y_m_total_sales*.10)+ l.l_y_m_total_sales ))/(( l.l_y_m_total_sales *.10)+ l.l_y_m_total_sales ))*100 < 0, 'text-primary': (( l.m_total_sales -(( l.l_y_m_total_sales *.10)+ l.l_y_m_total_sales ))/(( l.l_y_m_total_sales*.10)+ l.l_y_m_total_sales ))*100 > 0  }">{{(( l.m_total_sales -(( l.l_y_m_total_sales *.10)+ l.l_y_m_total_sales ))/(( l.l_y_m_total_sales *.10)+ l.l_y_m_total_sales ))*100| number : 2}}%</td><!--  8 Guests Target Variation & -->
-
-                </tr>
-                <tr>
-                    <td>Total</td>
-
-                    <td ng-class="{ 'text-danger': l_y_monthly_guests_total < 0, 'text-primary': l_y_monthly_guests_total > 0  }"> {{ l_y_monthly_guests_total | number : 2}}</td><!--  2 Guests Last Year -->
-                    <td ng-class="{ 'text-danger': monthly_guests_total < 0, 'text-primary': monthly_guests_total > 0  }">{{ monthly_guests_total | number : 2}}</td><!--  3 Guests Current Year -->
-                    <td ng-class="{ 'text-danger': monthly_guests_total - l_y_monthly_guests_total < 0, 'text-primary': monthly_guests_total - l_y_monthly_guests_total > 0  }">{{monthly_guests_total - l_y_monthly_guests_total  | number : 2}}</td> <!--  4 Guests Variation Qty -->
-                    <td ng-class="{ 'text-danger': (( monthly_guests_total - l_y_monthly_guests_total ) * 100 ) / ( l_y_monthly_guests_total ) < 0, 'text-primary': ((monthly_guests_total - l_y_monthly_guests_total ) * 100 ) / ( l_y_monthly_guests_total ) > 0  }">{{ ((monthly_guests_total - l_y_monthly_guests_total ) * 100 ) / ( l_y_monthly_guests_total ) | number : 2}}%</td><!--  5 Guests Variation % -->
-                    <td ng-class="{ 'text-danger': ( l_y_monthly_guests_total *.10)+ l_y_monthly_guests_total < 0, 'text-primary': ( l_y_monthly_guests_total*.10)+ l_y_monthly_guests_total > 0  }">{{( l_y_monthly_guests_total*.10)+ l_y_monthly_guests_total| number : 2}}</td><!--  6 Guests Target -->
-                    <td ng-class="{ 'text-danger': monthly_guests_total -(( l_y_monthly_guests_total *.10)+ l_y_monthly_guests_total ) < 0, 'text-primary': monthly_guests_total -(( l_y_monthly_guests_total *.10)+ l_y_monthly_guests_total ) > 0  }">{{ monthly_guests_total -(( l_y_monthly_guests_total *.10)+ l_y_monthly_guests_total )| number : 2}}</td><!--  7 Guests Target Variation Qty -->
-                    <td ng-class="{ 'text-danger': (( monthly_guests_total-((l_y_monthly_guests_total*.10)+ l_y_monthly_guests_total ))/(( l_y_monthly_guests_total *.10)+ l_y_monthly_guests_total ))*100 < 0, 'text-primary': (( monthly_guests_total -(( l_y_monthly_guests_total *.10)+ l_y_monthly_guests_total ))/(( l_y_monthly_guests_total*.10)+ l_y_monthly_guests_total ))*100 > 0  }">{{(( monthly_guests_total -(( l_y_monthly_guests_total *.10)+ l_y_monthly_guests_total ))/(( l_y_monthly_guests_total *.10)+ l_y_monthly_guests_total ))*100| number : 2}}%</td><!--  8 Guests Target Variation & -->
-                    
-                    <td ng-class="{ 'text-danger': l_y_monthly_ticket_avg_total < 0, 'text-primary': l_y_monthly_ticket_avg_total > 0  }"> {{ l_y_monthly_ticket_avg_total | number : 2}}</td><!--  2 Guests Last Year -->
-                    <td ng-class="{ 'text-danger': monthly_ticket_avg_total < 0, 'text-primary': monthly_ticket_avg_total > 0  }">{{ monthly_ticket_avg_total | number : 2}}</td><!--  3 Guests Current Year -->
-                    <td ng-class="{ 'text-danger': monthly_ticket_avg_total - l_y_monthly_ticket_avg_total < 0, 'text-primary': monthly_ticket_avg_total - l_y_monthly_ticket_avg_total > 0  }">{{monthly_ticket_avg_total - l_y_monthly_ticket_avg_total  | number : 2}}</td> <!--  4 Guests Variation Qty -->
-                    <td ng-class="{ 'text-danger': (( monthly_ticket_avg_total - l_y_monthly_ticket_avg_total ) * 100 ) / ( l_y_monthly_ticket_avg_total ) < 0, 'text-primary': ((monthly_ticket_avg_total - l_y_monthly_ticket_avg_total ) * 100 ) / ( l_y_monthly_ticket_avg_total ) > 0  }">{{ ((monthly_ticket_avg_total - l_y_monthly_ticket_avg_total ) * 100 ) / ( l_y_monthly_ticket_avg_total ) | number : 2}}%</td><!--  5 Guests Variation % -->
-                    <td ng-class="{ 'text-danger': ( l_y_monthly_ticket_avg_total *.10)+ l_y_monthly_ticket_avg_total < 0, 'text-primary': ( l_y_monthly_ticket_avg_total*.10)+ l_y_monthly_ticket_avg_total > 0  }">{{( l_y_monthly_ticket_avg_total*.10)+ l_y_monthly_ticket_avg_total| number : 2}}</td><!--  6 Guests Target -->
-                    <td ng-class="{ 'text-danger': monthly_ticket_avg_total -(( l_y_monthly_ticket_avg_total *.10)+ l_y_monthly_ticket_avg_total ) < 0, 'text-primary': monthly_ticket_avg_total -(( l_y_monthly_ticket_avg_total *.10)+ l_y_monthly_ticket_avg_total ) > 0  }">{{ monthly_ticket_avg_total -(( l_y_monthly_ticket_avg_total *.10)+ l_y_monthly_ticket_avg_total )| number : 2}}</td><!--  7 Guests Target Variation Qty -->
-                    <td ng-class="{ 'text-danger': (( monthly_ticket_avg_total-((l_y_monthly_ticket_avg_total*.10)+ l_y_monthly_ticket_avg_total ))/(( l_y_monthly_ticket_avg_total *.10)+ l_y_monthly_ticket_avg_total ))*100 < 0, 'text-primary': (( monthly_ticket_avg_total -(( l_y_monthly_ticket_avg_total *.10)+ l_y_monthly_ticket_avg_total ))/(( l_y_monthly_ticket_avg_total*.10)+ l_y_monthly_ticket_avg_total ))*100 > 0  }">{{(( monthly_ticket_avg_total -(( l_y_monthly_ticket_avg_total *.10)+ l_y_monthly_ticket_avg_total ))/(( l_y_monthly_ticket_avg_total *.10)+ l_y_monthly_ticket_avg_total ))*100| number : 2}}%</td><!--  8 Guests Target Variation & -->          
-                    
-                    <td ng-class="{ 'text-danger': l_y_monthly_sales_total < 0, 'text-primary': l_y_monthly_sales_total > 0  }"> {{ l_y_monthly_sales_total | number : 2}}</td><!--  2 Guests Last Year -->
-                    <td ng-class="{ 'text-danger': monthly_sales_total < 0, 'text-primary': monthly_sales_total > 0  }">{{ monthly_sales_total | number : 2}}</td><!--  3 Guests Current Year -->
-                    <td ng-class="{ 'text-danger': monthly_sales_total - l_y_monthly_sales_total < 0, 'text-primary': monthly_sales_total - l_y_monthly_sales_total > 0  }">{{monthly_sales_total - l_y_monthly_sales_total  | number : 2}}</td> <!--  4 Guests Variation Qty -->
-                    <td ng-class="{ 'text-danger': (( monthly_sales_total - l_y_monthly_sales_total ) * 100 ) / ( l_y_monthly_sales_total ) < 0, 'text-primary': ((monthly_sales_total - l_y_monthly_sales_total ) * 100 ) / ( l_y_monthly_sales_total ) > 0  }">{{ ((monthly_sales_total - l_y_monthly_sales_total ) * 100 ) / ( l_y_monthly_sales_total ) | number : 2}}%</td><!--  5 Guests Variation % -->
-                    <td ng-class="{ 'text-danger': ( l_y_monthly_sales_total *.10)+ l_y_monthly_sales_total < 0, 'text-primary': ( l_y_monthly_sales_total*.10)+ l_y_monthly_sales_total > 0  }">{{( l_y_monthly_sales_total*.10)+ l_y_monthly_sales_total| number : 2}}</td><!--  6 Guests Target -->
-                    <td ng-class="{ 'text-danger': monthly_sales_total -(( l_y_monthly_sales_total *.10)+ l_y_monthly_sales_total ) < 0, 'text-primary': monthly_sales_total -(( l_y_monthly_sales_total *.10)+ l_y_monthly_sales_total ) > 0  }">{{ monthly_sales_total -(( l_y_monthly_sales_total *.10)+ l_y_monthly_sales_total )| number : 2}}</td><!--  7 Guests Target Variation Qty -->
-                    <td ng-class="{ 'text-danger': (( monthly_sales_total-((l_y_monthly_sales_total*.10)+ l_y_monthly_sales_total ))/(( l_y_monthly_sales_total *.10)+ l_y_monthly_sales_total ))*100 < 0, 'text-primary': (( monthly_sales_total -(( l_y_monthly_sales_total *.10)+ l_y_monthly_sales_total ))/(( l_y_monthly_sales_total*.10)+ l_y_monthly_sales_total ))*100 > 0  }">{{(( monthly_sales_total -(( l_y_monthly_sales_total *.10)+ l_y_monthly_sales_total ))/(( l_y_monthly_sales_total *.10)+ l_y_monthly_sales_total ))*100| number : 2}}%</td><!--  8 Guests Target Variation & -->
-
-                </tr>
-                <tr>
-                    <td  colspan="22"></td>
-                </tr>
-                
-                <tr>
-                    <th class="text-center" colspan="22"><h4>Yearly</h4></th>
-                </tr>
-                <tr>
-                    <th></th>
-                    <th class="text-center" colspan="7">Guests</th>
-                    
-                    <th class="text-center" colspan="7">Ticket Avg.</th>
-                    
-                    <th class="text-center" colspan="7">Total Sales</th>
-                </tr>
-                <tr>
-                        <th>Location</th> <!-- Location  -->
-                        <th> {{last_year}}</th><!--  1 Guests Last Year -->
-                        <th> {{current_year}}</th><!-- 2 Guests Current Year -->
-                        <th colspan="2">Variation</th><!-- Guest Variation -->
-                        <th>Target</th><!--  -->
-                        <th colspan="2">Target Variation</th><!--  -->
+                        <td ng-class="{ 'text-danger': l.l_y_guests < 0, 'text-primary': l.l_y_guests > 0  }"> {{l.l_y_guests}}</td><!--  2 Guests Last Year -->
+                        <td ng-class="{ 'text-danger': l.guests < 0, 'text-primary': l.guests > 0  }">{{l.guests}}</td><!--  3 Guests Current Year -->
+                        <td ng-class="{ 'text-danger': l.guests - l.l_y_guests < 0, 'text-primary': l.guests - l.l_y_guests > 0  }">{{l.guests - l.l_y_guests  | number : 2}}</td> <!--  4 Guests Variation Qty -->
+                        <td ng-class="{ 'text-danger': ((l.guests - l.l_y_guests ) * 100 ) / ( l.l_y_guests ) < 0, 'text-primary': ((l.guests - l.l_y_guests ) * 100 ) / ( l.l_y_guests ) > 0  }">{{ ((l.guests - l.l_y_guests ) * 100 ) / ( l.l_y_guests ) | number : 2}}%</td><!--  5 Guests Variation % -->
+                        <td ng-class="{ 'text-danger': (l.l_y_guests*.10)+l.l_y_guests < 0, 'text-primary': (l.l_y_guests*.10)+l.l_y_guests > 0  }">{{(l.l_y_guests*.10)+l.l_y_guests| number : 2}}</td><!--  6 Guests Target -->
+                        <td ng-class="{ 'text-danger': l.guests-((l.l_y_guests*.10)+l.l_y_guests) < 0, 'text-primary': l.guests-((l.l_y_guests*.10)+l.l_y_guests) > 0  }">{{l.guests-((l.l_y_guests*.10)+l.l_y_guests)| number : 2}}</td><!--  7 Guests Target Variation Qty -->
+                        <td ng-class="{ 'text-danger': ((l.guests-((l.l_y_guests*.10)+l.l_y_guests))/((l.l_y_guests*.10)+l.l_y_guests))*100 < 0, 'text-primary': ((l.guests-((l.l_y_guests*.10)+l.l_y_guests))/((l.l_y_guests*.10)+l.l_y_guests))*100 > 0  }">{{((l.guests-((l.l_y_guests*.10)+l.l_y_guests))/((l.l_y_guests*.10)+l.l_y_guests))*100| number : 2}}%</td><!--  8 Guests Target Variation & -->
                         
-                        <th> {{last_year}}</th><!--  -->
-                        <th> {{current_year}}</th><!--  -->
-                        <th colspan="2">Variation</th><!--  -->
-                        <th>Target</th><!--  -->
-                        <th colspan="2">Target Variation</th><!--  -->
-                                
-                        <th> {{last_year}}</th><!--  -->
-                        <th> {{current_year}}</th><!--  -->
-                        <th colspan="2">Variation</th>  <!--  -->
-                        <th>Target</th><!--  -->
-                        <th colspan="2">Target Variation</th><!--  -->            
-                </tr>
-                <tr ng-repeat="l in locations">
-                    <th>{{l.location_name}}</td>
-                    <td ng-class="{ 'text-danger': l.l_y_y_guests < 0, 'text-primary': l.l_y_y_guests > 0  }"> {{ l.l_y_y_guests| number : 2 }}</td><!--  2 Guests Last Year -->
-                    <td ng-class="{ 'text-danger': l.y_guests < 0, 'text-primary': l.y_guests > 0  }">{{ l.y_guests| number : 2 }}</td><!--  3 Guests Current Year -->
-                    <td ng-class="{ 'text-danger': l.y_guests - l.l_y_y_guests < 0, 'text-primary': l.y_guests - l.l_y_y_guests > 0  }">{{l.y_guests - l.l_y_y_guests  | number : 2}}</td> <!--  4 Guests Variation Qty -->
-                    <td ng-class="{ 'text-danger': (( l.y_guests - l.l_y_y_guests ) * 100 ) / ( l.l_y_y_guests ) < 0, 'text-primary': ((l.y_guests - l.l_y_y_guests ) * 100 ) / ( l.l_y_y_guests ) > 0  }">{{ ((l.y_guests - l.l_y_y_guests ) * 100 ) / ( l.l_y_y_guests ) | number : 2}}%</td><!--  5 Guests Variation % -->
-                    <td ng-class="{ 'text-danger': ( l.l_y_y_guests *.10)+ l.l_y_y_guests < 0, 'text-primary': ( l.l_y_y_guests*.10)+ l.l_y_y_guests > 0  }">{{( l.l_y_y_guests*.10)+ l.l_y_y_guests| number : 2}}</td><!--  6 Guests Target -->
-                    <td ng-class="{ 'text-danger': l.y_guests -(( l.l_y_y_guests *.10)+ l.l_y_y_guests ) < 0, 'text-primary': l.y_guests -(( l.l_y_y_guests *.10)+ l.l_y_y_guests ) > 0  }">{{ l.y_guests -(( l.l_y_y_guests *.10)+ l.l_y_y_guests )| number : 2}}</td><!--  7 Guests Target Variation Qty -->
-                    <td ng-class="{ 'text-danger': (( l.y_guests-((l.l_y_y_guests*.10)+ l.l_y_y_guests ))/(( l.l_y_y_guests *.10)+ l.l_y_y_guests ))*100 < 0, 'text-primary': (( l.y_guests -(( l.l_y_y_guests *.10)+ l.l_y_y_guests ))/(( l.l_y_y_guests*.10)+ l.l_y_y_guests ))*100 > 0  }">{{(( l.y_guests -(( l.l_y_y_guests *.10)+ l.l_y_y_guests ))/(( l.l_y_y_guests *.10)+ l.l_y_y_guests ))*100| number : 2}}%</td><!--  8 Guests Target Variation & -->
-                    
-                    <td ng-class="{ 'text-danger': l.l_y_y_ticket_avg < 0, 'text-primary': l.l_y_y_ticket_avg > 0  }"> {{ l.l_y_y_ticket_avg | number : 2}}</td><!--  2 Guests Last Year -->
-                    <td ng-class="{ 'text-danger': l.y_ticket_avg < 0, 'text-primary': l.y_ticket_avg > 0  }">{{ l.y_ticket_avg | number : 2}}</td><!--  3 Guests Current Year -->
-                    <td ng-class="{ 'text-danger': l.y_ticket_avg - l.l_y_y_ticket_avg < 0, 'text-primary': l.y_ticket_avg - l.l_y_y_ticket_avg > 0  }">{{l.y_ticket_avg - l.l_y_y_ticket_avg  | number : 2}}</td> <!--  4 Guests Variation Qty -->
-                    <td ng-class="{ 'text-danger': (( l.y_ticket_avg - l.l_y_y_ticket_avg ) * 100 ) / ( l.l_y_y_ticket_avg ) < 0, 'text-primary': ((l.y_ticket_avg - l.l_y_y_ticket_avg ) * 100 ) / ( l.l_y_y_ticket_avg ) > 0  }">{{ ((l.y_ticket_avg - l.l_y_y_ticket_avg ) * 100 ) / ( l.l_y_y_ticket_avg ) | number : 2}}%</td><!--  5 Guests Variation % -->
-                    <td ng-class="{ 'text-danger': ( l.l_y_y_ticket_avg *.10)+ l.l_y_y_ticket_avg < 0, 'text-primary': ( l.l_y_y_ticket_avg*.10)+ l.l_y_y_ticket_avg > 0  }">{{( l.l_y_y_ticket_avg*.10)+ l.l_y_y_ticket_avg| number : 2}}</td><!--  6 Guests Target -->
-                    <td ng-class="{ 'text-danger': l.y_ticket_avg -(( l.l_y_y_ticket_avg *.10)+ l.l_y_y_ticket_avg ) < 0, 'text-primary': l.y_ticket_avg -(( l.l_y_y_ticket_avg *.10)+ l.l_y_y_ticket_avg ) > 0  }">{{ l.y_ticket_avg -(( l.l_y_y_ticket_avg *.10)+ l.l_y_y_ticket_avg )| number : 2}}</td><!--  7 Guests Target Variation Qty -->
-                    <td ng-class="{ 'text-danger': (( l.y_ticket_avg-((l.l_y_y_ticket_avg*.10)+ l.l_y_y_ticket_avg ))/(( l.l_y_y_ticket_avg *.10)+ l.l_y_y_ticket_avg ))*100 < 0, 'text-primary': (( l.y_ticket_avg -(( l.l_y_y_ticket_avg *.10)+ l.l_y_y_ticket_avg ))/(( l.l_y_y_ticket_avg*.10)+ l.l_y_y_ticket_avg ))*100 > 0  }">{{(( l.y_ticket_avg -(( l.l_y_y_ticket_avg *.10)+ l.l_y_y_ticket_avg ))/(( l.l_y_y_ticket_avg *.10)+ l.l_y_y_ticket_avg ))*100| number : 2}}%</td><!--  8 Guests Target Variation & -->
-                    
-                    <td ng-class="{ 'text-danger': l.l_y_y_total_sales < 0, 'text-primary': l.l_y_y_total_sales > 0  }"> {{ l.l_y_y_total_sales | number : 2}}</td><!--  2 Guests Last Year -->
-                    <td ng-class="{ 'text-danger': l.y_total_sales < 0, 'text-primary': l.y_total_sales > 0  }">{{ l.y_total_sales | number : 2}}</td><!--  3 Guests Current Year -->
-                    <td ng-class="{ 'text-danger': l.y_total_sales - l.l_y_y_total_sales < 0, 'text-primary': l.y_total_sales - l.l_y_y_total_sales > 0  }">{{l.y_total_sales - l.l_y_y_total_sales  | number : 2}}</td> <!--  4 Guests Variation Qty -->
-                    <td ng-class="{ 'text-danger': (( l.y_total_sales - l.l_y_y_total_sales ) * 100 ) / ( l.l_y_y_total_sales ) < 0, 'text-primary': ((l.y_total_sales - l.l_y_y_total_sales ) * 100 ) / ( l.l_y_y_total_sales ) > 0  }">{{ ((l.y_total_sales - l.l_y_y_total_sales ) * 100 ) / ( l.l_y_y_total_sales ) | number : 2}}%</td><!--  5 Guests Variation % -->
-                    <td ng-class="{ 'text-danger': ( l.l_y_y_total_sales *.10)+ l.l_y_y_total_sales < 0, 'text-primary': ( l.l_y_y_total_sales*.10)+ l.l_y_y_total_sales > 0  }">{{( l.l_y_y_total_sales*.10)+ l.l_y_y_total_sales| number : 2}}</td><!--  6 Guests Target -->
-                    <td ng-class="{ 'text-danger': l.y_total_sales -(( l.l_y_y_total_sales *.10)+ l.l_y_y_total_sales ) < 0, 'text-primary': l.y_total_sales -(( l.l_y_y_total_sales *.10)+ l.l_y_y_total_sales ) > 0  }">{{ l.y_total_sales -(( l.l_y_y_total_sales *.10)+ l.l_y_y_total_sales )| number : 2}}</td><!--  7 Guests Target Variation Qty -->
-                    <td ng-class="{ 'text-danger': (( l.y_total_sales-((l.l_y_y_total_sales*.10)+ l.l_y_y_total_sales ))/(( l.l_y_y_total_sales *.10)+ l.l_y_y_total_sales ))*100 < 0, 'text-primary': (( l.y_total_sales -(( l.l_y_y_total_sales *.10)+ l.l_y_y_total_sales ))/(( l.l_y_y_total_sales*.10)+ l.l_y_y_total_sales ))*100 > 0  }">{{(( l.y_total_sales -(( l.l_y_y_total_sales *.10)+ l.l_y_y_total_sales ))/(( l.l_y_y_total_sales *.10)+ l.l_y_y_total_sales ))*100| number : 2}}%</td><!--  8 Guests Target Variation & -->
-                </tr>
-                <tr>
-                    <td>Total</td>
-                    <td ng-class="{ 'text-danger': l_y_yearly_guests_total < 0, 'text-primary': l_y_yearly_guests_total > 0  }"> {{ l_y_yearly_guests_total | number : 2}}</td><!--  2 Guests Last Year -->
-                    <td ng-class="{ 'text-danger': yearly_guests_total < 0, 'text-primary': yearly_guests_total > 0  }">{{ yearly_guests_total | number : 2}}</td><!--  3 Guests Current Year -->
-                    <td ng-class="{ 'text-danger': yearly_guests_total - l_y_yearly_guests_total < 0, 'text-primary': yearly_guests_total - l_y_yearly_guests_total > 0  }">{{yearly_guests_total - l_y_yearly_guests_total  | number : 2}}</td> <!--  4 Guests Variation Qty -->
-                    <td ng-class="{ 'text-danger': (( yearly_guests_total - l_y_yearly_guests_total ) * 100 ) / ( l_y_yearly_guests_total ) < 0, 'text-primary': ((yearly_guests_total - l_y_yearly_guests_total ) * 100 ) / ( l_y_yearly_guests_total ) > 0  }">{{ ((yearly_guests_total - l_y_yearly_guests_total ) * 100 ) / ( l_y_yearly_guests_total ) | number : 2}}%</td><!--  5 Guests Variation % -->
-                    <td ng-class="{ 'text-danger': ( l_y_yearly_guests_total *.10)+ l_y_yearly_guests_total < 0, 'text-primary': ( l_y_yearly_guests_total*.10)+ l_y_yearly_guests_total > 0  }">{{( l_y_yearly_guests_total*.10)+ l_y_yearly_guests_total| number : 2}}</td><!--  6 Guests Target -->
-                    <td ng-class="{ 'text-danger': yearly_guests_total -(( l_y_yearly_guests_total *.10)+ l_y_yearly_guests_total ) < 0, 'text-primary': yearly_guests_total -(( l_y_yearly_guests_total *.10)+ l_y_yearly_guests_total ) > 0  }">{{ yearly_guests_total -(( l_y_yearly_guests_total *.10)+ l_y_yearly_guests_total )| number : 2}}</td><!--  7 Guests Target Variation Qty -->
-                    <td ng-class="{ 'text-danger': (( yearly_guests_total-((l_y_yearly_guests_total*.10)+ l_y_yearly_guests_total ))/(( l_y_yearly_guests_total *.10)+ l_y_yearly_guests_total ))*100 < 0, 'text-primary': (( yearly_guests_total -(( l_y_yearly_guests_total *.10)+ l_y_yearly_guests_total ))/(( l_y_yearly_guests_total*.10)+ l_y_yearly_guests_total ))*100 > 0  }">{{(( yearly_guests_total -(( l_y_yearly_guests_total *.10)+ l_y_yearly_guests_total ))/(( l_y_yearly_guests_total *.10)+ l_y_yearly_guests_total ))*100| number : 2}}%</td><!--  8 Guests Target Variation & -->                  
-                    
-                    <td ng-class="{ 'text-danger': l_y_yearly_ticket_avg_total < 0, 'text-primary': l_y_yearly_ticket_avg_total > 0  }"> {{ l_y_yearly_ticket_avg_total | number : 2}}</td><!--  2 Guests Last Year -->
-                    <td ng-class="{ 'text-danger': yearly_ticket_avg_total < 0, 'text-primary': yearly_ticket_avg_total > 0  }">{{ yearly_ticket_avg_total | number : 2}}</td><!--  3 Guests Current Year -->
-                    <td ng-class="{ 'text-danger': yearly_ticket_avg_total - l_y_yearly_ticket_avg_total < 0, 'text-primary': yearly_ticket_avg_total - l_y_yearly_ticket_avg_total > 0  }">{{yearly_ticket_avg_total - l_y_yearly_ticket_avg_total  | number : 2}}</td> <!--  4 Guests Variation Qty -->
-                    <td ng-class="{ 'text-danger': (( yearly_ticket_avg_total - l_y_yearly_ticket_avg_total ) * 100 ) / ( l_y_yearly_ticket_avg_total ) < 0, 'text-primary': ((yearly_ticket_avg_total - l_y_yearly_ticket_avg_total ) * 100 ) / ( l_y_yearly_ticket_avg_total ) > 0  }">{{ ((yearly_ticket_avg_total - l_y_yearly_ticket_avg_total ) * 100 ) / ( l_y_yearly_ticket_avg_total ) | number : 2}}%</td><!--  5 Guests Variation % -->
-                    <td ng-class="{ 'text-danger': ( l_y_yearly_ticket_avg_total *.10)+ l_y_yearly_ticket_avg_total < 0, 'text-primary': ( l_y_yearly_ticket_avg_total*.10)+ l_y_yearly_ticket_avg_total > 0  }">{{( l_y_yearly_ticket_avg_total*.10)+ l_y_yearly_ticket_avg_total| number : 2}}</td><!--  6 Guests Target -->
-                    <td ng-class="{ 'text-danger': yearly_ticket_avg_total -(( l_y_yearly_ticket_avg_total *.10)+ l_y_yearly_ticket_avg_total ) < 0, 'text-primary': yearly_ticket_avg_total -(( l_y_yearly_ticket_avg_total *.10)+ l_y_yearly_ticket_avg_total ) > 0  }">{{ yearly_ticket_avg_total -(( l_y_yearly_ticket_avg_total *.10)+ l_y_yearly_ticket_avg_total )| number : 2}}</td><!--  7 Guests Target Variation Qty -->
-                    <td ng-class="{ 'text-danger': (( yearly_ticket_avg_total-((l_y_yearly_ticket_avg_total*.10)+ l_y_yearly_ticket_avg_total ))/(( l_y_yearly_ticket_avg_total *.10)+ l_y_yearly_ticket_avg_total ))*100 < 0, 'text-primary': (( yearly_ticket_avg_total -(( l_y_yearly_ticket_avg_total *.10)+ l_y_yearly_ticket_avg_total ))/(( l_y_yearly_ticket_avg_total*.10)+ l_y_yearly_ticket_avg_total ))*100 > 0  }">{{(( yearly_ticket_avg_total -(( l_y_yearly_ticket_avg_total *.10)+ l_y_yearly_ticket_avg_total ))/(( l_y_yearly_ticket_avg_total *.10)+ l_y_yearly_ticket_avg_total ))*100| number : 2}}%</td><!--  8 Guests Target Variation & -->             
-                    
-                    <td ng-class="{ 'text-danger': l_y_yearly_sales_total < 0, 'text-primary': l_y_yearly_sales_total > 0  }"> {{ l_y_yearly_sales_total | number : 2}}</td><!--  2 Guests Last Year -->
-                    <td ng-class="{ 'text-danger': yearly_sales_total < 0, 'text-primary': yearly_sales_total > 0  }">{{ yearly_sales_total | number : 2}}</td><!--  3 Guests Current Year -->
-                    <td ng-class="{ 'text-danger': yearly_sales_total - l_y_yearly_sales_total < 0, 'text-primary': yearly_sales_total - l_y_yearly_sales_total > 0  }">{{yearly_sales_total - l_y_yearly_sales_total  | number : 2}}</td> <!--  4 Guests Variation Qty -->
-                    <td ng-class="{ 'text-danger': (( yearly_sales_total - l_y_yearly_sales_total ) * 100 ) / ( l_y_yearly_sales_total ) < 0, 'text-primary': ((yearly_sales_total - l_y_yearly_sales_total ) * 100 ) / ( l_y_yearly_sales_total ) > 0  }">{{ ((yearly_sales_total - l_y_yearly_sales_total ) * 100 ) / ( l_y_yearly_sales_total ) | number : 2}}%</td><!--  5 Guests Variation % -->
-                    <td ng-class="{ 'text-danger': ( l_y_yearly_sales_total *.10)+ l_y_yearly_sales_total < 0, 'text-primary': ( l_y_yearly_sales_total*.10)+ l_y_yearly_sales_total > 0  }">{{( l_y_yearly_sales_total*.10)+ l_y_yearly_sales_total| number : 2}}</td><!--  6 Guests Target -->
-                    <td ng-class="{ 'text-danger': yearly_sales_total -(( l_y_yearly_sales_total *.10)+ l_y_yearly_sales_total ) < 0, 'text-primary': yearly_sales_total -(( l_y_yearly_sales_total *.10)+ l_y_yearly_sales_total ) > 0  }">{{ yearly_sales_total -(( l_y_yearly_sales_total *.10)+ l_y_yearly_sales_total )| number : 2}}</td><!--  7 Guests Target Variation Qty -->
-                    <td ng-class="{ 'text-danger': (( yearly_sales_total-((l_y_yearly_sales_total*.10)+ l_y_yearly_sales_total ))/(( l_y_yearly_sales_total *.10)+ l_y_yearly_sales_total ))*100 < 0, 'text-primary': (( yearly_sales_total -(( l_y_yearly_sales_total *.10)+ l_y_yearly_sales_total ))/(( l_y_yearly_sales_total*.10)+ l_y_yearly_sales_total ))*100 > 0  }">{{(( yearly_sales_total -(( l_y_yearly_sales_total *.10)+ l_y_yearly_sales_total ))/(( l_y_yearly_sales_total *.10)+ l_y_yearly_sales_total ))*100| number : 2}}%</td><!--  8 Guests Target Variation & -->
-                </tr>
-            
-            </tbody>
-        </table>
+                        <td ng-class="{ 'text-danger': l.l_y_ticket_avg < 0, 'text-primary': l.l_y_ticket_avg > 0  }"> {{ l.l_y_ticket_avg | number : 2 }}</td><!--  2 Guests Last Year -->
+                        <td ng-class="{ 'text-danger': l.ticket_avg < 0, 'text-primary': l.ticket_avg > 0  }">{{ l.ticket_avg | number : 2 }}</td><!--  3 Guests Current Year -->
+                        <td ng-class="{ 'text-danger': l.ticket_avg - l.l_y_ticket_avg < 0, 'text-primary': l.ticket_avg - l.l_y_ticket_avg > 0  }">{{l.ticket_avg - l.l_y_ticket_avg  | number : 2}}</td> <!--  4 Guests Variation Qty -->
+                        <td ng-class="{ 'text-danger': (( l.ticket_avg - l.l_y_ticket_avg ) * 100 ) / ( l.l_y_ticket_avg ) < 0, 'text-primary': ((l.ticket_avg - l.l_y_ticket_avg ) * 100 ) / ( l.l_y_ticket_avg ) > 0  }">{{ ((l.ticket_avg - l.l_y_ticket_avg ) * 100 ) / ( l.l_y_ticket_avg ) | number : 2}}%</td><!--  5 Guests Variation % -->
+                        <td ng-class="{ 'text-danger': ( l.l_y_ticket_avg *.10)+ l.l_y_ticket_avg < 0, 'text-primary': ( l.l_y_ticket_avg*.10)+ l.l_y_ticket_avg > 0  }">{{( l.l_y_ticket_avg*.10)+ l.l_y_ticket_avg| number : 2}}</td><!--  6 Guests Target -->
+                        <td ng-class="{ 'text-danger': l.ticket_avg -(( l.l_y_ticket_avg *.10)+ l.l_y_ticket_avg ) < 0, 'text-primary': l.ticket_avg -(( l.l_y_ticket_avg *.10)+ l.l_y_ticket_avg ) > 0  }">{{ l.ticket_avg -(( l.l_y_ticket_avg *.10)+ l.l_y_ticket_avg )| number : 2}}</td><!--  7 Guests Target Variation Qty -->
+                        <td ng-class="{ 'text-danger': (( l.ticket_avg-((l.l_y_ticket_avg*.10)+ l.l_y_ticket_avg ))/(( l.l_y_ticket_avg *.10)+ l.l_y_ticket_avg ))*100 < 0, 'text-primary': (( l.ticket_avg -(( l.l_y_ticket_avg *.10)+ l.l_y_ticket_avg ))/(( l.l_y_ticket_avg*.10)+ l.l_y_ticket_avg ))*100 > 0  }">{{(( l.ticket_avg -(( l.l_y_ticket_avg *.10)+ l.l_y_ticket_avg ))/(( l.l_y_ticket_avg *.10)+ l.l_y_ticket_avg ))*100| number : 2}}%</td><!--  8 Guests Target Variation & -->
+                        
+                        <td ng-class="{ 'text-danger': l.l_y_total_sales < 0, 'text-primary': l.l_y_total_sales > 0  }"> {{ l.l_y_total_sales }}</td><!--  2 Guests Last Year -->
+                        <td ng-class="{ 'text-danger': l.total_sales < 0, 'text-primary': l.total_sales > 0  }">{{ l.total_sales }}</td><!--  3 Guests Current Year -->
+                        <td ng-class="{ 'text-danger': l.total_sales - l.l_y_total_sales < 0, 'text-primary': l.total_sales - l.l_y_total_sales > 0  }">{{l.total_sales - l.l_y_total_sales  | number : 2}}</td> <!--  4 Guests Variation Qty -->
+                        <td ng-class="{ 'text-danger': (( l.total_sales - l.l_y_total_sales ) * 100 ) / ( l.l_y_total_sales ) < 0, 'text-primary': ((l.total_sales - l.l_y_total_sales ) * 100 ) / ( l.l_y_total_sales ) > 0  }">{{ ((l.total_sales - l.l_y_total_sales ) * 100 ) / ( l.l_y_total_sales ) | number : 2}}%</td><!--  5 Guests Variation % -->
+                        <td ng-class="{ 'text-danger': ( l.l_y_total_sales *.10)+ l.l_y_total_sales < 0, 'text-primary': ( l.l_y_total_sales*.10)+ l.l_y_total_sales > 0  }">{{( l.l_y_total_sales*.10)+ l.l_y_total_sales| number : 2}}</td><!--  6 Guests Target -->
+                        <td ng-class="{ 'text-danger': l.total_sales -(( l.l_y_total_sales *.10)+ l.l_y_total_sales ) < 0, 'text-primary': l.total_sales -(( l.l_y_total_sales *.10)+ l.l_y_total_sales ) > 0  }">{{ l.total_sales -(( l.l_y_total_sales *.10)+ l.l_y_total_sales )| number : 2}}</td><!--  7 Guests Target Variation Qty -->
+                        <td ng-class="{ 'text-danger': (( l.total_sales-((l.l_y_total_sales*.10)+ l.l_y_total_sales ))/(( l.l_y_total_sales *.10)+ l.l_y_total_sales ))*100 < 0, 'text-primary': (( l.total_sales -(( l.l_y_total_sales *.10)+ l.l_y_total_sales ))/(( l.l_y_total_sales*.10)+ l.l_y_total_sales ))*100 > 0  }">{{(( l.total_sales -(( l.l_y_total_sales *.10)+ l.l_y_total_sales ))/(( l.l_y_total_sales *.10)+ l.l_y_total_sales ))*100| number : 2}}%</td><!--  8 Guests Target Variation & -->
 
+
+                    </tr>
+                    <tr>
+                        <th>Total</td>
+                        <td ng-class="{ 'text-danger': l_y_daily_guests_total < 0, 'text-primary': l_y_daily_guests_total > 0  }"> {{ l_y_daily_guests_total | number : 2 }}</td><!--  2 Guests Last Year -->
+                        <td ng-class="{ 'text-danger': daily_guests_total < 0, 'text-primary': daily_guests_total > 0  }">{{ daily_guests_total | number : 2 }}</td><!--  3 Guests Current Year -->
+                        <td ng-class="{ 'text-danger': daily_guests_total - l_y_daily_guests_total < 0, 'text-primary': daily_guests_total - l_y_daily_guests_total > 0  }">{{daily_guests_total - l_y_daily_guests_total  | number : 2}}</td> <!--  4 Guests Variation Qty -->
+                        <td ng-class="{ 'text-danger': (( daily_guests_total - l_y_daily_guests_total ) * 100 ) / ( l_y_daily_guests_total ) < 0, 'text-primary': ((daily_guests_total - l_y_daily_guests_total ) * 100 ) / ( l_y_daily_guests_total ) > 0  }">{{ ((daily_guests_total - l_y_daily_guests_total ) * 100 ) / ( l_y_daily_guests_total ) | number : 2}}%</td><!--  5 Guests Variation % -->
+                        <td ng-class="{ 'text-danger': ( l_y_daily_guests_total *.10)+ l_y_daily_guests_total < 0, 'text-primary': ( l_y_daily_guests_total*.10)+ l_y_daily_guests_total > 0  }">{{( l_y_daily_guests_total*.10)+ l_y_daily_guests_total| number : 2}}</td><!--  6 Guests Target -->
+                        <td ng-class="{ 'text-danger': daily_guests_total -(( l_y_daily_guests_total *.10)+ l_y_daily_guests_total ) < 0, 'text-primary': daily_guests_total -(( l_y_daily_guests_total *.10)+ l_y_daily_guests_total ) > 0  }">{{ daily_guests_total -(( l_y_daily_guests_total *.10)+ l_y_daily_guests_total )| number : 2}}</td><!--  7 Guests Target Variation Qty -->
+                        <td ng-class="{ 'text-danger': (( daily_guests_total-((l_y_daily_guests_total*.10)+ l_y_daily_guests_total ))/(( l_y_daily_guests_total *.10)+ l_y_daily_guests_total ))*100 < 0, 'text-primary': (( daily_guests_total -(( l_y_daily_guests_total *.10)+ l_y_daily_guests_total ))/(( l_y_daily_guests_total*.10)+ l_y_daily_guests_total ))*100 > 0  }">{{(( daily_guests_total -(( l_y_daily_guests_total *.10)+ l_y_daily_guests_total ))/(( l_y_daily_guests_total *.10)+ l_y_daily_guests_total ))*100| number : 2}}%</td><!--  8 Guests Target Variation & -->
+                
+                        <td ng-class="{ 'text-danger': l_y_daily_ticket_avg_total < 0, 'text-primary': l_y_daily_ticket_avg_total > 0  }"> {{ l_y_daily_ticket_avg_total | number : 2 }}</td><!--  2 Guests Last Year -->
+                        <td ng-class="{ 'text-danger': daily_ticket_avg_total < 0, 'text-primary': daily_ticket_avg_total > 0  }">{{ daily_ticket_avg_total | number : 2 }}</td><!--  3 Guests Current Year -->
+                        <td ng-class="{ 'text-danger': daily_ticket_avg_total - l_y_daily_ticket_avg_total < 0, 'text-primary': daily_ticket_avg_total - l_y_daily_ticket_avg_total > 0  }">{{daily_ticket_avg_total - l_y_daily_ticket_avg_total  | number : 2}}</td> <!--  4 Guests Variation Qty -->
+                        <td ng-class="{ 'text-danger': (( daily_ticket_avg_total - l_y_daily_ticket_avg_total ) * 100 ) / ( l_y_daily_ticket_avg_total ) < 0, 'text-primary': ((daily_ticket_avg_total - l_y_daily_ticket_avg_total ) * 100 ) / ( l_y_daily_ticket_avg_total ) > 0  }">{{ ((daily_ticket_avg_total - l_y_daily_ticket_avg_total ) * 100 ) / ( l_y_daily_ticket_avg_total ) | number : 2}}%</td><!--  5 Guests Variation % -->
+                        <td ng-class="{ 'text-danger': ( l_y_daily_ticket_avg_total *.10)+ l_y_daily_ticket_avg_total < 0, 'text-primary': ( l_y_daily_ticket_avg_total*.10)+ l_y_daily_ticket_avg_total > 0  }">{{( l_y_daily_ticket_avg_total*.10)+ l_y_daily_ticket_avg_total| number : 2}}</td><!--  6 Guests Target -->
+                        <td ng-class="{ 'text-danger': daily_ticket_avg_total -(( l_y_daily_ticket_avg_total *.10)+ l_y_daily_ticket_avg_total ) < 0, 'text-primary': daily_ticket_avg_total -(( l_y_daily_ticket_avg_total *.10)+ l_y_daily_ticket_avg_total ) > 0  }">{{ daily_ticket_avg_total -(( l_y_daily_ticket_avg_total *.10)+ l_y_daily_ticket_avg_total )| number : 2}}</td><!--  7 Guests Target Variation Qty -->
+                        <td ng-class="{ 'text-danger': (( daily_ticket_avg_total-((l_y_daily_ticket_avg_total*.10)+ l_y_daily_ticket_avg_total ))/(( l_y_daily_ticket_avg_total *.10)+ l_y_daily_ticket_avg_total ))*100 < 0, 'text-primary': (( daily_ticket_avg_total -(( l_y_daily_ticket_avg_total *.10)+ l_y_daily_ticket_avg_total ))/(( l_y_daily_ticket_avg_total*.10)+ l_y_daily_ticket_avg_total ))*100 > 0  }">{{(( daily_ticket_avg_total -(( l_y_daily_ticket_avg_total *.10)+ l_y_daily_ticket_avg_total ))/(( l_y_daily_ticket_avg_total *.10)+ l_y_daily_ticket_avg_total ))*100| number : 2}}%</td><!--  8 Guests Target Variation & -->
+                    
+                        <td ng-class="{ 'text-danger': l_y_daily_sales_total < 0, 'text-primary': l_y_daily_sales_total > 0  }"> {{ l_y_daily_sales_total | number : 2 }}</td><!--  2 Guests Last Year -->
+                        <td ng-class="{ 'text-danger': daily_sales_total < 0, 'text-primary': daily_sales_total > 0  }">{{ daily_sales_total | number : 2 }}</td><!--  3 Guests Current Year -->
+                        <td ng-class="{ 'text-danger': daily_sales_total - l_y_daily_sales_total < 0, 'text-primary': daily_sales_total - l_y_daily_sales_total > 0  }">{{daily_sales_total - l_y_daily_sales_total  | number : 2}}</td> <!--  4 Guests Variation Qty -->
+                        <td ng-class="{ 'text-danger': (( daily_sales_total - l_y_daily_sales_total ) * 100 ) / ( l_y_daily_sales_total ) < 0, 'text-primary': ((daily_sales_total - l_y_daily_sales_total ) * 100 ) / ( l_y_daily_sales_total ) > 0  }">{{ ((daily_sales_total - l_y_daily_sales_total ) * 100 ) / ( l_y_daily_sales_total ) | number : 2}}%</td><!--  5 Guests Variation % -->
+                        <td ng-class="{ 'text-danger': ( l_y_daily_sales_total *.10)+ l_y_daily_sales_total < 0, 'text-primary': ( l_y_daily_sales_total*.10)+ l_y_daily_sales_total > 0  }">{{( l_y_daily_sales_total*.10)+ l_y_daily_sales_total| number : 2}}</td><!--  6 Guests Target -->
+                        <td ng-class="{ 'text-danger': daily_sales_total -(( l_y_daily_sales_total *.10)+ l_y_daily_sales_total ) < 0, 'text-primary': daily_sales_total -(( l_y_daily_sales_total *.10)+ l_y_daily_sales_total ) > 0  }">{{ daily_sales_total -(( l_y_daily_sales_total *.10)+ l_y_daily_sales_total )| number : 2}}</td><!--  7 Guests Target Variation Qty -->
+                        <td ng-class="{ 'text-danger': (( daily_sales_total-((l_y_daily_sales_total*.10)+ l_y_daily_sales_total ))/(( l_y_daily_sales_total *.10)+ l_y_daily_sales_total ))*100 < 0, 'text-primary': (( daily_sales_total -(( l_y_daily_sales_total *.10)+ l_y_daily_sales_total ))/(( l_y_daily_sales_total*.10)+ l_y_daily_sales_total ))*100 > 0  }">{{(( daily_sales_total -(( l_y_daily_sales_total *.10)+ l_y_daily_sales_total ))/(( l_y_daily_sales_total *.10)+ l_y_daily_sales_total ))*100| number : 2}}%</td><!--  8 Guests Target Variation & -->
+
+                    </tr>
+                    <tr>
+                        <td colspan="22"></td>
+                    </tr>
+                    
+                    <tr>
+                        <th class="text-center" colspan="22"><h4>Monthly</h4></th>
+                    </tr>
+                    <tr>
+                        <th></th>
+                        <th class="text-center" colspan="7">Guests</th>
+                        <th class="text-center" colspan="7">Ticket Avg.</th>
+                        <th class="text-center" colspan="7">Total Sales</th>
+                    </tr>
+                    <tr>
+                            <th>Location</th> <!-- Location  -->
+                            <th> {{last_year}}</th><!--  1 Guests Last Year -->
+                            <th> {{current_year}}</th><!-- 2 Guests Current Year -->
+                            <th colspan="2">Variation</th><!-- Guest Variation -->
+                            <th>Target</th><!--  -->
+                            <th colspan="2">Target Variation</th><!--  -->
+                            
+                            <th> {{last_year}}</th><!--  -->
+                            <th> {{current_year}}</th><!--  -->
+                            <th colspan="2">Variation</th><!--  -->
+                            <th>Target</th><!--  -->
+                            <th colspan="2">Target Variation</th><!--  -->
+                                    
+                            <th> {{last_year}}</th><!--  -->
+                            <th> {{current_year}}</th><!--  -->
+                            <th colspan="2">Variation</th>  <!--  -->
+                            <th>Target</th><!--  -->
+                            <th colspan="2">Target Variation</th><!--  -->            
+                    </tr>
+                    <tr ng-repeat="l in locations">
+                            <th>{{l.location_name}}</td><!-- 1 Location  -->
+                                <td ng-class="{ 'text-danger': l.l_y_m_guests < 0, 'text-primary': l.l_y_m_guests > 0  }"> {{ l.l_y_m_guests }}</td><!--  2 Guests Last Year -->
+                                <td ng-class="{ 'text-danger': l.m_guests < 0, 'text-primary': l.m_guests > 0  }">{{ l.m_guests }}</td><!--  3 Guests Current Year -->
+                                <td ng-class="{ 'text-danger': l.m_guests - l.l_y_m_guests < 0, 'text-primary': l.m_guests - l.l_y_m_guests > 0  }">{{l.m_guests - l.l_y_m_guests  | number : 2}}</td> <!--  4 Guests Variation Qty -->
+                                <td ng-class="{ 'text-danger': (( l.m_guests - l.l_y_m_guests ) * 100 ) / ( l.l_y_m_guests ) < 0, 'text-primary': ((l.m_guests - l.l_y_m_guests ) * 100 ) / ( l.l_y_m_guests ) > 0  }">{{ ((l.m_guests - l.l_y_m_guests ) * 100 ) / ( l.l_y_m_guests ) | number : 2}}%</td><!--  5 Guests Variation % -->
+                                <td ng-class="{ 'text-danger': ( l.l_y_m_guests *.10)+ l.l_y_m_guests < 0, 'text-primary': ( l.l_y_m_guests*.10)+ l.l_y_m_guests > 0  }">{{( l.l_y_m_guests*.10)+ l.l_y_m_guests| number : 2}}</td><!--  6 Guests Target -->
+                                <td ng-class="{ 'text-danger': l.m_guests -(( l.l_y_m_guests *.10)+ l.l_y_m_guests ) < 0, 'text-primary': l.m_guests -(( l.l_y_m_guests *.10)+ l.l_y_m_guests ) > 0  }">{{ l.m_guests -(( l.l_y_m_guests *.10)+ l.l_y_m_guests )| number : 2}}</td><!--  7 Guests Target Variation Qty -->
+                                <td ng-class="{ 'text-danger': (( l.m_guests-((l.l_y_m_guests*.10)+ l.l_y_m_guests ))/(( l.l_y_m_guests *.10)+ l.l_y_m_guests ))*100 < 0, 'text-primary': (( l.m_guests -(( l.l_y_m_guests *.10)+ l.l_y_m_guests ))/(( l.l_y_m_guests*.10)+ l.l_y_m_guests ))*100 > 0  }">{{(( l.m_guests -(( l.l_y_m_guests *.10)+ l.l_y_m_guests ))/(( l.l_y_m_guests *.10)+ l.l_y_m_guests ))*100| number : 2}}%</td><!--  8 Guests Target Variation & -->
+                        
+                            <td ng-class="{ 'text-danger': l.l_y_m_ticket_avg < 0, 'text-primary': l.l_y_m_ticket_avg > 0  }"> {{ l.l_y_m_ticket_avg | number : 2}}</td><!--  2 Guests Last Year -->
+                            <td ng-class="{ 'text-danger': l.m_ticket_avg < 0, 'text-primary': l.m_ticket_avg > 0  }">{{ l.m_ticket_avg | number : 2}}</td><!--  3 Guests Current Year -->
+                            <td ng-class="{ 'text-danger': l.m_ticket_avg - l.l_y_m_ticket_avg < 0, 'text-primary': l.m_ticket_avg - l.l_y_m_ticket_avg > 0  }">{{l.m_ticket_avg - l.l_y_m_ticket_avg  | number : 2}}</td> <!--  4 Guests Variation Qty -->
+                            <td ng-class="{ 'text-danger': (( l.m_ticket_avg - l.l_y_m_ticket_avg ) * 100 ) / ( l.l_y_m_ticket_avg ) < 0, 'text-primary': ((l.m_ticket_avg - l.l_y_m_ticket_avg ) * 100 ) / ( l.l_y_m_ticket_avg ) > 0  }">{{ ((l.m_ticket_avg - l.l_y_m_ticket_avg ) * 100 ) / ( l.l_y_m_ticket_avg ) | number : 2}}%</td><!--  5 Guests Variation % -->
+                            <td ng-class="{ 'text-danger': ( l.l_y_m_ticket_avg *.10)+ l.l_y_m_ticket_avg < 0, 'text-primary': ( l.l_y_m_ticket_avg*.10)+ l.l_y_m_ticket_avg > 0  }">{{( l.l_y_m_ticket_avg*.10)+ l.l_y_m_ticket_avg| number : 2}}</td><!--  6 Guests Target -->
+                            <td ng-class="{ 'text-danger': l.m_ticket_avg -(( l.l_y_m_ticket_avg *.10)+ l.l_y_m_ticket_avg ) < 0, 'text-primary': l.m_ticket_avg -(( l.l_y_m_ticket_avg *.10)+ l.l_y_m_ticket_avg ) > 0  }">{{ l.m_ticket_avg -(( l.l_y_m_ticket_avg *.10)+ l.l_y_m_ticket_avg )| number : 2}}</td><!--  7 Guests Target Variation Qty -->
+                            <td ng-class="{ 'text-danger': (( l.m_ticket_avg-((l.l_y_m_ticket_avg*.10)+ l.l_y_m_ticket_avg ))/(( l.l_y_m_ticket_avg *.10)+ l.l_y_m_ticket_avg ))*100 < 0, 'text-primary': (( l.m_ticket_avg -(( l.l_y_m_ticket_avg *.10)+ l.l_y_m_ticket_avg ))/(( l.l_y_m_ticket_avg*.10)+ l.l_y_m_ticket_avg ))*100 > 0  }">{{(( l.m_ticket_avg -(( l.l_y_m_ticket_avg *.10)+ l.l_y_m_ticket_avg ))/(( l.l_y_m_ticket_avg *.10)+ l.l_y_m_ticket_avg ))*100| number : 2}}%</td><!--  8 Guests Target Variation & -->
+                        
+                            <td ng-class="{ 'text-danger': l.l_y_m_total_sales < 0, 'text-primary': l.l_y_m_total_sales > 0  }"> {{ l.l_y_m_total_sales| number : 2 }}</td><!--  2 Guests Last Year -->
+                            <td ng-class="{ 'text-danger': l.m_total_sales < 0, 'text-primary': l.m_total_sales > 0  }">{{ l.m_total_sales | number : 2}}</td><!--  3 Guests Current Year -->
+                            <td ng-class="{ 'text-danger': l.m_total_sales - l.l_y_m_total_sales < 0, 'text-primary': l.m_total_sales - l.l_y_m_total_sales > 0  }">{{l.m_total_sales - l.l_y_m_total_sales  | number : 2}}</td> <!--  4 Guests Variation Qty -->
+                            <td ng-class="{ 'text-danger': (( l.m_total_sales - l.l_y_m_total_sales ) * 100 ) / ( l.l_y_m_total_sales ) < 0, 'text-primary': ((l.m_total_sales - l.l_y_m_total_sales ) * 100 ) / ( l.l_y_m_total_sales ) > 0  }">{{ ((l.m_total_sales - l.l_y_m_total_sales ) * 100 ) / ( l.l_y_m_total_sales ) | number : 2}}%</td><!--  5 Guests Variation % -->
+                            <td ng-class="{ 'text-danger': ( l.l_y_m_total_sales *.10)+ l.l_y_m_total_sales < 0, 'text-primary': ( l.l_y_m_total_sales*.10)+ l.l_y_m_total_sales > 0  }">{{( l.l_y_m_total_sales*.10)+ l.l_y_m_total_sales| number : 2}}</td><!--  6 Guests Target -->
+                            <td ng-class="{ 'text-danger': l.m_total_sales -(( l.l_y_m_total_sales *.10)+ l.l_y_m_total_sales ) < 0, 'text-primary': l.m_total_sales -(( l.l_y_m_total_sales *.10)+ l.l_y_m_total_sales ) > 0  }">{{ l.m_total_sales -(( l.l_y_m_total_sales *.10)+ l.l_y_m_total_sales )| number : 2}}</td><!--  7 Guests Target Variation Qty -->
+                            <td ng-class="{ 'text-danger': (( l.m_total_sales-((l.l_y_m_total_sales*.10)+ l.l_y_m_total_sales ))/(( l.l_y_m_total_sales *.10)+ l.l_y_m_total_sales ))*100 < 0, 'text-primary': (( l.m_total_sales -(( l.l_y_m_total_sales *.10)+ l.l_y_m_total_sales ))/(( l.l_y_m_total_sales*.10)+ l.l_y_m_total_sales ))*100 > 0  }">{{(( l.m_total_sales -(( l.l_y_m_total_sales *.10)+ l.l_y_m_total_sales ))/(( l.l_y_m_total_sales *.10)+ l.l_y_m_total_sales ))*100| number : 2}}%</td><!--  8 Guests Target Variation & -->
+
+                    </tr>
+                    <tr>
+                        <td>Total</td>
+
+                        <td ng-class="{ 'text-danger': l_y_monthly_guests_total < 0, 'text-primary': l_y_monthly_guests_total > 0  }"> {{ l_y_monthly_guests_total | number : 2}}</td><!--  2 Guests Last Year -->
+                        <td ng-class="{ 'text-danger': monthly_guests_total < 0, 'text-primary': monthly_guests_total > 0  }">{{ monthly_guests_total | number : 2}}</td><!--  3 Guests Current Year -->
+                        <td ng-class="{ 'text-danger': monthly_guests_total - l_y_monthly_guests_total < 0, 'text-primary': monthly_guests_total - l_y_monthly_guests_total > 0  }">{{monthly_guests_total - l_y_monthly_guests_total  | number : 2}}</td> <!--  4 Guests Variation Qty -->
+                        <td ng-class="{ 'text-danger': (( monthly_guests_total - l_y_monthly_guests_total ) * 100 ) / ( l_y_monthly_guests_total ) < 0, 'text-primary': ((monthly_guests_total - l_y_monthly_guests_total ) * 100 ) / ( l_y_monthly_guests_total ) > 0  }">{{ ((monthly_guests_total - l_y_monthly_guests_total ) * 100 ) / ( l_y_monthly_guests_total ) | number : 2}}%</td><!--  5 Guests Variation % -->
+                        <td ng-class="{ 'text-danger': ( l_y_monthly_guests_total *.10)+ l_y_monthly_guests_total < 0, 'text-primary': ( l_y_monthly_guests_total*.10)+ l_y_monthly_guests_total > 0  }">{{( l_y_monthly_guests_total*.10)+ l_y_monthly_guests_total| number : 2}}</td><!--  6 Guests Target -->
+                        <td ng-class="{ 'text-danger': monthly_guests_total -(( l_y_monthly_guests_total *.10)+ l_y_monthly_guests_total ) < 0, 'text-primary': monthly_guests_total -(( l_y_monthly_guests_total *.10)+ l_y_monthly_guests_total ) > 0  }">{{ monthly_guests_total -(( l_y_monthly_guests_total *.10)+ l_y_monthly_guests_total )| number : 2}}</td><!--  7 Guests Target Variation Qty -->
+                        <td ng-class="{ 'text-danger': (( monthly_guests_total-((l_y_monthly_guests_total*.10)+ l_y_monthly_guests_total ))/(( l_y_monthly_guests_total *.10)+ l_y_monthly_guests_total ))*100 < 0, 'text-primary': (( monthly_guests_total -(( l_y_monthly_guests_total *.10)+ l_y_monthly_guests_total ))/(( l_y_monthly_guests_total*.10)+ l_y_monthly_guests_total ))*100 > 0  }">{{(( monthly_guests_total -(( l_y_monthly_guests_total *.10)+ l_y_monthly_guests_total ))/(( l_y_monthly_guests_total *.10)+ l_y_monthly_guests_total ))*100| number : 2}}%</td><!--  8 Guests Target Variation & -->
+                        
+                        <td ng-class="{ 'text-danger': l_y_monthly_ticket_avg_total < 0, 'text-primary': l_y_monthly_ticket_avg_total > 0  }"> {{ l_y_monthly_ticket_avg_total | number : 2}}</td><!--  2 Guests Last Year -->
+                        <td ng-class="{ 'text-danger': monthly_ticket_avg_total < 0, 'text-primary': monthly_ticket_avg_total > 0  }">{{ monthly_ticket_avg_total | number : 2}}</td><!--  3 Guests Current Year -->
+                        <td ng-class="{ 'text-danger': monthly_ticket_avg_total - l_y_monthly_ticket_avg_total < 0, 'text-primary': monthly_ticket_avg_total - l_y_monthly_ticket_avg_total > 0  }">{{monthly_ticket_avg_total - l_y_monthly_ticket_avg_total  | number : 2}}</td> <!--  4 Guests Variation Qty -->
+                        <td ng-class="{ 'text-danger': (( monthly_ticket_avg_total - l_y_monthly_ticket_avg_total ) * 100 ) / ( l_y_monthly_ticket_avg_total ) < 0, 'text-primary': ((monthly_ticket_avg_total - l_y_monthly_ticket_avg_total ) * 100 ) / ( l_y_monthly_ticket_avg_total ) > 0  }">{{ ((monthly_ticket_avg_total - l_y_monthly_ticket_avg_total ) * 100 ) / ( l_y_monthly_ticket_avg_total ) | number : 2}}%</td><!--  5 Guests Variation % -->
+                        <td ng-class="{ 'text-danger': ( l_y_monthly_ticket_avg_total *.10)+ l_y_monthly_ticket_avg_total < 0, 'text-primary': ( l_y_monthly_ticket_avg_total*.10)+ l_y_monthly_ticket_avg_total > 0  }">{{( l_y_monthly_ticket_avg_total*.10)+ l_y_monthly_ticket_avg_total| number : 2}}</td><!--  6 Guests Target -->
+                        <td ng-class="{ 'text-danger': monthly_ticket_avg_total -(( l_y_monthly_ticket_avg_total *.10)+ l_y_monthly_ticket_avg_total ) < 0, 'text-primary': monthly_ticket_avg_total -(( l_y_monthly_ticket_avg_total *.10)+ l_y_monthly_ticket_avg_total ) > 0  }">{{ monthly_ticket_avg_total -(( l_y_monthly_ticket_avg_total *.10)+ l_y_monthly_ticket_avg_total )| number : 2}}</td><!--  7 Guests Target Variation Qty -->
+                        <td ng-class="{ 'text-danger': (( monthly_ticket_avg_total-((l_y_monthly_ticket_avg_total*.10)+ l_y_monthly_ticket_avg_total ))/(( l_y_monthly_ticket_avg_total *.10)+ l_y_monthly_ticket_avg_total ))*100 < 0, 'text-primary': (( monthly_ticket_avg_total -(( l_y_monthly_ticket_avg_total *.10)+ l_y_monthly_ticket_avg_total ))/(( l_y_monthly_ticket_avg_total*.10)+ l_y_monthly_ticket_avg_total ))*100 > 0  }">{{(( monthly_ticket_avg_total -(( l_y_monthly_ticket_avg_total *.10)+ l_y_monthly_ticket_avg_total ))/(( l_y_monthly_ticket_avg_total *.10)+ l_y_monthly_ticket_avg_total ))*100| number : 2}}%</td><!--  8 Guests Target Variation & -->          
+                        
+                        <td ng-class="{ 'text-danger': l_y_monthly_sales_total < 0, 'text-primary': l_y_monthly_sales_total > 0  }"> {{ l_y_monthly_sales_total | number : 2}}</td><!--  2 Guests Last Year -->
+                        <td ng-class="{ 'text-danger': monthly_sales_total < 0, 'text-primary': monthly_sales_total > 0  }">{{ monthly_sales_total | number : 2}}</td><!--  3 Guests Current Year -->
+                        <td ng-class="{ 'text-danger': monthly_sales_total - l_y_monthly_sales_total < 0, 'text-primary': monthly_sales_total - l_y_monthly_sales_total > 0  }">{{monthly_sales_total - l_y_monthly_sales_total  | number : 2}}</td> <!--  4 Guests Variation Qty -->
+                        <td ng-class="{ 'text-danger': (( monthly_sales_total - l_y_monthly_sales_total ) * 100 ) / ( l_y_monthly_sales_total ) < 0, 'text-primary': ((monthly_sales_total - l_y_monthly_sales_total ) * 100 ) / ( l_y_monthly_sales_total ) > 0  }">{{ ((monthly_sales_total - l_y_monthly_sales_total ) * 100 ) / ( l_y_monthly_sales_total ) | number : 2}}%</td><!--  5 Guests Variation % -->
+                        <td ng-class="{ 'text-danger': ( l_y_monthly_sales_total *.10)+ l_y_monthly_sales_total < 0, 'text-primary': ( l_y_monthly_sales_total*.10)+ l_y_monthly_sales_total > 0  }">{{( l_y_monthly_sales_total*.10)+ l_y_monthly_sales_total| number : 2}}</td><!--  6 Guests Target -->
+                        <td ng-class="{ 'text-danger': monthly_sales_total -(( l_y_monthly_sales_total *.10)+ l_y_monthly_sales_total ) < 0, 'text-primary': monthly_sales_total -(( l_y_monthly_sales_total *.10)+ l_y_monthly_sales_total ) > 0  }">{{ monthly_sales_total -(( l_y_monthly_sales_total *.10)+ l_y_monthly_sales_total )| number : 2}}</td><!--  7 Guests Target Variation Qty -->
+                        <td ng-class="{ 'text-danger': (( monthly_sales_total-((l_y_monthly_sales_total*.10)+ l_y_monthly_sales_total ))/(( l_y_monthly_sales_total *.10)+ l_y_monthly_sales_total ))*100 < 0, 'text-primary': (( monthly_sales_total -(( l_y_monthly_sales_total *.10)+ l_y_monthly_sales_total ))/(( l_y_monthly_sales_total*.10)+ l_y_monthly_sales_total ))*100 > 0  }">{{(( monthly_sales_total -(( l_y_monthly_sales_total *.10)+ l_y_monthly_sales_total ))/(( l_y_monthly_sales_total *.10)+ l_y_monthly_sales_total ))*100| number : 2}}%</td><!--  8 Guests Target Variation & -->
+
+                    </tr>
+                    <tr>
+                        <td  colspan="22"></td>
+                    </tr>
+                    
+                    <tr>
+                        <th class="text-center" colspan="22"><h4>Yearly</h4></th>
+                    </tr>
+                    <tr>
+                        <th></th>
+                        <th class="text-center" colspan="7">Guests</th>
+                        
+                        <th class="text-center" colspan="7">Ticket Avg.</th>
+                        
+                        <th class="text-center" colspan="7">Total Sales</th>
+                    </tr>
+                    <tr>
+                            <th>Location</th> <!-- Location  -->
+                            <th> {{last_year}}</th><!--  1 Guests Last Year -->
+                            <th> {{current_year}}</th><!-- 2 Guests Current Year -->
+                            <th colspan="2">Variation</th><!-- Guest Variation -->
+                            <th>Target</th><!--  -->
+                            <th colspan="2">Target Variation</th><!--  -->
+                            
+                            <th> {{last_year}}</th><!--  -->
+                            <th> {{current_year}}</th><!--  -->
+                            <th colspan="2">Variation</th><!--  -->
+                            <th>Target</th><!--  -->
+                            <th colspan="2">Target Variation</th><!--  -->
+                                    
+                            <th> {{last_year}}</th><!--  -->
+                            <th> {{current_year}}</th><!--  -->
+                            <th colspan="2">Variation</th>  <!--  -->
+                            <th>Target</th><!--  -->
+                            <th colspan="2">Target Variation</th><!--  -->            
+                    </tr>
+                    <tr ng-repeat="l in locations">
+                        <th>{{l.location_name}}</td>
+                        <td ng-class="{ 'text-danger': l.l_y_y_guests < 0, 'text-primary': l.l_y_y_guests > 0  }"> {{ l.l_y_y_guests| number : 2 }}</td><!--  2 Guests Last Year -->
+                        <td ng-class="{ 'text-danger': l.y_guests < 0, 'text-primary': l.y_guests > 0  }">{{ l.y_guests| number : 2 }}</td><!--  3 Guests Current Year -->
+                        <td ng-class="{ 'text-danger': l.y_guests - l.l_y_y_guests < 0, 'text-primary': l.y_guests - l.l_y_y_guests > 0  }">{{l.y_guests - l.l_y_y_guests  | number : 2}}</td> <!--  4 Guests Variation Qty -->
+                        <td ng-class="{ 'text-danger': (( l.y_guests - l.l_y_y_guests ) * 100 ) / ( l.l_y_y_guests ) < 0, 'text-primary': ((l.y_guests - l.l_y_y_guests ) * 100 ) / ( l.l_y_y_guests ) > 0  }">{{ ((l.y_guests - l.l_y_y_guests ) * 100 ) / ( l.l_y_y_guests ) | number : 2}}%</td><!--  5 Guests Variation % -->
+                        <td ng-class="{ 'text-danger': ( l.l_y_y_guests *.10)+ l.l_y_y_guests < 0, 'text-primary': ( l.l_y_y_guests*.10)+ l.l_y_y_guests > 0  }">{{( l.l_y_y_guests*.10)+ l.l_y_y_guests| number : 2}}</td><!--  6 Guests Target -->
+                        <td ng-class="{ 'text-danger': l.y_guests -(( l.l_y_y_guests *.10)+ l.l_y_y_guests ) < 0, 'text-primary': l.y_guests -(( l.l_y_y_guests *.10)+ l.l_y_y_guests ) > 0  }">{{ l.y_guests -(( l.l_y_y_guests *.10)+ l.l_y_y_guests )| number : 2}}</td><!--  7 Guests Target Variation Qty -->
+                        <td ng-class="{ 'text-danger': (( l.y_guests-((l.l_y_y_guests*.10)+ l.l_y_y_guests ))/(( l.l_y_y_guests *.10)+ l.l_y_y_guests ))*100 < 0, 'text-primary': (( l.y_guests -(( l.l_y_y_guests *.10)+ l.l_y_y_guests ))/(( l.l_y_y_guests*.10)+ l.l_y_y_guests ))*100 > 0  }">{{(( l.y_guests -(( l.l_y_y_guests *.10)+ l.l_y_y_guests ))/(( l.l_y_y_guests *.10)+ l.l_y_y_guests ))*100| number : 2}}%</td><!--  8 Guests Target Variation & -->
+                        
+                        <td ng-class="{ 'text-danger': l.l_y_y_ticket_avg < 0, 'text-primary': l.l_y_y_ticket_avg > 0  }"> {{ l.l_y_y_ticket_avg | number : 2}}</td><!--  2 Guests Last Year -->
+                        <td ng-class="{ 'text-danger': l.y_ticket_avg < 0, 'text-primary': l.y_ticket_avg > 0  }">{{ l.y_ticket_avg | number : 2}}</td><!--  3 Guests Current Year -->
+                        <td ng-class="{ 'text-danger': l.y_ticket_avg - l.l_y_y_ticket_avg < 0, 'text-primary': l.y_ticket_avg - l.l_y_y_ticket_avg > 0  }">{{l.y_ticket_avg - l.l_y_y_ticket_avg  | number : 2}}</td> <!--  4 Guests Variation Qty -->
+                        <td ng-class="{ 'text-danger': (( l.y_ticket_avg - l.l_y_y_ticket_avg ) * 100 ) / ( l.l_y_y_ticket_avg ) < 0, 'text-primary': ((l.y_ticket_avg - l.l_y_y_ticket_avg ) * 100 ) / ( l.l_y_y_ticket_avg ) > 0  }">{{ ((l.y_ticket_avg - l.l_y_y_ticket_avg ) * 100 ) / ( l.l_y_y_ticket_avg ) | number : 2}}%</td><!--  5 Guests Variation % -->
+                        <td ng-class="{ 'text-danger': ( l.l_y_y_ticket_avg *.10)+ l.l_y_y_ticket_avg < 0, 'text-primary': ( l.l_y_y_ticket_avg*.10)+ l.l_y_y_ticket_avg > 0  }">{{( l.l_y_y_ticket_avg*.10)+ l.l_y_y_ticket_avg| number : 2}}</td><!--  6 Guests Target -->
+                        <td ng-class="{ 'text-danger': l.y_ticket_avg -(( l.l_y_y_ticket_avg *.10)+ l.l_y_y_ticket_avg ) < 0, 'text-primary': l.y_ticket_avg -(( l.l_y_y_ticket_avg *.10)+ l.l_y_y_ticket_avg ) > 0  }">{{ l.y_ticket_avg -(( l.l_y_y_ticket_avg *.10)+ l.l_y_y_ticket_avg )| number : 2}}</td><!--  7 Guests Target Variation Qty -->
+                        <td ng-class="{ 'text-danger': (( l.y_ticket_avg-((l.l_y_y_ticket_avg*.10)+ l.l_y_y_ticket_avg ))/(( l.l_y_y_ticket_avg *.10)+ l.l_y_y_ticket_avg ))*100 < 0, 'text-primary': (( l.y_ticket_avg -(( l.l_y_y_ticket_avg *.10)+ l.l_y_y_ticket_avg ))/(( l.l_y_y_ticket_avg*.10)+ l.l_y_y_ticket_avg ))*100 > 0  }">{{(( l.y_ticket_avg -(( l.l_y_y_ticket_avg *.10)+ l.l_y_y_ticket_avg ))/(( l.l_y_y_ticket_avg *.10)+ l.l_y_y_ticket_avg ))*100| number : 2}}%</td><!--  8 Guests Target Variation & -->
+                        
+                        <td ng-class="{ 'text-danger': l.l_y_y_total_sales < 0, 'text-primary': l.l_y_y_total_sales > 0  }"> {{ l.l_y_y_total_sales | number : 2}}</td><!--  2 Guests Last Year -->
+                        <td ng-class="{ 'text-danger': l.y_total_sales < 0, 'text-primary': l.y_total_sales > 0  }">{{ l.y_total_sales | number : 2}}</td><!--  3 Guests Current Year -->
+                        <td ng-class="{ 'text-danger': l.y_total_sales - l.l_y_y_total_sales < 0, 'text-primary': l.y_total_sales - l.l_y_y_total_sales > 0  }">{{l.y_total_sales - l.l_y_y_total_sales  | number : 2}}</td> <!--  4 Guests Variation Qty -->
+                        <td ng-class="{ 'text-danger': (( l.y_total_sales - l.l_y_y_total_sales ) * 100 ) / ( l.l_y_y_total_sales ) < 0, 'text-primary': ((l.y_total_sales - l.l_y_y_total_sales ) * 100 ) / ( l.l_y_y_total_sales ) > 0  }">{{ ((l.y_total_sales - l.l_y_y_total_sales ) * 100 ) / ( l.l_y_y_total_sales ) | number : 2}}%</td><!--  5 Guests Variation % -->
+                        <td ng-class="{ 'text-danger': ( l.l_y_y_total_sales *.10)+ l.l_y_y_total_sales < 0, 'text-primary': ( l.l_y_y_total_sales*.10)+ l.l_y_y_total_sales > 0  }">{{( l.l_y_y_total_sales*.10)+ l.l_y_y_total_sales| number : 2}}</td><!--  6 Guests Target -->
+                        <td ng-class="{ 'text-danger': l.y_total_sales -(( l.l_y_y_total_sales *.10)+ l.l_y_y_total_sales ) < 0, 'text-primary': l.y_total_sales -(( l.l_y_y_total_sales *.10)+ l.l_y_y_total_sales ) > 0  }">{{ l.y_total_sales -(( l.l_y_y_total_sales *.10)+ l.l_y_y_total_sales )| number : 2}}</td><!--  7 Guests Target Variation Qty -->
+                        <td ng-class="{ 'text-danger': (( l.y_total_sales-((l.l_y_y_total_sales*.10)+ l.l_y_y_total_sales ))/(( l.l_y_y_total_sales *.10)+ l.l_y_y_total_sales ))*100 < 0, 'text-primary': (( l.y_total_sales -(( l.l_y_y_total_sales *.10)+ l.l_y_y_total_sales ))/(( l.l_y_y_total_sales*.10)+ l.l_y_y_total_sales ))*100 > 0  }">{{(( l.y_total_sales -(( l.l_y_y_total_sales *.10)+ l.l_y_y_total_sales ))/(( l.l_y_y_total_sales *.10)+ l.l_y_y_total_sales ))*100| number : 2}}%</td><!--  8 Guests Target Variation & -->
+                    </tr>
+                    <tr>
+                        <td>Total</td>
+                        <td ng-class="{ 'text-danger': l_y_yearly_guests_total < 0, 'text-primary': l_y_yearly_guests_total > 0  }"> {{ l_y_yearly_guests_total | number : 2}}</td><!--  2 Guests Last Year -->
+                        <td ng-class="{ 'text-danger': yearly_guests_total < 0, 'text-primary': yearly_guests_total > 0  }">{{ yearly_guests_total | number : 2}}</td><!--  3 Guests Current Year -->
+                        <td ng-class="{ 'text-danger': yearly_guests_total - l_y_yearly_guests_total < 0, 'text-primary': yearly_guests_total - l_y_yearly_guests_total > 0  }">{{yearly_guests_total - l_y_yearly_guests_total  | number : 2}}</td> <!--  4 Guests Variation Qty -->
+                        <td ng-class="{ 'text-danger': (( yearly_guests_total - l_y_yearly_guests_total ) * 100 ) / ( l_y_yearly_guests_total ) < 0, 'text-primary': ((yearly_guests_total - l_y_yearly_guests_total ) * 100 ) / ( l_y_yearly_guests_total ) > 0  }">{{ ((yearly_guests_total - l_y_yearly_guests_total ) * 100 ) / ( l_y_yearly_guests_total ) | number : 2}}%</td><!--  5 Guests Variation % -->
+                        <td ng-class="{ 'text-danger': ( l_y_yearly_guests_total *.10)+ l_y_yearly_guests_total < 0, 'text-primary': ( l_y_yearly_guests_total*.10)+ l_y_yearly_guests_total > 0  }">{{( l_y_yearly_guests_total*.10)+ l_y_yearly_guests_total| number : 2}}</td><!--  6 Guests Target -->
+                        <td ng-class="{ 'text-danger': yearly_guests_total -(( l_y_yearly_guests_total *.10)+ l_y_yearly_guests_total ) < 0, 'text-primary': yearly_guests_total -(( l_y_yearly_guests_total *.10)+ l_y_yearly_guests_total ) > 0  }">{{ yearly_guests_total -(( l_y_yearly_guests_total *.10)+ l_y_yearly_guests_total )| number : 2}}</td><!--  7 Guests Target Variation Qty -->
+                        <td ng-class="{ 'text-danger': (( yearly_guests_total-((l_y_yearly_guests_total*.10)+ l_y_yearly_guests_total ))/(( l_y_yearly_guests_total *.10)+ l_y_yearly_guests_total ))*100 < 0, 'text-primary': (( yearly_guests_total -(( l_y_yearly_guests_total *.10)+ l_y_yearly_guests_total ))/(( l_y_yearly_guests_total*.10)+ l_y_yearly_guests_total ))*100 > 0  }">{{(( yearly_guests_total -(( l_y_yearly_guests_total *.10)+ l_y_yearly_guests_total ))/(( l_y_yearly_guests_total *.10)+ l_y_yearly_guests_total ))*100| number : 2}}%</td><!--  8 Guests Target Variation & -->                  
+                        
+                        <td ng-class="{ 'text-danger': l_y_yearly_ticket_avg_total < 0, 'text-primary': l_y_yearly_ticket_avg_total > 0  }"> {{ l_y_yearly_ticket_avg_total | number : 2}}</td><!--  2 Guests Last Year -->
+                        <td ng-class="{ 'text-danger': yearly_ticket_avg_total < 0, 'text-primary': yearly_ticket_avg_total > 0  }">{{ yearly_ticket_avg_total | number : 2}}</td><!--  3 Guests Current Year -->
+                        <td ng-class="{ 'text-danger': yearly_ticket_avg_total - l_y_yearly_ticket_avg_total < 0, 'text-primary': yearly_ticket_avg_total - l_y_yearly_ticket_avg_total > 0  }">{{yearly_ticket_avg_total - l_y_yearly_ticket_avg_total  | number : 2}}</td> <!--  4 Guests Variation Qty -->
+                        <td ng-class="{ 'text-danger': (( yearly_ticket_avg_total - l_y_yearly_ticket_avg_total ) * 100 ) / ( l_y_yearly_ticket_avg_total ) < 0, 'text-primary': ((yearly_ticket_avg_total - l_y_yearly_ticket_avg_total ) * 100 ) / ( l_y_yearly_ticket_avg_total ) > 0  }">{{ ((yearly_ticket_avg_total - l_y_yearly_ticket_avg_total ) * 100 ) / ( l_y_yearly_ticket_avg_total ) | number : 2}}%</td><!--  5 Guests Variation % -->
+                        <td ng-class="{ 'text-danger': ( l_y_yearly_ticket_avg_total *.10)+ l_y_yearly_ticket_avg_total < 0, 'text-primary': ( l_y_yearly_ticket_avg_total*.10)+ l_y_yearly_ticket_avg_total > 0  }">{{( l_y_yearly_ticket_avg_total*.10)+ l_y_yearly_ticket_avg_total| number : 2}}</td><!--  6 Guests Target -->
+                        <td ng-class="{ 'text-danger': yearly_ticket_avg_total -(( l_y_yearly_ticket_avg_total *.10)+ l_y_yearly_ticket_avg_total ) < 0, 'text-primary': yearly_ticket_avg_total -(( l_y_yearly_ticket_avg_total *.10)+ l_y_yearly_ticket_avg_total ) > 0  }">{{ yearly_ticket_avg_total -(( l_y_yearly_ticket_avg_total *.10)+ l_y_yearly_ticket_avg_total )| number : 2}}</td><!--  7 Guests Target Variation Qty -->
+                        <td ng-class="{ 'text-danger': (( yearly_ticket_avg_total-((l_y_yearly_ticket_avg_total*.10)+ l_y_yearly_ticket_avg_total ))/(( l_y_yearly_ticket_avg_total *.10)+ l_y_yearly_ticket_avg_total ))*100 < 0, 'text-primary': (( yearly_ticket_avg_total -(( l_y_yearly_ticket_avg_total *.10)+ l_y_yearly_ticket_avg_total ))/(( l_y_yearly_ticket_avg_total*.10)+ l_y_yearly_ticket_avg_total ))*100 > 0  }">{{(( yearly_ticket_avg_total -(( l_y_yearly_ticket_avg_total *.10)+ l_y_yearly_ticket_avg_total ))/(( l_y_yearly_ticket_avg_total *.10)+ l_y_yearly_ticket_avg_total ))*100| number : 2}}%</td><!--  8 Guests Target Variation & -->             
+                        
+                        <td ng-class="{ 'text-danger': l_y_yearly_sales_total < 0, 'text-primary': l_y_yearly_sales_total > 0  }"> {{ l_y_yearly_sales_total | number : 2}}</td><!--  2 Guests Last Year -->
+                        <td ng-class="{ 'text-danger': yearly_sales_total < 0, 'text-primary': yearly_sales_total > 0  }">{{ yearly_sales_total | number : 2}}</td><!--  3 Guests Current Year -->
+                        <td ng-class="{ 'text-danger': yearly_sales_total - l_y_yearly_sales_total < 0, 'text-primary': yearly_sales_total - l_y_yearly_sales_total > 0  }">{{yearly_sales_total - l_y_yearly_sales_total  | number : 2}}</td> <!--  4 Guests Variation Qty -->
+                        <td ng-class="{ 'text-danger': (( yearly_sales_total - l_y_yearly_sales_total ) * 100 ) / ( l_y_yearly_sales_total ) < 0, 'text-primary': ((yearly_sales_total - l_y_yearly_sales_total ) * 100 ) / ( l_y_yearly_sales_total ) > 0  }">{{ ((yearly_sales_total - l_y_yearly_sales_total ) * 100 ) / ( l_y_yearly_sales_total ) | number : 2}}%</td><!--  5 Guests Variation % -->
+                        <td ng-class="{ 'text-danger': ( l_y_yearly_sales_total *.10)+ l_y_yearly_sales_total < 0, 'text-primary': ( l_y_yearly_sales_total*.10)+ l_y_yearly_sales_total > 0  }">{{( l_y_yearly_sales_total*.10)+ l_y_yearly_sales_total| number : 2}}</td><!--  6 Guests Target -->
+                        <td ng-class="{ 'text-danger': yearly_sales_total -(( l_y_yearly_sales_total *.10)+ l_y_yearly_sales_total ) < 0, 'text-primary': yearly_sales_total -(( l_y_yearly_sales_total *.10)+ l_y_yearly_sales_total ) > 0  }">{{ yearly_sales_total -(( l_y_yearly_sales_total *.10)+ l_y_yearly_sales_total )| number : 2}}</td><!--  7 Guests Target Variation Qty -->
+                        <td ng-class="{ 'text-danger': (( yearly_sales_total-((l_y_yearly_sales_total*.10)+ l_y_yearly_sales_total ))/(( l_y_yearly_sales_total *.10)+ l_y_yearly_sales_total ))*100 < 0, 'text-primary': (( yearly_sales_total -(( l_y_yearly_sales_total *.10)+ l_y_yearly_sales_total ))/(( l_y_yearly_sales_total*.10)+ l_y_yearly_sales_total ))*100 > 0  }">{{(( yearly_sales_total -(( l_y_yearly_sales_total *.10)+ l_y_yearly_sales_total ))/(( l_y_yearly_sales_total *.10)+ l_y_yearly_sales_total ))*100| number : 2}}%</td><!--  8 Guests Target Variation & -->
+                    </tr>
+                
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
