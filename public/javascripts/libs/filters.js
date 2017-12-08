@@ -46,6 +46,12 @@ angular.module( 'warrior-filters', [])
             return d.getDate() + " " + month[d.getMonth()] + " " + d.getFullYear() + " " + ( d.getHours() < 10 ? ("0" + d.getHours()) : d.getHours() ) + ":" + ( d.getMinutes() < 10 ? ( "0" + d.getMinutes() ) : d.getMinutes() );
         };
     })
+    .filter('getTarget', function(){
+        return function(lastYearValue, currentYearValue){
+            return lastYeatValue - currentYearValue;
+        }
+
+    })
     .directive('stringToNumber', function() {
         return {
             require: 'ngModel',
