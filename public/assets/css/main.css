@@ -5497,9 +5497,10 @@ body.error_page {
 
 
 
+.dashboard-link {
+  color : white;
+}
 
-.mainView-animate {
-  position: relative;
-  padding-right: 5px ;
-  padding-left: 5px ;
+.dashboard-link:hover {
+  color : #4baf50;
 }

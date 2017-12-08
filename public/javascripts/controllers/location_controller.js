@@ -115,6 +115,7 @@ yukonApp
                                                                 growl   ) {
         if (AuthRepository.viewVerification()) {
             let todays = new Date();
+            $scope.currency = 'S/.'
             $scope.date_end = new Date();
             todays.setDate(1);
             $scope.date_start = todays;
@@ -197,6 +198,8 @@ yukonApp
                                             l.discounts = d1.data.total_discounts.filter( r => r.location == l.id ).reduce( ( a, b ) => ( a + b.total_discounts ), 0 )
                                             l.discounts_qty = d1.data.total_discounts.filter( r => r.location == l.id ).reduce( ( a, b ) => ( a + b.qty ), 0 )
                                             l.total_sales = l.sales.map(s => s.total).reduce((a, b) => (a + b), 0)
+                                            l.total_tax1 = l.sales.map( s => s.tax1 ).reduce( ( a, b ) => ( a + b ), 0)
+                                            l.total_tax2 = l.sales.map( s => s.tax2 ).reduce( ( a, b ) => ( a + b ), 0)
                                             l.total_tax = l.sales.map( s => s.tax1 + s.tax2 + s.tax3 ).reduce( ( a, b ) => ( a + b ), 0)
                                             l.total_vta_neta = l.sales.map( s => s.vta_neta ).reduce( ( a, b ) => ( a + b ), 0)
                                             l.promedy_sales = l.sales.length > 0 ? l.total_sales / l.sales.length : 0
@@ -216,6 +219,8 @@ yukonApp
                                             l.category_reports = d1.data.category_reports.filter( r => r.location == l.id )
                                             l.category_reports_qty = d1.data.category_reports.filter( r => r.location == l.id ).reduce( ( a, b  ) => ( a + b.qty ), 0 )
                                             l.category_reports_total = d1.data.category_reports.filter( r => r.location == l.id ).reduce( ( a, b  ) => ( a + b.total ), 0 )
+                                            l.category_reports_tax1 = d1.data.category_reports.filter( r => r.location == l.id ).reduce( ( a, b  ) => ( a + b.tax1 ), 0 )
+                                            l.category_reports_tax2 = d1.data.category_reports.filter( r => r.location == l.id ).reduce( ( a, b  ) => ( a + b.tax2 ), 0 )
                                             l.category_reports_taxes = d1.data.category_reports.filter( r => r.location == l.id ).reduce( ( a, b  ) => ( a + ( b.tax1 + b.tax2 + b.tax3 ) ), 0 )
                                         })
                                         $scope.cats_done = true
@@ -233,9 +238,15 @@ yukonApp
                                             l.credit_cards = []
                                             $scope.creditcard_reports.filter( cc => cc.location == l.id ).forEach( r => {
                                                 let temp = l.credit_cards.find( c_c => c_c.c_t == r.c_t )
-                                                temp ? temp.amount += r.amount : l.credit_cards.push( r )
+                                                if( temp ) {
+                                                    temp.amount += r.amount
+                                                    temp.credit_tip += r.credit_tip
+                                                } else {
+                                                    l.credit_cards.push( r )
+                                                }
                                             })
                                             l.creditcard_reports_total = l.credit_cards.reduce( ( a, b  ) => ( a + b.amount ), 0 )
+                                            l.creditcard_reports_credit_tip_total = l.credit_cards.reduce( ( a, b  ) => ( a + b.credit_tip ), 0 )
                                         })
 
                                         // Calculate all debit total

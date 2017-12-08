@@ -122,20 +122,23 @@ yukonApp
             // Then will get all the ticket details
             //
             $scope.select_ticket = function( report ) {
-                // Sets the ticket
-                $scope.selected_report = report;
-                // Sets an empty ticket response on the selected ticket
-                // This will make the validation on the printing functions
-                $scope.selected_report.details = [];
                 // Gets the details
                 TanusRepository.ticketRefDocDetail( report.move_id, report.location ).success( function( response ) {
                     if( !response.error ) {
+                        // Sets the ticket
+                        $scope.selected_report = report;
+                        // Sets an empty ticket response on the selected ticket
+                        // This will make the validation on the printing functions
+                        $scope.selected_report.details = [];
                         // Set the details on the selected report
                         $scope.selected_report.details = response.data;
+                        $scope.selected_report.total = $scope.selected_report.details.reduce( ( a, b ) => ( a + b.total ), 0 )
+                        $scope.selected_report.total_tax = $scope.selected_report.details.reduce( ( a, b ) => ( a + ( b.tx + b.tx2 + b.tx3 ) ), 0 )
+                        $scope.selected_report.sub_total = $scope.selected_report.total - $scope.selected_report.total_tax;
                     } else {
                         growl.error( 'There was an error; ' + response.message, {} )
                     }
-                }).error( function( error ) {
+                }).error( function( error ) { 
                     growl.error( 'There was an error; ' + error, {} )
                 });
             }

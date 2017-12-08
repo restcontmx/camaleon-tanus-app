@@ -45,33 +45,35 @@
     </div>
     <div class="col-md-6">
         <h3>Users</h3>
-        <table class="table table-hover">
-            <thead>
-                <tr>
-                    <td>First Name</td>
-                    <td>Last Name</td>
-                    <td>Email</td>
-                    <td>Profile</td>
-                    <td>Allowed Locations</td>
-                    <td></td>
-                </tr>
-            </thead>
-            <tbody>
-                <tr ng-repeat="u in users">
-                    <td>{{u.user.first_name}}</td>
-                    <td>{{u.user.last_name}}</td>
-                    <td>{{u.user.email}}</td>
-                    <td>{{u.profile.name}}</td>
-                    <td>
-                        <ul>
-                            <li ng-repeat="l in u.allowed_locations">{{l.location_name}}</li>
-                        </ul>
-                    </td>
-                    <td>
-                        <a ng-click="goEdit( u.id )"><i class="glyphicon glyphicon-edit"></i></a>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <td>First Name</td>
+                        <td>Last Name</td>
+                        <td>Email</td>
+                        <td>Profile</td>
+                        <td>Allowed Locations</td>
+                        <td></td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="u in users">
+                        <td>{{u.user.first_name}}</td>
+                        <td>{{u.user.last_name}}</td>
+                        <td>{{u.user.email}}</td>
+                        <td>{{u.profile.name}}</td>
+                        <td>
+                            <ul>
+                                <li ng-repeat="l in u.allowed_locations">{{l.location_name}}</li>
+                            </ul>
+                        </td>
+                        <td>
+                            <a ng-click="goEdit( u.id )"><i class="glyphicon glyphicon-edit"></i></a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
