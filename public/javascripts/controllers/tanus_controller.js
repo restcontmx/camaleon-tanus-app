@@ -4,8 +4,7 @@ yukonApp
             ticketRefDocs: (ticket_ref, loc_id) => $http.get('/tanus/ticketrefdocs/?ticket_ref=' + ticket_ref + '&loc=' + loc_id ),
             ticketRefDocDetail: (move_id, loc_id) => $http.get('/tanus/ticketrefdetail/?move_id=' + move_id + '&loc=' + loc_id )
         })
-    }])
-    
+    }])    
     .controller( 'ticketref-reports-controller', [  '$scope',
                                                     'TanusRepository',
                                                     'LocationRepository',
@@ -171,8 +170,8 @@ yukonApp
                             $('#invoice_qrcode').css({'width': $scope.qr_base_size / 2, 'height': $scope.qr_base_size / 2}).qrcode({
                                 render: 'canvas',
                                 size: $scope.qr_base_size,
-                                text: $scope.selected_report.p01_hash
-                            }).children('img').prop('title', $scope.qr_text);
+                                text: $scope.selected_report.qr_text
+                            }).children('img').prop('title', $scope.selected_report.qr_text);
                         });
                     } else {
                         growl.error( 'There was an error; ' + response.message, {} )

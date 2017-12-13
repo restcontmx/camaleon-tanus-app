@@ -45,8 +45,8 @@ yukonApp
                                                                 uiGridConstants,
                                                                 Excel   ) {
         if( AuthRepository.viewVerification() ) {
-
-            $scope.currency = 'S/.'
+            
+            $scope.currency = $rootScope.settings.currency
 
             $scope.exportToExcel = function( tableId ){ // ex: '#my-table'
                 var exportHref = Excel.tableToExcel( tableId, 'WireWorkbenchDataExport' );

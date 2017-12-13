@@ -226,11 +226,6 @@ yukonApp
                             link: 'auth.reports.tickets',
                             permission: false
                         },
-                        // {
-                        //     title: 'Tickets Count',
-                        //     link: 'auth.reports.ticketcount',
-                        //     permission: false
-                        // },
                         {
                             title: 'Tickets Count Detail',
                             link: 'auth.reports.ticketcountdetail',
@@ -270,6 +265,11 @@ yukonApp
                         {
                             title: 'Turns',
                             link: 'auth.settings.turns.list',
+                            permission: false
+                        },
+                        {
+                            title: 'Configuration',
+                            link: 'auth.settings.config',
                             permission: false
                         }
                     ]
@@ -401,6 +401,7 @@ yukonApp
                                     'CategoryRepository',
                                     'DiscountRepository',
                                     'CreditCardRepository',
+                                    'SettingsRepository',
                                     'Excel',
                                     'growl',
                                     function (  $scope, 
@@ -415,11 +416,12 @@ yukonApp
                                                 CategoryRepository, 
                                                 DiscountRepository, 
                                                 CreditCardRepository, 
+                                                SettingsRepository,
                                                 Excel,
                                                 growl   ) {
             $scope.$on('$stateChangeSuccess', function () {
                 if (AuthRepository.viewVerification()) {
-                    $scope.currency = 'S/.'
+                    
                     PermissionRepository.getAll().success(function (response) {
                         if (!response.error) {
                             $scope.permissions = response.data
@@ -437,6 +439,16 @@ yukonApp
                         }
                     }).error(function (error) {
                         growl.error("There was an error;" + error, {});
+                    });
+                    SettingsRepository.getSettings( $rootScope.user_info.s ).success( function( response ) {
+                        if( !response.error ) {
+                            $rootScope.settings = response.data
+                            $scope.currency = $rootScope.settings.currency
+                        } else {
+                            growl.error( "There was an error getting the settings; " + response.message, {} );
+                        }
+                    }).error( function( error ) {
+                        growl.error( "There was an error; " + error, {} );
                     });
                     // run scripts after state load
                     // init dashboard functions

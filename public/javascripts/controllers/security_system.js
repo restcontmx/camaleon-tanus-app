@@ -22,7 +22,7 @@ yukonApp
                                                 $cookieStore, 
                                                 $location, 
                                                 $rootScope,
-                                                PermissionRepository  ) {
+                                                PermissionRepository ) {
         return {
             login : ( email, password ) => $http.post( 'auth/login/', JSON.stringify( { email : email, password : password } ) ), // Login function that verifies user on the api
             logout : () => $http.post( 'auth/logout' ), // Logs out the user erreasing the cookie
@@ -45,8 +45,14 @@ yukonApp
                     $state.go( 'login' );
                     return false;
                 } else {        
-                    $rootScope.user_info = JSON.parse( currentUser ).user_data;
-                    return true;
+                    let user_info = JSON.parse( currentUser ).user_data;
+                    if( user_info.s ) {
+                        $rootScope.user_info = user_info
+                        return true;
+                    } else {
+                        $state.go( 'login' );
+                        return false;
+                    }
                 }
             },
             setCookie : function( user_data ) {

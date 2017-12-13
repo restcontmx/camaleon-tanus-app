@@ -410,4 +410,44 @@ router.get( '/dummy', jsonParser, function( req, res ) {
     );
 });
 
+/**
+* Get settings reports pettition
+**/
+router.get( '/settings/:id', jsonParser, function( req, res ) {
+    var userdata = JSON.parse( req.cookies['userdata'] )
+    request(
+        {
+            url : http_helper.get_business_api_uri( userdata.user_data.e_p, 'settings/reports/', req.params.id ),
+            method : 'GET',
+            json : true,
+            headers : {
+                'Authorization' : http_helper.get_basic_auth_w_token( encryption_system.decryptCookie( userdata.auth_data ) ),
+                'Content-type' : 'application/json'
+            }
+        },
+        ( error, response, body ) => { res.send( http_helper.data_format_ok( error, response, body ) ) }
+    );
+});
+
+/**
+* Get settings reports pettition
+**/
+router.put( '/settings/:id', jsonParser, function( req, res ) {
+    var userdata = JSON.parse( req.cookies['userdata'] )
+    request(
+        {
+            url : http_helper.get_business_api_uri( userdata.user_data.e_p, 'settings/reports/', req.params.id ),
+            method : 'PUT',
+            json : true,
+            body : req.body,
+            headers : {
+                'Authorization' : http_helper.get_basic_auth_w_token( encryption_system.decryptCookie( userdata.auth_data ) ),
+                'Content-type' : 'application/json'
+            }
+        },
+        ( error, response, body ) => { res.send( http_helper.data_format_updated( error, response, body ) ) }
+    );
+});
+
+
 module.exports = router;

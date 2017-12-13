@@ -2258,6 +2258,41 @@ yukonApp
                     },
                     controller: 'TurnController'
                 })
+                .state('auth.settings.config', {
+                    page_title: 'Setting Configuration',
+                    ncyBreadcrumb: {
+                        label: 'Configuration'
+                    },
+                    url: '/config',
+                    templateUrl: 'views/settings/settings.html',
+                    resolve: {
+                        files: [
+                            'uiLoad',
+                            function (uiLoad) {
+                                return uiLoad.load([
+                                    // select2
+                                    'assets/lib/select2/select2.css',
+                                    'assets/lib/select2/select2.min.js',
+                                    // autosize
+                                    'assets/lib/autosize/jquery.autosize.min.js',
+                                    // inputmask
+                                    'assets/lib/jquery.inputmask/jquery.inputmask.bundle.min.js',
+                                    // 2col multiselect
+                                    'assets/lib/lou-multi-select/js/jquery.multi-select.js',
+                                    // quicksearch
+                                    'assets/lib/quicksearch/jquery.quicksearch.min.js',
+                                    // icheck
+                                    'assets/lib/iCheck/skins/minimal/blue.css',
+                                    'assets/lib/iCheck/icheck.min.js',
+                                    // selectize.js
+                                    'assets/lib/selectize-js/css/selectize.css',
+                                    'assets/lib/selectize-js/js/standalone/selectize.min.js'
+                                ]);
+                            }
+                        ]
+                    },
+                    controller: 'settings-controller'
+                })
                 .state('auth.tanus', {
                     abstract: true,
                     url: '/tanus',
