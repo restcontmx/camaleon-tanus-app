@@ -219,9 +219,11 @@ yukonApp
                                             l.category_reports = d1.data.category_reports.filter( r => r.location == l.id )
                                             l.category_reports_qty = d1.data.category_reports.filter( r => r.location == l.id ).reduce( ( a, b  ) => ( a + b.qty ), 0 )
                                             l.category_reports_total = d1.data.category_reports.filter( r => r.location == l.id ).reduce( ( a, b  ) => ( a + b.total ), 0 )
+                                            
                                             l.category_reports_tax1 = d1.data.category_reports.filter( r => r.location == l.id ).reduce( ( a, b  ) => ( a + b.tax1 ), 0 )
                                             l.category_reports_tax2 = d1.data.category_reports.filter( r => r.location == l.id ).reduce( ( a, b  ) => ( a + b.tax2 ), 0 )
                                             l.category_reports_taxes = d1.data.category_reports.filter( r => r.location == l.id ).reduce( ( a, b  ) => ( a + ( b.tax1 + b.tax2 + b.tax3 ) ), 0 )
+                                            l.category_reports_subtotal = (l.category_reports_total - l.category_reports_taxes)
                                         })
                                         $scope.cats_done = true
                                     } else {
@@ -247,6 +249,7 @@ yukonApp
                                             })
                                             l.creditcard_reports_total = l.credit_cards.reduce( ( a, b  ) => ( a + b.amount ), 0 )
                                             l.creditcard_reports_credit_tip_total = l.credit_cards.reduce( ( a, b  ) => ( a + b.credit_tip ), 0 )
+                                           
                                         })
 
                                         // Calculate all debit total
