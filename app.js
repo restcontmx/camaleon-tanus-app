@@ -31,8 +31,9 @@ var it_taccotypegeneral = require( './routes/ittaccotypegeneral' ),
     userreports         = require( './routes/userreports' ),
     camaleonadmin       = require( './routes/camaleonadmin' ),
     profile             = require( './routes/profile' ),
-    tanus               = require( './routes/tanus' );
-
+    tanus               = require( './routes/tanus' ),
+    subscription        = require( './routes/subscription' );
+    
 var app = express();
 
 // uncomment after placing your favicon in /public
@@ -71,6 +72,7 @@ app.use( '/userreports', userreports );
 app.use( '/camaleonadmin', camaleonadmin );
 app.use( '/profile', profile );
 app.use( '/tanus', tanus );
+app.use( '/subscription', subscription );
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

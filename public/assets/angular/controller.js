@@ -422,6 +422,8 @@ yukonApp
             $scope.$on('$stateChangeSuccess', function () {
                 if (AuthRepository.viewVerification()) {
                     
+                    AuthRepository.verifySubscription()
+
                     PermissionRepository.getAll().success(function (response) {
                         if (!response.error) {
                             $scope.permissions = response.data

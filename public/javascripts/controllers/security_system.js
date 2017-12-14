@@ -1,12 +1,13 @@
 yukonApp
-    .factory( 'PermissionRepository', [ 'CRUDService', function( CRUDService ) {
+    .factory( 'PermissionRepository', [ '$http', 'CRUDService', function( $http, CRUDService ) {
         var model = 'permission';
         return({
             getAll : () => CRUDService.getAll( model ),
             add : ( data ) => CRUDService.add( model, data ),
             getById : ( id ) => CRUDService.getById( model, id ),
             update : ( data ) => CRUDService.update( model, data ),
-            remove : ( id ) => CRUDService.remove( model, data )
+            remove : ( id ) => CRUDService.remove( model, data ),
+            validate_business : ( id ) => $http.get( '/subscription/validate/' + id )
         });
     }])
     .factory( 'AuthRepository', [   '$http', 
@@ -16,13 +17,15 @@ yukonApp
                                     '$location', 
                                     '$rootScope',
                                     'PermissionRepository', 
+                                    'growl',
                                     function(   $http, 
                                                 $state, 
                                                 $cookies, 
                                                 $cookieStore, 
                                                 $location, 
                                                 $rootScope,
-                                                PermissionRepository ) {
+                                                PermissionRepository,
+                                                growl   ) {
         return {
             login : ( email, password ) => $http.post( 'auth/login/', JSON.stringify( { email : email, password : password } ) ), // Login function that verifies user on the api
             logout : () => $http.post( 'auth/logout' ), // Logs out the user erreasing the cookie
@@ -54,6 +57,22 @@ yukonApp
                         return false;
                     }
                 }
+            },
+            verifySubscription : function() {
+                PermissionRepository.validate_business( $rootScope.user_info.business.id ).success( function( response ) {
+                    if( response.error ) {
+                        $state.go( 'login' );
+                        growl.error( "There was an error validating subscription.", {} )
+                    } else {
+                        if( !response.data ) {
+                            $state.go( 'login' );
+                            growl.error( "You don't have a valid subscription.", {} )
+                        }
+                    }
+                }).error( function( error ) {
+                    $state.go( 'login' );
+                    growl.error( "There was an error validating subscription.", {} )
+                });
             },
             setCookie : function( user_data ) {
                 $cookies["userdata"] = user_data;
