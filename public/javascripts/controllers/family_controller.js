@@ -24,11 +24,13 @@ yukonApp
         }
     }])
     .controller('family-reports-controller', [  '$scope',
+                                                '$rootScope',
                                                 'LocationRepository',
                                                 'FamilyRepository',
                                                 'TurnRepository',
                                                 'AuthRepository',
                                                 function(   $scope,
+                                                            $rootScope,
                                                             LocationRepository,
                                                             FamilyRepository,
                                                             TurnRepository,

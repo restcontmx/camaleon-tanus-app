@@ -115,7 +115,7 @@ yukonApp
                                                                 growl   ) {
         if (AuthRepository.viewVerification()) {
             let todays = new Date();
-            $scope.currency = 'S/.'
+            $scope.currency = $rootScope.settings.currency
             $scope.date_end = new Date();
             todays.setDate(1);
             $scope.date_start = todays;
@@ -249,9 +249,7 @@ yukonApp
                                             })
                                             l.creditcard_reports_total = l.credit_cards.reduce( ( a, b  ) => ( a + b.amount ), 0 )
                                             l.creditcard_reports_credit_tip_total = l.credit_cards.reduce( ( a, b  ) => ( a + b.credit_tip ), 0 )
-                                           
                                         })
-
                                         // Calculate all debit total
                                         $scope.total_credit_card = $scope.locations.map( l => l.creditcard_reports_total ).reduce( ( a, b ) => ( a + b ), 0 )
                                         $scope.credit_cards_done = true
