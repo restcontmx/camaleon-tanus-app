@@ -9,6 +9,7 @@ yukonApp
             remove: (id) => CRUDService.remove(model, data),
             getAllByBusiness: (business_id) => $http.get('/' + model + '/bybusiness/' + business_id),
             getLocationTodayReports: (d1, d2) => $http.get('/reports/' + model + '/?d1=' + d1 + '&d2=' + d2),
+            getOrderTypeReports: (d1, d2, turn_id) => $http.get('/reports/ordertype/?d1=' + d1 + '&d2=' + d2 + '&turn=' + turn_id ),
             lastCloses: () => $http.get('/location/lastcloses/')
         });
     }])
@@ -140,6 +141,7 @@ yukonApp
             $scope.voids_done = false
             $scope.cash_done = false
             $scope.totals_done = false
+            $scope.ordertypes_done = false
             // Date range variable
             // the important ones area start and end which are already conffigured on the scope
             $scope.date_range = {
@@ -183,6 +185,7 @@ yukonApp
                 $scope.voids_done = false
                 $scope.cash_done = false
                 $scope.totals_done = false
+                $scope.ordertypes_done = false
                 DashboardRepository.get_sales_by_dates_locations(date_1, date_2).success(function (response) {
                     if (!response.error) {
                         LocationRepository.getAll().success( function( data ) {
@@ -226,6 +229,42 @@ yukonApp
                                             l.category_reports_subtotal = (l.category_reports_total - l.category_reports_taxes)
                                         })
                                         $scope.cats_done = true
+                                    } else {
+                                        growl.error("There was an error;" + d1.message, {});  
+                                    }
+                                }).error( function( error ) {
+                                    growl.error("There was an error;" + error, {});
+                                })
+
+                                LocationRepository.getOrderTypeReports( date_1, date_2, 0 ).success( function( d1 ) {
+                                    if( !d1.error ){
+                                        $scope.locations.forEach( l => {
+                                            l.order_type_reports = d1.data.order_type_reports.filter( r => r.location == l.id )
+                                            l.order_type_reports.forEach( r => {
+                                                switch( r.dinner_type ) {
+                                                    case 0 :
+                                                        r.dine_name = "DINE IN"
+                                                        break;
+                                                    case 1 :
+                                                        r.dine_name = "TAKE OUT"
+                                                        break;
+                                                    case 2 :
+                                                        r.dine_name = "DELIVERY"
+                                                        break;
+                                                    case 3 :
+                                                        r.dine_name = "DRIVE THRU"
+                                                        break;
+                                                }
+                                            })
+                                            l.order_type_reports_qty = d1.data.order_type_reports.filter( r => r.location == l.id ).reduce( ( a, b  ) => ( a + b.qty ), 0 )
+                                            l.order_type_reports_total = d1.data.order_type_reports.filter( r => r.location == l.id ).reduce( ( a, b  ) => ( a + b.total ), 0 )
+                                            
+                                            l.order_type_reports_tax1 = d1.data.order_type_reports.filter( r => r.location == l.id ).reduce( ( a, b  ) => ( a + b.tax1 ), 0 )
+                                            l.order_type_reports_tax2 = d1.data.order_type_reports.filter( r => r.location == l.id ).reduce( ( a, b  ) => ( a + b.tax2 ), 0 )
+                                            l.order_type_reports_taxes = d1.data.order_type_reports.filter( r => r.location == l.id ).reduce( ( a, b  ) => ( a + ( b.tax1 + b.tax2 ) ), 0 )
+                                            l.order_type_reports_subtotal = (l.order_type_reports_total - l.order_type_reports_taxes)
+                                        })
+                                        $scope.ordertypes_done = true
                                     } else {
                                         growl.error("There was an error;" + d1.message, {});  
                                     }

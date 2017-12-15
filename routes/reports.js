@@ -449,5 +449,23 @@ router.put( '/settings/:id', jsonParser, function( req, res ) {
     );
 });
 
+/**
+* ordertype reports pettition
+**/
+router.get( '/ordertype/', jsonParser, function( req, res ) {
+    var userdata = JSON.parse( req.cookies['userdata'] ),
+        url_parts = urlLib.parse( req.url, true );
+    request(
+        {
+            url : http_helper.get_business_api_uri( userdata.user_data.e_p, 'ordertype/reports/', '?d1=' + url_parts.query.d1 + '&d2=' + url_parts.query.d2 + '&turn=' + url_parts.query.turn  ),
+            method : 'GET',
+            json : true,
+            headers : {
+                'Authorization' : http_helper.get_basic_auth_w_token( encryption_system.decryptCookie( userdata.auth_data ) )
+            }
+        },
+        ( error, response, body ) => { res.send( http_helper.data_format_ok( error, response, body ) ) }
+    );
+});
 
 module.exports = router;

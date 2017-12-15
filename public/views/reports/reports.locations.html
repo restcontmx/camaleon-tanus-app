@@ -205,7 +205,7 @@
                                 <tr ng-repeat="cr in l.category_reports">
                                     <td colspan="3">{{cr.cate_name}}</td>
                                     <td class="text-right" >{{cr.qty | number : 2}}</td>
-                                    <td class="text-right">{{currency}} {{cr.total-(cr.tax1+cr.tax1) | number : 2}}</td>
+                                    <td class="text-right">{{currency}} {{cr.total - ( cr.tax1 + cr.tax2 ) | number : 2}}</td>
                                     <td class="text-right">{{currency}} {{cr.tax1 | number : 2}}</td>
                                     <td class="text-right">{{currency}} {{cr.tax2 | number : 2}}</td>
                                     <td class="text-right">{{currency}} {{cr.total | number : 2}}</td>
@@ -246,37 +246,34 @@
                                 </tr>
 
                                 <tr>
-                                        <td colspan="8"></td>
+                                    <td colspan="8"></td>
+                                </tr>
+    
+                                <tr>
+                                        <th colspan="3">Order Type</th>
+                                        <th class="text-right" >Qty</th>
+                                        <th class="text-right" >Subtotal</th>
+                                        <th class="text-right" >IGV</th>
+                                        <th class="text-right" >RC</th>
+                                        <th class="text-right" >Total</th>
                                     </tr>
-     
+                                    <tr ng-repeat="cr in l.order_type_reports">
+                                        <td colspan="3">{{cr.dine_name}}</td>
+                                        <td class="text-right" >{{cr.qty | number : 2}}</td>
+                                        <td class="text-right">{{currency}} {{cr.total - ( cr.tax1 + cr.tax2 ) | number : 2}}</td>
+                                        <td class="text-right">{{currency}} {{cr.tax1 | number : 2}}</td>
+                                        <td class="text-right">{{currency}} {{cr.tax2 | number : 2}}</td>
+                                        <td class="text-right">{{currency}} {{cr.total | number : 2}}</td>
+                                    </tr>
+    
                                     <tr>
-                                            <th colspan="3">Order Type</th>
-                                            <th class="text-right" >Qty</th>
-                                            <th class="text-right" >Subtotal</th>
-                                            <th class="text-right" >IGV</th>
-                                            <th class="text-right" >RC</th>
-                                            <th class="text-right" >Total</th>
-                                        </tr>
-        <!--
-                                        <tr ng-repeat="cr in l.category_reports">
-                                            <td colspan="3">{{cr.cate_name}}</td>
-                                            <td class="text-right" >{{cr.qty | number : 2}}</td>
-                                            <td class="text-right">{{currency}} {{cr.total-(cr.tax1+cr.tax1) | number : 2}}</td>
-                                            <td class="text-right">{{currency}} {{cr.tax1 | number : 2}}</td>
-                                            <td class="text-right">{{currency}} {{cr.tax2 | number : 2}}</td>
-                                            <td class="text-right">{{currency}} {{cr.total | number : 2}}</td>
-                                        </tr>
-        
-                                        <tr>
-                                            <th colspan="3">Total Major</th>
-                                            <th class="text-right" >{{l.category_reports_qty | number : 2}}</th>
-                                            <th class="text-right" >{{currency}} {{l.category_reports_subtotal | number : 2}}</th>
-                                            <th class="text-right" >{{currency}} {{l.category_reports_tax1 | number : 2}}</th>
-                                            <th class="text-right" >{{currency}} {{l.category_reports_tax2 | number : 2}}</th>
-                                            <th class="text-right" >{{currency}} {{l.category_reports_total | number : 2}}</th>
-                                        </tr>
-         -->
-
+                                        <th colspan="3">Total</th>
+                                        <th class="text-right" >{{l.order_type_reports_qty | number : 2}}</th>
+                                        <th class="text-right" >{{currency}} {{l.order_type_reports_subtotal | number : 2}}</th>
+                                        <th class="text-right" >{{currency}} {{l.order_type_reports_tax1 | number : 2}}</th>
+                                        <th class="text-right" >{{currency}} {{l.order_type_reports_tax2 | number : 2}}</th>
+                                        <th class="text-right" >{{currency}} {{l.order_type_reports_total | number : 2}}</th>
+                                    </tr>
                             </tbody>
                         </table>
                     </div>
