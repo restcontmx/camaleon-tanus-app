@@ -31,7 +31,7 @@ yukonApp
                 $scope.users_info = $rootScope.user_info.first_name ? $rootScope.user_info.first_name + ' ' + $rootScope.user_info.last_name : $rootScope.user_info.email;
                 $scope.current_year = new Date().getFullYear();
                 $scope.last_year = new Date().getFullYear() - 1;
-                $scope.target_percentage = 10/100;
+                $scope.target = $rootScope.settings.target_percentage/100;
                 
                 //
                 //  date picker cofnig
@@ -49,10 +49,10 @@ yukonApp
                     if (!response.error) {
                         $scope.locations = response.data
                     } else  {
-                        $scope.errors = response.message
+                        growl.error( "There was an error, " + response.message, {} )
                     }
                 }).error(function (error) {
-                    $scope.errors = error
+                    growl.error( "There was an error, " + error, {} )
                 })
 
                 //
@@ -62,11 +62,12 @@ yukonApp
                 //
                 $scope.get_reports = function () {
 
-                    let date_f = document.getElementById('dp_basic').value             
-                    $scope.progress_ban = true;
+                    let date_f = document.getElementById('dp_basic').value
 
-                    if (date_f) {
-
+                    if ( date_f != '' ) {
+                         
+                        $scope.progress_ban = true;
+                        
                         dailyReports(date_f)
 
                         $timeout(function () {
@@ -75,6 +76,8 @@ yukonApp
 
                         yearlyReports(date_f)
                         
+                    } else {
+                        growl.warning( "Please select a date.", {} )
                     }
                 }
 
@@ -110,10 +113,10 @@ yukonApp
                                     $scope.daily_ticket_avg_total = $scope.locations.reduce((a, b) => (a + b.ticket_avg), 0)
                                     
                                 } else {
-                                    console.log(r_t.message)
+                                    growl.error( "There was an error, " + r_t.message, {} )
                                 }
                             }).error(function (error) {
-                                console.log(error)
+                                growl.error( "There was an error, " + error, {} )
                             })
                             FamilyRepository.reportsByDate( daily_date_s, daily_date_e, 0 ).success( function( d1 ) {
                                 if( !d1.error ) { 
@@ -135,9 +138,10 @@ yukonApp
                                 growl.error( "There was an error getting the families.", {} )
                             })
                         } else {
-                            console.log(response.message)
+                            growl.error( "There was an error, " + response.message, {} )
                         }
                     }).error(function (error) {
+                        growl.error( "There was an error, " + error, {} )
                     });
 
                     DashboardRepository.get_sales_by_dates_locations(last_year_daily_date_s, last_year_daily_date_e).success(function (response2) {
@@ -154,10 +158,10 @@ yukonApp
                                     $scope.l_y_daily_sales_total = $scope.locations.reduce((a, b) => (a + b.l_y_total_sales), 0)
                                     $scope.l_y_daily_ticket_avg_total = $scope.locations.reduce((a, b) => (a + b.l_y_ticket_avg), 0)
                                 } else {
-                                    console.log(r_t.message)
+                                    growl.error( "There was an error, " + r_t.message, {} )
                                 }
                             }).error(function (error) {
-                                console.log(error)
+                                growl.error( "There was an error, " + error, {} )
                             })
                             FamilyRepository.reportsByDate( last_year_daily_date_s, last_year_daily_date_e, 0 ).success( function( d1 ) {
                                 if( !d1.error ) { 
@@ -179,9 +183,10 @@ yukonApp
                                 growl.error( "There was an error getting the families.", {} )
                             })
                         } else {
-                            console.log(response2.message)
+                            growl.error( "There was an error, " + response2.message, {} )
                         }
                     }).error(function (error) {
+                        growl.error( "There was an error, " + error, {} )
                     });
                     
                     
@@ -214,10 +219,10 @@ yukonApp
                                     $scope.monthly_sales_total = $scope.locations.reduce((a, b) => (a + b.m_total_sales), 0)
                                     $scope.monthly_guests_total = $scope.locations.reduce((a, b) => (a + b.m_guests), 0)
                                 } else {
-                                    console.log(r_t.message)
+                                    growl.error( "There was an error, " + r_t.message, {} )
                                 }
                             }).error(function (error) {
-                                console.log(error)
+                                growl.error( "There was an error, " + error, {} )
                             })
 
                             FamilyRepository.reportsByDate( monthly_date_s, daily_date_e, 0 ).success( function( d1 ) {
@@ -240,9 +245,10 @@ yukonApp
                                 growl.error( "There was an error getting the families.", {} )
                             })
                         } else {
-                            console.log(response.message)
+                            growl.error( "There was an error, " + response.message, {} )
                         }
                     }).error(function (error) {
+                        growl.error( "There was an error, " + error, {} )
                     });
                     
                     DashboardRepository.get_sales_by_dates_locations(last_year_monthly_date_s, last_year_daily_date_e).success(function (response2) {
@@ -259,10 +265,10 @@ yukonApp
                                     $scope.l_y_monthly_sales_total = $scope.locations.reduce((a, b) => (a + b.l_y_m_total_sales), 0)
                                     $scope.l_y_monthly_ticket_avg_total = $scope.locations.reduce((a, b) => (a + b.l_y_m_ticket_avg), 0)
                                 } else {
-                                    console.log(r_t.message)
+                                    growl.error( "There was an error, " + r_t.message, {} )
                                 }
                             }).error(function (error) {
-                                console.log(error)
+                                growl.error( "There was an error, " + error, {} )
                             })
                             FamilyRepository.reportsByDate( last_year_monthly_date_s, last_year_daily_date_e, 0 ).success( function( d1 ) {
                                 if( !d1.error ) {
@@ -284,9 +290,10 @@ yukonApp
                                 growl.error( "There was an error getting the families.", {} )
                             })
                         } else {
-                            console.log(response2.message)
+                            growl.error( "There was an error, " + response2.message, {} )
                         }
                     }).error(function (error) {
+                        growl.error( "There was an error, " + error, {} )
                     });
 
                 }
@@ -319,13 +326,13 @@ yukonApp
                                         $scope.yearly_sales_total = $scope.locations.reduce((a, b) => (a + b.y_total_sales), 0)
                                         $scope.yearly_guests_total = $scope.locations.reduce((a, b) => (a + b.y_guests), 0)
                                     } else {
-                                        console.log(r_t.message)
+                                        growl.error( "There was an error, " + r_t.message, {} )
                                     }
                                 }).error(function (error) {
-                                    console.log(error)
+                                    growl.error( "There was an error, " + error, {} )
                                 })
                             } else {
-                                console.log(response.message)
+                                growl.error( "There was an error, " + response.message, {} )
                             }
                             FamilyRepository.reportsByDate( yearly_date_s, daily_date_e, 0 ).success( function( d1 ) {
                                 if( !d1.error ) { 
@@ -347,6 +354,7 @@ yukonApp
                                 growl.error( "There was an error getting the families.", {} )
                             })
                         }).error(function (error) {
+                            growl.error( "There was an error, " + error, {} )
                         });
                     }, 2000 );
 
@@ -365,14 +373,15 @@ yukonApp
                                         $scope.l_y_yearly_sales_total = $scope.locations.reduce((a, b) => (a + b.l_y_y_total_sales), 0)
                                         $scope.l_y_yearly_ticket_avg_total = $scope.locations.reduce((a, b) => (a + b.l_y_y_ticket_avg), 0)
                                     } else {
-                                        console.log(r_t.message)
+                                        growl.error( "There was an error, " + r_t.message, {} )
                                     }
                                     $scope.progress_ban = false
                                 }).error(function (error) {
                                     $scope.progress_ban = false
+                                    growl.error( "There was an error, " + error, {} )
                                 })
                             } else {
-                                console.log(response2.message)
+                                growl.error( "There was an error, " + response2.message, {} )
                             }
 
                             FamilyRepository.reportsByDate( last_year_yearly_date_s, last_year_daily_date_e, 0 ).success( function( d1 ) {
@@ -395,6 +404,7 @@ yukonApp
                                 growl.error( "There was an error getting the families.", {} )
                             })
                         }).error(function (error) {
+                            growl.error( "There was an error, " + error, {} )
                         });
                     }, 4000 );
                 }
