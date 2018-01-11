@@ -105,27 +105,7 @@
         <script src="assets/angular/state.js"></script>
         <script src="assets/angular/controller.js"></script>
         
-        <script src="javascripts/controllers/security_system.js"></script>
-        <script src="javascripts/controllers/dashboard_controller.js"></script>
-        <script src="javascripts/controllers/location_controller.js"></script>
-        <script src="javascripts/controllers/business_controller.js"></script>
-        <script src="javascripts/controllers/turn_controller.js"></script>
-        <script src="javascripts/controllers/category_controller.js"></script>
-        <script src="javascripts/controllers/department_controller.js"></script>
-        <script src="javascripts/controllers/family_controller.js"></script>
-        <script src="javascripts/controllers/itemclass_controller.js"></script>
-        <script src="javascripts/controllers/item_controller.js"></script>
-        <script src="javascripts/controllers/ticket_controller.js"></script>
-        <script src="javascripts/controllers/close_controller.js"></script>
-        <script src="javascripts/controllers/discount_controller.js"></script>
-        <script src="javascripts/controllers/void_controller.js"></script>
-        <script src="javascripts/controllers/employee_controller.js"></script>
-        <script src="javascripts/controllers/creditcards_controller.js"></script>
-        <script src="javascripts/controllers/pettycash_controller.js"></script>
-        <script src="javascripts/controllers/centralized_controller.js"></script>
-        <script src="javascripts/controllers/sales_summary_controller.js"></script>
         <script src="javascripts/controllers/tanus_controller.js"></script>
-        <script src="javascripts/controllers/settings_controller.js"></script>
         
     <!-- main stylesheet -->
 		<link href="assets/css/main.css" rel="stylesheet" media="all" id="mainCss">
@@ -135,14 +115,6 @@
 
     </head>
     <body class="{{siteBg}}" ng-class="{
-            'side_menu_active' : sideMenuAct && !$state.includes('error.404'),
-            'side_menu_collapsed' : sideNavCollapsed && sideMenuAct,
-            'side_menu_expanded' :  !sideNavCollapsed && sideMenuAct,
-            'login_page': $state.is('login'),
-            'login_page2': $state.is('login2'),
-            'error_page': $state.includes('error.404'),
-            'fixed_layout': fixedLayout && !$state.includes('error.404') && !$state.is('login') && !$state.is('login2'),
-            'hide_breadcrumbs': hideBreadcrumbs && !$state.includes('error.404'),
             'top_menu_active': topMenuAct && !$state.includes('error.404')
         }">
 

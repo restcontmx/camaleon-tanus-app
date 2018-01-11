@@ -48,41 +48,33 @@ yukonApp
                 // Dashboard
                 .state("auth.home", {
                     // this state page title
-                    page_title: 'Camaleon Reports - Dashboard',
+                    page_title: 'Camaleon Tanus',
                     // this state url
-                    url: "/",
-                    templateUrl: 'views/dashboard.html',
+                    url: "/:id",
+                    templateUrl: 'views/tanus/ticket.ref.docs.html',
                     // load state specific js/css
                     resolve: {
                         files: [
                             'uiLoad',
                             function (uiLoad) {
                                 return uiLoad.load([
-                                    // c3 charts
-                                    'assets/lib/d3/d3.min.js',
-                                    'assets/lib/c3/c3.min.js',
-                                    // vector maps
-                                    'assets/lib/jvectormap/jquery-jvectormap-1.2.2.min.js',
-                                    'assets/lib/jvectormap/maps/jquery-jvectormap-world-mill-en.js',
-                                    // countUp animation
-                                    'assets/js/countUp.min.js',
-                                    // easePie chart
-                                    'assets/lib/easy-pie-chart/dist/jquery.easypiechart.min.js',
-                                    // dashboard functions
-                                    'assets/angular/states_jquery/yukon_dashboard.min.js',
-                                    // datepicker
-                                    'assets/lib/bootstrap-datepicker/css/datepicker3.css',
-                                    'assets/lib/bootstrap-datepicker/js/bootstrap-datepicker.js',
-                                    // date range picker
-                                    'assets/lib/bootstrap-daterangepicker/daterangepicker-bs3.css',
-                                    'assets/lib/bootstrap-daterangepicker/daterangepicker.js'
+                                    // inputmask
+                                    'assets/lib/jquery.inputmask/jquery.inputmask.bundle.min.js',
+                                    // select2
+                                    'assets/lib/select2/select2.css',
+                                    'assets/lib/select2/select2.min.js',
+                                    'assets/lib/selectize-js/css/selectize.css',
+                                    'assets/lib/selectize-js/js/standalone/selectize.min.js',
+                                    'https://cdn.jsdelivr.net/alasql/0.3/alasql.min.js',
+                                    'https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.7.12/xlsx.core.min.js',
+                                    'assets/lib/jquery-qrcode-0.10.1/jquery.qrcode-0.10.1.min.js'
                                 ]);
                             }
                         ]
                     },
-                    controller: 'dashboardCtrl',
+                    controller: 'ticketref-reports-controller',
                     ncyBreadcrumb: {
-                        label: 'Home'
+                        label: 'Tanus'
                     }
                 })
                 // Forms (parent state)
