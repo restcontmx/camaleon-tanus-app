@@ -25,7 +25,7 @@ router.get( '/ticketrefdocs', jsonParser, function( req, res ) {
         },
         ( error, response, body ) => { res.send( http_helper.data_format_ok( error, response, body ) ) }
     );
-    console.log(request)
+    
 });
 
 /**
