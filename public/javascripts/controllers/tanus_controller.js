@@ -38,13 +38,24 @@ yukonApp
             // Its on jquery, so be careful!
             LocationRepository.getAll().success( function( response ) {
                 if( !response.error ) {
+                    $("#docu_tye_select").select2({
+                        placeholder: "Select Document Type...",
+                        data : [
+                                {text:"Factura",id:1},
+                                {text:"Nota de Credito",id:2},
+                                {text:"Boleta",id:3}
+                            ]
+                    });
+                    $( '#docu_tye_select' ).val(0);
                     $scope.locations = response.data;
                     $scope.locations.forEach( t => $scope.locations_options.push( { text : t.location_name, id : t.id } ));
+                    //console.log($scope.locations_options)
                     $("#locations_select").select2({
                         placeholder: "Select Location...",
                         data : $scope.locations_options
                     });
                     $( '#locations_select' ).val(0);
+                    
                 } else {
                     growl.error( "There was an error; " + response.message, {} );
                 }
@@ -84,7 +95,8 @@ yukonApp
             //
             $scope.print_xml_document = function( ticket ) {
                 if( ticket ) {
-                    CamaleonTools.dowload_file( ticket.p01_numcompleto + ".xml", ticket.p01_xml )
+                    
+                    CamaleonTools.dowload_file( ticket.p01_rucventa+"-" + ticket.p01_tipocomp+"-" + ticket.p01_numcompleto + ".xml", ticket.p01_xml )
                 } else {
                     growl.warning( "Please select a ticket on the list.", {} );
                 }
@@ -97,8 +109,10 @@ yukonApp
             $scope.print_pdf_document = function( ticket ) {
                 // if there is a selected ticket
                 if( ticket ) {
+
                     // Validates there are details on the ticket
                     if( ticket.details.length > 0 ) {
+                        console.log(ticket)
                         // This will get the detail table element
                         // Then will get the canvas once its rendered
                         html2canvas(document.getElementById( 'detail_table' ), {
@@ -109,7 +123,8 @@ yukonApp
                                 // Adds the image on the document
                                 // Then saves it
                                 doc.addImage( canvas.toDataURL(), 'JPEG', 15, 25, 180, 0);
-                                doc.save( '-01-' + ticket.p01_numcompleto + '.pdf' );
+                                console.log(ticket)
+                                doc.save( ticket.p01_rucventa+"-" + ticket.p01_tipocomp+"-" + ticket.p01_numcompleto  + '.pdf' );
                             }
                         });
                     } else {
@@ -130,6 +145,8 @@ yukonApp
                     if( !response.error ) {
                         // Sets the ticket
                         $scope.selected_report = report;
+                        
+
                         // Sets an empty ticket response on the selected ticket
                         // This will make the validation on the printing functions
                         $scope.selected_report.details = [];
@@ -159,14 +176,25 @@ yukonApp
                                     break;
                             }
                         })
-                        
+                        console.log($scope.selected_report)
                         $scope.selected_report.total = $scope.selected_report.details.reduce( ( a, b ) => ( a + b.total ), 0 )
                         $scope.selected_report.total_igv = $scope.selected_report.details.reduce( ( a, b ) => ( a + ( b.tx ) ), 0 )
                         $scope.selected_report.total_rc = $scope.selected_report.details.reduce( ( a, b ) => ( a + ( b.tx2 ) ), 0 )
                         $scope.selected_report.total_tax = $scope.selected_report.details.reduce( ( a, b ) => ( a + ( b.tx + b.tx2 + b.tx3 ) ), 0 )
                         $scope.selected_report.sub_total = $scope.selected_report.total - $scope.selected_report.total_tax;
+                        $scope.selected_report.total_discount = $scope.selected_report.details.reduce(  ( a, b ) => { 
+                            if(b.discount_code){
+                                return a + (b.qty*(b.move_reg_price-b.pprice) )
+                            } else {
+
+                                return a + 0
+                            }
+                           
+                        },0);
                         
                         $scope.$watch('qr_base_size', function () {
+                            //var child = document.getElementById("canvas");
+                            //$('#invoice_qrcode').removeChild(child);         
                             $('#invoice_qrcode').css({'width': $scope.qr_base_size / 2, 'height': $scope.qr_base_size / 2}).qrcode({
                                 render: 'canvas',
                                 size: $scope.qr_base_size,
@@ -180,6 +208,6 @@ yukonApp
                     growl.error( 'There was an error; ' + error, {} )
                 });
             }
-
+            
         }
     }])

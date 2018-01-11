@@ -24,6 +24,10 @@
                 <label>Locations</label>
                 <input type="hidden" id="locations_select">
             </div>
+            <div class="col-md-12">
+                <label>Document Type</label>
+                <input type="hidden" id="docu_tye_select">
+            </div>
 
             <div class="col-md-12">
                 <br>
@@ -76,23 +80,23 @@
                 <div class="row">
                     <div class="col-sm-4">
                         <h4 class="heading_b">
-                            <span class="heading_text">From:</span>
+                            <span class="heading_text">Emisor:</span>
                         </h4>
                         <address>
                             <strong>{{selected_report.p01_localventa}}</strong>
-                            <br> {{selected_report.p01_rucventa}}
+                            <br>RUC: {{selected_report.p01_rucventa}}
                             <br> 
                         </address>
                     </div>
                     <div class="col-sm-4">
                         <h4 class="heading_b">
-                            <span class="heading_text">To:</span>
+                            <span class="heading_text">Receptor:</span>
                         </h4>
                         <address>
                             <strong>{{selected_report.p01_razonsocial}}</strong>
-                            <br> {{selected_report.p01_ruc}}
-                            <br> {{selected_report.p01_moneda}}
-                            <br> {{selected_report.p01_direccion}}
+                            <br>RUC: {{selected_report.p01_ruc}}
+                            <br>Moneda: {{selected_report.p01_moneda}}
+                            <br>Direccion: {{selected_report.p01_direccion}}
                         </address>
                     </div>
                     <div class="col-md-2"></div>
@@ -110,9 +114,10 @@
                                         <th>Unidad</th>
                                         <th>Código</th>
                                         <th>Descripción</th>
-                                        <th class="cw text-center">Price</th>
-                                        <th class="cw text-center">Tax</th>
-                                        <th class="cw text-center">Amount</th>
+                                        <th class="cw text-center">Precio</th>
+                                        <th class="cw text-center">Impuesto</th>
+                                        <th class="cw text-center">Cantidad</th>
+                                        <th class="cw text-center">Descuento</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -126,9 +131,16 @@
                                         <td class="text-center">
                                             <strong>{{deta.total | number : 2}}</strong>
                                         </td>
+                                        <td class="text-center">{{deta.move_reg_price>0 ? deta.qty*(deta.move_reg_price-deta.pprice) : 0| number : 2}}</td>
                                     </tr>
                                 </tbody>
                                 <tfoot>
+                                        <tr>
+                                                <td colspan="6" class="text-right text-muted">Motno Descuentos</td>
+                                                <td class="text-center">
+                                                    <strong>{{selected_report.total_discount | number : 2}}</strong>
+                                                </td>
+                                            </tr>
                                     <tr>
                                         <td colspan="6" class="text-right text-muted">Subtotal</td>
                                         <td class="text-center">
@@ -147,12 +159,7 @@
                                             <strong>{{selected_report.total_rc | number : 2}}</strong>
                                         </td>
                                     </tr>
-                                    <tr>
-                                        <td colspan="6" class="text-right text-muted">Tax</td>
-                                        <td class="text-center">
-                                            <strong>{{selected_report.total_tax | number : 2}}</strong>
-                                        </td>
-                                    </tr>
+                                   
                                     <tr class="grand_total">
                                         <td colspan="6" class="text-right text-muted">Grand Total</td>
                                         <td class="text-center text-success">
