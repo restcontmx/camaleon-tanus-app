@@ -57,7 +57,8 @@ yukonApp
                     });
                     $('#docu_tye_select').val(0);
                     $scope.locations = response.data;
-                    //console.log( response )
+                    console.log( response )
+                    console.log( $scope.locations )
                     $scope.locations.forEach(t => $scope.locations_options.push({ text: t.location_name, id: t.id }));
                     //console.log($scope.locations_options)
                     $("#locations_select").select2({

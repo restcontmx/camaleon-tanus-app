@@ -7,12 +7,14 @@ const   test_config = {
             token : 'UkVQT1JUU19XRUJBUFA6NztXZWEhVEBVPkFmUlJ1Yw=='
         },
         auth_production_config = {
-            api_uri : 'https://camaleonauth-api.herokuapp.com/api/',
-            token : 'QkJRU0RBTl9XRUJBUFA6Wj1WUjRyNXB6UVtKW0ZXXw=='
+            //api_uri : 'https://camaleonauth-api.herokuapp.com/api/',
+            //token : 'QkJRU0RBTl9XRUJBUFA6Wj1WUjRyNXB6UVtKW0ZXXw=='
+            api_uri : 'https://api-example-ramonbadillo.c9users.io/api/',
+            token : 'UkVQT1JUU19XRUJBUFA6NztXZWEhVEBVPkFmUlJ1Yw=='
         };
         
 const g_opts = auth_production_config;
-const DEBUG = false
+const DEBUG = true
 
 /**
 * Get the full api uri compose with the model and the url data
@@ -39,6 +41,7 @@ var get_user_basic_auth = ( username, password ) => ( new Buffer( username + ':'
 * get the basic authentication string
 * with the token
 **/
+
 var get_basic_auth_w_token = ( token ) => ( 'Basic ' + token );
 
 /**
