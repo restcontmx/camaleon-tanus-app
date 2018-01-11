@@ -12,7 +12,7 @@ const   test_config = {
         };
         
 const g_opts = auth_production_config;
-const DEBUG = true
+const DEBUG = false
 
 /**
 * Get the full api uri compose with the model and the url data
