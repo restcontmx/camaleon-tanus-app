@@ -1,7 +1,7 @@
 yukonApp
     .factory('TanusRepository', ['$http', function ($http) {
         return ({
-            ticketRefDocs: (ticket_ref, loc_id) => $http.get('/tanus/ticketrefdocs/?ticket_ref=' + ticket_ref + '&loc=' + loc_id),
+            ticketRefDocs: (ticket_ref, loc_id, docu_type) => $http.get('/tanus/ticketrefdocs/?ticket_ref=' + ticket_ref + '&loc=' + loc_id + '&docu=' + docu_type),
             ticketRefDocDetail: (move_id, loc_id) => $http.get('/tanus/ticketrefdetail/?move_id=' + move_id + '&loc=' + loc_id)
         })
     }])
@@ -40,7 +40,7 @@ yukonApp
             if ($('#invoice_qrcode').length) {
 
             }
-            console.log($stateParams.id)
+            //console.log($stateParams.id)
             // Get reports
             // Get all the locations
             // Then addthem to the locations select
@@ -50,14 +50,14 @@ yukonApp
                     $("#docu_tye_select").select2({
                         placeholder: "Select Document Type...",
                         data: [
-                            { text: "Factura", id: 1 },
-                            { text: "Nota de Credito", id: 2 },
-                            { text: "Boleta", id: 3 }
+                            { text: "Factura", id: "01" },
+                            { text: "Nota de Credito", id: "09" },
+                            { text: "Boleta", id: "03" }
                         ]
                     });
                     $('#docu_tye_select').val(0);
                     $scope.locations = response.data;
-                    console.log( response )
+                    //console.log( response )
                     $scope.locations.forEach(t => $scope.locations_options.push({ text: t.location_name, id: t.id }));
                     //console.log($scope.locations_options)
                     $("#locations_select").select2({
@@ -81,9 +81,10 @@ yukonApp
                 $scope.progress_ban = true; // Activate loanding ...
                 // Format dates and get turn according of the selected index
                 let loc_id = $('#locations_select').val() ? $('#locations_select').val() : 0;
+                let docu_type = $('#docu_tye_select').val() ? $('#docu_tye_select').val() : 0;
                 let ticket_ref = $('#ticket_ref').val() ? $('#ticket_ref').val() : ''
-                if (loc_id > 0 && ticket_ref != '') {
-                    TanusRepository.ticketRefDocs(ticket_ref, loc_id).success(function (response) {
+                if (loc_id > 0 && ticket_ref != '' && docu_type > 0 ) {
+                    TanusRepository.ticketRefDocs(ticket_ref, loc_id,docu_type).success(function (response) {
                         if (!response.error) {
                             $scope.reports = response.data;
                         } else {

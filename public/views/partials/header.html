@@ -5,44 +5,7 @@
 			<a ui-sref="auth.home"><img src="https://i.imgur.com/7IYWUFg.png" alt="site_logo" width="auto" height="40"></a>
 			<span class="heading_text" style="font-size:15px;">{{business.name}}</span>
 		</div>
-		<ul class="header_notifications clearfix">
-			<li class="dropdown" id="tasks_dropdown" on-toggle="toggled(open)" dropdown>
-				<span class="label label-danger" ng-if="logs.length > 0">{{logs.length}}</span>
-				<a href class="dropdown-toggle" dropdown-toggle><i class="el-icon-tasks"></i></a>
-				<div class="dropdown-menu">
-					<ul>
-						<li ng-repeat="log in preview_logs">
-							<div class="clearfix">
-								<div class="label label-danger pull-right">Active</div>
-								<small class="text-muted">{{log.item_description}} ({{log.item_id}})</small>
-							</div>
-							<p>{{log.user_email}} on {{log.location_name}} Location&hellip;</p>
-						</li>
-						<li>
-							<a ui-sref="auth.support.items.activelogs" class="btn btn-xs btn-primary btn-block">All Item Logs</a>
-						</li>
-					</ul>
-				</div>
-			</li>
-		</ul>
-		<div class="header_user_actions dropdown" on-toggle="toggled(open)" dropdown>
-			<div class="dropdown-toggle user_dropdown" dropdown-toggle>
-				<div class="user_avatar">
-					
-				</div>
-				<span class="caret"></span>
-			</div>
-			<ul class="dropdown-menu dropdown-menu-right">
-				<li ng-if="user_info">
-					<a ui-sref="auth.pages.userProfile" ng-if="user_info.first_name">{{user_info.first_name}} {{user_info.last_name}}</a>
-					<a ui-sref="auth.pages.userProfile" ng-if="!user_info.first_name">{{user_info.email}}</a>
-				</li>
-				<li><a ng-click="logout()">Log Out</a></li>
-			</ul>
-		</div>
-		<div class="search_section hidden-sm hidden-xs" ng-hide="true">
-			<input type="text" class="form-control input-sm">
-			<button class="btn btn-link btn-sm" type="button"><span class="icon_search"></span></button>
-		</div>
+		
+		
 	</div>
 </header>

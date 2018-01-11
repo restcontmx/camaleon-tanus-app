@@ -16,7 +16,7 @@ router.get( '/ticketrefdocs', jsonParser, function( req, res ) {
     var url_parts = urlLib.parse( req.url, true );
     request(
         {
-            url : http_helper.get_api_uri( 'tanus/ticketrefdocs/', '?ticket_ref=' + url_parts.query.ticket_ref + '&loc=' + url_parts.query.loc ),
+            url : http_helper.get_api_uri( 'tanus/ticketrefdocs/', '?ticket_ref=' + url_parts.query.ticket_ref + '&loc=' + url_parts.query.loc +'&docu=' + url_parts.query.docu),
             method : 'GET',
             json : true,
             headers : {
@@ -25,6 +25,7 @@ router.get( '/ticketrefdocs', jsonParser, function( req, res ) {
         },
         ( error, response, body ) => { res.send( http_helper.data_format_ok( error, response, body ) ) }
     );
+    console.log(request)
 });
 
 /**
