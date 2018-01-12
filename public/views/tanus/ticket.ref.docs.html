@@ -15,7 +15,7 @@
                 <span class="heading_text">Llena los siguientes datos y a continuación haz click en el botón "Obtener Documento"</span>
             </h3>
             <div class="row">
-                <form action="?" method="POST">
+                <form action="javascript:alert(grecaptcha.getResponse(widgetId1));" method="POST">
                     <div class="col-md-12">
                         <label>Tipo documento</label>
                         <input type="hidden" id="docu_tye_select">
@@ -48,21 +48,26 @@
                         <input type="hidden" id="locations_select">
                     </div>
                     <div class="col-md-12">
-                        <label>CAPTCHA</label>
-
+                            <br>
                         <div id="html_element"></div>
-                        <br>
-                        <input type="submit" value="Submit">
+                        
 
                         <script src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit" async defer>
+
                         </script>
+                        <script type="text/javascript">
+                            var verifyCallback = function(response) {
+                              alert(response);
+                            };
+                            
+                          </script>
                     </div>
 
 
 
                     <div class="col-md-12">
                         <br>
-                        <button class="btn btn-block btn-success" ng-click="get_reports()">
+                        <button class="btn btn-block btn-success" ng-click="get_reports()" type="submit">
                             <i class="icon_cloud-download" aria-hidden="true"></i> Obtener Documento</button>
                     </div>
 
