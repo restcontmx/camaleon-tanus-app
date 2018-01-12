@@ -7,8 +7,8 @@ const   test_config = {
             token : 'UkVQT1JUU19XRUJBUFA6NztXZWEhVEBVPkFmUlJ1Yw=='
         },
         auth_production_config = {
-            //api_uri : 'https://camaleonauth-api.herokuapp.com/api/',
-            //token : 'QkJRU0RBTl9XRUJBUFA6Wj1WUjRyNXB6UVtKW0ZXXw=='
+            api_uri : 'https://camaleonauth-api.herokuapp.com/api/',
+            token : 'QkJRU0RBTl9XRUJBUFA6Wj1WUjRyNXB6UVtKW0ZXXw=='
             //api_uri : 'https://api-example-ramonbadillo.c9users.io/api/',
             //token : 'UkVQT1JUU19XRUJBUFA6NztXZWEhVEBVPkFmUlJ1Yw=='
         };
