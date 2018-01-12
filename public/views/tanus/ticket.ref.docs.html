@@ -9,193 +9,200 @@
             </div>
         </div>
     </div>
-    <div class="col-md-4 easy_chart_wrapper mHeight-item">
-        <h3 class="heading_a">
-            <span class="heading_text">Llena los siguientes datos y a continuación haz click en el botón "Obtener Documento"</span>
-        </h3>
-        <div class="row">
-            <div class="col-md-12">
-                <label>Tipo documento</label>
-                <input type="hidden" id="docu_tye_select">
-            </div>
-
-            <div class="col-md-12">
-                <div class="form-group">
-                    <label for="ticket_ref">RUC Emisor:</label>
-                    <input type="text" id="ticket_ref" class="form-control">
+    <div class="col-lg-4">
+        <div class="easy_chart_wrapper mHeight-item">
+            <h3 class="heading_a">
+                <span class="heading_text">Llena los siguientes datos y a continuación haz click en el botón "Obtener Documento"</span>
+            </h3>
+            <div class="row">
+                <div class="col-md-12">
+                    <label>Tipo documento</label>
+                    <input type="hidden" id="docu_tye_select">
                 </div>
-            </div>
 
-            <div class="col-md-12">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label for="ticket_ref">RUC Emisor:</label>
+                        <input type="text" id="ticket_ref" class="form-control">
+                    </div>
+                </div>
+
+                <div class="col-md-12">
                     <div class="form-group">
                         <label for="ticket_ref">Folio del documento(serie-correlativo):</label>
                         <input type="text" id="ticket_ref" class="form-control">
                     </div>
                 </div>
 
-            <div class="col-md-12">
-                <div class="form-group">
-                    <label for="ticket_ref">Fecha de emision del documento:</label>
-                    <input type="text" type="text" class="form-control" id="dp_basic">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label for="ticket_ref">Fecha de emision del documento:</label>
+                        <input type="text" type="text" class="form-control" id="dp_basic">
+                    </div>
+                </div>
+
+
+                <div class="col-md-12">
+                    <label>Locations</label>
+                    <input type="hidden" id="locations_select">
+                </div>
+                <div class="col-md-12">
+                        <label>CAPTCHA</label>
+                    <div class="g-recaptcha" data-sitekey="6Le5RkAUAAAAABl0-yK1c2-a8GXXYuIFdPt6SfW-"></div>
+                </div>
+
+
+
+                <div class="col-md-12">
+                    <br>
+                    <button class="btn btn-block btn-success" ng-click="get_reports()">
+                        <i class="icon_cloud-download" aria-hidden="true"></i> Obtener Documento</button>
                 </div>
             </div>
-
-            
-            <div class="col-md-12">
-                <label>Locations</label>
-                <input type="hidden" id="locations_select">
-                <div class="g-recaptcha" data-sitekey="6Le5RkAUAAAAABl0-yK1c2-a8GXXYuIFdPt6SfW-"></div>
-            </div>
-
-
-
-            <div class="col-md-12">
-                <br>
-                <button class="btn btn-block btn-success" ng-click="get_reports()">
-                    <i class="icon_cloud-download" aria-hidden="true"></i> Obtener Documento</button>
-            </div>
-        </div>
-        <h3 class="heading_a">
-            <span class="heading_text">Documentos Disponibles</span>
-        </h3>
-        <div class="row">
-            <div class="col-md-12 col-sep-md hidden-print">
-                <div class="list-group inv_list">
-                    <a class="list-group-item" ng-repeat="report in reports" ng-click="select_ticket( report )">
-                        <span class="inv_list_company">{{report.p01_numcompleto}}</span>
-                        <span class="inv_list_nb">{{report.p01_numero}}</span>
-                        <span class="inv_list_date">{{report.p01_fecha | date}}</span>
-                    </a>
+            <h3 class="heading_a">
+                <span class="heading_text">Documentos Disponibles</span>
+            </h3>
+            <div class="row">
+                <div class="col-md-12 col-sep-md hidden-print">
+                    <div class="list-group inv_list">
+                        <a class="list-group-item" ng-repeat="report in reports" ng-click="select_ticket( report )">
+                            <span class="inv_list_company">{{report.p01_numcompleto}}</span>
+                            <span class="inv_list_nb">{{report.p01_numero}}</span>
+                            <span class="inv_list_date">{{report.p01_fecha | date}}</span>
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-    <div class="col-md-1"></div>
-    <div class="col-md-7">
-        <div class="row">
-            <div class="col-sm-3">
-            </div>
-            <div class="col-sm-9 text-right hidden-print">
-                <a class="btn btn-sm btn-success btn-outline" ng-click="print_xml_document( selected_report )">
-                    <i class="fa fa-file-code-o" aria-hidden="true"></i> XML</a>
-                <a class="btn btn-sm btn-info btn-outline" ng-click="print_pdf_document( selected_report )">
-                    <i class="fa fa-file-pdf-o" aria-hidden="true"></i> PDF</a>
-            </div>
-        </div>
-
-        <div class="row" ng-if="selected_report">
-            <div class="col-md-12" id="detail_table">
-                <div class="row">
-                    <div class="col-sm-9 text-left hidden-print">
-                        <img src="assets/img/7IYWUFg.png" alt="" class="img-responsive" style="width:242px">
-                    </div>
-                    <div class="col-sm-3 text-right">
-                        <h1 class="page_heading">
-                            {{selected_report.p01_numcompleto}}
-                            <span>{{selected_report.p01_fecha | date}}</span>
-                        </h1>
-                    </div>
+    <!-- <div class="col-md-1"></div> -->
+    <div class="col-lg-8">
+        <div class="easy_chart_wrapper mHeight-item">
+            <div class="row">
+                <div class="col-sm-3">
                 </div>
-                <hr/>
-                <div class="row">
-                    <div class="col-sm-4">
-                        <h4 class="heading_b">
-                            <span class="heading_text">Emisor:</span>
-                        </h4>
-                        <address>
-                            <strong>{{selected_report.p01_localventa}}</strong>
-                            <br>RUC: {{selected_report.p01_rucventa}}
-                            <br>
-                        </address>
-                    </div>
-                    <div class="col-sm-4">
-                        <h4 class="heading_b">
-                            <span class="heading_text">Receptor:</span>
-                        </h4>
-                        <address>
-                            <strong>{{selected_report.p01_razonsocial}}</strong>
-                            <br>RUC: {{selected_report.p01_ruc}}
-                            <br>Moneda: {{selected_report.p01_moneda}}
-                            <br>Direccion: {{selected_report.p01_direccion}}
-                        </address>
-                    </div>
-                    <div class="col-md-2"></div>
-                    <div class="col-sm-2">
-                        <div id="invoice_qrcode" class="qrcode" ng-init="qr_base_size=50;qr_text=''"></div>
-                    </div>
+                <div class="col-sm-9 text-right hidden-print">
+                    <a class="btn btn-sm btn-success btn-outline" ng-click="print_xml_document( selected_report )">
+                        <i class="fa fa-file-code-o" aria-hidden="true"></i> XML</a>
+                    <a class="btn btn-sm btn-info btn-outline" ng-click="print_pdf_document( selected_report )">
+                        <i class="fa fa-file-pdf-o" aria-hidden="true"></i> PDF</a>
                 </div>
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="table-responsive">
-                            <table class="table table-yuk2 table-invoices">
-                                <thead>
-                                    <tr>
-                                        <th>Cantidad</th>
-                                        <th>Unidad</th>
-                                        <th>Código</th>
-                                        <th>Descripción</th>
-                                        <th class="cw text-center">Precio</th>
-                                        <th class="cw text-center">Impuesto</th>
-                                        <th class="cw text-center">Cantidad</th>
-                                        <th class="cw text-center">Descuento</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr ng-repeat="deta in selected_report.details">
-                                        <td>{{deta.qty}}</td>
-                                        <td>{{deta.unit_des}}</td>
-                                        <td>{{deta.item_id}}</td>
-                                        <td>{{deta.item_description}}</td>
-                                        <td class="text-center">{{deta.pprice | number : 2}}</td>
-                                        <td class="text-center">{{deta.tx + deta.tx2 + deta.tx3 | number : 2}}</td>
-                                        <td class="text-center">
-                                            <strong>{{deta.total | number : 2}}</strong>
-                                        </td>
-                                        <td class="text-center">{{deta.move_reg_price>0 ? deta.qty*(deta.move_reg_price-deta.pprice) : 0| number
-                                            : 2}}</td>
-                                    </tr>
-                                </tbody>
-                                <tfoot>
-                                    <tr>
-                                        <td colspan="6" class="text-right text-muted">Motno Descuentos</td>
-                                        <td class="text-center">
-                                            <strong>{{selected_report.total_discount | number : 2}}</strong>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="6" class="text-right text-muted">Subtotal</td>
-                                        <td class="text-center">
-                                            <strong>{{selected_report.sub_total | number : 2}}</strong>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="6" class="text-right text-muted">IGV</td>
-                                        <td class="text-center">
-                                            <strong>{{selected_report.total_igv | number : 2}}</strong>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="6" class="text-right text-muted">RC</td>
-                                        <td class="text-center">
-                                            <strong>{{selected_report.total_rc | number : 2}}</strong>
-                                        </td>
-                                    </tr>
+            </div>
 
-                                    <tr class="grand_total">
-                                        <td colspan="6" class="text-right text-muted">Grand Total</td>
-                                        <td class="text-center text-success">
-                                            <strong>{{selected_report.total | number : 2}}</strong>
-                                        </td>
-                                    </tr>
-                                </tfoot>
-                            </table>
+            <div class="row" ng-if="selected_report">
+                <div class="col-md-12" id="detail_table">
+                    <div class="row">
+                        <div class="col-sm-9 text-left hidden-print">
+                            <img src="assets/img/7IYWUFg.png" alt="" class="img-responsive" style="width:242px">
+                        </div>
+                        <div class="col-sm-3 text-right">
+                            <h1 class="page_heading">
+                                {{selected_report.p01_numcompleto}}
+                                <span>{{selected_report.p01_fecha | date}}</span>
+                            </h1>
+                        </div>
+                    </div>
+                    <hr/>
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <h4 class="heading_b">
+                                <span class="heading_text">Emisor:</span>
+                            </h4>
+                            <address>
+                                <strong>{{selected_report.p01_localventa}}</strong>
+                                <br>RUC: {{selected_report.p01_rucventa}}
+                                <br>
+                            </address>
+                        </div>
+                        <div class="col-sm-4">
+                            <h4 class="heading_b">
+                                <span class="heading_text">Receptor:</span>
+                            </h4>
+                            <address>
+                                <strong>{{selected_report.p01_razonsocial}}</strong>
+                                <br>RUC: {{selected_report.p01_ruc}}
+                                <br>Moneda: {{selected_report.p01_moneda}}
+                                <br>Direccion: {{selected_report.p01_direccion}}
+                            </address>
+                        </div>
+                        <div class="col-md-2"></div>
+                        <div class="col-sm-2">
+                            <div id="invoice_qrcode" class="qrcode" ng-init="qr_base_size=50;qr_text=''"></div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="table-responsive">
+                                <table class="table table-yuk2 table-invoices">
+                                    <thead>
+                                        <tr>
+                                            <th>Cantidad</th>
+                                            <th>Unidad</th>
+                                            <th>Código</th>
+                                            <th>Descripción</th>
+                                            <th class="cw text-center">Precio</th>
+                                            <th class="cw text-center">Impuesto</th>
+                                            <th class="cw text-center">Cantidad</th>
+                                            <th class="cw text-center">Descuento</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="deta in selected_report.details">
+                                            <td>{{deta.qty}}</td>
+                                            <td>{{deta.unit_des}}</td>
+                                            <td>{{deta.item_id}}</td>
+                                            <td>{{deta.item_description}}</td>
+                                            <td class="text-center">{{deta.pprice | number : 2}}</td>
+                                            <td class="text-center">{{deta.tx + deta.tx2 + deta.tx3 | number : 2}}</td>
+                                            <td class="text-center">
+                                                <strong>{{deta.total | number : 2}}</strong>
+                                            </td>
+                                            <td class="text-center">{{deta.move_reg_price>0 ? deta.qty*(deta.move_reg_price-deta.pprice) : 0| number
+                                                : 2}}</td>
+                                        </tr>
+                                    </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <td colspan="6" class="text-right text-muted">Motno Descuentos</td>
+                                            <td class="text-center">
+                                                <strong>{{selected_report.total_discount | number : 2}}</strong>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="6" class="text-right text-muted">Subtotal</td>
+                                            <td class="text-center">
+                                                <strong>{{selected_report.sub_total | number : 2}}</strong>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="6" class="text-right text-muted">IGV</td>
+                                            <td class="text-center">
+                                                <strong>{{selected_report.total_igv | number : 2}}</strong>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="6" class="text-right text-muted">RC</td>
+                                            <td class="text-center">
+                                                <strong>{{selected_report.total_rc | number : 2}}</strong>
+                                            </td>
+                                        </tr>
+
+                                        <tr class="grand_total">
+                                            <td colspan="6" class="text-right text-muted">Grand Total</td>
+                                            <td class="text-center text-success">
+                                                <strong>{{selected_report.total | number : 2}}</strong>
+                                            </td>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="row" ng-if="!selected_report">
-            <alert type="danger" ng:bind-html="'Please select a ticket.'"></alert>
+            <div class="row" ng-if="!selected_report">
+                <alert type="danger" ng:bind-html="'Please select a ticket.'"></alert>
+            </div>
         </div>
     </div>
 </div>
