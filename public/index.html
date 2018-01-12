@@ -115,6 +115,14 @@
     <!-- print stylesheet -->
         <link href="assets/css/print.css" rel="stylesheet" media="print">
         <script src='https://www.google.com/recaptcha/api.js'></script>
+
+        <script type="text/javascript">
+            var onloadCallback = function() {
+              grecaptcha.render('html_element', {
+                'sitekey' : '6Le5RkAUAAAAABl0-yK1c2-a8GXXYuIFdPt6SfW-'
+              });
+            };
+          </script>
     </head>
     <body class="{{siteBg}}" ng-class="{
             'top_menu_active': topMenuAct && !$state.includes('error.404')

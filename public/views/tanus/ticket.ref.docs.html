@@ -15,49 +15,58 @@
                 <span class="heading_text">Llena los siguientes datos y a continuación haz click en el botón "Obtener Documento"</span>
             </h3>
             <div class="row">
-                <div class="col-md-12">
-                    <label>Tipo documento</label>
-                    <input type="hidden" id="docu_tye_select">
-                </div>
-
-                <div class="col-md-12">
-                    <div class="form-group">
-                        <label for="ticket_ref">RUC Emisor:</label>
-                        <input type="text" id="ticket_ref" class="form-control">
+                <form action="?" method="POST">
+                    <div class="col-md-12">
+                        <label>Tipo documento</label>
+                        <input type="hidden" id="docu_tye_select">
                     </div>
-                </div>
 
-                <div class="col-md-12">
-                    <div class="form-group">
-                        <label for="ticket_ref">Folio del documento(serie-correlativo):</label>
-                        <input type="text" id="ticket_ref" class="form-control">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label for="ticket_ref">RUC Emisor:</label>
+                            <input type="text" id="ticket_ref" class="form-control">
+                        </div>
                     </div>
-                </div>
 
-                <div class="col-md-12">
-                    <div class="form-group">
-                        <label for="ticket_ref">Fecha de emision del documento:</label>
-                        <input type="text" type="text" class="form-control" id="dp_basic">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label for="ticket_ref">Folio del documento(serie-correlativo):</label>
+                            <input type="text" id="ticket_ref" class="form-control">
+                        </div>
                     </div>
-                </div>
+
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label for="ticket_ref">Fecha de emision del documento:</label>
+                            <input type="text" type="text" class="form-control" id="dp_basic">
+                        </div>
+                    </div>
 
 
-                <div class="col-md-12">
-                    <label>Locations</label>
-                    <input type="hidden" id="locations_select">
-                </div>
-                <div class="col-md-12">
+                    <div class="col-md-12">
+                        <label>Locations</label>
+                        <input type="hidden" id="locations_select">
+                    </div>
+                    <div class="col-md-12">
                         <label>CAPTCHA</label>
-                    <div class="g-recaptcha" data-sitekey="6Le5RkAUAAAAABl0-yK1c2-a8GXXYuIFdPt6SfW-"></div>
-                </div>
+
+                        <div id="html_element"></div>
+                        <br>
+                        <input type="submit" value="Submit">
+
+                        <script src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit" async defer>
+                        </script>
+                    </div>
 
 
 
-                <div class="col-md-12">
-                    <br>
-                    <button class="btn btn-block btn-success" ng-click="get_reports()">
-                        <i class="icon_cloud-download" aria-hidden="true"></i> Obtener Documento</button>
-                </div>
+                    <div class="col-md-12">
+                        <br>
+                        <button class="btn btn-block btn-success" ng-click="get_reports()">
+                            <i class="icon_cloud-download" aria-hidden="true"></i> Obtener Documento</button>
+                    </div>
+
+                </form>
             </div>
             <h3 class="heading_a">
                 <span class="heading_text">Documentos Disponibles</span>
