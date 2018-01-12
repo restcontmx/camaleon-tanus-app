@@ -1,6 +1,6 @@
-<h2>Ticket Ref Documents</h2>
+<h2>TANUS</h2>
 
-<div class="row">
+<div class="row row_full mHeight ng-scope">
     <div growl></div>
     <div class "col-md-12">
         <div class="progress progress-striped active" ng-show="progress_ban">
@@ -9,39 +9,57 @@
             </div>
         </div>
     </div>
-    <div class="col-md-4">
+    <div class="col-md-4 easy_chart_wrapper mHeight-item">
         <h3 class="heading_a">
-            <span class="heading_text">Filters</span>
+            <span class="heading_text">Llena los siguientes datos y a continuación haz click en el botón "Obtener Documento"</span>
         </h3>
         <div class="row">
             <div class="col-md-12">
+                <label>Tipo documento</label>
+                <input type="hidden" id="docu_tye_select">
+            </div>
+
+            <div class="col-md-12">
                 <div class="form-group">
-                    <label for="ticket_ref">Ticket Reference</label>
+                    <label for="ticket_ref">RUC Emisor:</label>
                     <input type="text" id="ticket_ref" class="form-control">
                 </div>
             </div>
+
+            <div class="col-md-12">
+                    <div class="form-group">
+                        <label for="ticket_ref">Folio del documento(serie-correlativo):</label>
+                        <input type="text" id="ticket_ref" class="form-control">
+                    </div>
+                </div>
+
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label for="ticket_ref">Fecha de emision del documento:</label>
+                    <input type="text" type="text" class="form-control" id="dp_basic">
+                </div>
+            </div>
+
+            
             <div class="col-md-12">
                 <label>Locations</label>
                 <input type="hidden" id="locations_select">
+                <div class="g-recaptcha" data-sitekey="6Le5RkAUAAAAABl0-yK1c2-a8GXXYuIFdPt6SfW-"></div>
             </div>
-            <div class="col-md-12">
-                <label>Document Type</label>
-                <input type="hidden" id="docu_tye_select">
-            </div>
-            <div class="col-md-12">
-            <botdetect-captcha styleName="exampleCaptcha"></botdetect-captcha>
-            </div>
+
+
+
             <div class="col-md-12">
                 <br>
                 <button class="btn btn-block btn-success" ng-click="get_reports()">
-                    <i class="icon_cloud-download" aria-hidden="true"></i> Get Ticket</button>
+                    <i class="icon_cloud-download" aria-hidden="true"></i> Obtener Documento</button>
             </div>
         </div>
         <h3 class="heading_a">
-            <span class="heading_text">Available Tickets</span>
+            <span class="heading_text">Documentos Disponibles</span>
         </h3>
         <div class="row">
-            <div class="col-md-12 col-sep-md hidden-print">        
+            <div class="col-md-12 col-sep-md hidden-print">
                 <div class="list-group inv_list">
                     <a class="list-group-item" ng-repeat="report in reports" ng-click="select_ticket( report )">
                         <span class="inv_list_company">{{report.p01_numcompleto}}</span>
@@ -87,7 +105,7 @@
                         <address>
                             <strong>{{selected_report.p01_localventa}}</strong>
                             <br>RUC: {{selected_report.p01_rucventa}}
-                            <br> 
+                            <br>
                         </address>
                     </div>
                     <div class="col-sm-4">
@@ -133,16 +151,17 @@
                                         <td class="text-center">
                                             <strong>{{deta.total | number : 2}}</strong>
                                         </td>
-                                        <td class="text-center">{{deta.move_reg_price>0 ? deta.qty*(deta.move_reg_price-deta.pprice) : 0| number : 2}}</td>
+                                        <td class="text-center">{{deta.move_reg_price>0 ? deta.qty*(deta.move_reg_price-deta.pprice) : 0| number
+                                            : 2}}</td>
                                     </tr>
                                 </tbody>
                                 <tfoot>
-                                        <tr>
-                                                <td colspan="6" class="text-right text-muted">Motno Descuentos</td>
-                                                <td class="text-center">
-                                                    <strong>{{selected_report.total_discount | number : 2}}</strong>
-                                                </td>
-                                            </tr>
+                                    <tr>
+                                        <td colspan="6" class="text-right text-muted">Motno Descuentos</td>
+                                        <td class="text-center">
+                                            <strong>{{selected_report.total_discount | number : 2}}</strong>
+                                        </td>
+                                    </tr>
                                     <tr>
                                         <td colspan="6" class="text-right text-muted">Subtotal</td>
                                         <td class="text-center">
@@ -161,7 +180,7 @@
                                             <strong>{{selected_report.total_rc | number : 2}}</strong>
                                         </td>
                                     </tr>
-                                   
+
                                     <tr class="grand_total">
                                         <td colspan="6" class="text-right text-muted">Grand Total</td>
                                         <td class="text-center text-success">
