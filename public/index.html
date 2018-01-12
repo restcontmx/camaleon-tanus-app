@@ -118,8 +118,9 @@
 
         <script type="text/javascript">
             var onloadCallback = function() {
-              grecaptcha.render('html_element', {
-                'sitekey' : '6Le5RkAUAAAAABl0-yK1c2-a8GXXYuIFdPt6SfW-'
+              grecaptcha.render('rcaptcha', {
+                'sitekey' : '6Le5RkAUAAAAABl0-yK1c2-a8GXXYuIFdPt6SfW-',
+                'callback': correctCaptcha
               });
             };
           </script>

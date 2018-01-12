@@ -39,8 +39,8 @@ yukonApp
 
                 //  date picker cofnig
                 //
-                if ($("#dp_basic").length) {
-                    $("#dp_basic").datepicker({
+                if ($("#date_docu").length) {
+                    $("#date_docu").datepicker({
                         autoclose: true
                     });
                 }

@@ -1,5 +1,3 @@
-<h2>TANUS</h2>
-
 <div class="row row_full mHeight ng-scope">
     <div growl></div>
     <div class "col-md-12">
@@ -11,9 +9,9 @@
     </div>
     <div class="col-lg-4">
         <div class="easy_chart_wrapper mHeight-item">
-           
-                <p class="text-justify">Llena los siguientes datos y a continuación haz click en el botón "Obtener Documento"</p>
-           
+
+            <p class="text-justify">Llena los siguientes datos y a continuación haz click en el botón "Obtener Documento"</p>
+            <hr>
             <div class="row">
                 <form action="javascript:alert(grecaptcha.getResponse(widgetId1));" method="POST">
                     <div class="col-md-12">
@@ -24,21 +22,31 @@
                     <div class="col-md-12">
                         <div class="form-group">
                             <label for="ticket_ref">RUC Emisor:</label>
-                            <input type="text" id="ticket_ref" class="form-control">
+                            <input type="text" id="ruc_emisor" class="form-control">
                         </div>
                     </div>
 
                     <div class="col-md-12">
                         <div class="form-group">
                             <label for="ticket_ref">Folio del documento(serie-correlativo):</label>
-                            <input type="text" id="ticket_ref" class="form-control">
+                            <input type="text" id="folio_docu" class="form-control">
                         </div>
                     </div>
 
                     <div class="col-md-12">
                         <div class="form-group">
-                            <label for="ticket_ref">Fecha de emision del documento:</label>
-                            <input type="text" type="text" class="form-control" id="dp_basic">
+                            <label for="ticket_ref">Fecha de emisión del Documento:</label>
+                            <input type="text" type="text" class="form-control" id="date_docu">
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label for="ticket_ref">Monto Total del Documento:</label>
+                            <div class="input-group">
+                                <span class="input-group-addon">S./</span>
+                                <input type="text" id="monto_total" class="form-control">
+                            </div>
                         </div>
                     </div>
 
@@ -48,19 +56,19 @@
                         <input type="hidden" id="locations_select">
                     </div>
                     <div class="col-md-12">
-                            <br>
-                        <div id="html_element"></div>
-                        
+                        <br>
+                        <div class="g-recaptcha" id="rcaptcha" style="margin-left: 90px;"></div>
+                        <span id="captcha" style="margin-left:100px;color:red" />
 
                         <script src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit" async defer>
 
                         </script>
                         <script type="text/javascript">
-                            var verifyCallback = function(response) {
-                              alert(response);
+                          
+                            var correctCaptcha = function (response) {
+                                alert(response);
                             };
-                            
-                          </script>
+                        </script>
                     </div>
 
 
