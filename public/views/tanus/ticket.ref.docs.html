@@ -52,19 +52,17 @@
 
 
                     <div class="col-md-12">
-                        <label>Locations</label>
                         <input type="hidden" id="locations_select">
                     </div>
                     <div class="col-md-12">
                         <br>
-                        <div class="g-recaptcha" id="rcaptcha" style="margin-left: 90px;"></div>
-                        <span id="captcha" style="margin-left:100px;color:red" />
+                        <div class="g-recaptcha" id="rcaptcha"></div>
 
                         <script src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit" async defer>
 
                         </script>
                         <script type="text/javascript">
-                          
+
                             var correctCaptcha = function (response) {
                                 alert(response);
                             };

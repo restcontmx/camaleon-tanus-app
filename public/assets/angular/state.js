@@ -50,7 +50,8 @@ yukonApp
                     // this state page title
                     page_title: 'Camaleon Tanus',
                     // this state url
-                    url: "/:id",
+                    //url: "/:id",
+                    url: "/",
                     templateUrl: 'views/tanus/ticket.ref.docs.html',
                     // load state specific js/css
                     resolve: {

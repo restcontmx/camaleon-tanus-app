@@ -55,7 +55,7 @@ yukonApp
             });
 
             // hide breadcumbs
-            $rootScope.hideBreadcrumbs = false;
+            $rootScope.hideBreadcrumbs = true;
             $('#breadcrumbs_switch').attr('checked', false).on('change', function () {
                 $rootScope.hideBreadcrumbs = !$rootScope.hideBreadcrumbs;
             });

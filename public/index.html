@@ -106,6 +106,7 @@
         <script src="assets/angular/directive.js"></script>
         <script src="assets/angular/state.js"></script>
         <script src="assets/angular/controller.js"></script>
+        <script src="angular-recaptcha.js"></script>
         
         <script src="javascripts/controllers/tanus_controller.js"></script>
         
@@ -114,7 +115,9 @@
 
     <!-- print stylesheet -->
         <link href="assets/css/print.css" rel="stylesheet" media="print">
-        <script src='https://www.google.com/recaptcha/api.js'></script>
+
+        <script src=“https://www.google.com/recaptcha/api.js?onload=vcRecaptchaApiLoaded&render=explicit“ async defer></script>
+        <!-- <script src='https://www.google.com/recaptcha/api.js'></script>
 
         <script type="text/javascript">
             var onloadCallback = function() {
@@ -123,7 +126,9 @@
                 'callback': correctCaptcha
               });
             };
-          </script>
+          </script> -->
+
+
     </head>
     <body class="{{siteBg}}" ng-class="{
             'top_menu_active': topMenuAct && !$state.includes('error.404')

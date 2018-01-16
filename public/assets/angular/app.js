@@ -23,7 +23,8 @@ var yukonApp = angular.module('yukonApp', [ 'ui.router',
                                             'ui.grid',
                                             'ui.grid.pagination',
                                             'ui.grid.selection',
-                                            'ui.grid.treeView'  ]);
+                                            'ui.grid.treeView',
+                                            'vcRecaptcha' ]);
 
 /* Run Block */
 yukonApp.run(
@@ -74,14 +75,7 @@ yukonApp.run(
 );
 
 yukonApp
-    /* Breadcrumbs options */
-    .config(function($breadcrumbProvider) {
-        $breadcrumbProvider.setOptions({
-            includeAbstract: true,
-            prefixStateName: 'auth.home',
-            templateUrl: 'views/partials/breadcrumbs.html'
-        });
-    })
+   
     /* bootstrap-ui tooltips */
     .config(function($tooltipProvider ) {
         $tooltipProvider.options({
