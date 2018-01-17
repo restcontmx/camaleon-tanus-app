@@ -23,8 +23,7 @@ var yukonApp = angular.module('yukonApp', [ 'ui.router',
                                             'ui.grid',
                                             'ui.grid.pagination',
                                             'ui.grid.selection',
-                                            'ui.grid.treeView',
-                                            'vcRecaptcha' ]);
+                                            'ui.grid.treeView' ]);
 
 /* Run Block */
 yukonApp.run(
