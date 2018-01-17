@@ -1,7 +1,8 @@
 yukonApp
     .factory('TanusRepository', ['$http', function ($http) {
         return ({
-            ticketRefDocs: (ticket_ref, loc_id, docu_type) => $http.get('/tanus/ticketrefdocs/?ticket_ref=' + ticket_ref + '&loc=' + loc_id + '&docu=' + docu_type),
+            ticketRefDocs: (ticket_ref, docu_type, ruc_emisor, folio_docu, date_docu, monto_total) => $http.get('/tanus/publicticketrefdocs/?ticket_ref=' + ticket_ref 
+                + '&docu=' + docu_type + '&ruc_emisor=' + ruc_emisor + '&folio_docu=' + folio_docu + '&date_docu=' + date_docu + '&monto_total=' + monto_total),
             ticketRefDocDetail: (move_id, loc_id) => $http.get('/tanus/ticketrefdetail/?move_id=' + move_id + '&loc=' + loc_id)
         })
     }])
@@ -31,7 +32,9 @@ yukonApp
             growl,
             CamaleonTools) {
 
-            $scope.captcha_checked = false;
+            $scope.captcha_checked = true;
+
+
             $scope.progress_ban = false; // This is for the loanding simbols or whatever you want to activate
             $scope.locations_options = [] // Location options for the locations select
             $scope.business_id = $stateParams.id
@@ -64,14 +67,14 @@ yukonApp
             // callback to correct captcha response
             // @param response : a response object from recaptcha google api
             // @returns none
-            
-            $scope.correctCaptcha = function( response ) {
-                console.log( response )
+
+            $scope.correctCaptcha = function (response) {
+                //console.log( response )
                 $scope.captcha_checked = true;
-                console.log($scope.captcha_checked)
+                //console.log($scope.captcha_checked)
 
             }
-            console.log($scope.captcha_checked)
+
 
             //console.log($stateParams.id)
             // Get reports
@@ -112,14 +115,21 @@ yukonApp
             // Validates there is a location selected and a string on the input
             //
             $scope.get_reports = function () {
-                if($scope.captcha_checked){
+                if ($scope.captcha_checked) {
                     $scope.progress_ban = true; // Activate loanding ...
                     // Format dates and get turn according of the selected index
-                    let loc_id = $('#locations_select').val() ? $('#locations_select').val() : 0;
+                    //let loc_id = $('#locations_select').val() ? $('#locations_select').val() : 0;
                     let docu_type = $('#docu_tye_select').val() ? $('#docu_tye_select').val() : 0;
+
+                    let ruc_emisor = $('#ruc_emisor').val() ? $('#ruc_emisor').val() : ''
+                    let folio_docu = $('#folio_docu').val() ? $('#folio_docu').val() : ''
+                    let date_docu = $('#date_docu').val() ? $('#date_docu').val() : ''
+                    let monto_total = $('#monto_total').val() ? $('#monto_total').val() : ''
+
                     let ticket_ref = $('#ticket_ref').val() ? $('#ticket_ref').val() : ''
-                    if (loc_id > 0 && ticket_ref != '' && docu_type > 0) {
-                        TanusRepository.ticketRefDocs(ticket_ref, loc_id, docu_type).success(function (response) {
+
+                    if ( ticket_ref != '' && docu_type > 0) {
+                        TanusRepository.ticketRefDocs(ticket_ref,  docu_type, ruc_emisor, folio_docu, date_docu, monto_total).success(function (response) {
                             if (!response.error) {
                                 $scope.reports = response.data;
                             } else {
@@ -133,11 +143,11 @@ yukonApp
                         growl.error("Please select a right location or fill the ticket input.", {});
                         $scope.progress_ban = false;
                     }
-                }else{
+                } else {
                     growl.error("Validate Captcha First", {});
 
                 }
-                
+
             };
             // 
             // Print xml document
