@@ -112,26 +112,32 @@ yukonApp
             // Validates there is a location selected and a string on the input
             //
             $scope.get_reports = function () {
-                $scope.progress_ban = true; // Activate loanding ...
-                // Format dates and get turn according of the selected index
-                let loc_id = $('#locations_select').val() ? $('#locations_select').val() : 0;
-                let docu_type = $('#docu_tye_select').val() ? $('#docu_tye_select').val() : 0;
-                let ticket_ref = $('#ticket_ref').val() ? $('#ticket_ref').val() : ''
-                if (loc_id > 0 && ticket_ref != '' && docu_type > 0) {
-                    TanusRepository.ticketRefDocs(ticket_ref, loc_id, docu_type).success(function (response) {
-                        if (!response.error) {
-                            $scope.reports = response.data;
-                        } else {
-                            growl.error("There was an error; " + response.message, {});
-                        } $scope.progress_ban = false;
-                    }).error(function (error) {
-                        growl.error("There was an error; " + error, {});
+                if($scope.captcha_checked){
+                    $scope.progress_ban = true; // Activate loanding ...
+                    // Format dates and get turn according of the selected index
+                    let loc_id = $('#locations_select').val() ? $('#locations_select').val() : 0;
+                    let docu_type = $('#docu_tye_select').val() ? $('#docu_tye_select').val() : 0;
+                    let ticket_ref = $('#ticket_ref').val() ? $('#ticket_ref').val() : ''
+                    if (loc_id > 0 && ticket_ref != '' && docu_type > 0) {
+                        TanusRepository.ticketRefDocs(ticket_ref, loc_id, docu_type).success(function (response) {
+                            if (!response.error) {
+                                $scope.reports = response.data;
+                            } else {
+                                growl.error("There was an error; " + response.message, {});
+                            } $scope.progress_ban = false;
+                        }).error(function (error) {
+                            growl.error("There was an error; " + error, {});
+                            $scope.progress_ban = false;
+                        });
+                    } else {
+                        growl.error("Please select a right location or fill the ticket input.", {});
                         $scope.progress_ban = false;
-                    });
-                } else {
-                    growl.error("Please select a right location or fill the ticket input.", {});
-                    $scope.progress_ban = false;
+                    }
+                }else{
+                    growl.error("Validate Captcha First", {});
+
                 }
+                
             };
             // 
             // Print xml document
