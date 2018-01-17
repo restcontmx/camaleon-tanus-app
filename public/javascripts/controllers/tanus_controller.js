@@ -1,8 +1,8 @@
 yukonApp
     .factory('TanusRepository', ['$http', function ($http) {
         return ({
-            ticketRefDocs: (ticket_ref, docu_type, ruc_emisor, folio_docu, date_docu, monto_total) => $http.get('/tanus/publicticketrefdocs/?ticket_ref=' + ticket_ref 
-                + '&docu=' + docu_type + '&ruc_emisor=' + ruc_emisor + '&folio_docu=' + folio_docu + '&date_docu=' + date_docu + '&monto_total=' + monto_total),
+            ticketRefDocs: (ticket_ref, docu_type, ruc_emisor, date_docu, monto_total) => $http.get('/tanus/publicticketrefdocs/?ticket_ref=' + ticket_ref 
+                + '&docu=' + docu_type + '&ruc_emisor=' + ruc_emisor + '&date_docu=' + date_docu + '&monto_total=' + monto_total),
             ticketRefDocDetail: (move_id, loc_id) => $http.get('/tanus/ticketrefdetail/?move_id=' + move_id + '&loc=' + loc_id)
         })
     }])
@@ -32,7 +32,7 @@ yukonApp
             growl,
             CamaleonTools) {
 
-            $scope.captcha_checked = true;
+            $scope.captcha_checked = false;
 
 
             $scope.progress_ban = false; // This is for the loanding simbols or whatever you want to activate
@@ -54,7 +54,8 @@ yukonApp
             //
             if ($("#date_docu").length) {
                 $("#date_docu").datepicker({
-                    autoclose: true
+                    autoclose: true,
+                    format: 'yyyy-mm-dd'
                 });
             }
 
@@ -122,14 +123,13 @@ yukonApp
                     let docu_type = $('#docu_tye_select').val() ? $('#docu_tye_select').val() : 0;
 
                     let ruc_emisor = $('#ruc_emisor').val() ? $('#ruc_emisor').val() : ''
-                    let folio_docu = $('#folio_docu').val() ? $('#folio_docu').val() : ''
                     let date_docu = $('#date_docu').val() ? $('#date_docu').val() : ''
                     let monto_total = $('#monto_total').val() ? $('#monto_total').val() : ''
 
                     let ticket_ref = $('#ticket_ref').val() ? $('#ticket_ref').val() : ''
 
                     if ( ticket_ref != '' && docu_type > 0) {
-                        TanusRepository.ticketRefDocs(ticket_ref,  docu_type, ruc_emisor, folio_docu, date_docu, monto_total).success(function (response) {
+                        TanusRepository.ticketRefDocs(ticket_ref,  docu_type, ruc_emisor,  date_docu, monto_total).success(function (response) {
                             if (!response.error) {
                                 $scope.reports = response.data;
                             } else {
@@ -140,7 +140,7 @@ yukonApp
                             $scope.progress_ban = false;
                         });
                     } else {
-                        growl.error("Please select a right location or fill the ticket input.", {});
+                        growl.error("Porfavor llena todos los campos de la forma.", {});
                         $scope.progress_ban = false;
                     }
                 } else {
