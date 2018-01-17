@@ -31,7 +31,7 @@ yukonApp
             growl,
             CamaleonTools) {
 
-
+            $scope.captcha_checked = false;
             $scope.progress_ban = false; // This is for the loanding simbols or whatever you want to activate
             $scope.locations_options = [] // Location options for the locations select
             $scope.business_id = $stateParams.id
@@ -64,9 +64,14 @@ yukonApp
             // callback to correct captcha response
             // @param response : a response object from recaptcha google api
             // @returns none
+            
             $scope.correctCaptcha = function( response ) {
-                console.log( response )
+                //console.log( response )
+                $scope.captcha_checked = true;
+
+
             }
+            console.log($scope.captcha_checked)
 
             //console.log($stateParams.id)
             // Get reports
