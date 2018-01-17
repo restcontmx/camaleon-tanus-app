@@ -54,22 +54,16 @@
                     <div class="col-md-12">
                         <input type="hidden" id="locations_select">
                     </div>
+
                     <div class="col-md-12">
                         <br>
                         <div class="g-recaptcha" id="rcaptcha"></div>
-
-                        <script src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit" async defer>
-
-                        </script>
-                        <script type="text/javascript">
-
-                            var correctCaptcha = function (response) {
-                                alert(response);
-                            };
-                        </script>
+                        <div
+                            vc-recaptcha
+                            key="'6Le5RkAUAAAAABl0-yK1c2-a8GXXYuIFdPt6SfW-'"
+                            on-success="correctCaptcha(response)">
+                        </div>
                     </div>
-
-
 
                     <div class="col-md-12">
                         <br>

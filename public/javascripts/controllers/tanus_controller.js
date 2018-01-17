@@ -60,13 +60,19 @@ yukonApp
             if ($('#invoice_qrcode').length) {
 
             }
+            // CorrectCaptcha 
+            // callback to correct captcha response
+            // @param response : a response object from recaptcha google api
+            // @returns none
+            $scope.correctCaptcha = function( response ) {
+                console.log( response )
+            }
+
             //console.log($stateParams.id)
             // Get reports
             // Get all the locations
             // Then addthem to the locations select
             // Its on jquery, so be careful!
-
-
 
             // LocationRepository.getAll($stateParams.id).success(function (response) {
             //     if (!response.error) {

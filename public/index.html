@@ -100,34 +100,21 @@
         <script src="javascripts/libs/crud_service.js"></script>
         <script src="javascripts/libs/filters.js"></script>
         <script src="javascripts/libs/log_service.js"></script>
+        <script src="assets/angular-recaptcha/release/angular-recaptcha.js"></script>
         <script src="assets/angular/app.js"></script>
         <script src="assets/angular/factory.js"></script>
         <script src="assets/angular/service.js"></script>
         <script src="assets/angular/directive.js"></script>
         <script src="assets/angular/state.js"></script>
         <script src="assets/angular/controller.js"></script>
-       
-        
+
         <script src="javascripts/controllers/tanus_controller.js"></script>
         
-    <!-- main stylesheet -->
+        <!-- main stylesheet -->
 		<link href="assets/css/main.css" rel="stylesheet" media="all" id="mainCss">
-
-    <!-- print stylesheet -->
+    
+        <!-- print stylesheet -->
         <link href="assets/css/print.css" rel="stylesheet" media="print">
-
-        
-        <script src='https://www.google.com/recaptcha/api.js'></script>
-
-        <script type="text/javascript">
-            var onloadCallback = function() {
-              grecaptcha.render('rcaptcha', {
-                'sitekey' : '6Le5RkAUAAAAABl0-yK1c2-a8GXXYuIFdPt6SfW-',
-                'callback': correctCaptcha
-              });
-            };
-          </script>
-
 
     </head>
     <body class="{{siteBg}}" ng-class="{
@@ -137,5 +124,6 @@
         <div ui-view autoscroll="false" class="mainView-animate"></div>
 
         <div page-loader></div>
+        
     </body>
 </html>
