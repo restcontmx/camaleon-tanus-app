@@ -66,9 +66,9 @@ yukonApp
             // @returns none
             
             $scope.correctCaptcha = function( response ) {
-                //console.log( response )
+                console.log( response )
                 $scope.captcha_checked = true;
-
+                console.log($scope.captcha_checked)
 
             }
             console.log($scope.captcha_checked)
