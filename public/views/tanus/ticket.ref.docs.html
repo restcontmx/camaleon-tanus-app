@@ -13,10 +13,12 @@
             <p class="text-justify">Llena los siguientes datos y a continuación haz click en el botón "Obtener Documento"</p>
             <hr>
             <div class="row">
-                <form action="javascript:alert(grecaptcha.getResponse(widgetId1));" method="POST">
+               
                     <div class="col-md-12">
+                            <div class="form-group">
                         <label>Tipo documento</label>
                         <input type="hidden" id="docu_tye_select">
+                    </div>
                     </div>
 
                     <div class="col-md-12">
@@ -27,9 +29,19 @@
                     </div>
 
                     <div class="col-md-12">
+                            <label for="ticket_ref">Folio del documento:</label>
+                    </div>
+                    <div class="col-md-4">
                         <div class="form-group">
-                            <label for="ticket_ref">Folio del documento(serie-correlativo):</label>
-                            <input type="text" id="ticket_ref" class="form-control">
+                            <label for="ticket_ref">Serie</label>
+                            <input type="text" id="ticket_ref_serie" class="form-control">
+                        </div>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="form-group">
+                            <label for="ticket_ref">Correlativo</label>
+                            <input type="text" id="ticket_ref_correlativo" class="form-control">
+                            <!-- <input type="text" id="ticket_ref_correlativo" class="form-control"> -->
                         </div>
                     </div>
 
@@ -40,14 +52,15 @@
                         </div>
                     </div>
 
-                    <div class="col-md-12">
-                        <div class="form-group">
+                    <div class="col-md-4">
+                        <label>Moneda</label>
+                        <input type="hidden" id="currency_select">
+                    </div>
+                    <div class="col-md-8">
                             <label for="ticket_ref">Monto Total del Documento:</label>
-                            <div class="input-group">
-                                <span class="input-group-addon">S./</span>
+                            
                                 <input type="text" id="monto_total" class="form-control">
-                            </div>
-                        </div>
+                       
                     </div>
 
 
@@ -72,7 +85,7 @@
                             <i class="icon_cloud-download" aria-hidden="true"></i> Obtener Documento</button>
                     </div>
 
-                </form>
+               
             </div>
             <br>
             <h3 class="heading_a">
@@ -179,7 +192,7 @@
                                     </tbody>
                                     <tfoot>
                                         <tr>
-                                            <td colspan="6" class="text-right text-muted">Motno Descuentos</td>
+                                            <td colspan="6" class="text-right text-muted">Monto Descuentos</td>
                                             <td class="text-center">
                                                 <strong>{{selected_report.total_discount | number : 2}}</strong>
                                             </td>
@@ -204,13 +217,17 @@
                                         </tr>
 
                                         <tr class="grand_total">
-                                            <td colspan="6" class="text-right text-muted">Grand Total</td>
+                                            <td colspan="4" ><span> SON {{selected_report.numToText}}  </span></td>
+                                               
+                                            <td colspan="2" class="text-right text-muted">Grand Total</td>
                                             <td class="text-center text-success">
                                                 <strong>{{selected_report.total | number : 2}}</strong>
                                             </td>
                                         </tr>
+                                        
                                     </tfoot>
                                 </table>
+                                
                             </div>
                         </div>
                     </div>

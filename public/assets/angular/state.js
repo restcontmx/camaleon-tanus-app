@@ -71,6 +71,7 @@ yukonApp
                                     'assets/lib/jquery-qrcode-0.10.1/jquery.qrcode-0.10.1.min.js',
                                     'assets/lib/bootstrap-datepicker/css/datepicker3.css',
                                     'assets/lib/bootstrap-datepicker/js/bootstrap-datepicker.js'
+                                    
                                 ]);
                             }
                         ]

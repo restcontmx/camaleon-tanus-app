@@ -16,7 +16,7 @@ router.get( '/publicticketrefdocs', jsonParser, function( req, res ) {
     var url_parts = urlLib.parse( req.url, true );
     request(
         {
-            url : http_helper.get_api_uri( 'tanus/publicticketrefdocs/', '?ticket_ref=' + url_parts.query.ticket_ref  +'&docu=' + url_parts.query.docu+'&ruc_emisor=' + url_parts.query.ruc_emisor  + '&date_docu=' + url_parts.query.date_docu + '&monto_total=' + url_parts.query.monto_total),
+            url : http_helper.get_api_uri( 'tanus/publicticketrefdocs/', '?ticket_ref=' + url_parts.query.ticket_ref  +'&docu=' + url_parts.query.docu+'&ruc_emisor=' + url_parts.query.ruc_emisor  + '&date_docu=' + url_parts.query.date_docu + '&monto_total=' + url_parts.query.monto_total+ '&moneda=' + url_parts.query.moneda),
             method : 'GET',
             json : true,
             headers : {

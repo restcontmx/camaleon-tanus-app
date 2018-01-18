@@ -1,8 +1,8 @@
 yukonApp
     .factory('TanusRepository', ['$http', function ($http) {
         return ({
-            ticketRefDocs: (ticket_ref, docu_type, ruc_emisor, date_docu, monto_total) => $http.get('/tanus/publicticketrefdocs/?ticket_ref=' + ticket_ref 
-                + '&docu=' + docu_type + '&ruc_emisor=' + ruc_emisor + '&date_docu=' + date_docu + '&monto_total=' + monto_total),
+            ticketRefDocs: (ticket_ref, docu_type, ruc_emisor, date_docu, monto_total,moneda) => $http.get('/tanus/publicticketrefdocs/?ticket_ref=' + ticket_ref
+                + '&docu=' + docu_type + '&ruc_emisor=' + ruc_emisor + '&date_docu=' + date_docu + '&monto_total=' + monto_total + '&moneda=' + moneda),
             ticketRefDocDetail: (move_id, loc_id) => $http.get('/tanus/ticketrefdetail/?move_id=' + move_id + '&loc=' + loc_id)
         })
     }])
@@ -32,7 +32,7 @@ yukonApp
             growl,
             CamaleonTools) {
 
-            $scope.captcha_checked = false;
+            $scope.captcha_checked = true;
 
 
             $scope.progress_ban = false; // This is for the loanding simbols or whatever you want to activate
@@ -40,7 +40,7 @@ yukonApp
             $scope.business_id = $stateParams.id
 
             $("#docu_tye_select").select2({
-                placeholder: "Select Document Type...",
+                placeholder: "Selecciona Tipo de Documento ...",
                 data: [
                     { text: "Factura", id: "01" },
                     { text: "Nota de Credito", id: "09" },
@@ -50,6 +50,18 @@ yukonApp
 
             $('#docu_tye_select').val(0);
 
+
+            $("#currency_select").select2({
+                placeholder: "Selecciona Moneda ...",
+                data: [
+                    { text: "S/ PEN", id: "1" },
+                    { text: "$  USD", id: "2" }
+                ]
+            });
+
+            $('#currency_select').val(0);
+
+
             //  date picker cofnig
             //
             if ($("#date_docu").length) {
@@ -58,6 +70,7 @@ yukonApp
                     format: 'yyyy-mm-dd'
                 });
             }
+
 
 
             // generate qrcode
@@ -77,38 +90,6 @@ yukonApp
             }
 
 
-            //console.log($stateParams.id)
-            // Get reports
-            // Get all the locations
-            // Then addthem to the locations select
-            // Its on jquery, so be careful!
-
-            // LocationRepository.getAll($stateParams.id).success(function (response) {
-            //     if (!response.error) {
-
-            //         $scope.locations = response.data;
-
-            //         //console.log( response )
-            //         //console.log( $scope.locations )
-            //         $scope.locations.forEach(t => $scope.locations_options.push({ text: t.location_name, id: t.id }));
-            //         //console.log($scope.locations_options)
-            //         $("#locations_select").select2({
-            //             placeholder: "Select Location...",
-            //             data: $scope.locations_options
-            //         });
-            //         $('#locations_select').val(0);
-
-            //     } else {
-            //         growl.error("There was an error; " + response.message, {});
-            //     }
-            // }).error(function (error) {
-            //     growl.error("There was an error; " + error, {});
-            // });
-
-
-
-
-
 
             //
             // Get reports
@@ -124,12 +105,29 @@ yukonApp
 
                     let ruc_emisor = $('#ruc_emisor').val() ? $('#ruc_emisor').val() : ''
                     let date_docu = $('#date_docu').val() ? $('#date_docu').val() : ''
-                    let monto_total = $('#monto_total').val() ? $('#monto_total').val() : ''
+                    let monto_total = $('#monto_total').val() ? $('#monto_total').val() : 0
+                    let moneda_id = $('#currency_select').val() ? $('#currency_select').val() : ''
+                    $scope.moneda_id = moneda_id
+                    let ticket_ref_serie = $('#ticket_ref_serie').val() ? $('#ticket_ref_serie').val() : ''
+                    let ticket_ref_correlativo = $('#ticket_ref_correlativo').val() ? $('#ticket_ref_correlativo').val() : ''
+                    
+                   
 
-                    let ticket_ref = $('#ticket_ref').val() ? $('#ticket_ref').val() : ''
 
-                    if ( ticket_ref != '' && docu_type > 0) {
-                        TanusRepository.ticketRefDocs(ticket_ref,  docu_type, ruc_emisor,  date_docu, monto_total).success(function (response) {
+
+
+                    //let ticket_ref = $('#ticket_ref').val() ? $('#ticket_ref').val() : ''
+
+                    if ( docu_type > 0 && ruc_emisor != '' && date_docu != '' && monto_total >'' && moneda_id != 0 && ticket_ref_serie != '' && ticket_ref_correlativo != '' ) {
+                        let moneda = (moneda_id==1)? 'PEN':'USD'
+                        
+                        let first_serie = ticket_ref_serie.charAt(0)
+                        let rest_rest = ("000" + ticket_ref_serie.substr(1)).substr(-3,3);
+                        let serie = first_serie+rest_rest
+                        let correlativo = ("00000000" + ticket_ref_correlativo).substr(-8,8);
+                        let ticket_ref  = serie+'-'+correlativo
+                        
+                        TanusRepository.ticketRefDocs(ticket_ref, docu_type, ruc_emisor, date_docu, monto_total,moneda).success(function (response) {
                             if (!response.error) {
                                 $scope.reports = response.data;
                             } else {
@@ -149,6 +147,9 @@ yukonApp
                 }
 
             };
+
+            
+
             // 
             // Print xml document
             // Will take the ticket validates existence then gets xml variable
@@ -184,7 +185,7 @@ yukonApp
                                 // Adds the image on the document
                                 // Then saves it
                                 doc.addImage(canvas.toDataURL(), 'JPEG', 15, 25, 180, 0);
-                                console.log(ticket)
+                                
                                 doc.save(ticket.p01_rucventa + "-" + ticket.p01_tipocomp + "-" + ticket.p01_numcompleto + '.pdf');
                             }
                         });
@@ -252,10 +253,33 @@ yukonApp
                             }
 
                         }, 0);
+                        
+                        
+                        if($scope.moneda_id == 1){
+                            $scope.selected_report.numToText = numeroALetras($scope.selected_report.total, {
+                                plural: 'SOLES PERUANOS',
+                                singular: 'SOL PERUANO',
+                                centPlural: 'CENTAVOS',
+                                centSingular: 'CENTAVO'
+                            }) 
+
+                        }else{
+                            $scope.selected_report.numToText = numeroALetras($scope.selected_report.total, {
+                                plural: 'DOLARES',
+                                singular: 'DOLAR',
+                                centPlural: 'CENTAVOS',
+                                centSingular: 'CENTAVO'
+                            }) 
+
+                        }
+
+                        
+
+                        $scope.selected_report.numToText 
+                        console.log($scope.selected_report.numToText)
 
                         $scope.$watch('qr_base_size', function () {
-                            //var child = document.getElementById("canvas");
-                            //$('#invoice_qrcode').removeChild(child);         
+                            $('#invoice_qrcode').html('');
                             $('#invoice_qrcode').css({ 'width': $scope.qr_base_size / 2, 'height': $scope.qr_base_size / 2 }).qrcode({
                                 render: 'canvas',
                                 size: $scope.qr_base_size,
