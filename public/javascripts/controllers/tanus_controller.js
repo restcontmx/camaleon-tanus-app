@@ -110,12 +110,6 @@ yukonApp
                     $scope.moneda_id = moneda_id
                     let ticket_ref_serie = $('#ticket_ref_serie').val() ? $('#ticket_ref_serie').val() : ''
                     let ticket_ref_correlativo = $('#ticket_ref_correlativo').val() ? $('#ticket_ref_correlativo').val() : ''
-                    
-                   
-
-
-
-
                     //let ticket_ref = $('#ticket_ref').val() ? $('#ticket_ref').val() : ''
 
                     if ( docu_type > 0 && ruc_emisor != '' && date_docu != '' && monto_total >'' && moneda_id != 0 && ticket_ref_serie != '' && ticket_ref_correlativo != '' ) {
@@ -129,12 +123,18 @@ yukonApp
                         
                         TanusRepository.ticketRefDocs(ticket_ref, docu_type, ruc_emisor, date_docu, monto_total,moneda).success(function (response) {
                             if (!response.error) {
-                                $scope.reports = response.data;
+                                console.log(response.data)
+                                if(response.length != 0){
+                                    $scope.reports = response.data;
+
+                                }else{
+                                    growl.error("No se encontraron documentos; " + response.message, {});
+                                }
                             } else {
-                                growl.error("There was an error; " + response.message, {});
+                                growl.error("Hubo un error al procesar la solicitud: " + response.message, {});
                             } $scope.progress_ban = false;
                         }).error(function (error) {
-                            growl.error("There was an error; " + error, {});
+                            growl.error("Hubo un error al procesar la solicitud: " + error, {});
                             $scope.progress_ban = false;
                         });
                     } else {
@@ -142,7 +142,7 @@ yukonApp
                         $scope.progress_ban = false;
                     }
                 } else {
-                    growl.error("Validate Captcha First", {});
+                    growl.error("Valida el reCAPTCHA primero.", {});
 
                 }
 
@@ -160,7 +160,7 @@ yukonApp
 
                     CamaleonTools.dowload_file(ticket.p01_rucventa + "-" + ticket.p01_tipocomp + "-" + ticket.p01_numcompleto + ".xml", ticket.p01_xml)
                 } else {
-                    growl.warning("Please select a ticket on the list.", {});
+                    growl.warning("Porfavor selecciona un ticket de la lista.", {});
                 }
             }
             //
@@ -190,10 +190,10 @@ yukonApp
                             }
                         });
                     } else {
-                        growl.warning("There are not details on this ticket jet, wait or the ticket is empty on the DB.", {});
+                        growl.warning("No hay detalles en el ticket aun o el ticket esta vacio en la base de datos.", {});
                     }
                 } else {
-                    growl.warning("Please select a ticket on the list.", {});
+                    growl.warning("Porfavor selecciona un ticket de la lista.", {});
                 }
             }
             //
@@ -287,10 +287,10 @@ yukonApp
                             }).children('img').prop('title', $scope.selected_report.qr_text);
                         });
                     } else {
-                        growl.error('There was an error; ' + response.message, {})
+                        growl.error('Hubo un error al procesar la solicitud: ' + response.message, {})
                     }
                 }).error(function (error) {
-                    growl.error('There was an error; ' + error, {})
+                    growl.error('Hubo un error al procesar la solicitud: ' + error, {})
                 });
             }
 

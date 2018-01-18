@@ -171,7 +171,7 @@
                                             <th>Descripción</th>
                                             <th class="cw text-center">Precio</th>
                                             <th class="cw text-center">Impuesto</th>
-                                            <th class="cw text-center">Cantidad</th>
+                                            <th class="cw text-center">Total</th>
                                             <th class="cw text-center">Descuento</th>
                                         </tr>
                                     </thead>
@@ -187,7 +187,8 @@
                                                 <strong>{{deta.total | number : 2}}</strong>
                                             </td>
                                             <td class="text-center">{{deta.move_reg_price>0 ? deta.qty*(deta.move_reg_price-deta.pprice) : 0| number
-                                                : 2}}</td>
+                                                : 2}}
+                                            </td>
                                         </tr>
                                     </tbody>
                                     <tfoot>
@@ -234,7 +235,7 @@
                 </div>
             </div>
             <div class="row" ng-if="!selected_report">
-                <alert type="danger" ng:bind-html="'Please select a ticket.'"></alert>
+                <alert type="danger" ng:bind-html="'Porfavor selecciona un ticket.'"></alert>
             </div>
         </div>
     </div>
