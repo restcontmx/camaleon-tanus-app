@@ -32,7 +32,7 @@ yukonApp
             growl,
             CamaleonTools) {
 
-            $scope.captcha_checked = true;
+            $scope.captcha_checked = false;
 
 
             $scope.progress_ban = false; // This is for the loanding simbols or whatever you want to activate
@@ -257,8 +257,8 @@ yukonApp
                         
                         if($scope.moneda_id == 1){
                             $scope.selected_report.numToText = numeroALetras($scope.selected_report.total, {
-                                plural: 'SOLES PERUANOS',
-                                singular: 'SOL PERUANO',
+                                plural: 'SOLES',
+                                singular: 'SOL',
                                 centPlural: 'CENTAVOS',
                                 centSingular: 'CENTAVO'
                             }) 
