@@ -123,10 +123,8 @@ yukonApp
                         
                         TanusRepository.ticketRefDocs(ticket_ref, docu_type, ruc_emisor, date_docu, monto_total,moneda).success(function (response) {
                             if (!response.error) {
-                                console.log(response.data)
                                 if(response.length != 0){
                                     $scope.reports = response.data;
-
                                 }else{
                                     growl.error("No se encontraron documentos; " + response.message, {});
                                 }
@@ -143,7 +141,6 @@ yukonApp
                     }
                 } else {
                     growl.error("Valida el reCAPTCHA primero.", {});
-
                 }
 
             };
@@ -157,7 +154,6 @@ yukonApp
             //
             $scope.print_xml_document = function (ticket) {
                 if (ticket) {
-
                     CamaleonTools.dowload_file(ticket.p01_rucventa + "-" + ticket.p01_tipocomp + "-" + ticket.p01_numcompleto + ".xml", ticket.p01_xml)
                 } else {
                     growl.warning("Porfavor selecciona un ticket de la lista.", {});
@@ -238,22 +234,13 @@ yukonApp
                                     break;
                             }
                         })
-                        console.log($scope.selected_report)
+
                         $scope.selected_report.total = $scope.selected_report.details.reduce((a, b) => (a + b.total), 0)
                         $scope.selected_report.total_igv = $scope.selected_report.details.reduce((a, b) => (a + (b.tx)), 0)
                         $scope.selected_report.total_rc = $scope.selected_report.details.reduce((a, b) => (a + (b.tx2)), 0)
                         $scope.selected_report.total_tax = $scope.selected_report.details.reduce((a, b) => (a + (b.tx + b.tx2 + b.tx3)), 0)
-                        $scope.selected_report.sub_total = $scope.selected_report.total - $scope.selected_report.total_tax;
-                        $scope.selected_report.total_discount = $scope.selected_report.details.reduce((a, b) => {
-                            if (b.discount_code) {
-                                return a + (b.qty * (b.move_reg_price - b.pprice))
-                            } else {
-
-                                return a + 0
-                            }
-
-                        }, 0);
-                        
+                        $scope.selected_report.sub_total = $scope.selected_report.details.reduce((a, b) => (a + b.sub_total), 0)//$scope.selected_report.total - $scope.selected_report.total_tax;
+                        $scope.selected_report.total_discount = $scope.selected_report.details.reduce((a, b) => ( b.discount_code ? ( a + (b.qty * (b.move_reg_price - b.pprice) ) ) : (a + 0) ), 0);
                         
                         if($scope.moneda_id == 1){
                             $scope.selected_report.numToText = numeroALetras($scope.selected_report.total, {
@@ -272,8 +259,6 @@ yukonApp
                             }) 
 
                         }
-
-                        
 
                         $scope.selected_report.numToText 
                         console.log($scope.selected_report.numToText)
