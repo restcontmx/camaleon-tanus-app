@@ -96,6 +96,7 @@ yukonApp
             // Function that sets all the reports by location id and ticket reference
             // Validates there is a location selected and a string on the input
             //
+            $scope.captcha_checked = true;
             $scope.get_reports = function () {
                 if ($scope.captcha_checked) {
                     $scope.progress_ban = true; // Activate loanding ...
