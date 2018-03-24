@@ -96,7 +96,7 @@ yukonApp
             // Function that sets all the reports by location id and ticket reference
             // Validates there is a location selected and a string on the input
             //
-            $scope.captcha_checked = true;
+            $scope.captcha_checked = false;
             $scope.get_reports = function () {
                 if ($scope.captcha_checked) {
                     $scope.progress_ban = true; // Activate loanding ...
@@ -125,7 +125,9 @@ yukonApp
                         TanusRepository.ticketRefDocs(ticket_ref, docu_type, ruc_emisor, date_docu, monto_total,moneda).success(function (response) {
                             if (!response.error) {
                                 if(response.length != 0){
+
                                     $scope.reports = response.data;
+                                    $scope.lastResport= $scope.reports[$scope.reports.length-1]
                                 }else{
                                     growl.error("No se encontraron documentos; " + response.message, {});
                                 }
